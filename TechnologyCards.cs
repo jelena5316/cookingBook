@@ -82,6 +82,8 @@ namespace MajPAbGr_project
                 ind = db.Count(query);
                 if (ind != "0")
                 {
+                    textBox1.Text = "";
+                    textBox3.Text = "";
                     return; // temporery
                     //int last = (int)name[name.Length - 1];
                     //if (last > 47 || last < 57)
@@ -117,13 +119,7 @@ namespace MajPAbGr_project
                 query = $"insert into Technology_card (name, description, technology) values ('{name}', '{description}', '{technology}'); select last_insert_rowid()";
                
             }
-                ind = db.Count(query); // проверка
-
-                //if (int.TryParse(technology, out id_technology))
-                //{
-                //    id = int.Parse(technology);
-                //}
-                //else return;                
+                ind = db.Count(query); // проверка                            
         }
 
         private void cmbData_SelectedIndexChanged(object sender, EventArgs e)
