@@ -92,6 +92,7 @@ namespace MajPAbGr_project
             this.btn_submit.TabIndex = 16;
             this.btn_submit.Text = "Submit";
             this.btn_submit.UseVisualStyleBackColor = true;
+            this.btn_submit.Click += new System.EventHandler(this.btn_submit_Click);
             // 
             // textBox1
             // 

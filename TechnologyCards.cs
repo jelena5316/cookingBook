@@ -13,7 +13,8 @@ namespace MajPAbGr_project
     public partial class TechnologyCards : Form
     {
         int id_technology, id_cards=1, id_chain;
-        tbClass1 tb;       
+        tbClass1 tb;
+        dbController db = new dbController();
 
         public TechnologyCards(int id_technology)
         {
@@ -63,6 +64,66 @@ namespace MajPAbGr_project
                 text += $"{cards} \n";               
             }
             lblCardsOfTech.Text += $"\n{text}";
+        }
+
+        private void btn_submit_Click(object sender, EventArgs e) // submit changes or new card
+        {
+            //int id = 0;
+            string name, description, technology, query, ind;
+
+            if (string.IsNullOrEmpty(textBox1.Text)) return;
+            if (string.IsNullOrEmpty(textBox3.Text)) return;
+            name = textBox1.Text;               
+            technology = textBox3.Text;
+
+            if (string.IsNullOrEmpty(textBox2.Text))
+            {
+                query = $"select count(*) from Technology_card where name = '{name}';";
+                ind = db.Count(query);
+                if (ind != "0")
+                {
+                    return; // temporery
+                    //int last = (int)name[name.Length - 1];
+                    //if (last > 47 || last < 57)
+                    //{
+                    //    last++;
+                    //    int length = name.Length - 1;
+                    //    if (last > 10) length--;
+                    //    name.Substring(0, length);
+                    //    name += last.ToString();
+        // доделать на случай, если уже двухзначный номер,
+        // вводить перед номером, например, знак "_" (95)
+                    //} 
+                } 
+                query = $"insert into Technology_card (name, technology) values ('{name}', '{technology}'); select last_insert_rowid()";
+            }
+            else
+            {   
+                //if (textBox2.Text.Length > 21)
+            //    {
+            //        string t = textBox2.Text;
+            //        t = t.Substring(0, 20);
+            //        textBox2.Text = t;
+            //    }
+                
+                name = textBox1.Text;
+                description = textBox2.Text;
+                technology = textBox3.Text;
+
+                query = $"select count(*) from Technology_card where name = '{name}';";
+                ind = db.Count(query);
+                if (ind != "0") return;
+
+                query = $"insert into Technology_card (name, description, technology) values ('{name}', '{description}', '{technology}'); select last_insert_rowid()";
+               
+            }
+                ind = db.Count(query); // проверка
+
+                //if (int.TryParse(technology, out id_technology))
+                //{
+                //    id = int.Parse(technology);
+                //}
+                //else return;                
         }
 
         private void cmbData_SelectedIndexChanged(object sender, EventArgs e)
