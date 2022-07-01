@@ -12,7 +12,8 @@ namespace MajPAbGr_project
 {
     public partial class TechnologyCards : Form
     {
-        int id_technology, id_cards=1, id_chain;
+        int id_technology, id_cards = 1;
+        //int id_chain;
         tbClass1 tb;
         dbController db = new dbController();
 
@@ -23,6 +24,15 @@ namespace MajPAbGr_project
             tb = new tbClass1("Technology_card");
             tb.setCatalog();
             fillCatalog();           
+        }
+
+        public TechnologyCards() // for quick accesing
+        {
+            InitializeComponent();
+            this.id_technology = 0;
+            tb = new tbClass1("Technology_card");
+            tb.setCatalog();
+            fillCatalog();
         }
 
         private List<Item> fillCatalog()
@@ -73,6 +83,15 @@ namespace MajPAbGr_project
 
             if (string.IsNullOrEmpty(textBox1.Text)) return;
             if (string.IsNullOrEmpty(textBox3.Text)) return;
+           
+
+            if (textBox1.Text.Length > 20)
+            {
+                string t = textBox1.Text;
+                t = t.Substring(0, 20);
+                textBox1.Text = t;
+            }
+
             name = textBox1.Text;               
             technology = textBox3.Text;
 
@@ -100,14 +119,7 @@ namespace MajPAbGr_project
                 query = $"insert into Technology_card (name, technology) values ('{name}', '{technology}'); select last_insert_rowid()";
             }
             else
-            {   
-                //if (textBox2.Text.Length > 21)
-            //    {
-            //        string t = textBox2.Text;
-            //        t = t.Substring(0, 20);
-            //        textBox2.Text = t;
-            //    }
-                
+            {
                 name = textBox1.Text;
                 description = textBox2.Text;
                 technology = textBox3.Text;
