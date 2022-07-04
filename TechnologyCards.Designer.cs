@@ -186,7 +186,7 @@ namespace MajPAbGr_project
             this.cmbData.Name = "cmbData";
             this.cmbData.Size = new System.Drawing.Size(198, 21);
             this.cmbData.TabIndex = 16;
-            this.cmbData.Text = "pick a technology";
+            this.cmbData.Text = "pick a technology_card";
             this.cmbData.SelectedIndexChanged += new System.EventHandler(this.cmbData_SelectedIndexChanged);
             // 
             // lblCardsOfTech
