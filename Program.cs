@@ -16,7 +16,7 @@ namespace MajPAbGr_project
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TechnologyCards(1));
+            Application.Run(new Form1());
         }
     }
 }

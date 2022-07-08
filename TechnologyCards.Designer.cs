@@ -40,7 +40,6 @@ namespace MajPAbGr_project
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.lblTest = new System.Windows.Forms.Label();
-            this.btn_edit = new System.Windows.Forms.Button();
             this.lblInfo = new System.Windows.Forms.Label();
             this.btn_remove = new System.Windows.Forms.Button();
             this.cmbData = new System.Windows.Forms.ComboBox();
@@ -86,11 +85,11 @@ namespace MajPAbGr_project
             // 
             // btn_submit
             // 
-            this.btn_submit.Location = new System.Drawing.Point(259, 395);
+            this.btn_submit.Location = new System.Drawing.Point(24, 384);
             this.btn_submit.Name = "btn_submit";
             this.btn_submit.Size = new System.Drawing.Size(75, 23);
             this.btn_submit.TabIndex = 16;
-            this.btn_submit.Text = "Submit";
+            this.btn_submit.Text = "new";
             this.btn_submit.UseVisualStyleBackColor = true;
             this.btn_submit.Click += new System.EventHandler(this.btn_submit_Click);
             // 
@@ -99,7 +98,7 @@ namespace MajPAbGr_project
             this.textBox1.Location = new System.Drawing.Point(24, 23);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(310, 20);
-            this.textBox1.TabIndex = 15;
+            this.textBox1.TabIndex = 15;           
             // 
             // textBox3
             // 
@@ -122,10 +121,8 @@ namespace MajPAbGr_project
             // 
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.lblTest);
-            this.groupBox1.Controls.Add(this.btn_edit);
             this.groupBox1.Controls.Add(this.btn_add);
             this.groupBox1.Controls.Add(this.lblInfo);
-            this.groupBox1.Controls.Add(this.btn_remove);
             this.groupBox1.Controls.Add(this.cmbData);
             this.groupBox1.Location = new System.Drawing.Point(479, 23);
             this.groupBox1.Name = "groupBox1";
@@ -152,15 +149,6 @@ namespace MajPAbGr_project
             this.lblTest.TabIndex = 18;
             this.lblTest.Text = "id";
             // 
-            // btn_edit
-            // 
-            this.btn_edit.Location = new System.Drawing.Point(77, 113);
-            this.btn_edit.Name = "btn_edit";
-            this.btn_edit.Size = new System.Drawing.Size(67, 23);
-            this.btn_edit.TabIndex = 20;
-            this.btn_edit.Text = "edit";
-            this.btn_edit.UseVisualStyleBackColor = true;
-            // 
             // lblInfo
             // 
             this.lblInfo.AutoSize = true;
@@ -172,7 +160,7 @@ namespace MajPAbGr_project
             // 
             // btn_remove
             // 
-            this.btn_remove.Location = new System.Drawing.Point(150, 113);
+            this.btn_remove.Location = new System.Drawing.Point(121, 384);
             this.btn_remove.Name = "btn_remove";
             this.btn_remove.Size = new System.Drawing.Size(57, 23);
             this.btn_remove.TabIndex = 18;
@@ -206,6 +194,7 @@ namespace MajPAbGr_project
             this.Controls.Add(this.lblCardsOfTech);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
+            this.Controls.Add(this.btn_remove);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -234,7 +223,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblTest;
-        private System.Windows.Forms.Button btn_edit;
         private System.Windows.Forms.Label lblInfo;
         private System.Windows.Forms.Button btn_remove;
         private System.Windows.Forms.ComboBox cmbData;

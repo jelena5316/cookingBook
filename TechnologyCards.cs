@@ -25,11 +25,16 @@ namespace MajPAbGr_project
             db = new dbController();
             tb.setCatalog();
             fillCatalog();
-            string t = db.dbReader($"select name from Technology where id = {id_technology};")[0];
-            this.Text += $" \"{t}\"";
+
+            string t;
+            btn_remove.Enabled = false;
+            //btn_edit.Enabled = false;
+            btn_submit.Text = "insert";
 
             if (id_technology > 0)
             {
+                t = db.dbReader($"select name from Technology where id = {id_technology};")[0];                
+                this.Text += $" \"{t}\"";                
                 string var = db.Count($"select count(*) from Technology_chain where id = {id_technology}");
                 cards = int.Parse(var);
 
@@ -39,7 +44,14 @@ namespace MajPAbGr_project
                 }
                 else cards = 0;
             }
-            else cards = 0;
+            else
+            { 
+                cards = 0;
+                btn_add.Enabled = false;
+                t = this.Text.Substring(0, 37);
+                this.Text = $"{t}edit";
+            }
+           
         }
 
         //public TechnologyCards() // for quick accesing
@@ -129,7 +141,7 @@ namespace MajPAbGr_project
                 query = $"insert into Technology_card (name, technology) values ('{name}', '{technology}'); select last_insert_rowid()";
             }
         ind = db.Count(query); // проверка                            
-        }
+        }      
 
         private void cmbData_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -162,6 +174,10 @@ namespace MajPAbGr_project
             query = $"select technology from Technology_card where id = {id_cards};";
             data = db.dbReader(query);
             textBox3.Text = data[0];
+
+            //btn_edit.Enabled = true;
+            btn_remove.Enabled = true;
+            btn_submit.Text = "update";
         }
 
         private void btn_add_Click(object sender, EventArgs e)
