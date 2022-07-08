@@ -12,7 +12,7 @@ namespace MajPAbGr_project
 {
     public partial class TechnologyCards : Form
     {
-        int id_technology, id_cards = 1;
+        int id_technology, id_cards = 1, cards = 0;
         //int id_chain;
         tbClass1 tb;
         dbController db;
@@ -27,6 +27,19 @@ namespace MajPAbGr_project
             fillCatalog();
             string t = db.dbReader($"select name from Technology where id = {id_technology};")[0];
             this.Text += $" \"{t}\"";
+
+            if (id_technology > 0)
+            {
+                string var = db.Count($"select count(*) from Technology_chain where id = {id_technology}");
+                cards = int.Parse(var);
+
+                if (int.TryParse(var, out cards))
+                {
+                    cards = int.Parse(var);
+                }
+                else cards = 0;
+            }
+            else cards = 0;
         }
 
         //public TechnologyCards() // for quick accesing
@@ -83,60 +96,39 @@ namespace MajPAbGr_project
 
         private void btn_submit_Click(object sender, EventArgs e) // submit changes or new card
         {
-            //int id = 0;
             string name, description, technology, query, ind;
 
+            //textBox1, textBox3
             if (string.IsNullOrEmpty(textBox1.Text)) return;
-            if (string.IsNullOrEmpty(textBox3.Text)) return;
-           
-
-            if (textBox1.Text.Length > 20)
+            query = $"select count(*) from Technology_card where name = '{textBox1.Text}';";
+            ind = db.Count(query);
+            if (ind != "0")
             {
-                string t = textBox1.Text;
-                t = t.Substring(0, 20);
-                textBox1.Text = t;
-            }
-
-            name = textBox1.Text;               
+                textBox1.Text = "";
+                textBox3.Text = "";
+                return; // temporery                   
+            } 
+            if (string.IsNullOrEmpty(textBox3.Text)) return;
+            if (textBox1.Text.Length > 20) // проверка длины
+            {
+                //string t = textBox1.Text;
+                //t = t.Substring(0, 20);
+                //textBox1.Text = t;
+            }  
+            name = textBox1.Text; 
             technology = textBox3.Text;
 
-            if (string.IsNullOrEmpty(textBox2.Text))
-            {
-                query = $"select count(*) from Technology_card where name = '{name}';";
-                ind = db.Count(query);
-                if (ind != "0")
-                {
-                    textBox1.Text = "";
-                    textBox3.Text = "";
-                    return; // temporery
-                    //int last = (int)name[name.Length - 1];
-                    //if (last > 47 || last < 57)
-                    //{
-                    //    last++;
-                    //    int length = name.Length - 1;
-                    //    if (last > 10) length--;
-                    //    name.Substring(0, length);
-                    //    name += last.ToString();
-        // доделать на случай, если уже двухзначный номер,
-        // вводить перед номером, например, знак "_" (95)
-                    //} 
-                } 
-                query = $"insert into Technology_card (name, technology) values ('{name}', '{technology}'); select last_insert_rowid()";
+            //textBox2
+            if (!string.IsNullOrEmpty(textBox2.Text))
+            {               
+                description = textBox2.Text;               
+                query = $"insert into Technology_card (name, description, technology) values ('{name}', '{description}', '{technology}'); select last_insert_rowid()";
             }
             else
             {
-                name = textBox1.Text;
-                description = textBox2.Text;
-                technology = textBox3.Text;
-
-                query = $"select count(*) from Technology_card where name = '{name}';";
-                ind = db.Count(query);
-                if (ind != "0") return;
-
-                query = $"insert into Technology_card (name, description, technology) values ('{name}', '{description}', '{technology}'); select last_insert_rowid()";
-               
+                query = $"insert into Technology_card (name, technology) values ('{name}', '{technology}'); select last_insert_rowid()";
             }
-                ind = db.Count(query); // проверка                            
+        ind = db.Count(query); // проверка                            
         }
 
         private void cmbData_SelectedIndexChanged(object sender, EventArgs e)
