@@ -33,7 +33,7 @@ namespace MajPAbGr_project
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.btn_submit = new System.Windows.Forms.Button();
+            this.btn_insert = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -41,9 +41,11 @@ namespace MajPAbGr_project
             this.label4 = new System.Windows.Forms.Label();
             this.lblTest = new System.Windows.Forms.Label();
             this.lblInfo = new System.Windows.Forms.Label();
-            this.btn_remove = new System.Windows.Forms.Button();
             this.cmbData = new System.Windows.Forms.ComboBox();
+            this.btn_remove = new System.Windows.Forms.Button();
             this.lblCardsOfTech = new System.Windows.Forms.Label();
+            this.btn_update = new System.Windows.Forms.Button();
+            this.btn_new = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,22 +85,22 @@ namespace MajPAbGr_project
             this.textBox2.Size = new System.Drawing.Size(310, 81);
             this.textBox2.TabIndex = 17;
             // 
-            // btn_submit
+            // btn_insert
             // 
-            this.btn_submit.Location = new System.Drawing.Point(24, 384);
-            this.btn_submit.Name = "btn_submit";
-            this.btn_submit.Size = new System.Drawing.Size(75, 23);
-            this.btn_submit.TabIndex = 16;
-            this.btn_submit.Text = "new";
-            this.btn_submit.UseVisualStyleBackColor = true;
-            this.btn_submit.Click += new System.EventHandler(this.btn_submit_Click);
+            this.btn_insert.Location = new System.Drawing.Point(95, 393);
+            this.btn_insert.Name = "btn_insert";
+            this.btn_insert.Size = new System.Drawing.Size(75, 23);
+            this.btn_insert.TabIndex = 16;
+            this.btn_insert.Text = "insert";
+            this.btn_insert.UseVisualStyleBackColor = true;
+            this.btn_insert.Click += new System.EventHandler(this.btn_submit_Click);
             // 
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(24, 23);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(310, 20);
-            this.textBox1.TabIndex = 15;           
+            this.textBox1.TabIndex = 15;
             // 
             // textBox3
             // 
@@ -158,15 +160,6 @@ namespace MajPAbGr_project
             this.lblInfo.TabIndex = 19;
             this.lblInfo.Text = "record(s)";
             // 
-            // btn_remove
-            // 
-            this.btn_remove.Location = new System.Drawing.Point(121, 384);
-            this.btn_remove.Name = "btn_remove";
-            this.btn_remove.Size = new System.Drawing.Size(57, 23);
-            this.btn_remove.TabIndex = 18;
-            this.btn_remove.Text = "remove";
-            this.btn_remove.UseVisualStyleBackColor = true;
-            // 
             // cmbData
             // 
             this.cmbData.FormattingEnabled = true;
@@ -177,6 +170,15 @@ namespace MajPAbGr_project
             this.cmbData.Text = "pick a technology_card";
             this.cmbData.SelectedIndexChanged += new System.EventHandler(this.cmbData_SelectedIndexChanged);
             // 
+            // btn_remove
+            // 
+            this.btn_remove.Location = new System.Drawing.Point(277, 393);
+            this.btn_remove.Name = "btn_remove";
+            this.btn_remove.Size = new System.Drawing.Size(57, 23);
+            this.btn_remove.TabIndex = 18;
+            this.btn_remove.Text = "remove";
+            this.btn_remove.UseVisualStyleBackColor = true;
+            // 
             // lblCardsOfTech
             // 
             this.lblCardsOfTech.AutoSize = true;
@@ -186,11 +188,33 @@ namespace MajPAbGr_project
             this.lblCardsOfTech.TabIndex = 25;
             this.lblCardsOfTech.Text = "Technology comtains:";
             // 
+            // btn_update
+            // 
+            this.btn_update.Location = new System.Drawing.Point(176, 393);
+            this.btn_update.Name = "btn_update";
+            this.btn_update.Size = new System.Drawing.Size(75, 23);
+            this.btn_update.TabIndex = 26;
+            this.btn_update.Text = "update";
+            this.btn_update.UseVisualStyleBackColor = true;
+            this.btn_update.Click += new System.EventHandler(this.btn_update_Click);
+            // 
+            // btn_new
+            // 
+            this.btn_new.Location = new System.Drawing.Point(3, 393);
+            this.btn_new.Name = "btn_new";
+            this.btn_new.Size = new System.Drawing.Size(75, 23);
+            this.btn_new.TabIndex = 27;
+            this.btn_new.Text = "new";
+            this.btn_new.UseVisualStyleBackColor = true;
+            this.btn_new.Click += new System.EventHandler(this.btn_new_Click);
+            // 
             // TechnologyCards
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btn_new);
+            this.Controls.Add(this.btn_update);
             this.Controls.Add(this.lblCardsOfTech);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
@@ -199,7 +223,7 @@ namespace MajPAbGr_project
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.btn_submit);
+            this.Controls.Add(this.btn_insert);
             this.Controls.Add(this.textBox1);
             this.Name = "TechnologyCards";
             this.Text = "Technology Cards: create, delete and add to technology";
@@ -216,7 +240,7 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button btn_submit;
+        private System.Windows.Forms.Button btn_insert;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label3;
@@ -227,5 +251,7 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Button btn_remove;
         private System.Windows.Forms.ComboBox cmbData;
         private System.Windows.Forms.Label lblCardsOfTech;
+        private System.Windows.Forms.Button btn_update;
+        private System.Windows.Forms.Button btn_new;
     }
 }

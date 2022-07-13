@@ -249,7 +249,15 @@ namespace MajPAbGr_project
             return ind;
         }
 
-       
+        public int UpdateCard(string column, string value, int id_recepture) // int id
+        {
+            int ind = 0;
+            query = $"update Technology_card set {column} = '{value}' where id = {id_recepture};";
+            // $"update {table} set {column} = '{value}' where id = {id};";
+
+            ind = db.Edit(query);
+            return ind;
+        }
 
 
     }

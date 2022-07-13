@@ -12,7 +12,7 @@ namespace MajPAbGr_project
 {
     public partial class TechnologyCards : Form
     {
-        int id_technology, id_cards = 1, cards = 0;
+        int id_technology, id_cards = 1, cards = 0, output_cards_id = 0;
         //int id_chain;
         tbClass1 tb;
         dbController db;
@@ -24,12 +24,12 @@ namespace MajPAbGr_project
             tb = new tbClass1("Technology_card");
             db = new dbController();
             tb.setCatalog();
-            fillCatalog();
+            fillCatalog();            
 
             string t;
             btn_remove.Enabled = false;
             //btn_edit.Enabled = false;
-            btn_submit.Text = "insert";
+            btn_insert.Text = "insert";
 
             if (id_technology > 0)
             {
@@ -81,8 +81,8 @@ namespace MajPAbGr_project
                 }
             }
             //cmbData.Text = cmbData.Items[0].ToString();
-            cmbData.Focus();
-            FillCards(id_technology);
+            cmbData.Focus();         
+           
             return items;
         }
 
@@ -98,15 +98,17 @@ namespace MajPAbGr_project
            if(id_tech > 1)
            {
             List<string> chain = tb.SeeOtherCards(id_tech);
-                foreach (string cards in chain)
+                foreach (string card in chain)
                 {
-                    text += $"{cards} \n";               
+                    text += $"{card} \n";               
                 }
             }           
-            lblCardsOfTech.Text += $"\n{text}";
+            lblCardsOfTech.Text += $"\n{text}";            
         }
 
-        private void btn_submit_Click(object sender, EventArgs e) // submit changes or new card
+       
+
+        private void btn_submit_Click(object sender, EventArgs e) // btn_insert
         {
             string name, description, technology, query, ind;
 
@@ -141,7 +143,16 @@ namespace MajPAbGr_project
                 query = $"insert into Technology_card (name, technology) values ('{name}', '{technology}'); select last_insert_rowid()";
             }
         ind = db.Count(query); // проверка                            
-        }      
+        }
+
+        private void btn_new_Click(object sender, EventArgs e)
+        {
+            output_cards_id = 0;
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+            btn_update.Enabled = false;
+        }
 
         private void cmbData_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -175,9 +186,23 @@ namespace MajPAbGr_project
             data = db.dbReader(query);
             textBox3.Text = data[0];
 
+            output_cards_id = id_cards;
             //btn_edit.Enabled = true;
             btn_remove.Enabled = true;
-            btn_submit.Text = "update";
+            btn_update.Enabled = true;
+        }
+
+        private void btn_update_Click(object sender, EventArgs e)
+        {
+            if (output_cards_id > 0)
+            {
+
+                int ind = 0;
+                ind += tb.UpdateCard("name", textBox1.Text, output_cards_id);
+                ind+= tb.UpdateCard("description", textBox2.Text, output_cards_id);
+                ind += tb.UpdateCard("technology", textBox3.Text, output_cards_id);
+                output_cards_id = 0;
+            } 
         }
 
         private void btn_add_Click(object sender, EventArgs e)
