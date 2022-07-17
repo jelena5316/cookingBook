@@ -12,7 +12,7 @@ namespace MajPAbGr_project
 {
     public partial class TechnologyCards : Form
     {
-        int id_technology, id_cards = 1, cards = 0, output_cards_id = 0;
+        int id_technology, id_cards = 0, cards = 0, output_cards_id = 0;
         //int id_chain;
         tbClass1 tb;
         dbController db;
@@ -68,7 +68,7 @@ namespace MajPAbGr_project
         {
             ComboBox c = cmbData;
             List<Item> items = tb.getCatalog();
-            lblTest.Text += $" {items.Count}";
+            lblTest.Text = $"id {items.Count}";
 
             //пишет в комбинированное поле
             if (items.Count != 0)
@@ -86,11 +86,11 @@ namespace MajPAbGr_project
             return items;
         }
 
-        //private List<string> CardsChain()
-        //{
-        //    List<string> cards =  tb.SeeOtherCards(id_technology);
-        //    return cards;            
-        //}
+        private List<string> CardsChain() // a test for method FillCards(int)
+        {
+            List<string> cards = tb.SeeOtherCards(id_technology);
+            return cards;
+        }
 
         private void FillCards(int id_tech) // ярлык с прочими картами
         {
@@ -107,53 +107,7 @@ namespace MajPAbGr_project
         }
 
        
-
-        private void btn_submit_Click(object sender, EventArgs e) // btn_insert
-        {
-            string name, description, technology, query, ind;
-
-            //textBox1, textBox3
-            if (string.IsNullOrEmpty(textBox1.Text)) return;
-            query = $"select count(*) from Technology_card where name = '{textBox1.Text}';";
-            ind = db.Count(query);
-            if (ind != "0")
-            {
-                textBox1.Text = "";
-                textBox3.Text = "";
-                return; // temporery                   
-            } 
-            if (string.IsNullOrEmpty(textBox3.Text)) return;
-            if (textBox1.Text.Length > 20) // проверка длины
-            {
-                //string t = textBox1.Text;
-                //t = t.Substring(0, 20);
-                //textBox1.Text = t;
-            }  
-            name = textBox1.Text; 
-            technology = textBox3.Text;
-
-            //textBox2
-            if (!string.IsNullOrEmpty(textBox2.Text))
-            {               
-                description = textBox2.Text;               
-                query = $"insert into Technology_card (name, description, technology) values ('{name}', '{description}', '{technology}'); select last_insert_rowid()";
-            }
-            else
-            {
-                query = $"insert into Technology_card (name, technology) values ('{name}', '{technology}'); select last_insert_rowid()";
-            }
-        ind = db.Count(query); // проверка                            
-        }
-
-        private void btn_new_Click(object sender, EventArgs e)
-        {
-            output_cards_id = 0;
-            textBox1.Clear();
-            textBox2.Clear();
-            textBox3.Clear();
-            btn_update.Enabled = false;
-        }
-
+       
         private void cmbData_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -163,6 +117,8 @@ namespace MajPAbGr_project
                 tb.setSelected(temp);
                 id_cards = tb.Selected;
             }
+
+            if (id_cards < 1) { cmbData.Text = "no selection"; return; }
 
             //вывод в поля данных карты
             List<string> data;
@@ -190,6 +146,67 @@ namespace MajPAbGr_project
             //btn_edit.Enabled = true;
             btn_remove.Enabled = true;
             btn_update.Enabled = true;
+        }
+
+
+        //buttons
+        private void btn_submit_Click(object sender, EventArgs e) // btn_insert
+        {
+            string name, description, technology, query, ind;
+
+            //textBox1, textBox3
+            if (string.IsNullOrEmpty(textBox1.Text)) return;
+            query = $"select count(*) from Technology_card where name = '{textBox1.Text}';";
+
+            ind = db.Count(query); // не писать с одинаковым названием
+            if (ind != "0")
+            {
+                textBox1.Text = "";
+                textBox2.Text = "";
+                textBox3.Text = "";
+                return; // temporery                   
+            }
+
+            if (string.IsNullOrEmpty(textBox3.Text)) return;
+            if (textBox1.Text.Length > 20) // проверка длины
+            {
+                //string t = textBox1.Text;
+                //t = t.Substring(0, 20);
+                //textBox1.Text = t;
+            }
+            name = textBox1.Text;
+            technology = textBox3.Text;
+
+            //textBox2
+            if (!string.IsNullOrEmpty(textBox2.Text))
+            {
+                description = textBox2.Text;
+                query = $"insert into Technology_card (name, description, technology) values ('{name}', '{description}', '{technology}'); select last_insert_rowid()";
+            }
+            else
+            {
+                query = $"insert into Technology_card (name, technology) values ('{name}', '{technology}'); select last_insert_rowid()";
+            }
+            ind = db.Count(query); // проверка
+            tb.setCatalog();
+            fillCatalog();
+        }
+
+        private void btn_new_Click(object sender, EventArgs e)
+        {
+            output_cards_id = 0;
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+            btn_update.Enabled = false;
+        }
+
+        private void btn_remove_Click(object sender, EventArgs e)
+        {
+
+            if (id_cards < 1) { return; }
+            tb.RemoveItem();
+            fillCatalog();
         }
 
         private void btn_update_Click(object sender, EventArgs e)
