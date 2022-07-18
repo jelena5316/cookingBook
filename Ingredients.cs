@@ -14,7 +14,10 @@ namespace MajPAbGr_project
         {
             InitializeComponent();            
             this.option = opt;
-            tb = new tbClass1(option);
+
+            string table = opt == 1 ? "Ingredients" : "Categories";
+
+            tb = new tbClass1(table);
             tb.setCatalog();
             Elements();
             fillCatalog();            

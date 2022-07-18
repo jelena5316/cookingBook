@@ -20,7 +20,7 @@ namespace MajPAbGr_project
         {
             InitializeComponent();
             id_recepture = id;
-            tbIngred = new tbClass1(1);            
+            tbIngred = new tbClass1("Ingredients");            
             tbIngred.setCatalog();
             calc = new CalcFunction();            
             FillCatalog();
@@ -213,7 +213,7 @@ namespace MajPAbGr_project
 
             id_ingr = lv.Items[0].Tag.ToString();
 
-            ind = tbIngred.UpdateRecepture("id_main", id_ingr, id_recepture); // Recepture
+            ind = tbIngred.UpdateReceptureOrCards("id_main", id_ingr, id_recepture); // Recepture
 
             if (ind == 0) return 1;
 

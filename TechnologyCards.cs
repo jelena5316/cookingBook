@@ -215,9 +215,9 @@ namespace MajPAbGr_project
             {
 
                 int ind = 0;
-                ind += tb.UpdateCard("name", textBox1.Text, output_cards_id);
-                ind+= tb.UpdateCard("description", textBox2.Text, output_cards_id);
-                ind += tb.UpdateCard("technology", textBox3.Text, output_cards_id);
+                ind += tb.UpdateReceptureOrCards("name", textBox1.Text, output_cards_id);
+                ind+= tb.UpdateReceptureOrCards("description", textBox2.Text, output_cards_id);
+                ind += tb.UpdateReceptureOrCards("technology", textBox3.Text, output_cards_id);
                 output_cards_id = 0;
             } 
         }

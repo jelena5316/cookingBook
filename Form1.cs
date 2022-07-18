@@ -34,14 +34,14 @@ namespace MajPAbGr_project
             list = listView1;
                        
             tb.setCatalog();
-            fillCatalog();
+            fillCatalog(tb.getCatalog());
             tb.setSubCatalog();
             fillSubCatalog();
         }
 
-        private List<Item> fillCatalog()
+        private List<Item> fillCatalog(List<Item> items)
         {
-           List<Item> items = tb.getCatalog(); // читает два поля, наименование и номер
+           //List<Item> items = tb.getCatalog(); // читает два поля, наименование и номер
             //пишет в комбинированное поле
             if (items.Count != 0)
             {
@@ -293,7 +293,7 @@ namespace MajPAbGr_project
             int selected = comboBox1.SelectedIndex;
 
             tb.setCatalog();
-            fillCatalog();
+            fillCatalog(tb.getCatalog());
 
             columnHeader2.Text = "Amounts (%)";
             comboBox1.SelectedIndex = selected;

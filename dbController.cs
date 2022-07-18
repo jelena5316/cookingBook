@@ -24,26 +24,16 @@ namespace MajPAbGr_project
 
     public class dbController /*chitaem recepty iz bd */
     {
-        protected string connectionString;
-        protected string query;
-        protected SqliteConnection connection;
-        protected SqliteDataReader reader;
-        protected SqliteCommand command;
+        private string connectionString;      
+        private SqliteConnection connection;
+        private SqliteDataReader reader;
+        private SqliteCommand command;
 
         public dbController ()
         {
-            string connectionString =
+            connectionString =
              "Data Source = C:\\Users\\user\\Documents\\SQLiteStudio\\CookingBook; Mode=ReadWrite";
-
-            //string connectionString =
-            //"Data Source = C:\\Users\\Lietotajs\\CookingBook; Mode=ReadWrite";
-            connection = new SqliteConnection(connectionString);
-        }
-
-        public SqliteCommand getCommand (string query)
-        {
-            command = new SqliteCommand(query, connection);
-            return command;
+              connection = new SqliteConnection(connectionString);
         }
 
         public List<Item> Catalog (string query) //int, string
@@ -52,9 +42,9 @@ namespace MajPAbGr_project
             List<Item> list = new List<Item>();
             using (connection)
             {
-                getCommand(query);
+                command = new SqliteCommand(query, connection);
                 connection.Open();                
-                using (SqliteDataReader reader = command.ExecuteReader())
+                using (reader = command.ExecuteReader())
                 {
                     if (reader.HasRows)
                     {
@@ -79,8 +69,8 @@ namespace MajPAbGr_project
             connection.Open();
             using (connection)
             {
-                command = getCommand(query);
-                using (SqliteDataReader reader = command.ExecuteReader())
+                command = new SqliteCommand(query, connection);
+                using (reader = command.ExecuteReader())
                 {
                     if (reader.HasRows)
                     {
@@ -103,9 +93,9 @@ namespace MajPAbGr_project
             Element element;
             using (connection)
             {
-                SqliteCommand c = getCommand(query);
+                command = new SqliteCommand(query, connection);
                 connection.Open();
-                using (SqliteDataReader reader = c.ExecuteReader())
+                using (reader = command.ExecuteReader())
                 {
                     if (reader.HasRows)
                     {
@@ -132,9 +122,9 @@ namespace MajPAbGr_project
             List <String> cards = new List<String>();
             using (connection)
             {
-                getCommand(query);
+                command = new SqliteCommand(query, connection);
                 connection.Open();
-                using (SqliteDataReader reader = command.ExecuteReader())
+                using (reader = command.ExecuteReader())
                 {
                     if (reader.HasRows)
                     {
@@ -169,9 +159,8 @@ namespace MajPAbGr_project
             string count="";
             using (connection)
             {
-                command = getCommand(query);
-                connection.Open();
-                //bool b = connection.Open();
+                command = new SqliteCommand(query, connection);
+                connection.Open();                
                 var num = command.ExecuteScalar();
                 count = num.ToString();
                 connection.Close();                              

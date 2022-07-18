@@ -8,18 +8,8 @@ namespace MajPAbGr_project
     {
         int selected, count;
         string query, table, used = "0";
-        List<Item> catalog, subcatalog;
-        //List<Element> elements;
+        List<Item> catalog, subcatalog;       
         dbController db;
-
-        public tbClass1(int opt)
-        {
-            selected = 0;
-            table = opt == 1 ? "Ingredients" : "Categories";
-            catalog = new List<Item>();
-            //elements = new List<Element>();
-            db = new dbController();
-        }
 
         public tbClass1(string table)
         {
@@ -28,12 +18,7 @@ namespace MajPAbGr_project
             catalog = new List<Item>();
             subcatalog = new List<Item>();
             db = new dbController();
-        }
-
-       public string getTable()
-        {
-            return table;
-        }
+        }    
         
         //setCatalog()
         public void setCatalog()
@@ -42,6 +27,8 @@ namespace MajPAbGr_project
             catalog = db.Catalog(query);
             count = catalog.Count;
         }
+
+        public List<Item> getCatalog() { return catalog; }
 
         public void resetCatalog()
         {
@@ -58,15 +45,7 @@ namespace MajPAbGr_project
             return subcatalog;
         }
 
-        //public void resetSubCatalog()
-        //{
-        //    if (subcatalog.Count > 0)
-        //        subcatalog.Clear();
-        //    setSubCatalog();
-        //}
-
-        public List<Item> getSubCatalog() { return subcatalog; }
-        public List<Item> getCatalog() { return catalog; }
+        //public List<Item> getSubCatalog() { return subcatalog; }
 
         public int setSelected(int temp)
         {
@@ -85,28 +64,42 @@ namespace MajPAbGr_project
             get { return selected; }
         }
 
-
          public string getName(int index)
          {
               return catalog[index].name;
-         }      
+         }
 
-       
+        public string getTable()
+        {
+            return table;
+        }
 
-        // selectIndexChanged
-        public void setUsed()
+
+        /*********************
+         * Для отдельных форм
+         *********************/
+        public void setUsed() // for Ingredients.cs
         {
             query = (table == "Ingredients") ? $"select count(*) from(select id_recepture from Amounts where id_ingredients = {selected});"
                     : $"select count (*) from Recepture where id_category = {selected}";
             used = db.Count(query);
         }
 
-        public string getUsed()
+        public string getUsed() // for Ingredients
         {
             return used;
         }
+
+         public List<string> SeeMoreFunc() // for Ingredients.cs
+                {
+                    query = (table == "Ingredients") ? $"select name from Recepture where id in (select id_recepture from Amounts where id_ingredients = {selected});"
+                            : $"select name from Recepture where id_category = {selected}";
+                    List<string> list = db.dbReader(query);
+                    return list;
+                }
+
         
-        public int SelectedCount(string table, string column, int id) // form
+        public int SelectedCount(string table, string column, int id) // for Form1.cs: before Technology to open
         {
             string query;
             query = $"select count ({column}) from {table}";
@@ -116,28 +109,8 @@ namespace MajPAbGr_project
                 query += ";";
             return int.Parse(db.Count(query));
         }
-        
-        public List<string> SeeMoreFunc()
-        {
-            query = (table == "Ingredients") ? $"select name from Recepture where id in (select id_recepture from Amounts where id_ingredients = {selected});"
-                    : $"select name from Recepture where id_category = {selected}";
-            List<string> list = db.dbReader(query);
-            return list;
-        }
-
-        public List<string> SeeOtherCards(int id_technology) //for TechnologyCards.cs
-        {
-            //int start, end;
-            List<string> list;           
-            list = db.dbReader(query);
-            //query = query = $"select id from Technology_chain where id_technology = {id_technology};";
-            query = "select technology from Technology_card where id in " +
-                $" (select id_card from Technology_chain where id_technology = {id_technology});";
-            list = db.dbReader(query);
-            return list;
-        }
-
-        public List<Element> readElement(int opt)
+   
+        public List<Element> readElement(int opt) // for Form1.cs
         {
             List<Element> el;
             switch (opt)
@@ -164,6 +137,15 @@ namespace MajPAbGr_project
             return el;
         }
 
+        public List<string> SeeOtherCards(int id_technology) //for TechnologyCards.cs
+        {
+            List<string> list;            
+            query = "select technology from Technology_card where id in " +
+                $" (select id_card from Technology_chain where id_technology = {id_technology});";
+            list = db.dbReader(query);
+            return list;
+        }
+
         public int getId (string column, int id) // for Recepture
         {
             query = $"select {column} from {table} where id = " + id + ";";
@@ -171,6 +153,11 @@ namespace MajPAbGr_project
             return int.Parse(id_list[0]);
         }        
       
+
+        /********************
+         * Операции с данными
+         *********************/
+
         //remove
         public int RemoveItem()
         {
@@ -222,7 +209,7 @@ namespace MajPAbGr_project
             return db.Edit(query);
         }
 
-
+        //update
         public int UpdateItem (string name) // Ingredients.cs
         {
             query = $"select count(*) from {table} where name ='{name}';";
@@ -241,24 +228,13 @@ namespace MajPAbGr_project
             }
         }
 
-        public int UpdateRecepture(string column, string value, int id_recepture)
+        public int UpdateReceptureOrCards(string column, string value, int id_recepture)
         {
             int ind = 0;
-            query = $"update Recepture set {column} = '{value}' where id = {id_recepture};";
+            query = $"update {table} set {column} = '{value}' where id = {id_recepture};";
             ind = db.Edit(query);
             return ind;
-        }
-
-        public int UpdateCard(string column, string value, int id_recepture) // int id
-        {
-            int ind = 0;
-            query = $"update Technology_card set {column} = '{value}' where id = {id_recepture};";
-            // $"update {table} set {column} = '{value}' where id = {id};";
-
-            ind = db.Edit(query);
-            return ind;
-        }
-
+        } 
 
     }
 }

@@ -35,7 +35,7 @@ namespace MajPAbGr_project
 
         private void SetForm()
         {
-            tbCat = new tbClass1(2);
+            tbCat = new tbClass1("Categories");
             tbCat.setCatalog();
             setIndicator(); // set mode
             FillCatalog();
@@ -153,8 +153,8 @@ namespace MajPAbGr_project
                 name = txbRecepture.Text;               
                 category = tbCat.getSelected();
 
-                num = tbCat.UpdateRecepture("name", name, id_recepture);
-                num = tbCat.UpdateRecepture("id_category", category.ToString(), id_recepture);
+                num = tbCat.UpdateReceptureOrCards("name", name, id_recepture);
+                num = tbCat.UpdateReceptureOrCards("id_category", category.ToString(), id_recepture);
             }
 
             if (string.IsNullOrEmpty(txbAuthor.Text)) return;
@@ -167,13 +167,13 @@ namespace MajPAbGr_project
             URL = txbURL.Text;
             description = txbDescription.Text; // note
 
-            num = tbCat.UpdateRecepture("source", source, id_recepture);
+            num = tbCat.UpdateReceptureOrCards("source", source, id_recepture);
             Report(num, "source");
-            num = tbCat.UpdateRecepture("author", author, id_recepture);
+            num = tbCat.UpdateReceptureOrCards("author", author, id_recepture);
             Report(num, "author");
-            num = tbCat.UpdateRecepture("URL", URL, id_recepture);
+            num = tbCat.UpdateReceptureOrCards("URL", URL, id_recepture);
             Report(num, "URL");
-            num = tbCat.UpdateRecepture("note", description, id_recepture);
+            num = tbCat.UpdateReceptureOrCards("note", description, id_recepture);
             Report(num, "note");
         }
 
