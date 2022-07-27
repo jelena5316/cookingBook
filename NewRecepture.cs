@@ -61,7 +61,7 @@ namespace MajPAbGr_project
                 data = db.dbReader(query);
                 txbURL.Text = data[0];
 
-                query = $"select note from Recepture where id = {id_recepture};";
+                query = $"select description from Recepture where id = {id_recepture};";
                 data = db.dbReader(query);
                 txbDescription.Text = data[0];
             }
@@ -122,6 +122,7 @@ namespace MajPAbGr_project
         {
             int num = 0;
             dbController db = new dbController();
+            tbClass1 tb = new tbClass1("Recepture");
             if (!indicator)
             {
                 if (string.IsNullOrEmpty(txbRecepture.Text)) return;
@@ -154,8 +155,9 @@ namespace MajPAbGr_project
                 category = tbCat.getSelected();
 
                 // Do initialize a new tbClass1 object! Table must be Recepture!
-                num = tbCat.UpdateReceptureOrCards("name", name, id_recepture);
-                num = tbCat.UpdateReceptureOrCards("id_category", category.ToString(), id_recepture);
+                // Is done!
+                num = tb.UpdateReceptureOrCards("name", name, id_recepture);
+                num = tb.UpdateReceptureOrCards("id_category", category.ToString(), id_recepture);
             }
 
             if (string.IsNullOrEmpty(txbAuthor.Text)) return;
@@ -169,13 +171,14 @@ namespace MajPAbGr_project
             description = txbDescription.Text; // note
 
             // Do initialize a new tbClass1 object! Table must be Recepture!
-            num = tbCat.UpdateReceptureOrCards("source", source, id_recepture);
-            num = tbCat.UpdateReceptureOrCards("author", author, id_recepture);
+            //Is done!            
+            num = tb.UpdateReceptureOrCards("source", source, id_recepture);
+            num = tb.UpdateReceptureOrCards("author", author, id_recepture);
             Report(num, "author");
-            num = tbCat.UpdateReceptureOrCards("URL", URL, id_recepture);
+            num = tb.UpdateReceptureOrCards("URL", URL, id_recepture);
             Report(num, "URL");
-            num = tbCat.UpdateReceptureOrCards("note", description, id_recepture);
-            Report(num, "note");
+            num = tb.UpdateReceptureOrCards("description", description, id_recepture);
+            Report(num, "description");
         }
 
         private void Report (int num, string variable)
