@@ -211,13 +211,17 @@ namespace MajPAbGr_project
             string amount, id_ingr;
             //string query;
 
+            //writting main ingredient id into table Recepture
             id_ingr = lv.Items[0].Tag.ToString();
 
-            ind = tbIngred.UpdateReceptureOrCards("id_main", id_ingr, id_recepture); // Recepture
+            tbClass1 tb = new tbClass1("Recepture");
+            ind = tb.UpdateReceptureOrCards("id_main", id_ingr, id_recepture); // Recepture
 
             if (ind == 0) return 1;
 
-            for (index = lv.Items.Count - 1, sum = 0; index > -1; index--)
+            //writing ingredients' amounts into Amounts
+            //for (index = lv.Items.Count - 1, sum = 0; index > -1; index--)
+            for (index = 0, sum = 0; index < lv.Items.Count; index++ )
             {
                 id_ingr = lv.Items[index].Tag.ToString();
                 amount = lv.Items[index].SubItems[2].Text;
