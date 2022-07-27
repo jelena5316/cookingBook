@@ -153,6 +153,7 @@ namespace MajPAbGr_project
                 name = txbRecepture.Text;               
                 category = tbCat.getSelected();
 
+                // Do initialize a new tbClass1 object! Table must be Recepture!
                 num = tbCat.UpdateReceptureOrCards("name", name, id_recepture);
                 num = tbCat.UpdateReceptureOrCards("id_category", category.ToString(), id_recepture);
             }
@@ -167,8 +168,8 @@ namespace MajPAbGr_project
             URL = txbURL.Text;
             description = txbDescription.Text; // note
 
+            // Do initialize a new tbClass1 object! Table must be Recepture!
             num = tbCat.UpdateReceptureOrCards("source", source, id_recepture);
-            Report(num, "source");
             num = tbCat.UpdateReceptureOrCards("author", author, id_recepture);
             Report(num, "author");
             num = tbCat.UpdateReceptureOrCards("URL", URL, id_recepture);
