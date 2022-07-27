@@ -337,6 +337,11 @@ namespace MajPAbGr_project
             }
         }
 
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //
+        }
+
         //private string ColonToPoint(string text)
         //{
         //    string number;
