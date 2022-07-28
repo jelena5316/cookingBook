@@ -165,16 +165,24 @@ namespace MajPAbGr_project
             description = textBox3.Text;
             query = $"select count(*) from Technology where name = '{name}';";
             technology = db.Count(query);
-            if (technology != "0") return;
 
-            query = $"insert into Technology (name, description) values ('{name}', '{description}'); select last_insert_rowid()";
-            technology = db.Count(query);
-
-            if (int.TryParse(technology, out id_technology))
+            if (technology != "0")
             {
-                id = int.Parse(technology);
+                // if dialog rezult is ok, then update records
+                query = $"select id from Technology where name = '{name}';";
+                id_technology = int.Parse(db.dbReader(query)[0]);
+                int ind = tb.UpdateReceptureOrCards("description", description, id_technology);               
             }
-            else return;
+            else
+            {
+                query = $"insert into Technology (name, description) values ('{name}', '{description}'); select last_insert_rowid()";
+                technology = db.Count(query);
+                if (int.TryParse(technology, out id_technology))
+                {
+                    id = int.Parse(technology);
+                }
+                else return;
+            }
             OutTechnology();
             //код, легший в основу функции выше
             //query = $"select name, description from Technology where id = {id_technology};";

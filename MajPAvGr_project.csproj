@@ -136,6 +136,9 @@
     <EmbeddedResource Include="Ingredients.resx">
       <DependentUpon>Ingredients.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="InsertAmounts.resx">
+      <DependentUpon>InsertAmounts.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NewRecepture.resx">
       <DependentUpon>NewRecepture.cs</DependentUpon>
     </EmbeddedResource>

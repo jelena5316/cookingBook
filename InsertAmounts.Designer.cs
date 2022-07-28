@@ -49,9 +49,9 @@ namespace MajPAbGr_project
             // 
             // btn_submit
             // 
-            this.btn_submit.Location = new System.Drawing.Point(199, 270);
+            this.btn_submit.Location = new System.Drawing.Point(220, 268);
             this.btn_submit.Name = "btn_submit";
-            this.btn_submit.Size = new System.Drawing.Size(83, 29);
+            this.btn_submit.Size = new System.Drawing.Size(79, 31);
             this.btn_submit.TabIndex = 40;
             this.btn_submit.Text = "Submit";
             this.btn_submit.UseVisualStyleBackColor = true;
@@ -77,17 +77,17 @@ namespace MajPAbGr_project
             // 
             // txbAmounts
             // 
-            this.txbAmounts.Location = new System.Drawing.Point(187, 21);
+            this.txbAmounts.Location = new System.Drawing.Point(171, 20);
             this.txbAmounts.Name = "txbAmounts";
-            this.txbAmounts.Size = new System.Drawing.Size(76, 20);
+            this.txbAmounts.Size = new System.Drawing.Size(54, 20);
             this.txbAmounts.TabIndex = 24;
             this.txbAmounts.Text = "amounts";
             // 
             // btn_calc
             // 
-            this.btn_calc.Location = new System.Drawing.Point(208, 97);
+            this.btn_calc.Location = new System.Drawing.Point(231, 86);
             this.btn_calc.Name = "btn_calc";
-            this.btn_calc.Size = new System.Drawing.Size(62, 23);
+            this.btn_calc.Size = new System.Drawing.Size(50, 24);
             this.btn_calc.TabIndex = 39;
             this.btn_calc.Text = "Calc";
             this.btn_calc.UseVisualStyleBackColor = true;
@@ -126,7 +126,7 @@ namespace MajPAbGr_project
             // 
             // btn_remove
             // 
-            this.btn_remove.Location = new System.Drawing.Point(6, 74);
+            this.btn_remove.Location = new System.Drawing.Point(6, 75);
             this.btn_remove.Name = "btn_remove";
             this.btn_remove.Size = new System.Drawing.Size(62, 23);
             this.btn_remove.TabIndex = 18;
@@ -151,7 +151,7 @@ namespace MajPAbGr_project
             // 
             // btn_select
             // 
-            this.btn_select.Location = new System.Drawing.Point(74, 46);
+            this.btn_select.Location = new System.Drawing.Point(6, 46);
             this.btn_select.Name = "btn_select";
             this.btn_select.Size = new System.Drawing.Size(62, 23);
             this.btn_select.TabIndex = 40;
@@ -161,9 +161,9 @@ namespace MajPAbGr_project
             // 
             // btn_edit
             // 
-            this.btn_edit.Location = new System.Drawing.Point(6, 46);
+            this.btn_edit.Location = new System.Drawing.Point(231, 20);
             this.btn_edit.Name = "btn_edit";
-            this.btn_edit.Size = new System.Drawing.Size(62, 20);
+            this.btn_edit.Size = new System.Drawing.Size(50, 20);
             this.btn_edit.TabIndex = 20;
             this.btn_edit.Text = "add";
             this.btn_edit.UseVisualStyleBackColor = true;
@@ -171,6 +171,8 @@ namespace MajPAbGr_project
             // 
             // cmbIngr
             // 
+            this.cmbIngr.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cmbIngr.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbIngr.FormattingEnabled = true;
             this.cmbIngr.Location = new System.Drawing.Point(6, 19);
             this.cmbIngr.Name = "cmbIngr";
@@ -200,6 +202,7 @@ namespace MajPAbGr_project
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Name = "InsertAmounts";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "InsertAmounts";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

@@ -25,7 +25,8 @@ namespace MajPAbGr_project
             calc = new CalcFunction();            
             FillCatalog();
             btn_recipe.Enabled = false; //insert recipe
-            btn_submit.Enabled = false; // submit ingredients           
+            btn_submit.Enabled = false; // submit ingredients
+            txbAmounts.Text = "amounts";
         }
 
         private void FillCatalog()
@@ -49,6 +50,8 @@ namespace MajPAbGr_project
         {
             tbIngred.setSelected(cmbIngr.SelectedIndex);
             cmbIngr.Text = cmbIngr.SelectedItem.ToString();
+            txbAmounts.Focus();
+            txbAmounts.Text = "";
         }
 
         private void btn_edit_Click(object sender, EventArgs e) // add an ingredient
@@ -74,7 +77,10 @@ namespace MajPAbGr_project
             item.SubItems.Add(""); // заготовка под проценты
             item.Tag = tbIngred.getSelected();            
             listView1.Items.Add(item);
-            item.Selected = true;            
+            item.Selected = true;
+
+            txbAmounts.Text = "amounts";
+            cmbIngr.Focus();
         }
 
         private void button2_Click(object sender, EventArgs e) // edit listview item
