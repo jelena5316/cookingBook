@@ -44,7 +44,7 @@ namespace MajPAbGr_project
             id = 1;
 
             this.Text += $": recepture {id_recepture}, no technology ({id_technology})";
-            OutTechnology();
+            txbOutput.Text = OutTechnology();
         }
 
         public Technology(int recepture, int technology)
@@ -66,15 +66,19 @@ namespace MajPAbGr_project
             id = technology;
 
             this.Text += $": recepture {id_recepture}, technology {id_technology}";
-            OutTechnology();
+            txbOutput.Text = OutTechnology();
         }
 
         private string OutTechnology() //into textbox
         {
-           string query = $"select name, description from Technology where id = {id};";
+            string query = $"select name, description from Technology where id = {id};";
             string technology = "";
-            technology = db.dbReadTechnology(query)[0];
-            txbOutput.Text = technology;
+            technology = db.dbReadTechnology(query)[0];            
+            string[] arr = null;
+            arr = technology.Split(',');
+            technology = arr[0] + ": " + arr[1];
+            textBox1.Text = arr[0];
+            textBox3.Text = arr[1];            
             return technology;
         }
 
@@ -183,26 +187,15 @@ namespace MajPAbGr_project
                 }
                 else return;
             }
-            OutTechnology();
-            //код, легший в основу функции выше
-            //query = $"select name, description from Technology where id = {id_technology};";
-            //technology = "";
-            //technology = db.dbReadTechnology(query)[0];
-            //txbOutput.Text = technology;
+            txbOutput.Text = OutTechnology();
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            dbController db = new dbController();
-            db.Edit("update Recepture set id_technology = null where id = 2;");
-            MessageBox.Show("У рецептуры больше нет технологии");
-        }
+        
 
-        private void button3_Click(object sender, EventArgs e)
+        private void lbl_cards_Click(object sender, EventArgs e)
         {
             TechnologyCards frm = new TechnologyCards(selected_tech);
             frm.Show();
-
         }
 
         private void btn_technology_Click(object sender, EventArgs e) // apply technology to recepture
@@ -216,24 +209,34 @@ namespace MajPAbGr_project
             string indStr = db.Count(query);
             if (indStr != "0") { this.Text += "*"; return; }
 
-            //замена с отчетом в тексте окна
-            //query = $"update Recepture set id_technology = {id_technology} where id = {id_recepture};";
+            //замена с отчетом в тексте окна           
             query =  $"update Recepture set id_technology = {selected_tech} where id = {selected_rec};";
             ind = db.Edit(query);
-
             if (ind != 0)
             {
-                //string t = $"Technology {id_recepture} {id_technology}";
                 string t = $"Technology {id_recepture} {selected_tech}";
                 this.Text = t;
-            }
+            }            
+            txbOutput.Text = $"{comboBox1.SelectedItem.ToString()}: {OutTechnology()}";            
 
             //возврат значений
             tb.Selected = id_technology;
             selected_tech = tb.Selected;
             tbRec.Selected = id_recepture;
             selected_rec = tbRec.Selected;
+
         }
+
+      
+
+        private void button2_Click(object sender, EventArgs e) // remove
+                {
+                    dbController db = new dbController();
+                    string query = $"update Recepture set id_technology = null where id = {selected_rec};";
+                    db.Edit(query);
+                    MessageBox.Show("У рецептуры больше нет технологии");                    
+                }
+
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) // rec
         {
@@ -254,7 +257,7 @@ namespace MajPAbGr_project
 
                 // output in textbox
                 id = selected;
-                OutTechnology();
+                txbOutput.Text = OutTechnology();
             }
         }
 
