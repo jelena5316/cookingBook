@@ -43,8 +43,10 @@ namespace MajPAbGr_project
             selected_tech = 1;
             id = 1;
 
-            this.Text += $": recepture {id_recepture}, no technology ({id_technology})";
-            txbOutput.Text = OutTechnology();
+            //this.Text += $": recepture {id_recepture}, no technology ({id_technology})";
+            toolStripStatusLabel1.Text = $"Recepture {id_recepture}, technology none";
+            toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology none";
+            OutTechnology();
         }
 
         public Technology(int recepture, int technology)
@@ -65,8 +67,11 @@ namespace MajPAbGr_project
             tb.Selected = technology;            
             id = technology;
 
-            this.Text += $": recepture {id_recepture}, technology {id_technology}";
-            txbOutput.Text = OutTechnology();
+            //this.Text += $": recepture {id_recepture}, technology {id_technology}";
+            toolStripStatusLabel1.Text = $"Recepture {id_recepture}, technology {id_technology}";
+            toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology {selected_tech}";
+
+            OutTechnology();
         }
 
         private string OutTechnology() //into textbox
@@ -84,7 +89,7 @@ namespace MajPAbGr_project
 
         private List<Item> fillCatalog() //  technology
         {
-            List<Item> items = tb.getCatalog(); // читает два поля, наименование и номер
+            List<Item> items = tb.getCatalog(); // читает два поля, наименование и номер           
 
             //пишет в комбинированное поле
             if (items.Count != 0)
@@ -157,7 +162,6 @@ namespace MajPAbGr_project
             return items;
         }
 
-
         private void button1_Click(object sender, EventArgs e) // submit new
         {
             string name, description, query, technology;
@@ -180,17 +184,17 @@ namespace MajPAbGr_project
             else
             {
                 query = $"insert into Technology (name, description) values ('{name}', '{description}'); select last_insert_rowid()";
-                technology = db.Count(query);
+                technology = db.Count(query);                
                 if (int.TryParse(technology, out id_technology))
                 {
                     id = int.Parse(technology);
                 }
                 else return;
-            }
-            txbOutput.Text = OutTechnology();
+            }            
+            MessageBox.Show($"Technology {name} (id {technology}) is inserted or updated");
+            tb.setCatalog();
+            fillCatalog();
         }
-
-        
 
         private void lbl_cards_Click(object sender, EventArgs e)
         {
@@ -216,8 +220,8 @@ namespace MajPAbGr_project
             {
                 string t = $"Technology {id_recepture} {selected_tech}";
                 this.Text = t;
-            }            
-            txbOutput.Text = $"{comboBox1.SelectedItem.ToString()}: {OutTechnology()}";            
+            }
+            MessageBox.Show($"Technology {selected_tech} is applaied to recepture {selected_rec}");           
 
             //возврат значений
             tb.Selected = id_technology;
@@ -227,15 +231,61 @@ namespace MajPAbGr_project
 
         }
 
-      
 
-        private void button2_Click(object sender, EventArgs e) // remove
-                {
-                    dbController db = new dbController();
-                    string query = $"update Recepture set id_technology = null where id = {selected_rec};";
-                    db.Edit(query);
-                    MessageBox.Show("У рецептуры больше нет технологии");                    
-                }
+        private void button3_Click(object sender, EventArgs e) // clear
+        {
+             textBox1.Clear();
+             textBox3.Clear();
+             textBox1.Focus();
+             selected_rec = 0;
+             selected_tech = 0;
+             toolStripStatusLabel2.Text =
+                 $"Selected: recepture {selected_rec} technology {selected_tech}";
+        }
+
+        private void button4_Click(object sender, EventArgs e) //delete technology from db
+        {
+            //проверка, используется ли
+            dbController db = new dbController();
+            string query = $"select count (*) from Recepture count where id_technology = {selected_tech};";
+            int ind = int.Parse(db.Count(query));
+            if (ind > 0)
+            {
+                MessageBox.Show($"The technology is used in {ind} Receptures. \nPlease, remove it before deleting");
+                return;
+            }
+
+            //удаляем
+            query = $"delete from Technology where id = {selected_tech};";
+            ind = db.Edit(query);
+
+            //обновляем форму
+            if (ind > 0)
+            {
+                tb.setCatalog();
+                fillCatalog();               
+                textBox1.Focus();
+                selected_tech = tb.Selected;
+                toolStripStatusLabel2.Text =
+                    $"Selected: recepture {selected_rec} technology {selected_tech}";
+            }
+            else MessageBox.Show("Nothing isw deleted");
+  
+        }
+
+        private void printToolStripMenuItem_Click(object sender, EventArgs e) //print
+        {
+            //выведет на печать технологию с цепочкой карт
+            // Печать(номер технологии)
+        }
+
+        private void button2_Click(object sender, EventArgs e) // remove (set null)
+        {
+            dbController db = new dbController();
+            string query = $"update Recepture set id_technology = null where id = {selected_rec};";
+            db.Edit(query);
+            MessageBox.Show("У рецептуры больше нет технологии");                    
+        }
 
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) // rec
@@ -244,6 +294,9 @@ namespace MajPAbGr_project
             int selected = tbRec.setSelected(index);
             //id_recepture = selected;
             selected_rec = selected;
+
+            label6.Text = selected.ToString();
+            toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology {selected_tech}";
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e) // tech
@@ -254,28 +307,17 @@ namespace MajPAbGr_project
                 //id_technology = selected; //заменить на строку ниже
                 selected_tech = selected;
                 label5.Text = selected.ToString();
+                toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology {selected_tech}";
 
                 // output in textbox
                 id = selected;
-                txbOutput.Text = OutTechnology();
+                OutTechnology();
             }
         }
 
-
-
-
-
             private void Technology_Load(object sender, EventArgs e)
         {
-           // OutTechnology();
-            //private string OutTechnology()
-            //{
-            //    string query = $"select name, description from Technology where id = {id};";
-            //    string technology = "";
-            //    technology = db.dbReadTechnology(query)[0];
-            //    txbOutput.Text = technology;
-            //    return technology;
-            //}
+
         }
     }
 }
