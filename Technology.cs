@@ -317,7 +317,19 @@ namespace MajPAbGr_project
 
             private void Technology_Load(object sender, EventArgs e)
         {
+            List <Item> items = tb.getCatalog();
+            AutoCompleteStringCollection source = new AutoCompleteStringCollection();           
+            foreach(Item i in items)
+            {
+                source.Add(i.name);
+            }
+             textBox1.AutoCompleteCustomSource = source;
+             textBox1.AutoCompleteMode = AutoCompleteMode.Suggest;
+             textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            
 
+            
+            
         }
     }
 }
