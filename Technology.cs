@@ -16,6 +16,7 @@ namespace MajPAbGr_project
         tbClass1 tb = new tbClass1("Technology");
         tbClass1 tbRec = new tbClass1("Recepture");
         int id_technology, id_recepture, id, selected_tech, selected_rec;
+        List<Item> technologies, receptures;
 
         public Technology()
         {
@@ -23,6 +24,14 @@ namespace MajPAbGr_project
             db = new dbController();
             id_technology = 0;
             id = 0;
+
+            tbRec.setCatalog();
+            receptures = tbRec.getCatalog();
+            fillCatalogRec(receptures);
+            tb.setCatalog();
+            technologies = tb.getCatalog();
+            fillCatalog(technologies);
+            
             this.Text += ": no technology";
         }
 
@@ -33,19 +42,22 @@ namespace MajPAbGr_project
             
             id_recepture = recepture;
             tbRec.setCatalog();
-            fillCatalogRec();
+            receptures = tbRec.getCatalog();
+            fillCatalogRec(receptures);
             tbRec.Selected = recepture;           
             selected_rec = recepture;
             
             id_technology = 0;
-            tb.setCatalog();            
-            fillCatalog();
+            tb.setCatalog();
+            technologies = tb.getCatalog();           
+            fillCatalog(technologies);
             selected_tech = 1;
             id = 1;
-
-            //this.Text += $": recepture {id_recepture}, no technology ({id_technology})";
+           
             toolStripStatusLabel1.Text = $"Recepture {id_recepture}, technology none";
             toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology none";
+            //toolStripStatusLabel3.Text = toolStripStatusLabel1.Text;
+            setStatusLabel3(selected_rec);
             OutTechnology();
         }
 
@@ -56,20 +68,23 @@ namespace MajPAbGr_project
             db = new dbController();
 
             id_recepture = recepture;
-            tbRec.setCatalog();
-            fillCatalogRec();
+            tbRec.setCatalog();           
+            receptures = tbRec.getCatalog();
+            fillCatalogRec(receptures);
             tbRec.Selected = recepture;            
             selected_rec = recepture;
 
             id_technology = technology;
             tb.setCatalog();
-            fillCatalog();
+            technologies = tb.getCatalog();
+            fillCatalog(technologies);
             tb.Selected = technology;            
             id = technology;
 
-            //this.Text += $": recepture {id_recepture}, technology {id_technology}";
             toolStripStatusLabel1.Text = $"Recepture {id_recepture}, technology {id_technology}";
             toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology {selected_tech}";
+            setStatusLabel3(selected_rec);
+            //toolStripStatusLabel3.Text = toolStripStatusLabel1.Text;
 
             OutTechnology();
         }
@@ -87,9 +102,9 @@ namespace MajPAbGr_project
             return technology;
         }
 
-        private List<Item> fillCatalog() //  technology
+        private List<Item> fillCatalog(List<Item> items) //  technology
         {
-            List<Item> items = tb.getCatalog(); // читает два поля, наименование и номер           
+            //List<Item> items = tb.getCatalog(); // читает два поля, наименование и номер           
 
             //пишет в комбинированное поле
             if (items.Count != 0)
@@ -130,11 +145,12 @@ namespace MajPAbGr_project
             return items;
         }
 
-        private List<Item> fillCatalogRec() // recepture
+        private List<Item> fillCatalogRec(List<Item> items) // recepture
         {
             
-            List<Item> items = tbRec.getCatalog(); // читает два поля, наименование и номер
+            //List<Item> items = tbRec.getCatalog(); // читает два поля, наименование и номер
             //пишет в комбинированное поле
+
             if (items.Count != 0)
             {
                 int recepture = -1, index;
@@ -193,7 +209,7 @@ namespace MajPAbGr_project
             }            
             MessageBox.Show($"Technology {name} (id {technology}) is inserted or updated");
             tb.setCatalog();
-            fillCatalog();
+            technologies = fillCatalog(tb.getCatalog());
         }
 
         private void lbl_cards_Click(object sender, EventArgs e)
@@ -263,7 +279,7 @@ namespace MajPAbGr_project
             if (ind > 0)
             {
                 tb.setCatalog();
-                fillCatalog();               
+                technologies = fillCatalog(tb.getCatalog());               
                 textBox1.Focus();
                 selected_tech = tb.Selected;
                 toolStripStatusLabel2.Text =
@@ -287,6 +303,26 @@ namespace MajPAbGr_project
             MessageBox.Show("У рецептуры больше нет технологии");                    
         }
 
+        private void setStatusLabel3(int selected) //toolstrips` labels with technology name of selected recepture
+        {
+            List<string> data;
+            string tech_of_rec = "1", name = "no", query;
+            query = $"select id_technology from Recepture where id={selected};";
+            data = db.dbReader(query);
+            if (data != null)
+                tech_of_rec = data[0];
+            if (!string.IsNullOrEmpty(tech_of_rec))
+            {
+                query = $"select name from Technology where id = {tech_of_rec}";
+                data = db.dbReader(query);
+                if (data != null)
+                {
+                    name = data[0];
+                }
+                toolStripStatusLabel3.Text = $"R {selected_rec} contains a T {name}";
+            }
+            else toolStripStatusLabel3.Text = $"R {selected_rec} contains {name} T";
+        }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) // rec
         {
@@ -297,6 +333,7 @@ namespace MajPAbGr_project
 
             label6.Text = selected.ToString();
             toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology {selected_tech}";
+            setStatusLabel3(selected);
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e) // tech
@@ -316,19 +353,12 @@ namespace MajPAbGr_project
         }
 
             private void Technology_Load(object sender, EventArgs e)
-        {
-            List <Item> items = tb.getCatalog();
-            AutoCompleteStringCollection source = new AutoCompleteStringCollection();           
-            foreach(Item i in items)
             {
-                source.Add(i.name);
-            }
-             textBox1.AutoCompleteCustomSource = source;
-             textBox1.AutoCompleteMode = AutoCompleteMode.Suggest;
-             textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            
-
-            
+                AutoCompleteStringCollection source = new AutoCompleteStringCollection();
+                foreach (Item i in technologies) source.Add(i.name);                
+                textBox1.AutoCompleteCustomSource = source;
+                textBox1.AutoCompleteMode = AutoCompleteMode.Suggest;
+                textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
             
         }
     }
