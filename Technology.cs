@@ -275,6 +275,13 @@ namespace MajPAbGr_project
             query = $"delete from Technology where id = {selected_tech};";
             ind = db.Edit(query);
 
+            //удаляем, использую метод из тбКонтроллера
+            /*
+            if (id_cards < 1) { return; } // из Техн.карт
+            tb.RemoveItem();
+            fillCatalog();
+            */
+
             //обновляем форму
             if (ind > 0)
             {
@@ -331,7 +338,7 @@ namespace MajPAbGr_project
             //id_recepture = selected;
             selected_rec = selected;
 
-            label6.Text = selected.ToString();
+            //label6.Text = selected.ToString();
             toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology {selected_tech}";
             setStatusLabel3(selected);
         }
@@ -343,7 +350,7 @@ namespace MajPAbGr_project
                 int selected = tb.setSelected(index);
                 //id_technology = selected; //заменить на строку ниже
                 selected_tech = selected;
-                label5.Text = selected.ToString();
+                //label5.Text = selected.ToString();
                 toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology {selected_tech}";
 
                 // output in textbox
@@ -359,7 +366,6 @@ namespace MajPAbGr_project
                 textBox1.AutoCompleteCustomSource = source;
                 textBox1.AutoCompleteMode = AutoCompleteMode.Suggest;
                 textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            
-        }
+            }
     }
 }

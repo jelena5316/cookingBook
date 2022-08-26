@@ -14,8 +14,29 @@ namespace MajPAbGr_project
     {
         int id_technology, id_cards = 0, cards = 0, output_cards_id = 0;
         //int id_chain;
+
+        List <Item> catalog;
         tbClass1 tb;
         dbController db;
+
+        public TechnologyCards() // for quick accesing
+        {
+            InitializeComponent();
+            this.id_technology = 0;
+            tb = new tbClass1("Technology_card");
+            db = new dbController();
+            tb.setCatalog();
+            catalog = fillCatalog();
+
+            string t;
+            btn_remove.Enabled = false;
+            //btn_edit.Enabled = false;
+            btn_insert.Text = "insert";
+            cards = 0;
+            btn_add.Enabled = false;
+            t = this.Text.Substring(0, 37);
+            this.Text = $"{t}edit";
+        }
 
         public TechnologyCards(int id_technology)
         {
@@ -24,7 +45,7 @@ namespace MajPAbGr_project
             tb = new tbClass1("Technology_card");
             db = new dbController();
             tb.setCatalog();
-            fillCatalog();            
+            catalog = fillCatalog();
 
             string t;
             btn_remove.Enabled = false;
@@ -49,20 +70,48 @@ namespace MajPAbGr_project
                 cards = 0;
                 btn_add.Enabled = false;
                 t = this.Text.Substring(0, 37);
-                this.Text = $"{t}edit";
+                this.Text = $"{t}edit";                
             }
-           
         }
 
-        //public TechnologyCards() // for quick accesing
-        //{
-        //    InitializeComponent();
-        //    this.id_technology = 0;
-        //    tbTech = new tbClass1("Technology");
-        //    db = new dbController();
-        //    tbTech.setCatalog();
-        //    fillCatalog();
-        //}
+        private void TechnologyCards_Load(object sender, EventArgs e)
+        {
+            //авозаполнения для поля "Наименование"
+            AutoCompleteStringCollection source = new AutoCompleteStringCollection();
+            foreach (Item i in catalog) source.Add(i.name);
+            textBox1.AutoCompleteCustomSource = source;
+            textBox1.AutoCompleteMode = AutoCompleteMode.Suggest;
+            textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+
+
+            // на случай, если не передаётся выбранная технология! 
+            if (id_technology == 0)
+            {
+                ComboBox cboTechnology = new ComboBox();
+                cboTechnology.Location = new Point(378, 399);
+                cboTechnology.Text = "Technology";
+                this.Controls.Add(cboTechnology);
+                //cboTechnology.DataSource = new string[] { "a", "B", "!" };
+
+                //get data for combo from data base
+                tbClass1 tbSub = new tbClass1("Technology");
+                tbSub.setCatalog();                
+                List<Item> items = tb.getCatalog();
+
+                //put data into combo
+                ComboBox c = cboTechnology;
+                if (items.Count != 0)
+                {
+                    if (c.Items.Count > 0)
+                        c.Items.Clear();
+                    for (int index = 0; index < items.Count; index++)
+                    {
+                        c.Items.Add(items[index].name);
+                    }
+                }              
+            }
+        }
 
         private List<Item> fillCatalog() //список с технологиями
         {
@@ -106,8 +155,6 @@ namespace MajPAbGr_project
             lblCardsOfTech.Text += $"\n{text}";            
         }
 
-       
-       
         private void cmbData_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -192,7 +239,7 @@ namespace MajPAbGr_project
             fillCatalog();
         }
 
-        private void btn_new_Click(object sender, EventArgs e)
+        private void btn_new_Click(object sender, EventArgs e) // clear
         {
             output_cards_id = 0;
             textBox1.Clear();
