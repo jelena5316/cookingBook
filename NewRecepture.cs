@@ -14,69 +14,69 @@ namespace MajPAbGr_project
     {
         int id_recepture, category;
         bool indicator; // choose mode
-        string name, query, recepture, source, author, URL, description;
+        string name, recepture, source, author, URL, description;
 
+        ReceptureController tb;
         tbClass1 tbCat;
         
-        public NewRecepture()
-        {
-            InitializeComponent();
-            id_recepture = 0;
-            SetForm();
-        }
+        //public NewRecepture()
+        //{
+        //    InitializeComponent();
+        //    id_recepture = 0;
+        //    SetForm();
+        //}
 
-        public NewRecepture(int id, int category)
+        //public NewRecepture(int id, int category)
+        //{
+        //    InitializeComponent();
+        //    id_recepture = id;
+        //    this.category = category;
+
+        //    /* this.controller = controller;
+        //        id_recepture = controller.getIdRec();
+        //        this.category = controller.getCategory();*/
+
+        //    SetForm();
+        //}
+
+        public NewRecepture (ReceptureController controller)
         {
             InitializeComponent();
-            id_recepture = id;
-            this.category = category;
+            this.tb = controller;
+            id_recepture = tb.getId();
+            this.category = tb.getCategory();
+            tbCat = new tbClass1("Categories");
+
+            List<string> data = tb.getData();
+            if (data!=null)
+            {
+                indicator = true;
+                name = data[0];
+                source = data[1];
+                author = data[2];
+                URL = data[3];
+                description = data[4];              
+            }
             SetForm();
         }
 
         private void SetForm()
         {
-            tbCat = new tbClass1("Categories");
-            tbCat.setCatalog();
-            setIndicator(); // set mode
-            FillCatalog();
-
+            //tbCat = new tbClass1("Categories");
+            tbCat.setCatalog();                    
+            FillCatalog(tbCat.getCatalog());
             if (indicator)
             {
-                dbController db = new dbController();
-                List <string> data;
-
-                query = $"select name from Recepture where id = {id_recepture};";
-                data = db.dbReader(query);
-                txbRecepture.Text = data[0];
-
-                query = $"select source from Recepture where id = {id_recepture};";
-                data = db.dbReader(query);
-                txbSource.Text = data[0];
-
-                query = $"select author from Recepture where id = {id_recepture};";
-                data = db.dbReader(query);
-                txbAuthor.Text = data[0];
-
-                query = $"select URL from Recepture where id = {id_recepture};";
-                data = db.dbReader(query);
-                txbURL.Text = data[0];
-
-                query = $"select description from Recepture where id = {id_recepture};";
-                data = db.dbReader(query);
-                txbDescription.Text = data[0];
+                txbRecepture.Text = name;                
+                txbSource.Text = source;                
+                txbAuthor.Text = author;
+                txbURL.Text = URL;
+                txbDescription.Text = description;
             }
         }
 
-        private void setIndicator()
+        private void FillCatalog(List<Item> cat)
         {
-            if (id_recepture > 0) indicator = true;
-            else indicator = false;
-        }
-
-        private void FillCatalog()
-        {
-            List<Item> cat = tbCat.getCatalog();
-
             //fill catalog
             if (cat.Count != 0)
             {
@@ -110,52 +110,43 @@ namespace MajPAbGr_project
 
                 //test
                 this.Text += " " + index + " " + tbCat.getSelected();
-            } 
+            }
         }
 
         private void cmbCat_SelectedIndexChanged(object sender, EventArgs e)
         {
-            tbCat.setSelected(cmbCat.SelectedIndex);
+           tbCat.setSelected(cmbCat.SelectedIndex);
         }
 
         private void button2_Click(object sender, EventArgs e) // set / write into db (Recepture)
         {
-            int num = 0;
-            dbController db = new dbController();
-            tbClass1 tb = new tbClass1("Recepture");
-            if (!indicator)
+            int num = 0;                     
+            if (!indicator) // вводим новый рецепт
             {
                 if (string.IsNullOrEmpty(txbRecepture.Text)) return;
                 if (string.IsNullOrEmpty(cmbCat.SelectedItem.ToString())) return;
 
                 name = txbRecepture.Text;
                 category = tbCat.getSelected();
-                if (category == 0) category = 1;
-
-                query = $"select count(*) from Recepture where name ='{name}';";
-                recepture = db.Count(query);
-                if (recepture != "0") return;
-
-                query = $"insert into Recepture (name, id_category) " +
-                $"values ('{name}', {category}); select last_insert_rowid() ";
-                recepture = db.Count(query);
-
-                if (int.TryParse(recepture, out id_recepture))
-                {
-                    id_recepture = int.Parse(recepture);
+                if (category == 0) category = 1;              
+                if (tb.IfRecordIs(name)) return;
+                //пресекаем попытку ввести новую запись с занятым названием
+                tb.InsertNewRecord(name, category);
+                // пишем в базу данных название и категория нового рецепта, получаем номер
+                id_recepture = tb.getId();
+                if (id_recepture > 0)
+                {                    
                     label1.Enabled = true;
                 }
-                // add new recepture and get it's id
+                //add new recepture and get it's id
             }
-            else
+            else // редактируем существуещую запись
             {
                 if (string.IsNullOrEmpty(txbRecepture.Text)) return;
 
-                name = txbRecepture.Text;               
+                name = txbRecepture.Text;
                 category = tbCat.getSelected();
-
-                // Do initialize a new tbClass1 object! Table must be Recepture!
-                // Is done!
+              
                 num = tb.UpdateReceptureOrCards("name", name, id_recepture);
                 num = tb.UpdateReceptureOrCards("id_category", category.ToString(), id_recepture);
             }
@@ -168,20 +159,18 @@ namespace MajPAbGr_project
             source = txbSource.Text;
             author = txbAuthor.Text;
             URL = txbURL.Text;
-            description = txbDescription.Text; // note
-
-            // Do initialize a new tbClass1 object! Table must be Recepture!
-            //Is done!            
+            description = txbDescription.Text;
+                    
             num = tb.UpdateReceptureOrCards("source", source, id_recepture);
             num = tb.UpdateReceptureOrCards("author", author, id_recepture);
             Report(num, "author");
             num = tb.UpdateReceptureOrCards("URL", URL, id_recepture);
             Report(num, "URL");
             num = tb.UpdateReceptureOrCards("description", description, id_recepture);
-            Report(num, "description");
+            Report(num, "description");       
         }
-
-        private void Report (int num, string variable)
+  
+        private void Report (int num, string variable) //developer mode
         {
             if (num == 0) this.Text += $" {variable} not writted";
             else this.Text += $" {variable} is writted";
@@ -189,9 +178,67 @@ namespace MajPAbGr_project
 
         private void label1_Click(object sender, EventArgs e)
         {
-            if (id_recepture == 0) return;
-            InsertAmounts frm = new InsertAmounts(id_recepture);
-            frm.ShowDialog();
+            //if (id_recepture == 0) return;
+            //InsertAmounts frm = new InsertAmounts(id_recepture);
+            //frm.ShowDialog();
+        }
+
+        private void NewRecepture_Load(object sender, EventArgs e)
+        {
+            int ind;
+            AutoCompleteStringCollection source; // recepture in commented code
+            dbController db = new dbController();
+
+            source = new AutoCompleteStringCollection();
+            ind = TextBoxAutocomplet(db, "name", source, ref txbRecepture);
+            source.Clear();
+            ind = TextBoxAutocomplet(db, "source", source, ref txbSource);
+            source.Clear();
+            ind = TextBoxAutocomplet(db, "URL", source, ref txbURL);
+            source.Clear();
+            ind = TextBoxAutocomplet(db, "author", source, ref txbAuthor);
+            source.Clear();
+
+            //int length;       
+            //length = int.Parse(db.Count("select count (name) from Recepture;"));
+            //if (length != 0)
+            //{
+            //    string [] receptures = new string[length];          
+            //    receptures = db.dbReader("select name from Recepture;").ToArray();
+            //    recepture = new AutoCompleteStringCollection();
+            //    recepture.AddRange(receptures);            
+            //    txbRecepture.AutoCompleteCustomSource = recepture;
+            //    txbRecepture.AutoCompleteMode = AutoCompleteMode.Suggest;
+            //    txbRecepture.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            //}
+
+        }
+
+        private int TextBoxAutocomplet(dbController db, string column, AutoCompleteStringCollection source, ref TextBox box )
+        {
+            int length;
+            if ((length = int.Parse(db.Count("select count (name) from Recepture;"))) == 0)
+            {   
+                //оставить здесь, в конроллер вынести проверку
+                source = new AutoCompleteStringCollection();
+                source.Add("empty");
+                return 0;
+            }
+            else
+            {
+                //можно вынести в контроллер
+                string[] receptures = new string[length];
+                receptures = db.dbReader($"select {column} from Recepture;").ToArray();
+
+                //оставить здесь
+                source = new AutoCompleteStringCollection();
+                source.AddRange(receptures);
+                box.AutoCompleteCustomSource = source;
+                box.AutoCompleteMode = AutoCompleteMode.Suggest;
+                box.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                return length;
+            }
+           
         }
     }
 }

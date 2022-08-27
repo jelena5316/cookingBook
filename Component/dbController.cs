@@ -33,7 +33,7 @@ namespace MajPAbGr_project
         {
             connectionString =
              "Data Source = C:\\Users\\user\\Documents\\SQLiteStudio\\CookingBook; Mode=ReadWrite";
-              connection = new SqliteConnection(connectionString);
+             connection = new SqliteConnection(connectionString);
         }
 
         public List<Item> Catalog (string query) //int, string

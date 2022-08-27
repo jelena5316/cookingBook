@@ -8,19 +8,30 @@ namespace MajPAbGr_project
     {
         string used;
         int option, l_used=0;
-        tbClass1 tb;
+        IngredientsController tb;
 
         public Ingredients(int opt)
         {
             InitializeComponent();            
             this.option = opt;
-
             string table = opt == 1 ? "Ingredients" : "Categories";
+            //tb = new tbClass1(table);            
+            // this `tb` is a object of class tbClass1 (from previous version of code)
+            
+            //tb.setCatalog();
+            //Elements();
+            //fillCatalog(tb.getCatalog());            
+        }
 
-            tb = new tbClass1(table);
+        public Ingredients (IngredientsController controller)
+        {
+            InitializeComponent();
+            tb = controller;
+            this.option = tb.getOption();
+            string table = tb.getTable();
             tb.setCatalog();
             Elements();
-            fillCatalog();            
+            fillCatalog(tb.getCatalog());
         }
 
         private void Elements()
@@ -39,10 +50,10 @@ namespace MajPAbGr_project
             // к списку записей
         }
 
-        private List<Item> fillCatalog()
+        private void fillCatalog(List<Item> items)
         {
             ComboBox c = cmbData;            
-            List<Item> items = tb.getCatalog();         
+            //List<Item> items = tb.getCatalog();         
 
             //пишет в комбинированное поле
             if (items.Count != 0)
@@ -55,8 +66,7 @@ namespace MajPAbGr_project
                 }
             }
             cmbData.Text = cmbData.Items[0].ToString();
-            cmbData.Focus();
-            return items;
+            cmbData.Focus();            
         }
 
         private void btn_edit_Click(object sender, EventArgs e)
@@ -105,7 +115,7 @@ namespace MajPAbGr_project
 
             if (count != 0)
             {
-                fillCatalog();
+                fillCatalog(tb.getCatalog());
                 btn_add.Enabled = false;
                 txbAdd.Clear();
                 groupBox2.Text = "Insert new";                
@@ -142,7 +152,7 @@ namespace MajPAbGr_project
             int count = RemoveSelected();
             if (count > 0)
             {
-                fillCatalog();
+                fillCatalog(tb.getCatalog());
                 btn_remove.Enabled = false;
             }
             else

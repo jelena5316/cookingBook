@@ -77,7 +77,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CalcFunction.cs" />
-    <Compile Include="dbController.cs" />
+    <Compile Include="Component\dbController.cs" />
+    <Compile Include="Component\Element.cs" />
+    <Compile Include="Component\FormFunction.cs" />
+    <Compile Include="Component\tbClass1.cs" />
     <Compile Include="EditDB.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +93,14 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2.designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IngredientsController.cs" />
+    <Compile Include="ReceptureController.cs" />
     <Compile Include="TechnologyCards.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,14 +127,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Element.cs" />
     <Compile Include="Remove.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Remove.designer.cs">
       <DependentUpon>Remove.cs</DependentUpon>
     </Compile>
-    <Compile Include="tbClass1.cs" />
     <Compile Include="Technology.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +141,9 @@
     </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form2.resx">
+      <DependentUpon>Form2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ingredients.resx">
       <DependentUpon>Ingredients.cs</DependentUpon>
