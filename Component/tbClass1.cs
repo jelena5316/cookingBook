@@ -154,7 +154,7 @@ namespace MajPAbGr_project
             return list;
         }
 
-        public int getId(string column, int id) // for Recepture
+        public int getId(string column, int id) // for Recepture and others
         {
             query = $"select {column} from {table} where id = " + id + ";";
             List<string> id_list = dbReader(query);
@@ -167,7 +167,7 @@ namespace MajPAbGr_project
          *********************/
 
         //remove
-        public int RemoveItem()
+        public virtual int RemoveItem()
         {
             query = $"delete from {table} where id = {selected}";
             int count = Edit(query);
@@ -195,12 +195,21 @@ namespace MajPAbGr_project
         //    }
         //}
 
-        public int insertNewRecipe(string name, string coeff) // Form1.cs, InsertAmounts.cs
+        // Form1.cs, InsertAmounts.cs
+        public int insertNewRecipe(string name, string coeff)
         {
             string query = $"insert into Recipe (name, id_recepture, coefficient) values" +
                 $" ('{name}', {selected}, {coeff});";
             return Edit(query);
         }
+        
+        //insert into Tecnology_chain
+        public int insertTechnology(int technology, int cards)
+        {
+            query = $"insert into Technology_chain (id_technology, id_card) values ({technology}, {cards});";
+            return Edit(query);
+        }
+        // this two: from int to string, add param from table -> static or virtual
 
         // insert into amounts (InsertAmounts.cs)
         public int insertAmounts(int rec, string ingr, string amount)
@@ -209,11 +218,35 @@ namespace MajPAbGr_project
                 $"values ({rec}, {ingr}, {amount} );";
             return Edit(query);
         }
+        // if give params as array, then is possible join with two upper methods
 
-        //insert into Tecnology_chain
-        public int insertTechnology(int technology, int cards)
+
+        //новые методы взамен трех выше
+        public int insertItem (string table, string [] columns, string [] values)
         {
-            query = $"insert into Technology_chain (id_technology, id_card) values ({technology}, {cards});";
+            int k = 0;
+            string column = "", value = "";
+            for (k = 0; k < values.Length - 1; k++)
+            {
+                column += columns[k] + ", ";
+                value += values[k] + ", ";
+            }
+            column += columns[k];
+            value += values[k];
+            query = $"insert into {table} ({column}) values({values});";        
+            return Edit(query);
+        }
+
+        public int insertItem(string [] columns, string[] values)
+        {
+            //переписать в метода выше!
+            query = $"insert into {table} (id_technology, id_card) values (";
+            int k = 0;
+            for (k = 0; k < values.Length - 1; k++)
+            {
+                query += values[k] + ",";
+            }
+            query += values[k] + ");";
             return Edit(query);
         }
 

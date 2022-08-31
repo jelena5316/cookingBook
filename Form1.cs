@@ -465,16 +465,14 @@ namespace MajPAbGr_project
 
         private void openDbEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /*
             EditDB frm = new EditDB();
             frm.Show();
-            */
         }
 
         private void technologyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
-            /*Technology frm;
+            Technology frm;
             int selected, id_technology, count;// id of recepture and of technology;
 
             // проверить выбранный в списке                   
@@ -492,7 +490,7 @@ namespace MajPAbGr_project
                 frm = new Technology(selected);
                 frm.Show();
             }
-            */
+            
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
