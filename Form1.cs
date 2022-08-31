@@ -15,7 +15,7 @@ namespace MajPAbGr_project
     {
         int category;
         double coefficient;
-        private List<Element> recipes;
+        public List<Element> recipes;
         tbClass1 tb;
         CalcFunction calc;
 
@@ -33,11 +33,17 @@ namespace MajPAbGr_project
             combo = comboBox1;
             recipe = comboBox2;
             list = listView1;
+        }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
             tb.setCatalog();
             fillCatalog(tb.getCatalog());
-            tb.setSubCatalog();
-            fillSubCatalog();
+            tb.setSubCatalog(); // table Recipe
+            fillSubCatalog(); // table Recipe
+            checkBox1.Checked = false;
+            checkBox1.Enabled = false;
+            btn_insert.Enabled = false;
         }
 
         private List<Item> fillCatalog(List<Item> items)
@@ -62,7 +68,7 @@ namespace MajPAbGr_project
             return items;
         }
 
-        private void fillSubCatalog()  // recipes of recepture, combobox
+        public void fillSubCatalog()  // recipes of recepture, combobox
         {
             //бывшая функция setRecipes()
             if (recipes.Count > 0) recipes.Clear();
@@ -116,7 +122,7 @@ namespace MajPAbGr_project
 
             if (rec.Count < 1) insertIgredientsToolStripMenuItem.Enabled = true;
             else insertIgredientsToolStripMenuItem.Enabled = false;
-        }
+        }             
 
         private void InputRecepture(List<Element> ingr)
         {
@@ -235,16 +241,60 @@ namespace MajPAbGr_project
                  list.Items[index].SubItems[1].Text = amounts[index].ToString();
              }
              list.Items[index].SubItems[1].Text = calc.Summa(amounts).ToString();
+            btn_insert.Enabled = true;
          }
 
         private void btn_insert_Click(object sender, EventArgs e)
          {
-             if (string.IsNullOrEmpty(txb_new_recipe.Text))
-                 return;  
-             string str_coeff = calc.ColonToPoint(coefficient.ToString());
-             tb.insertNewRecipe(txb_new_recipe.Text, str_coeff);
-             fillSubCatalog();
-         }
+            string str_coeff;
+            string count;
+            RecipeController recipe = new RecipeController
+                ("Recipe", comboBox2.SelectedIndex, tb.Selected);
+            count = recipe.Count
+               ($"Select count (name) from Recipe where name = '{txb_new_recipe.Text}';");
+
+            if (!checkBox1.Checked)
+            {
+                if (string.IsNullOrEmpty(txb_new_recipe.Text))
+                 return;
+                if (count == "0")
+                {
+                     str_coeff = calc.ColonToPoint(coefficient.ToString());
+                     tb.insertNewRecipe(txb_new_recipe.Text, str_coeff);
+                     fillSubCatalog();
+                     btn_insert.Enabled = false;
+                }
+                else
+                {
+                    MessageBox.Show($"Recipe {txb_new_recipe.Text} already exists");
+                }
+            }
+            else
+            {
+                if (txb_coeff.Text == "" || txb_coeff.Text == " ")
+                {
+                    str_coeff = calc.ColonToPoint(coefficient.ToString());
+                }
+                else
+                {
+                    str_coeff = calc.ColonToPoint(txb_coeff.Text);                    
+                }                   
+                if (txb_new_recipe.Text == "" || txb_new_recipe.Text == " ")
+                {
+                    txb_new_recipe.Text = comboBox2.SelectedItem.ToString();
+                }
+                DialogResult result = MessageBox.Show(
+                     $"New name = {txb_new_recipe.Text}, new coefficient = {str_coeff}", "",
+                     MessageBoxButtons.OKCancel);
+                if(result == DialogResult.OK)
+                {
+                    recipe.UpdateReceptureOrCards
+                        ("name", txb_new_recipe.Text, recipe.Selected);
+                    recipe.UpdateReceptureOrCards
+                        ("Coefficient", str_coeff, recipe.Selected);
+                }
+            }
+        }
 
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -260,7 +310,8 @@ namespace MajPAbGr_project
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e) // edit recepture
         {
-           if (tb.getSelected() == 0) return;
+           
+            if (tb.getSelected() == 0) return;
             if (listView1.Items.Count < 1) return;
             int selected = tb.getSelected();
 
@@ -268,17 +319,20 @@ namespace MajPAbGr_project
             ReceptureController cntrl = new ReceptureController("Recepture", selected, category);
             NewRecepture frm = new NewRecepture(cntrl);
             frm.ShowDialog();
+           
             /*
             Код вставки обработчика (копия из дизайнера):
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click_1);
-            */
+            */           
         }
 
         private void addNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            /*
             ReceptureController cntrl = new ReceptureController("Recepture");
             NewRecepture frm = new NewRecepture(cntrl);
             frm.ShowDialog();
+            */
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -293,9 +347,11 @@ namespace MajPAbGr_project
 
         private void SimpleTable(int opt)
         {
+            /*
             IngredientsController cntrl = new IngredientsController(opt);
             Ingredients frm = new Ingredients(cntrl);
             frm.Show();
+            */
         }
 
         //Print to file        
@@ -379,32 +435,46 @@ namespace MajPAbGr_project
             MessageBox.Show(message);
         }
 
-
-
         private void recipeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("recipeToolStripMenuItem_Click");
-            //Recipe frm = new Recipe();
-            //frm.Show();
+            int lbl_info_y = lbl_info.Location.Y;
+            this.lbl_info.Location = new Point(318, this.comboBox2.Location.Y);
+            txb_new_recipe.Text = "";
+            txb_coeff.Text = "";
+            checkBox1.Enabled = true;
+            checkBox1.Checked = true;            
+                    
+            Recipe frm = new Recipe(this, tb, calc, comboBox1.SelectedIndex);        
+            frm.ShowDialog();
+
+            this.lbl_info.Location = new Point(318, lbl_info_y);
+            checkBox1.Checked = false;
+            checkBox1.Enabled = false;
+            button2.Enabled = true;
         }
 
         private void insertIgredientsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            /*
             if (tb.getSelected() == 0) return;
             if (listView1.Items.Count < 1) return;
             InsertAmounts frm = new InsertAmounts(tb.getSelected());
             frm.ShowDialog();
+            */
         }
 
         private void openDbEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            /*
             EditDB frm = new EditDB();
             frm.Show();
+            */
         }
 
         private void technologyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Technology frm;
+            
+            /*Technology frm;
             int selected, id_technology, count;// id of recepture and of technology;
 
             // проверить выбранный в списке                   
@@ -422,11 +492,43 @@ namespace MajPAbGr_project
                 frm = new Technology(selected);
                 frm.Show();
             }
+            */
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
            //
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+            if (checkBox1.Checked) // edit mode on
+            {
+                btn_insert.Enabled = true;
+                button2.Enabled = false;
+                btn_insert.Text = "edit";
+                cmb_option.SelectedItem = cmb_option.Items[2];
+                //cmb_option.DropDownStyle = ComboBoxStyle.Simple;
+            }
+            else // edit mode off
+            {
+                btn_insert.Enabled = false;
+                button2.Enabled = true;
+                btn_insert.Text = "btn_insert";
+                cmb_option.SelectedItem = cmb_option.Items[0];
+                //cmb_option.DropDownStyle = ComboBoxStyle.DropDown;
+            }
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            txb_coeff.Text = "";
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            txb_new_recipe.Text = "";
         }
     }
 }

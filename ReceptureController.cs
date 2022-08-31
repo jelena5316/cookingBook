@@ -12,13 +12,13 @@ namespace MajPAbGr_project
         private bool indicator; // choose mode
         string[,] Info = new string[2, 5];       
 
-        public ReceptureController(string table) 
+        public ReceptureController(string table) // add new recepture
         {
             base.table = table;
             id_recepture = 0;
             category = 0;
             indicator = false;
-
+           
             Info[0, 0] = "name";
             Info[0, 1] = "source";
             Info[0, 2] = "author";
@@ -28,7 +28,7 @@ namespace MajPAbGr_project
             setData();
         }
 
-        public ReceptureController (string table, int id, int category)
+        public ReceptureController (string table, int id, int category) // edit recepture
             : base()
         {
             base.table = table;

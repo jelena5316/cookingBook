@@ -46,6 +46,7 @@ namespace MajPAbGr_project
             this.tecnologyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDbEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.txb_new_recipe = new System.Windows.Forms.TextBox();
@@ -54,9 +55,11 @@ namespace MajPAbGr_project
             this.cmb_option = new System.Windows.Forms.ComboBox();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.lbl_koef = new System.Windows.Forms.Label();
             this.lbl_info = new System.Windows.Forms.Label();
-            this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -149,7 +152,7 @@ namespace MajPAbGr_project
             // 
             this.recipeToolStripMenuItem.Name = "recipeToolStripMenuItem";
             this.recipeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.recipeToolStripMenuItem.Text = "Recipe";
+            this.recipeToolStripMenuItem.Text = "Recipe editor";
             this.recipeToolStripMenuItem.Click += new System.EventHandler(this.recipeToolStripMenuItem_Click);
             // 
             // receptureToolStripMenuItem
@@ -165,21 +168,21 @@ namespace MajPAbGr_project
             // addNewToolStripMenuItem
             // 
             this.addNewToolStripMenuItem.Name = "addNewToolStripMenuItem";
-            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addNewToolStripMenuItem.Text = "Add New";
             this.addNewToolStripMenuItem.Click += new System.EventHandler(this.addNewToolStripMenuItem_Click);
             // 
             // insertIgredientsToolStripMenuItem
             // 
             this.insertIgredientsToolStripMenuItem.Name = "insertIgredientsToolStripMenuItem";
-            this.insertIgredientsToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.insertIgredientsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.insertIgredientsToolStripMenuItem.Text = "Insert Igredients";
             this.insertIgredientsToolStripMenuItem.Click += new System.EventHandler(this.insertIgredientsToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
@@ -204,12 +207,19 @@ namespace MajPAbGr_project
             this.openDbEditorToolStripMenuItem.Text = "Open db editor";
             this.openDbEditorToolStripMenuItem.Click += new System.EventHandler(this.openDbEditorToolStripMenuItem_Click);
             // 
+            // printToolStripMenuItem
+            // 
+            this.printToolStripMenuItem.Name = "printToolStripMenuItem";
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.printToolStripMenuItem.Text = "Print";
+            this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
+            // 
             // comboBox2
             // 
             this.comboBox2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.comboBox2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(321, 36);
+            this.comboBox2.Location = new System.Drawing.Point(6, 30);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(126, 21);
             this.comboBox2.TabIndex = 6;
@@ -218,7 +228,7 @@ namespace MajPAbGr_project
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(478, 36);
+            this.button1.Location = new System.Drawing.Point(151, 28);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 7;
@@ -228,7 +238,7 @@ namespace MajPAbGr_project
             // 
             // txb_new_recipe
             // 
-            this.txb_new_recipe.Location = new System.Drawing.Point(6, 55);
+            this.txb_new_recipe.Location = new System.Drawing.Point(13, 105);
             this.txb_new_recipe.Name = "txb_new_recipe";
             this.txb_new_recipe.Size = new System.Drawing.Size(143, 20);
             this.txb_new_recipe.TabIndex = 15;
@@ -236,9 +246,9 @@ namespace MajPAbGr_project
             // 
             // btn_insert
             // 
-            this.btn_insert.Location = new System.Drawing.Point(122, 158);
+            this.btn_insert.Location = new System.Drawing.Point(151, 199);
             this.btn_insert.Name = "btn_insert";
-            this.btn_insert.Size = new System.Drawing.Size(87, 23);
+            this.btn_insert.Size = new System.Drawing.Size(75, 23);
             this.btn_insert.TabIndex = 16;
             this.btn_insert.Text = "btn_insert";
             this.btn_insert.UseVisualStyleBackColor = true;
@@ -246,7 +256,7 @@ namespace MajPAbGr_project
             // 
             // txb_coeff
             // 
-            this.txb_coeff.Location = new System.Drawing.Point(6, 81);
+            this.txb_coeff.Location = new System.Drawing.Point(13, 131);
             this.txb_coeff.Name = "txb_coeff";
             this.txb_coeff.Size = new System.Drawing.Size(74, 20);
             this.txb_coeff.TabIndex = 13;
@@ -258,7 +268,7 @@ namespace MajPAbGr_project
             "main",
             "total",
             "coefficient"});
-            this.cmb_option.Location = new System.Drawing.Point(135, 19);
+            this.cmb_option.Location = new System.Drawing.Point(14, 78);
             this.cmb_option.Name = "cmb_option";
             this.cmb_option.Size = new System.Drawing.Size(74, 21);
             this.cmb_option.TabIndex = 14;
@@ -266,7 +276,7 @@ namespace MajPAbGr_project
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(6, 107);
+            this.button2.Location = new System.Drawing.Point(151, 170);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 17;
@@ -276,22 +286,39 @@ namespace MajPAbGr_project
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.checkBox1);
             this.groupBox1.Controls.Add(this.cmb_option);
+            this.groupBox1.Controls.Add(this.lbl_koef);
             this.groupBox1.Controls.Add(this.btn_insert);
             this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.txb_new_recipe);
+            this.groupBox1.Controls.Add(this.comboBox2);
             this.groupBox1.Controls.Add(this.txb_coeff);
-            this.groupBox1.Location = new System.Drawing.Point(321, 73);
+            this.groupBox1.Location = new System.Drawing.Point(321, 36);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(232, 206);
+            this.groupBox1.Size = new System.Drawing.Size(232, 243);
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "New Recipe";
+            this.groupBox1.Text = "Recipe";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(13, 157);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(72, 17);
+            this.checkBox1.TabIndex = 21;
+            this.checkBox1.Text = "edit mode";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // lbl_koef
             // 
             this.lbl_koef.AutoSize = true;
-            this.lbl_koef.Location = new System.Drawing.Point(412, 20);
+            this.lbl_koef.Location = new System.Drawing.Point(184, 54);
             this.lbl_koef.Name = "lbl_koef";
             this.lbl_koef.Size = new System.Drawing.Size(31, 13);
             this.lbl_koef.TabIndex = 19;
@@ -306,12 +333,25 @@ namespace MajPAbGr_project
             this.lbl_info.TabIndex = 20;
             this.lbl_info.Text = "Recepture";
             // 
-            // printToolStripMenuItem
+            // label1
             // 
-            this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.printToolStripMenuItem.Text = "Print";
-            this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(156, 112);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(30, 13);
+            this.label1.TabIndex = 22;
+            this.label1.Text = "clear";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(88, 138);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(30, 13);
+            this.label2.TabIndex = 23;
+            this.label2.Text = "clear";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // Form1
             // 
@@ -319,10 +359,7 @@ namespace MajPAbGr_project
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(588, 413);
             this.Controls.Add(this.lbl_info);
-            this.Controls.Add(this.lbl_koef);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.menuStrip1);
@@ -330,6 +367,7 @@ namespace MajPAbGr_project
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Receptures";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -350,15 +388,12 @@ namespace MajPAbGr_project
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem ingredientsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem recipeToolStripMenuItem;
-        private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox txb_new_recipe;
         private System.Windows.Forms.Button btn_insert;
         private System.Windows.Forms.TextBox txb_coeff;
         private System.Windows.Forms.ComboBox cmb_option;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label lbl_koef;
         private System.Windows.Forms.ToolStripMenuItem receptureToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addNewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem insertIgredientsToolStripMenuItem;
@@ -368,6 +403,12 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Label lbl_info;
         private System.Windows.Forms.ToolStripMenuItem tecnologyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
+        public System.Windows.Forms.GroupBox groupBox1;
+        public System.Windows.Forms.ComboBox comboBox2;
+        public System.Windows.Forms.Label lbl_koef;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }
 

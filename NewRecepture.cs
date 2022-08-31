@@ -63,18 +63,18 @@ namespace MajPAbGr_project
         private void SetForm()
         {
             //tbCat = new tbClass1("Categories");
-            tbCat.setCatalog();                    
+            tbCat.setCatalog(); // we can check catalog on null
             FillCatalog(tbCat.getCatalog());
             if (indicator)
             {
-                txbRecepture.Text = name;                
-                txbSource.Text = source;                
+                txbRecepture.Text = name;
+                txbSource.Text = source;
                 txbAuthor.Text = author;
                 txbURL.Text = URL;
                 txbDescription.Text = description;
+                //if var = "", then textbox name get unknown! Do must add labels for boxes!
             }
         }
-
         private void FillCatalog(List<Item> cat)
         {
             //fill catalog
@@ -153,7 +153,7 @@ namespace MajPAbGr_project
 
             if (string.IsNullOrEmpty(txbAuthor.Text)) return;
             if (string.IsNullOrEmpty(txbSource.Text)) return;
-            if (string.IsNullOrEmpty(txbURL.Text)) return;
+            
             if (string.IsNullOrEmpty(txbDescription.Text)) return;
 
             source = txbSource.Text;
@@ -164,10 +164,13 @@ namespace MajPAbGr_project
             num = tb.UpdateReceptureOrCards("source", source, id_recepture);
             num = tb.UpdateReceptureOrCards("author", author, id_recepture);
             Report(num, "author");
+            num = tb.UpdateReceptureOrCards("description", description, id_recepture);
+            Report(num, "description");
+
+            if (string.IsNullOrEmpty(txbURL.Text)) return;
             num = tb.UpdateReceptureOrCards("URL", URL, id_recepture);
             Report(num, "URL");
-            num = tb.UpdateReceptureOrCards("description", description, id_recepture);
-            Report(num, "description");       
+            //returns only then fields is not nullable!     
         }
   
         private void Report (int num, string variable) //developer mode
