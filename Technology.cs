@@ -13,7 +13,7 @@ namespace MajPAbGr_project
     public partial class Technology : Form
     {
         dbController db;
-        tbClass1 tb = new tbClass1("Technology");
+        TechnologyController tb = new TechnologyController("Technology");
         tbClass1 tbRec = new tbClass1("Recepture");
         int id_technology, id_recepture, id, selected_tech, selected_rec;
         List<Item> technologies, receptures;
@@ -187,19 +187,27 @@ namespace MajPAbGr_project
 
             name = textBox1.Text;
             description = textBox3.Text;
-            query = $"select count(*) from Technology where name = '{name}';";
-            technology = db.Count(query);
+
+            
+            technology = tb.technologiesCount(name);
+            //query = $"select count(*) from Technology where name = '{name}';";
+            // see `cardCount (string):in` t in TecnologyCardController;
+            
 
             if (technology != "0")
             {
                 // if dialog rezult is ok, then update records
-                query = $"select id from Technology where name = '{name}';";
-                id_technology = int.Parse(db.dbReader(query)[0]);
+
+                //query = $"select id from Technology where name = '{name}';";
+                //id_technology = int.Parse(tb.dbReader(query)[0]);
+
+                id_technology = tb.technologiesCountByName(name);
                 int ind = tb.UpdateReceptureOrCards("description", description, id_technology);               
             }
             else
             {
-                query = $"insert into Technology (name, description) values ('{name}', '{description}'); select last_insert_rowid()";
+                query = tb.insertTechnology(name, description);
+                    //$"insert into Technology (name, description) values ('{name}', '{description}'); select last_insert_rowid()";
                 technology = db.Count(query);                
                 if (int.TryParse(technology, out id_technology))
                 {
@@ -221,12 +229,12 @@ namespace MajPAbGr_project
         private void btn_technology_Click(object sender, EventArgs e) // apply technology to recepture
         {
             int ind;
-            string query;
+            string query, indStr;
             //id_technology = tb.getSelected();           
 
             // проверка, есть ли уже у рецептуры технология   
-            query = $"select count(*) from Recepture where id = '{selected_rec}' and id_technology = '{selected_tech}';";
-            string indStr = db.Count(query);
+            query = tb.recepturesCount(selected_rec, selected_tech); //$"select count(*) from Recepture where id = '{selected_rec}' and id_technology = '{selected_tech}';";
+            indStr = db.Count(query);
             if (indStr != "0") { this.Text += "*"; return; }
 
             //замена с отчетом в тексте окна           
@@ -244,9 +252,7 @@ namespace MajPAbGr_project
             selected_tech = tb.Selected;
             tbRec.Selected = id_recepture;
             selected_rec = tbRec.Selected;
-
         }
-
 
         private void button3_Click(object sender, EventArgs e) // clear
         {
@@ -262,9 +268,9 @@ namespace MajPAbGr_project
         private void button4_Click(object sender, EventArgs e) //delete technology from db
         {
             //проверка, используется ли
-            dbController db = new dbController();
-            string query = $"select count (*) from Recepture count where id_technology = {selected_tech};";
-            int ind = int.Parse(db.Count(query));
+            //string query = $"select count (*) from Recepture count where id_technology = {selected_tech};";
+            int ind = tb.recepturesCount(selected_tech); //int.Parse(tb.Count(query));
+        
             if (ind > 0)
             {
                 MessageBox.Show($"The technology is used in {ind} Receptures. \nPlease, remove it before deleting");
@@ -272,16 +278,11 @@ namespace MajPAbGr_project
             }
 
             //удаляем
-            query = $"delete from Technology where id = {selected_tech};";
-            ind = db.Edit(query);
-
-            //удаляем, использую метод из тбКонтроллера
-            /*
-            if (id_cards < 1) { return; } // из Техн.карт
-            tb.RemoveItem();
-            fillCatalog();
-            */
-
+            //string query = $"delete from Technology where id = {selected_tech};";
+            //ind = db.Edit(query);
+            tb.RemoveItem();           
+            technologies = fillCatalog(technologies);
+  
             //обновляем форму
             if (ind > 0)
             {
@@ -293,13 +294,12 @@ namespace MajPAbGr_project
                     $"Selected: recepture {selected_rec} technology {selected_tech}";
             }
             else MessageBox.Show("Nothing isw deleted");
-  
         }
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e) //print
         {
             //выведет на печать технологию с цепочкой карт
-            // Печать(номер технологии)
+            //Печать(номер технологии)
         }
 
         private void button2_Click(object sender, EventArgs e) // remove (set null)
@@ -312,19 +312,18 @@ namespace MajPAbGr_project
 
         private void setStatusLabel3(int selected) //toolstrips` labels with technology name of selected recepture
         {
-            List<string> data;
-            string tech_of_rec = "1", name = "no", query;
-            query = $"select id_technology from Recepture where id={selected};";
-            data = db.dbReader(query);
-            if (data != null)
-                tech_of_rec = data[0];
+            //without method getReceptureByName()
+            string tech_of_rec = null, name = "no", data = null;          
+            data = tbRec.getById("id_technology", selected).ToString();
+            //$"select id_technology from Recepture where id={selected};";            
+   
             if (!string.IsNullOrEmpty(tech_of_rec))
             {
-                query = $"select name from Technology where id = {tech_of_rec}";
-                data = db.dbReader(query);
+                tech_of_rec = data;                
+                data = technologies.Find(d => d.id == id).name;
                 if (data != null)
                 {
-                    name = data[0];
+                    name = data;
                 }
                 toolStripStatusLabel3.Text = $"R {selected_rec} contains a T {name}";
             }

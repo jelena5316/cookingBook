@@ -18,13 +18,13 @@ namespace MajPAbGr_project
             return Edit(query);
         }
 
-        public string insertTechnology (string name, string technology)
+        public string insertCards (string name, string technology)
         {
             return "insert into Technology_card (name, technology)" +
                     $" values ('{name}', '{technology}'); select last_insert_rowid()";
         }
 
-        public string insertTechnology(string name, string description, string technology)
+        public string insertCards(string name, string description, string technology)
         {
             return $"insert into Technology_card (name, description, technology)" +
                     $" values ('{name}', '{description}', '{technology}'); select last_insert_rowid()";
@@ -36,6 +36,12 @@ namespace MajPAbGr_project
             return Count(query);
         }
 
+        public string cardsCountInChain (int id)
+        {
+            query = $"select count(*) from Technology_chain where id = {id}";
+            return Count(query);
+        }
+      
         //public int SelectedCount(string table, string column, int id) // for Form1.cs: before Technology to open
         //{
         //    string query;
@@ -51,6 +57,15 @@ namespace MajPAbGr_project
         {
             query = $"select count (*) from Technology_card where name = {name};";
             return Count(query);
+        }
+
+        public List<string> SeeOtherCards(int id_technology) //for TechnologyCards.cs
+        {
+            List<string> list;
+            query = "select technology from Technology_card where id in " +
+                $" (select id_card from Technology_chain where id_technology = {id_technology});";
+            list = dbReader(query);
+            return list;
         }
 
     }

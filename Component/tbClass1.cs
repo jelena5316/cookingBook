@@ -98,13 +98,13 @@ namespace MajPAbGr_project
         //    return used;
         //}
 
-        //public List<string> SeeMoreFunc() // for Ingredients.cs
-        //       {
-        //           query = (table == "Ingredients") ? $"select name from Recepture where id in (select id_recepture from Amounts where id_ingredients = {selected});"
-        //                   : $"select name from Recepture where id_category = {selected}";
-        //           List<string> list = dbReader(query);
-        //           return list;
-        //       }
+        public List<string> SeeMoreFunc() // for Ingredients.cs
+        {
+            query = (table == "Ingredients") ? $"select name from Recepture where id in (select id_recepture from Amounts where id_ingredients = {selected});"
+                    : $"select name from Recepture where id_category = {selected}";
+            List<string> list = dbReader(query);
+            return list;
+        }
 
 
         //public int SelectedCount(string table, string column, int id) // for Form1.cs: before Technology to open
@@ -145,14 +145,14 @@ namespace MajPAbGr_project
         //    return el;
         //}
 
-        public List<string> SeeOtherCards(int id_technology) //for TechnologyCards.cs
-        {
-            List<string> list;
-            query = "select technology from Technology_card where id in " +
-                $" (select id_card from Technology_chain where id_technology = {id_technology});";
-            list = dbReader(query);
-            return list;
-        }
+        //public List<string> SeeOtherCards(int id_technology) //for TechnologyCards.cs
+        //{
+        //    List<string> list;
+        //    query = "select technology from Technology_card where id in " +
+        //        $" (select id_card from Technology_chain where id_technology = {id_technology});";
+        //    list = dbReader(query);
+        //    return list;
+        //}
 
         public int getById(string column, int id) // for Recepture and others
         {

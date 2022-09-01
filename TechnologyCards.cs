@@ -65,7 +65,8 @@ namespace MajPAbGr_project
 
             if (id_technology > 0)
             {
-                t = tb.dbReader($"select name from Technology where id = {id_technology};")[0];
+                t = tb.getById("name", id_technology).ToString();
+                //t = tb.dbReader($"select name from Technology where id = {id_technology};")[0];
                 this.Text += $" \"{t}\"";
             }
             else
@@ -81,7 +82,9 @@ namespace MajPAbGr_project
             //set field `cards`
             if (id_technology > 0)
             {
-                string var = tb.Count($"select count(*) from Technology_chain where id = {id_technology}");
+                string var = tb.cardsCountInChain(id_technology);
+                //string var = tb.Count("select count(*) from Technology_chain where id = {id_technology}");
+
                 if (int.TryParse(var, out cards))
                 {
                     cards = int.Parse(var);
@@ -115,7 +118,7 @@ namespace MajPAbGr_project
                 //get data for combo from data base
                 tbClass1 tbSub = new tbClass1("Technology");
                 tbSub.setCatalog();                
-                List<Item> items = tb.getCatalog(); // ??? tbSub.getCatalog()
+                List<Item> items = tbSub.getCatalog(); //
 
                 //put data into combo
                 ComboBox c = cboTechnology;
@@ -240,11 +243,11 @@ namespace MajPAbGr_project
             if (!string.IsNullOrEmpty(textBox2.Text))
             {
                 description = textBox2.Text;
-                query = tb.insertTechnology(name, description, technology);                    
+                query = tb.insertCards(name, description, technology);                    
             }
             else
             {
-                query = tb.insertTechnology(name, technology);
+                query = tb.insertCards(name, technology);
             }
             ind = db.Count(query); // проверка
             tb.setCatalog();

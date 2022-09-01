@@ -40,30 +40,6 @@ namespace MajPAbGr_project
             return $"select count(*) from Recepture where id = '{recepture}' and id_technology = '{technology}';";
         }
 
-        public string getRecepturesName()
-        {
-            int id;
-            string tech_of_rec = null, name = "", data = null;            
-            query = $"select id_technology from Recepture where id={selected};";
-            data = dbReader(query)[0];
-
-            if (data!= null)
-                tech_of_rec = data;
-
-            if (!string.IsNullOrEmpty(tech_of_rec))
-            {
-                //query = $"select name from Technology where id = {tech_of_rec}";
-                //data = dbReader(query)[0];
-
-                id = int.Parse(tech_of_rec);
-                data = catalog.Find(d => d.id == id).name;
-                if (data != null)
-                {
-                    name = data;
-                }
-                name = "no";
-            }
-            return name;
-        }
+        
     }
 }
