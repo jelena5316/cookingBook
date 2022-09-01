@@ -214,9 +214,10 @@ namespace MajPAbGr_project
 
             //textBox1, textBox3
             if (string.IsNullOrEmpty(textBox1.Text)) return;
-            query = $"select count(*) from Technology_card where name = '{textBox1.Text}';";
 
-            ind = tb.Count(query); // не писать с одинаковым названием
+            //query = $"select count(*) from Technology_card where name = '{textBox1.Text}';";
+            //ind = tb.Count(query); // не писать с одинаковым названием
+            ind = tb.cardsCount(textBox1.Text);
             if (ind != "0")
             {
                 textBox1.Text = "";
@@ -239,11 +240,11 @@ namespace MajPAbGr_project
             if (!string.IsNullOrEmpty(textBox2.Text))
             {
                 description = textBox2.Text;
-                query = $"insert into Technology_card (name, description, technology) values ('{name}', '{description}', '{technology}'); select last_insert_rowid()";
+                query = tb.insertTechnology(name, description, technology);                    
             }
             else
             {
-                query = $"insert into Technology_card (name, technology) values ('{name}', '{technology}'); select last_insert_rowid()";
+                query = tb.insertTechnology(name, technology);
             }
             ind = db.Count(query); // проверка
             tb.setCatalog();
@@ -271,10 +272,9 @@ namespace MajPAbGr_project
         {
             if (output_cards_id > 0)
             {
-
                 int ind = 0;
                 ind += tb.UpdateReceptureOrCards("name", textBox1.Text, output_cards_id);
-                ind+= tb.UpdateReceptureOrCards("description", textBox2.Text, output_cards_id);
+                ind += tb.UpdateReceptureOrCards("description", textBox2.Text, output_cards_id);
                 ind += tb.UpdateReceptureOrCards("technology", textBox3.Text, output_cards_id);
                 output_cards_id = 0;
             } 
@@ -282,7 +282,7 @@ namespace MajPAbGr_project
 
         private void btn_add_Click(object sender, EventArgs e)
         {
-            int ind = tb.insertTechnology(id_technology, id_cards);
+            int ind = tb.insertCardsIntoChain(id_technology, id_cards);
             MessageBox.Show($"Is inserted {ind} records");
         }
     }
