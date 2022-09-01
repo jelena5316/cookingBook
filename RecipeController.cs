@@ -53,5 +53,13 @@ namespace MajPAbGr_project
             if (selected < 1) return 0;
             return base.RemoveItem();
         }
+
+        public int insertNewRecipe(string name, string coeff)
+        {
+            string query = $"insert into Recipe" +
+                $" (name, id_recepture, coefficient) values" +
+                $" ('{name}', {selected}, {coeff});";
+            return Edit(query);
+        }
     }
 }

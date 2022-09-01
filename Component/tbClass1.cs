@@ -107,43 +107,43 @@ namespace MajPAbGr_project
         //       }
 
 
-        public int SelectedCount(string table, string column, int id) // for Form1.cs: before Technology to open
-        {
-            string query;
-            query = $"select count ({column}) from {table}";
-            if (id > 0)
-                query += $"  where id = {id};";
-            else
-                query += ";";
-            return int.Parse(Count(query));
-        }
+        //public int SelectedCount(string table, string column, int id) // for Form1.cs: before Technology to open
+        //{
+        //    string query;
+        //    query = $"select count ({column}) from {table}";
+        //    if (id > 0)
+        //        query += $"  where id = {id};";
+        //    else
+        //        query += ";";
+        //    return int.Parse(Count(query));
+        //}
 
-        public List<Element> readElement(int opt) // for Form1.cs
-        {
-            List<Element> el;
-            switch (opt)
-            {
-                case 1: // amounts
-                    query = "SELECT id_ingredients, name, amount" +
-                    " FROM Amounts AS am JOIN Ingredients AS ingr " +
-                    "ON am.id_ingredients = ingr.id WHERE am.id_recepture = "
-                    + selected + ";";
+        //public List<Element> readElement(int opt) // for Form1.cs
+        //{
+        //    List<Element> el;
+        //    switch (opt)
+        //    {
+        //        case 1: // amounts
+        //            query = "SELECT id_ingredients, name, amount" +
+        //            " FROM Amounts AS am JOIN Ingredients AS ingr " +
+        //            "ON am.id_ingredients = ingr.id WHERE am.id_recepture = "
+        //            + selected + ";";
 
-                    break;
-                case 2: // recipe
-                    query = "SELECT id, name, coefficient" +
-                    " FROM Recipe WHERE id_recepture = "
-                    + selected + ";";
-                    break;
-                default:
-                    query = "SELECT id, name, coefficient" +
-                    " FROM Recipe WHERE id_recepture = "
-                    + selected + ";";
-                    break;
-            }
-            el = dbReadElement(query);
-            return el;
-        }
+        //            break;
+        //        case 2: // recipe
+        //            query = "SELECT id, name, coefficient" +
+        //            " FROM Recipe WHERE id_recepture = "
+        //            + selected + ";";
+        //            break;
+        //        default:
+        //            query = "SELECT id, name, coefficient" +
+        //            " FROM Recipe WHERE id_recepture = "
+        //            + selected + ";";
+        //            break;
+        //    }
+        //    el = dbReadElement(query);
+        //    return el;
+        //}
 
         public List<string> SeeOtherCards(int id_technology) //for TechnologyCards.cs
         {
@@ -157,7 +157,7 @@ namespace MajPAbGr_project
         public int getId(string column, int id) // for Recepture and others
         {
             query = $"select {column} from {table} where id = " + id + ";";
-            List<string> id_list = dbReader(query);
+            List<string> id_list = dbReader(query); 
             return int.Parse(id_list[0]);
         }
 
@@ -196,17 +196,19 @@ namespace MajPAbGr_project
         //}
 
         // Form1.cs, InsertAmounts.cs
-        public int insertNewRecipe(string name, string coeff)
-        {
-            string query = $"insert into Recipe (name, id_recepture, coefficient) values" +
-                $" ('{name}', {selected}, {coeff});";
-            return Edit(query);
-        }
+        //public int insertNewRecipe(string name, string coeff)
+        //{
+        //    string query = $"insert into Recipe" +
+        //        $" (name, id_recepture, coefficient) values" +
+        //        $" ('{name}', {selected}, {coeff});";
+        //    return Edit(query);
+        //}
         
         //insert into Tecnology_chain
         public int insertTechnology(int technology, int cards)
         {
-            query = $"insert into Technology_chain (id_technology, id_card) values ({technology}, {cards});";
+            query =$"insert into Technology_chain" +
+                $" (id_technology, id_card) values ({technology}, {cards});";
             return Edit(query);
         }
         // this two: from int to string, add param from table -> static or virtual
@@ -222,7 +224,21 @@ namespace MajPAbGr_project
 
 
         //новые методы взамен трех выше
-        public int insertItem (string table, string [] columns, string [] values)
+        public int InsertItem (string table, string column, string value)
+        {
+            query = $"insert into {table} ({column}) " +
+                $"values ({value});";
+            return Edit(query);
+        }
+
+        public int InsertItem (string column, string value)
+        {
+            query = $"insert into {table} ({column}) " +
+                $"values ({value});";
+            return Edit(query);
+        }
+
+        public int insertItems (string table, string [] columns, string [] values)
         {
             int k = 0;
             string column = "", value = "";
@@ -237,7 +253,7 @@ namespace MajPAbGr_project
             return Edit(query);
         }
 
-        public int insertItem(string [] columns, string[] values)
+        public int insertItems (string [] columns, string[] values)
         {
             //переписать в метода выше!
             query = $"insert into {table} (id_technology, id_card) values (";

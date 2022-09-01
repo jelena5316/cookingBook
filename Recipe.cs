@@ -15,7 +15,7 @@ namespace MajPAbGr_project
 
         int old_box_x, old_box_y, recepture_id;       
             
-        Form1 frm;
+        FormMain frm;
         tbClass1 tb;
         CalcFunction calc;
         Button btn_remove;
@@ -25,7 +25,7 @@ namespace MajPAbGr_project
             InitializeComponent();
         }
 
-        public Recipe(Form1 frm, tbClass1 tb, CalcFunction calc, int index)
+        public Recipe(FormMain frm, tbClass1 tb, CalcFunction calc, int index)
         {
             InitializeComponent();
             this.frm = frm;

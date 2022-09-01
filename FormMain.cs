@@ -11,22 +11,22 @@ using System.IO;
 
 namespace MajPAbGr_project
 {
-    public partial class Form1 : Form
+    public partial class FormMain : Form
     {
         int category;
         double coefficient;
         public List<Element> recipes;
-        tbClass1 tb;
+        FormMainController tb;
         CalcFunction calc;
 
         ComboBox combo;
         ComboBox recipe;
         ListView list;
 
-        public Form1()
+        public FormMain()
         {
-            InitializeComponent();
-            tb = new tbClass1("Recepture");
+            InitializeComponent();            
+            tb = new FormMainController("Recepture");
             calc = new CalcFunction();
             recipes = new List<Element>();
 
@@ -260,7 +260,7 @@ namespace MajPAbGr_project
                 if (count == "0")
                 {
                      str_coeff = calc.ColonToPoint(coefficient.ToString());
-                     tb.insertNewRecipe(txb_new_recipe.Text, str_coeff);
+                     recipe.insertNewRecipe(txb_new_recipe.Text, str_coeff);
                      fillSubCatalog();
                      btn_insert.Enabled = false;
                 }

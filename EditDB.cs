@@ -30,7 +30,7 @@ namespace MajPAbGr_project
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Form1 frm = new Form1();
+            FormMain frm = new FormMain();
             frm.Show();
         }
     }

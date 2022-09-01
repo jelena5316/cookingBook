@@ -244,7 +244,7 @@ namespace MajPAbGr_project
         {
             int ind;
             double coefficient = calc.Coefficient;
-            tbClass1 tb = new tbClass1("Recipe");
+            RecipeController tb = new RecipeController("Recipe");
             tb.Selected = id_recepture;
 
             if (string.IsNullOrEmpty(txbRecipe.Text)) return;
