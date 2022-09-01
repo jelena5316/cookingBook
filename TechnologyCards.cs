@@ -16,14 +16,14 @@ namespace MajPAbGr_project
         //int id_chain;
 
         List <Item> catalog;
-        tbClass1 tb;
+        TechnologyCardsController tb;
         dbController db;
 
         public TechnologyCards() // for quick accesing
         {
             InitializeComponent();
             this.id_technology = 0;
-            tb = new tbClass1("Technology_card");
+            tb = new TechnologyCardsController("Technology_card");
             db = new dbController();
             tb.setCatalog();
             catalog = fillCatalog();
@@ -42,11 +42,22 @@ namespace MajPAbGr_project
         {
             InitializeComponent();
             this.id_technology = id_technology;
-            tb = new tbClass1("Technology_card");
+            tb = new TechnologyCardsController("Technology_card");
+            tb.Selected = id_technology;
             db = new dbController();
             tb.setCatalog();
             catalog = fillCatalog();
 
+            //set text of form one and buttons
+            setTextAndButtons();
+
+            //set field `cards`
+            setCards();
+        }
+
+        private void setTextAndButtons()
+        {
+            //set text of form one and buttons
             string t;
             btn_remove.Enabled = false;
             //btn_edit.Enabled = false;
@@ -54,11 +65,23 @@ namespace MajPAbGr_project
 
             if (id_technology > 0)
             {
-                t = db.dbReader($"select name from Technology where id = {id_technology};")[0];                
-                this.Text += $" \"{t}\"";                
-                string var = db.Count($"select count(*) from Technology_chain where id = {id_technology}");
-                cards = int.Parse(var);
-
+                t = tb.dbReader($"select name from Technology where id = {id_technology};")[0];
+                this.Text += $" \"{t}\"";
+            }
+            else
+            {
+                btn_add.Enabled = false;
+                t = this.Text.Substring(0, 37);
+                this.Text = $"{t}edit";
+            }
+        }
+        
+        private void setCards()
+        {
+            //set field `cards`
+            if (id_technology > 0)
+            {
+                string var = tb.Count($"select count(*) from Technology_chain where id = {id_technology}");
                 if (int.TryParse(var, out cards))
                 {
                     cards = int.Parse(var);
@@ -66,11 +89,8 @@ namespace MajPAbGr_project
                 else cards = 0;
             }
             else
-            { 
+            {
                 cards = 0;
-                btn_add.Enabled = false;
-                t = this.Text.Substring(0, 37);
-                this.Text = $"{t}edit";                
             }
         }
 
@@ -82,8 +102,6 @@ namespace MajPAbGr_project
             textBox1.AutoCompleteCustomSource = source;
             textBox1.AutoCompleteMode = AutoCompleteMode.Suggest;
             textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
-
 
             // на случай, если не передаётся выбранная технология! 
             if (id_technology == 0)
@@ -97,7 +115,7 @@ namespace MajPAbGr_project
                 //get data for combo from data base
                 tbClass1 tbSub = new tbClass1("Technology");
                 tbSub.setCatalog();                
-                List<Item> items = tb.getCatalog();
+                List<Item> items = tb.getCatalog(); // ??? tbSub.getCatalog()
 
                 //put data into combo
                 ComboBox c = cboTechnology;
@@ -168,33 +186,26 @@ namespace MajPAbGr_project
             if (id_cards < 1) { cmbData.Text = "no selection"; return; }
 
             //вывод в поля данных карты
-            List<string> data;
-            string query;
-            string ind;
+            int data;
+            string ind = tb.cardsCount(id_cards).ToString();
 
-            query = $"select name from Technology_card where id = {id_cards};";
-            data = db.dbReader(query);
-            textBox1.Text = data[0];
-
-            ind = db.Count($"select count (*) from Technology_card where id = { id_cards} and description not null;");
+            data = tb.getById("name", id_cards);
+            textBox1.Text = data.ToString();
 
             if (ind != "0")
             {
-                query = $"select description from Technology_card where id = {id_cards};";
-                data = db.dbReader(query);
-                textBox2.Text = data[0];
+                data = tb.getById("description", id_cards);
+                textBox2.Text = data.ToString();
             }
 
-            query = $"select technology from Technology_card where id = {id_cards};";
-            data = db.dbReader(query);
-            textBox3.Text = data[0];
+            data = tb.getById("technology", id_cards);
+            textBox3.Text = data.ToString();
 
             output_cards_id = id_cards;
             //btn_edit.Enabled = true;
             btn_remove.Enabled = true;
             btn_update.Enabled = true;
         }
-
 
         //buttons
         private void btn_submit_Click(object sender, EventArgs e) // btn_insert
@@ -205,7 +216,7 @@ namespace MajPAbGr_project
             if (string.IsNullOrEmpty(textBox1.Text)) return;
             query = $"select count(*) from Technology_card where name = '{textBox1.Text}';";
 
-            ind = db.Count(query); // не писать с одинаковым названием
+            ind = tb.Count(query); // не писать с одинаковым названием
             if (ind != "0")
             {
                 textBox1.Text = "";

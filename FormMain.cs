@@ -102,7 +102,7 @@ namespace MajPAbGr_project
             tb.setSubCatalog();
             fillSubCatalog();
 
-            category = tb.getId("id_category", selected);
+            category = tb.getById("id_category", selected);
 
             // Info about recepture
             info = $"  {tb.getName(index)}: id {tb.getSelected()}, category ({category})\n";
@@ -481,7 +481,7 @@ namespace MajPAbGr_project
 
             if (count == 1)
             {
-                id_technology = tb.getId("id_technology", selected);
+                id_technology = tb.getById("id_technology", selected);
                 frm = new Technology(selected, id_technology);
                 frm.Show();
             }

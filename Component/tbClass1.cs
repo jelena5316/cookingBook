@@ -154,7 +154,7 @@ namespace MajPAbGr_project
             return list;
         }
 
-        public int getId(string column, int id) // for Recepture and others
+        public int getById(string column, int id) // for Recepture and others
         {
             query = $"select {column} from {table} where id = " + id + ";";
             List<string> id_list = dbReader(query); 
@@ -205,12 +205,12 @@ namespace MajPAbGr_project
         //}
         
         //insert into Tecnology_chain
-        public int insertTechnology(int technology, int cards)
-        {
-            query =$"insert into Technology_chain" +
-                $" (id_technology, id_card) values ({technology}, {cards});";
-            return Edit(query);
-        }
+        //public int insertTechnology(int technology, int cards)
+        //{
+        //    query =$"insert into Technology_chain" +
+        //        $" (id_technology, id_card) values ({technology}, {cards});";
+        //    return Edit(query);
+        //}
         // this two: from int to string, add param from table -> static or virtual
 
         // insert into amounts (InsertAmounts.cs)
