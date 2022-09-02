@@ -98,13 +98,13 @@ namespace MajPAbGr_project
         //    return used;
         //}
 
-        public List<string> SeeMoreFunc() // for Ingredients.cs
-        {
-            query = (table == "Ingredients") ? $"select name from Recepture where id in (select id_recepture from Amounts where id_ingredients = {selected});"
-                    : $"select name from Recepture where id_category = {selected}";
-            List<string> list = dbReader(query);
-            return list;
-        }
+        //public List<string> SeeMoreFunc() // for Ingredients.cs
+        //{
+        //    query = (table == "Ingredients") ? $"select name from Recepture where id in (select id_recepture from Amounts where id_ingredients = {selected});"
+        //            : $"select name from Recepture where id_category = {selected}";
+        //    List<string> list = dbReader(query);
+        //    return list;
+        //}
 
 
         //public int SelectedCount(string table, string column, int id) // for Form1.cs: before Technology to open
@@ -195,7 +195,7 @@ namespace MajPAbGr_project
         //    }
         //}
 
-        // Form1.cs, InsertAmounts.cs
+        // Form1.cs, InsertAmounts.cs, RecipeController
         //public int insertNewRecipe(string name, string coeff)
         //{
         //    string query = $"insert into Recipe" +
@@ -203,7 +203,7 @@ namespace MajPAbGr_project
         //        $" ('{name}', {selected}, {coeff});";
         //    return Edit(query);
         //}
-        
+
         //insert into Tecnology_chain
         //public int insertTechnology(int technology, int cards)
         //{
@@ -214,12 +214,12 @@ namespace MajPAbGr_project
         // this two: from int to string, add param from table -> static or virtual
 
         // insert into amounts (InsertAmounts.cs)
-        public int insertAmounts(int rec, string ingr, string amount)
-        {
-            query = "insert into Amounts (id_recepture, id_ingredients, amount) " +
-                $"values ({rec}, {ingr}, {amount} );";
-            return Edit(query);
-        }
+        //public int insertAmounts(int rec, string ingr, string amount)
+        //{
+        //    query = "insert into Amounts (id_recepture, id_ingredients, amount) " +
+        //        $"values ({rec}, {ingr}, {amount} );";
+        //    return Edit(query);
+        //}
         // if give params as array, then is possible join with two upper methods
 
 

@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AmountsController.cs" />
     <Compile Include="CalcFunction.cs" />
     <Compile Include="Component\dbController.cs" />
     <Compile Include="Component\Element.cs" />

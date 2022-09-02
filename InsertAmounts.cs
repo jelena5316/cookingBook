@@ -12,15 +12,15 @@ namespace MajPAbGr_project
 {
     public partial class InsertAmounts : Form
     {
-        int id_recepture;
-        tbClass1 tbIngred;
+        readonly int id_recepture;
+        AmountsController tbIngred;
         CalcFunction calc;
 
         public InsertAmounts(int id)
         {
             InitializeComponent();
             id_recepture = id;
-            tbIngred = new tbClass1("Ingredients");            
+            tbIngred = new AmountsController("Ingredients");            
             tbIngred.setCatalog();
             calc = new CalcFunction();            
             FillCatalog();
@@ -205,39 +205,13 @@ namespace MajPAbGr_project
         {
             int ind;
             if (string.IsNullOrEmpty(listView1.Items[0].SubItems[1].Text)) return;
-            ind = Submit(ref listView1);
+            ind = tbIngred.Submit(ref listView1, id_recepture);
+
+            if (ind == 0) MessageBox.Show("All amounts are inserted");            
+            else MessageBox.Show($"{ind} from {listView1.Items.Count} are inserted");
+           
             btn_recipe.Enabled = true;
             btn_submit.Enabled = false;
-        }
-
-        private int Submit (ref ListView lv)
-        {
-            dbController db = new dbController();
-            int index = 0, ind = 0, sum;
-            string amount, id_ingr;
-            //string query;
-
-            //writting main ingredient id into table Recepture
-            id_ingr = lv.Items[0].Tag.ToString();
-
-            tbClass1 tb = new tbClass1("Recepture");
-            ind = tb.UpdateReceptureOrCards("id_main", id_ingr, id_recepture); // Recepture
-
-            if (ind == 0) return 1;
-
-            //writing ingredients' amounts into Amounts
-            //for (index = lv.Items.Count - 1, sum = 0; index > -1; index--)
-            for (index = 0, sum = 0; index < lv.Items.Count; index++ )
-            {
-                id_ingr = lv.Items[index].Tag.ToString();
-                amount = lv.Items[index].SubItems[2].Text;
-                amount = ColonToPoint(amount);
-
-                ind = tbIngred.insertAmounts(id_recepture, id_ingr, amount);
-                sum += index; // proverka zapisi
-            }
-            if (sum == lv.Items.Count) return 0;// vse zapisalosj
-            else return sum; 
         }
 
         private void button1_Click(object sender, EventArgs e) // btn_recipe: insert recipe
@@ -250,32 +224,10 @@ namespace MajPAbGr_project
             if (string.IsNullOrEmpty(txbRecipe.Text)) return;
             if (coefficient != 0)
             {
-                string coeff = ColonToPoint(coefficient.ToString());
+                string coeff = calc.ColonToPoint(coefficient.ToString());
                 ind = tb.insertNewRecipe(txbRecipe.Text, coeff);
                 btn_recipe.Enabled = false;
             }
-        }
-
-        private string ColonToPoint(string text)
-        {
-            string number;
-            if (text.Contains(","))
-            {
-                int k;
-                number = "";
-                for (k = 0; k < text.Length; k++)
-                {
-                    if (text[k] != ',')
-                        number += text[k];
-                    else
-                        number += '.';
-                }
-            }
-            else
-            {
-                number = text;
-            }
-            return number;
         }
     }
 }

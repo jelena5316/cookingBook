@@ -181,8 +181,9 @@ namespace MajPAbGr_project
              {
                  amount = double.Parse(txb_coeff.Text);
              }
-             else
+             else 
              {
+                //point to colon
                  t = txb_coeff.Text;
                  temp = "";
                  if (t.Contains('.'))
@@ -211,8 +212,8 @@ namespace MajPAbGr_project
                  }
              }
 
-             // вынести в CalcFunction.cs (?)
-             switch (indikator)
+            // вынести в CalcFunction.cs (?)
+            switch (indikator)
              {
                  case "total":
                      summa = calc.Summa();
@@ -455,12 +456,10 @@ namespace MajPAbGr_project
 
         private void insertIgredientsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /*
             if (tb.getSelected() == 0) return;
             if (listView1.Items.Count < 1) return;
             InsertAmounts frm = new InsertAmounts(tb.getSelected());
             frm.ShowDialog();
-            */
         }
 
         private void openDbEditorToolStripMenuItem_Click(object sender, EventArgs e)
