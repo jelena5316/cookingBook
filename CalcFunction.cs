@@ -52,6 +52,24 @@ namespace MajPAbGr_project
             this.count = source.Count();
         }
 
+        public void setAmounts( List<double> source)
+        {
+            amounts = new double[source.Count];
+            for (int index = 0; index < amounts.Length; index++)
+            {
+                amounts[index] = source[index];
+            }
+            total = Summa();
+            this.count = source.Count();
+        }
+
+        public void setAmounts (double[] source)
+        {
+            amounts = source;           
+            total = Summa();
+            this.count = source.Length;
+        }
+
         public double[] getAmounts()
         {
             return amounts;

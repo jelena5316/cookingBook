@@ -80,6 +80,7 @@
     <Compile Include="CalcFunction.cs" />
     <Compile Include="Component\dbController.cs" />
     <Compile Include="Component\Element.cs" />
+    <Compile Include="Component\Enum.cs" />
     <Compile Include="Component\FormFunction.cs" />
     <Compile Include="Component\tbClass1.cs" />
     <Compile Include="EditDB.cs" />

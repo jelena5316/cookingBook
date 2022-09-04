@@ -116,6 +116,7 @@ namespace MajPAbGr_project
             }
             lbl_info.Text = info;
 
+            //used more in `InsertAmounts`, mode:edit
             List<Element> rec = tb.readElement(1); // amounts
             calc.setAmounts(rec); // сохраняет и cуммирует величины
             InputRecepture(rec);
@@ -166,7 +167,9 @@ namespace MajPAbGr_project
             columnHeader2.Text = "Amounts (g)";
         }
 
-        //новый рецепт, навигация
+        /*****************************************************************************
+         * новый рецепт, навигация        
+        *******************************************************************************/
          private void button2_Click(object sender, EventArgs e) // calc new recipe
          {
              if (string.IsNullOrEmpty(txb_coeff.Text)) return;            
@@ -309,6 +312,13 @@ namespace MajPAbGr_project
             comboBox1.Text = comboBox1.SelectedItem.ToString();
         }
 
+        private void addNewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReceptureController cntrl = new ReceptureController("Recepture");
+            NewRecepture frm = new NewRecepture(cntrl);
+            frm.ShowDialog();
+        }
+
         private void editToolStripMenuItem_Click(object sender, EventArgs e) // edit recepture
         {
            
@@ -327,10 +337,22 @@ namespace MajPAbGr_project
             */           
         }
 
-        private void addNewToolStripMenuItem_Click(object sender, EventArgs e)
+        private void insertIgredientsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ReceptureController cntrl = new ReceptureController("Recepture");
-            NewRecepture frm = new NewRecepture(cntrl);
+            if (listView1.Items.Count < 1) return;
+            AmountsTable(Mode.Create);
+        }
+
+        private void editIngredientsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listView1.Items.Count < 1) return;
+            AmountsTable(Mode.Edit);
+        }
+
+        private void AmountsTable(Mode mode)
+        {
+            if (tb.getSelected() == 0) return;            
+            InsertAmounts frm = new InsertAmounts(tb.getSelected(), mode, tb);
             frm.ShowDialog();
         }
 
@@ -346,11 +368,8 @@ namespace MajPAbGr_project
 
         private void SimpleTable(int opt)
         {
-            /*
             IngredientsController cntrl = new IngredientsController(opt);
             Ingredients frm = new Ingredients(cntrl);
-            frm.Show();
-            */
         }
 
         //Print to file        
@@ -452,13 +471,7 @@ namespace MajPAbGr_project
             button2.Enabled = true;
         }
 
-        private void insertIgredientsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (tb.getSelected() == 0) return;
-            if (listView1.Items.Count < 1) return;
-            InsertAmounts frm = new InsertAmounts(tb.getSelected());
-            frm.ShowDialog();
-        }
+        
 
         private void openDbEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -525,5 +538,7 @@ namespace MajPAbGr_project
         {
             txb_new_recipe.Text = "";
         }
+
+        
     }
 }

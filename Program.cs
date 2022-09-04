@@ -16,7 +16,7 @@ namespace MajPAbGr_project
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new EditDB());
+            Application.Run(new FormMain());
         }
     }
 }

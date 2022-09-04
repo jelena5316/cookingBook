@@ -13,23 +13,129 @@ namespace MajPAbGr_project
     public partial class InsertAmounts : Form
     {
         readonly int id_recepture;
-        AmountsController tbIngred;
+        IngredientsController tbIngred;
+        AmountsController tbAmounts;
+        FormMainController tb;
         CalcFunction calc;
+        Mode mode; //create new or edit old
+        List<Element> elements; // id and name, amounts
+        double [] amounts;
 
         public InsertAmounts(int id)
         {
             InitializeComponent();
             id_recepture = id;
-            tbIngred = new AmountsController("Ingredients");            
+            tbIngred = new IngredientsController (1);            
             tbIngred.setCatalog();
-            calc = new CalcFunction();            
+            tbAmounts = new AmountsController("Amounts");
+            //calc = new CalcFunction();            
             FillCatalog();
-            btn_recipe.Enabled = false; //insert recipe
-            btn_submit.Enabled = false; // submit ingredients
-            txbAmounts.Text = "amounts";
         }
 
-        private void FillCatalog()
+        //public InsertAmounts(int id, Mode mode)
+        //{
+        //    InitializeComponent();
+        //    id_recepture = id;
+        //    this.mode = mode;
+
+        //     tbIngred = new IngredientsController (1);            
+        //     tbIngred.setCatalog();
+         //   tbAmounts = new AmountsController("Amounts");
+        //    //calc = new CalcFunction();
+
+        //    FillCatalog();           
+        //}
+
+        public InsertAmounts(int id, Mode mode, FormMainController tb) //from FormMain
+        {
+            InitializeComponent();
+
+            id_recepture = id;
+            this.mode = mode;            
+            this.tb = tb;
+
+            tbIngred = new IngredientsController(1);
+            tbIngred.setCatalog();
+            tbAmounts = new AmountsController("Amounts");
+            //calc = new CalcFunction();
+
+            elements = tb.readElement(1);
+            fillAmounts();
+            FillAmountsView(); // listview
+            showOldAmounts();
+            FillCatalog(); // combobox
+        }
+
+        private void InsertAmounts_Load(object sender, EventArgs e)
+        {
+            btn_recipe.Enabled = false; //insert recipe           
+            btn_submit.Enabled = false; // submit ingredients
+            txbAmounts.Text = "100";
+
+            if(mode == Mode.Edit)
+            {
+                listView1.Columns[1].Text = "Amounts(%) new";
+                listView1.Columns[2].Text += "old";
+
+                txbRecipe.Enabled = false;
+                //btn_recipe.Visible = false;
+                label1.Enabled = false;
+                //label1.Visible = false;
+                radioButton1.Checked = true;
+            }
+        }
+
+        private void fillAmounts()
+        {
+            calc = new CalcFunction();
+            amounts = new double [elements.Count+1];
+            int k;
+            for(k = 0; k < amounts.Length-1; k++)
+            {
+                amounts[k] = elements[k].Amounts;
+            }
+            calc.setAmounts(elements); // сохраняет и cуммирует величины
+            amounts[k] = calc.getTotal();
+        }
+
+        private void  FillAmountsView()
+        {
+            ListView list = listView1;
+            list.Items.Clear();
+
+            ListViewItem items;
+            for (int k = 0; k < elements.Count; k++)
+            {
+                items = new ListViewItem(elements[k].Name);
+                items.Tag = elements[k].Id;
+                items.SubItems.Add(elements[k].Amounts.ToString());
+                items.SubItems.Add(""); // заготовка под старые величины     
+                listView1.Items.Add(items);
+            }
+            //Сумма: счет и вывод
+            string summa = amounts[amounts.Length-1].ToString();
+            items = new ListViewItem("Total");
+            items.Tag = -1;
+            items.SubItems.Add("");
+            items.SubItems.Add("");
+            listView1.Items.Add(items);
+            //InputRecepture
+        }
+
+        private void showOldAmounts()
+        {
+            ListView list = listView1;
+
+            int k;
+            for (k = 0; k < elements.Count; k++)
+            {
+                list.Items[k].SubItems[2].Text = amounts[k].ToString(); 
+            }
+            //Сумма: счет и вывод
+            list.Items[k].SubItems[2].Text = amounts[k].ToString();
+        }
+
+        private void FillCatalog() // combobox
         {
             List<Item> ingr = tbIngred.getCatalog();
             if (ingr.Count != 0)
@@ -51,7 +157,8 @@ namespace MajPAbGr_project
             tbIngred.setSelected(cmbIngr.SelectedIndex);
             cmbIngr.Text = cmbIngr.SelectedItem.ToString();
             txbAmounts.Focus();
-            txbAmounts.Text = "";
+            if(mode == Mode.Create)
+                txbAmounts.Text = "";
         }
 
         private void btn_edit_Click(object sender, EventArgs e) // add an ingredient
@@ -75,11 +182,11 @@ namespace MajPAbGr_project
             ListViewItem item = new ListViewItem(cmbIngr.Text);
             item.SubItems.Add(txbAmounts.Text);
             item.SubItems.Add(""); // заготовка под проценты
-            item.Tag = tbIngred.getSelected();            
+            item.Tag = tbIngred.getSelected(); // id of ingredients       
             listView1.Items.Add(item);
             item.Selected = true;
 
-            txbAmounts.Text = "amounts";
+            txbAmounts.Text = "0";
             cmbIngr.Focus();
         }
 
@@ -98,17 +205,18 @@ namespace MajPAbGr_project
                 Edit();
                 btn_select.Text = "select";
                 btn_edit.Enabled = true;
-                btn_remove.Enabled = true;
+                if (radioButton1.Checked == false)
+                    btn_remove.Enabled = true;
             }
         }
 
-        private void SelectToEdit()
+        private void SelectToEdit() // !!! разобраться!
         {
             int id;
             if (listView1.SelectedItems.Count < 1) return;
             ListViewItem item = listView1.SelectedItems[0];
 
-            id = tbIngred.getSelected();
+            id = tbIngred.getSelected(); // ??!
             for (int index = 0; index < cmbIngr.Items.Count; index++)
             {
                 if (item.SubItems[0].Text == cmbIngr.Items[index].ToString())
@@ -135,6 +243,7 @@ namespace MajPAbGr_project
                 btn_submit.Enabled = false; // submit
                 btn_calc.Focus(); // calc
             }
+            txbAmounts.Text = "";
         }
 
         private void btn_remove_Click(object sender, EventArgs e)
@@ -162,27 +271,15 @@ namespace MajPAbGr_project
                 i = items.Index;
                 lv.Items.RemoveAt(i);
             }
-
-            //ListViewItem items;
-            //int i;
-            //if (listView1.Items.Count > 0) // proverka spiska
-            //{
-            //    items = listView1.SelectedItems[0];
-            //    i = items.Index;
-            //    listView1.Items.RemoveAt(i);
-
-            //    if (listView1.Items.Count > 0)
-            //    {
-            //        items = listView1.Items[listView1.Items.Count - 1];
-            //        items.Selected = true;
-            //    }
-            //    else btn_submit.Enabled = false;
-            //}
-        }
+    }
 
         private void button3_Click(object sender, EventArgs e) // calculation
         {
-            if (listView1.Items.Count > 0)
+           
+            if (listView1.Items.Count < 1) return; 
+             calc = new CalcFunction();
+
+            if  (mode == Mode.Create)
             {
                 double a = double.Parse(listView1.Items[0].SubItems[1].Text);
                 double[] arr = new double[listView1.Items.Count];
@@ -197,21 +294,48 @@ namespace MajPAbGr_project
                    listView1.Items[index].SubItems[2].Text = arr[index].ToString();
                 }
                 calc.Coefficient = a / 100;
-                btn_submit.Enabled = true;
+                //btn_submit.Enabled = true;
             }
+            else
+            {
+                //getting new total summ of ingredients amounts
+                int index;
+                ListView lv = listView1;
+                List<double> values = new List<double>();
+                for (index = 0; index < lv.Items.Count-1; index++)
+                {
+                     string amount = lv.Items[index].SubItems[1].Text;                     
+                     double value = double.Parse(amount);
+                    values.Add(value);
+                }                
+                calc.setAmounts(values);
+                double summa = calc.getTotal();
+
+                ListViewItem items = listView1.Items[listView1.Items.Count - 1];
+                items.SubItems[1].Text = summa.ToString();
+            }
+            btn_submit.Enabled = true;
         }
 
         private void button4_Click(object sender, EventArgs e) // submit
         {
             int ind;
             if (string.IsNullOrEmpty(listView1.Items[0].SubItems[1].Text)) return;
-            ind = tbIngred.Submit(ref listView1, id_recepture);
+            
+            if (mode == Mode.Edit)
+            {
+                
+            }
+            else
+            {
+                ind = tbAmounts.InsertAmounts(ref listView1, id_recepture);
+                if (ind == 0) MessageBox.Show("All amounts are inserted");
+                else MessageBox.Show($"{ind} from {listView1.Items.Count} are inserted");
 
-            if (ind == 0) MessageBox.Show("All amounts are inserted");            
-            else MessageBox.Show($"{ind} from {listView1.Items.Count} are inserted");
-           
-            btn_recipe.Enabled = true;
-            btn_submit.Enabled = false;
+                btn_recipe.Enabled = true;
+                btn_submit.Enabled = false;
+                //mode = Mode.Edit;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e) // btn_recipe: insert recipe
@@ -227,6 +351,26 @@ namespace MajPAbGr_project
                 string coeff = calc.ColonToPoint(coefficient.ToString());
                 ind = tb.insertNewRecipe(txbRecipe.Text, coeff);
                 btn_recipe.Enabled = false;
+            }
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton r = radioButton1;
+            if(r.Checked == true)
+            {
+                radioButton2.Enabled = false;
+                r.Enabled = false;
+                //пока проверяю один из подрежимов
+
+                btn_remove.Enabled = false;
+                btn_edit.Enabled = false;
+
+                //MessageBox.Show("radio button is checked");
+            }
+            else
+            {
+                //MessageBox.Show("radio button is not checked");
             }
         }
     }
