@@ -118,32 +118,32 @@ namespace MajPAbGr_project
         //    return int.Parse(Count(query));
         //}
 
-        //public List<Element> readElement(int opt) // for Form1.cs
-        //{
-        //    List<Element> el;
-        //    switch (opt)
-        //    {
-        //        case 1: // amounts
-        //            query = "SELECT id_ingredients, name, amount" +
-        //            " FROM Amounts AS am JOIN Ingredients AS ingr " +
-        //            "ON am.id_ingredients = ingr.id WHERE am.id_recepture = "
-        //            + selected + ";";
+        public List<Element> readElement(int opt) // for Form1.cs
+        {
+            List<Element> el;
+            switch (opt)
+            {
+                case 1: // amounts
+                    query = "SELECT id_ingredients, name, amount" +
+                    " FROM Amounts AS am JOIN Ingredients AS ingr " +
+                    "ON am.id_ingredients = ingr.id WHERE am.id_recepture = "
+                    + selected + ";";
 
-        //            break;
-        //        case 2: // recipe
-        //            query = "SELECT id, name, coefficient" +
-        //            " FROM Recipe WHERE id_recepture = "
-        //            + selected + ";";
-        //            break;
-        //        default:
-        //            query = "SELECT id, name, coefficient" +
-        //            " FROM Recipe WHERE id_recepture = "
-        //            + selected + ";";
-        //            break;
-        //    }
-        //    el = dbReadElement(query);
-        //    return el;
-        //}
+                    break;
+                case 2: // recipe
+                    query = "SELECT id, name, coefficient" +
+                    " FROM Recipe WHERE id_recepture = "
+                    + selected + ";";
+                    break;
+                default:
+                    query = "SELECT id, name, coefficient" +
+                    " FROM Recipe WHERE id_recepture = "
+                    + selected + ";";
+                    break;
+            }
+            el = dbReadElement(query);
+            return el;
+        }
 
         //public List<string> SeeOtherCards(int id_technology) //for TechnologyCards.cs
         //{

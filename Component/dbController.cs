@@ -24,10 +24,14 @@ namespace MajPAbGr_project
 
     public class dbController /*chitaem recepty iz bd */
     {
-        private string connectionString;      
+        private string connectionString;
         private SqliteConnection connection;
         private SqliteDataReader reader;
         private SqliteCommand command;
+        //protected string connectionString;
+        //protected SqliteConnection connection;
+        //protected SqliteDataReader reader;
+        //protected SqliteCommand command;
 
         public dbController ()
         {

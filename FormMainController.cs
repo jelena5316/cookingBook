@@ -14,7 +14,7 @@ namespace MajPAbGr_project
             this.table = table;
         }
 
-        public List<Element> readElement(int opt) // for Form1.cs
+        public new List<Element> readElement(int opt) // for Form1.cs
         {
             List<Element> el;
             switch (opt)

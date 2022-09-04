@@ -113,6 +113,14 @@ namespace MajPAbGr_project
             }
         }
 
+        private void label1_Click_1(object sender, EventArgs e) // ввод рецепта
+        {
+            if (id_recepture == 0) return;
+            InsertAmounts frm = new InsertAmounts(id_recepture);
+            frm.ShowDialog();
+            //this.Dispose();
+        }
+
         private void cmbCat_SelectedIndexChanged(object sender, EventArgs e)
         {
            tbCat.setSelected(cmbCat.SelectedIndex);

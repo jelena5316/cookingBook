@@ -82,9 +82,7 @@
     <Compile Include="Component\Element.cs" />
     <Compile Include="Component\FormFunction.cs" />
     <Compile Include="Component\tbClass1.cs" />
-    <Compile Include="EditDB.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="EditDB.cs" />
     <Compile Include="EditDB.designer.cs">
       <DependentUpon>EditDB.cs</DependentUpon>
     </Compile>
@@ -150,6 +148,9 @@
     </Compile>
     <Compile Include="TechnologyCardsController.cs" />
     <Compile Include="TechnologyController.cs" />
+    <EmbeddedResource Include="EditDB.resx">
+      <DependentUpon>EditDB.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>

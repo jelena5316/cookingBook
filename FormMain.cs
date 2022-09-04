@@ -329,11 +329,9 @@ namespace MajPAbGr_project
 
         private void addNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /*
             ReceptureController cntrl = new ReceptureController("Recepture");
             NewRecepture frm = new NewRecepture(cntrl);
             frm.ShowDialog();
-            */
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
