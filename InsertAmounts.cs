@@ -19,17 +19,18 @@ namespace MajPAbGr_project
         CalcFunction calc;
         Mode mode; //create new or edit old
         List<Element> elements; // id and name, amounts
-        double [] amounts;
+        double[] amounts;
 
         public InsertAmounts(int id)
         {
             InitializeComponent();
-            id_recepture = id;
-            tbIngred = new IngredientsController (1);            
+            id_recepture = id;           
+            tbIngred = new IngredientsController(1);
             tbIngred.setCatalog();
             tbAmounts = new AmountsController("Amounts");
-            //calc = new CalcFunction();            
-            FillCatalog();
+            //calc = new CalcFunction();
+            List<Item> receptures = tbIngred.getCatalog();
+            Class1.FillCombo(receptures, ref cmbIngr); 
         }
 
         //public InsertAmounts(int id, Mode mode)
@@ -40,7 +41,7 @@ namespace MajPAbGr_project
 
         //     tbIngred = new IngredientsController (1);            
         //     tbIngred.setCatalog();
-         //   tbAmounts = new AmountsController("Amounts");
+        //   tbAmounts = new AmountsController("Amounts");
         //    //calc = new CalcFunction();
 
         //    FillCatalog();           
@@ -51,28 +52,29 @@ namespace MajPAbGr_project
             InitializeComponent();
 
             id_recepture = id;
-            this.mode = mode;            
+            this.mode = mode;
             this.tb = tb;
 
             tbIngred = new IngredientsController(1);
             tbIngred.setCatalog();
-            tbAmounts = new AmountsController("Amounts");
+            tbAmounts = new AmountsController("AmountsT");
             //calc = new CalcFunction();
 
             elements = tb.readElement(1);
             fillAmounts();
             FillAmountsView(); // listview
             showOldAmounts();
-            FillCatalog(); // combobox
+            List<Item> receptures = tbIngred.getCatalog();
+            Class1.FillCombo(receptures, ref cmbIngr);           
         }
 
         private void InsertAmounts_Load(object sender, EventArgs e)
         {
             btn_recipe.Enabled = false; //insert recipe           
             btn_submit.Enabled = false; // submit ingredients
-            txbAmounts.Text = "100";
+            txbAmounts.Text = "0" + "." + "0"; // "," Enviroment decimal separator
 
-            if(mode == Mode.Edit)
+            if (mode == Mode.Edit)
             {
                 listView1.Columns[1].Text = "Amounts(%) new";
                 listView1.Columns[2].Text += "old";
@@ -87,19 +89,20 @@ namespace MajPAbGr_project
 
         private void fillAmounts()
         {
-            calc = new CalcFunction();
-            amounts = new double [elements.Count+1];
+            amounts = new double[elements.Count + 1];
             int k;
-            for(k = 0; k < amounts.Length-1; k++)
+            for (k = 0; k < amounts.Length - 1; k++)
             {
                 amounts[k] = elements[k].Amounts;
             }
+            calc = new CalcFunction();
             calc.setAmounts(elements); // сохраняет и cуммирует величины
             amounts[k] = calc.getTotal();
         }
 
-        private void  FillAmountsView()
+        private void FillAmountsView()
         {
+            //from InputRecepture(); edited
             ListView list = listView1;
             list.Items.Clear();
 
@@ -112,46 +115,23 @@ namespace MajPAbGr_project
                 items.SubItems.Add(""); // заготовка под старые величины     
                 listView1.Items.Add(items);
             }
-            //Сумма: счет и вывод
-            string summa = amounts[amounts.Length-1].ToString();
+            //заготовка под сумму
             items = new ListViewItem("Total");
             items.Tag = -1;
             items.SubItems.Add("");
             items.SubItems.Add("");
             listView1.Items.Add(items);
-            //InputRecepture
         }
 
         private void showOldAmounts()
         {
             ListView list = listView1;
-
-            int k;
-            for (k = 0; k < elements.Count; k++)
+            for (int k = 0; k < elements.Count + 1; k++)
             {
-                list.Items[k].SubItems[2].Text = amounts[k].ToString(); 
+                list.Items[k].SubItems[2].Text = amounts[k].ToString();
             }
-            //Сумма: счет и вывод
-            list.Items[k].SubItems[2].Text = amounts[k].ToString();
         }
-
-        private void FillCatalog() // combobox
-        {
-            List<Item> ingr = tbIngred.getCatalog();
-            if (ingr.Count != 0)
-            {
-                if (cmbIngr.Items.Count > 0)
-                {
-                    cmbIngr.Items.Clear();
-                }
-                for (int index = 0; index < ingr.Count; index++)
-                {
-                    cmbIngr.Items.Add(ingr[index].name);
-                }
-            }
-            cmbIngr.Text = cmbIngr.Items[0].ToString();
-        }
-
+   
         private void cmbIngr_SelectedIndexChanged(object sender, EventArgs e)
         {
             tbIngred.setSelected(cmbIngr.SelectedIndex);
@@ -182,11 +162,11 @@ namespace MajPAbGr_project
             ListViewItem item = new ListViewItem(cmbIngr.Text);
             item.SubItems.Add(txbAmounts.Text);
             item.SubItems.Add(""); // заготовка под проценты
-            item.Tag = tbIngred.getSelected(); // id of ingredients       
+            item.Tag = tbIngred.getSelected(); // id of ingredient       
             listView1.Items.Add(item);
             item.Selected = true;
 
-            txbAmounts.Text = "0";
+            txbAmounts.Text = "0"+","+"0"; //Enviroment decimal separator
             cmbIngr.Focus();
         }
 
@@ -195,10 +175,13 @@ namespace MajPAbGr_project
             if (listView1.SelectedItems.Count < 0) return;
             if (btn_select.Text == "select")
             {
-                SelectToEdit();
-                btn_select.Text = "edit";
-                btn_edit.Enabled = false;
-                btn_remove.Enabled = false;
+                if (SelectToEdit() == 0)
+                {
+                    btn_select.Text = "edit";
+                    btn_edit.Enabled = false;
+                    btn_remove.Enabled = false;
+                }
+                else MessageBox.Show("Please, select any ingredient to edit!");
             }
             else
             {
@@ -210,28 +193,32 @@ namespace MajPAbGr_project
             }
         }
 
-        private void SelectToEdit() // !!! разобраться!
+        private int SelectToEdit() // !!! разобраться!
         {
-            int id;
-            if (listView1.SelectedItems.Count < 1) return;
+            //int id;
+            if (listView1.SelectedItems.Count < 1) return -1;
             ListViewItem item = listView1.SelectedItems[0];
 
-            id = tbIngred.getSelected(); // ??!
+            //id = tbIngred.getSelected();
             for (int index = 0; index < cmbIngr.Items.Count; index++)
             {
                 if (item.SubItems[0].Text == cmbIngr.Items[index].ToString())
                 {
-                    cmbIngr.Select(index, 1); // parametrs: start, length
+                    cmbIngr.SelectedIndex = index;
+                    this.Text = cmbIngr.SelectedItem.ToString();
+                    //cmbIngr.Select(index, 1); // parametrs: start, length
                     cmbIngr.Text = cmbIngr.SelectedItem.ToString();
                     break;
                 }
             }
             txbAmounts.Text = item.SubItems[1].Text;
             cmbIngr.Text = item.SubItems[0].Text;
+            return 0;
         }
 
         private void Edit()
         {
+            if (listView1.SelectedItems.Count < 1) return;
             ListViewItem item = listView1.SelectedItems[0];
 
             item.SubItems[1].Text = txbAmounts.Text;
@@ -319,12 +306,38 @@ namespace MajPAbGr_project
 
         private void button4_Click(object sender, EventArgs e) // submit
         {
-            int ind;
+            int ind=0;
             if (string.IsNullOrEmpty(listView1.Items[0].SubItems[1].Text)) return;
             
             if (mode == Mode.Edit)
             {
-                
+                ListView lv = listView1;
+                int count = lv.Items.Count - 1;
+                string [] id_ingredients = new string [count];
+                string [] amounts_of_ingredients = new string [count];
+                List<string> amounts = tbAmounts.setAmounts(id_recepture);
+                int k;
+                for (k = 0; k < count; k++)
+                {
+                    id_ingredients[k] = lv.Items[k].Tag.ToString();
+                    amounts_of_ingredients[k] = lv.Items[k].SubItems[1].Text;
+                }
+                //tbAmounts.UpdateAmounts(id_ingredients, amounts_of_ingredients, id_recepture);
+
+                for (k = 0; k < count; k++)
+                {
+                    ind += tbAmounts.UpdateReceptureOrCards("id_ingredients", id_ingredients[k], int.Parse(amounts[k]));
+                    ind += tbAmounts.UpdateReceptureOrCards("amount", amounts_of_ingredients[k], int.Parse(amounts[k]));
+                }
+                //if (ind == (count * 2))
+                //{
+                //    //return 0;
+                //}
+                //else
+                //{
+                //    //return -1;
+                //}
+                MessageBox.Show("Updated"+ind.ToString());
             }
             else
             {
@@ -347,7 +360,7 @@ namespace MajPAbGr_project
 
             if (string.IsNullOrEmpty(txbRecipe.Text)) return;
             if (coefficient != 0)
-            {
+            { 
                 string coeff = calc.ColonToPoint(coefficient.ToString());
                 ind = tb.insertNewRecipe(txbRecipe.Text, coeff);
                 btn_recipe.Enabled = false;

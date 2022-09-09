@@ -313,7 +313,8 @@ namespace MajPAbGr_project
         private void setStatusLabel3(int selected) //toolstrips` labels with technology name of selected recepture
         {
             //without method getReceptureByName()
-            string tech_of_rec = null, name = "no", data = null;          
+            string tech_of_rec = null, name = "no", data = null;
+            if (selected == 0) selected = 1;
             data = tbRec.getById("id_technology", selected).ToString();
             //$"select id_technology from Recepture where id={selected};";            
    
