@@ -39,12 +39,12 @@ namespace MajPAbGr_project
         //    id_recepture = id;
         //    this.mode = mode;
 
-        //     tbIngred = new IngredientsController (1);            
-        //     tbIngred.setCatalog();
-        //   tbAmounts = new AmountsController("Amounts");
+        //    tbIngred = new IngredientsController(1);
+        //    tbIngred.setCatalog();
+        //    tbAmounts = new AmountsController("Amounts");
         //    //calc = new CalcFunction();
 
-        //    FillCatalog();           
+        //    FillCatalog();
         //}
 
         public InsertAmounts(int id, Mode mode, FormMainController tb) //from FormMain
@@ -77,7 +77,7 @@ namespace MajPAbGr_project
             if (mode == Mode.Edit)
             {
                 listView1.Columns[1].Text = "Amounts(%) new";
-                listView1.Columns[2].Text += "old";
+                listView1.Columns[2].Text += " old";
 
                 txbRecipe.Enabled = false;
                 //btn_recipe.Visible = false;
@@ -146,6 +146,7 @@ namespace MajPAbGr_project
             if (cmbIngr.SelectedIndex == -1) return;
             if (string.IsNullOrEmpty(cmbIngr.Text)) return;
             if (string.IsNullOrEmpty(txbAmounts.Text)) return;
+
             double num;
             if (double.TryParse(txbAmounts.Text, out num))
                 num = double.Parse(txbAmounts.Text);
@@ -153,7 +154,7 @@ namespace MajPAbGr_project
 
             //ubiraem vydelenie
             ListViewItem items;
-            if (listView1.Items.Count > 0) // proverka spiska
+            if (listView1.SelectedItems.Count > 0) //proverka spiska            
             {
                 items = listView1.SelectedItems[0];
                 items.Selected = false;
@@ -185,28 +186,27 @@ namespace MajPAbGr_project
             }
             else
             {
-                Edit();
-                btn_select.Text = "select";
-                btn_edit.Enabled = true;
-                if (radioButton1.Checked == false)
-                    btn_remove.Enabled = true;
+                if (Edit() == 0)
+                {
+                    btn_select.Text = "select";
+                    btn_edit.Enabled = true;
+                    if (radioButton1.Checked == false)
+                        btn_remove.Enabled = true;
+                }
+                else MessageBox.Show("Please, select any ingredient to edit!");
             }
         }
 
-        private int SelectToEdit() // !!! разобраться!
+        private int SelectToEdit()
         {
-            //int id;
             if (listView1.SelectedItems.Count < 1) return -1;
             ListViewItem item = listView1.SelectedItems[0];
 
-            //id = tbIngred.getSelected();
             for (int index = 0; index < cmbIngr.Items.Count; index++)
             {
                 if (item.SubItems[0].Text == cmbIngr.Items[index].ToString())
                 {
-                    cmbIngr.SelectedIndex = index;
-                    this.Text = cmbIngr.SelectedItem.ToString();
-                    //cmbIngr.Select(index, 1); // parametrs: start, length
+                    cmbIngr.SelectedIndex = index;                   
                     cmbIngr.Text = cmbIngr.SelectedItem.ToString();
                     break;
                 }
@@ -216,9 +216,9 @@ namespace MajPAbGr_project
             return 0;
         }
 
-        private void Edit()
+        private int Edit()
         {
-            if (listView1.SelectedItems.Count < 1) return;
+            if (listView1.SelectedItems.Count < 1) return -1;
             ListViewItem item = listView1.SelectedItems[0];
 
             item.SubItems[1].Text = txbAmounts.Text;
@@ -230,35 +230,29 @@ namespace MajPAbGr_project
                 btn_submit.Enabled = false; // submit
                 btn_calc.Focus(); // calc
             }
-            txbAmounts.Text = "";
+            txbAmounts.Text = "0"+","+"0"; //Enviroment decimal separator
+            return 0;
         }
 
         private void btn_remove_Click(object sender, EventArgs e)
         {
             ListViewItem items;
             if (listView1.Items.Count > 0) // proverka spiska
-            {
-                Remove(ref listView1);
+            {            
+                listView1.Items.RemoveAt(listView1.SelectedItems[0].Index);
                 if (listView1.Items.Count > 0)
                 {
                     items = listView1.Items[listView1.Items.Count - 1];
                     items.Selected = true;
                 }
                 else btn_submit.Enabled = false;
-            }  
-        }
-
-        private void Remove(ref ListView lv) // peredacha po ssylke
-        {
-            ListViewItem items;
-            int i;
-            if (lv.Items.Count > 0) // proverka spiska
-            {
-                items = lv.SelectedItems[0];
-                i = items.Index;
-                lv.Items.RemoveAt(i);
             }
-    }
+            //if (mode == Mode.Edit)
+            //{
+            //    elements.RemoveAt(listView1.SelectedItems[0].Index);
+            //    MessageBox.Show($"Are deleted {listView1.SelectedItems[0].Index}");
+            //}
+        }
 
         private void button3_Click(object sender, EventArgs e) // calculation
         {
@@ -280,8 +274,9 @@ namespace MajPAbGr_project
                 {
                    listView1.Items[index].SubItems[2].Text = arr[index].ToString();
                 }
-                calc.Coefficient = a / 100;
+                calc.Coefficient = a / 100;                
                 //btn_submit.Enabled = true;
+
             }
             else
             {

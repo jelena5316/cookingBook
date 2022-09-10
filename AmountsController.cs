@@ -9,8 +9,11 @@ namespace MajPAbGr_project
     class AmountsController: tbClass1
     {
         private List<string> amounts_id;
-        public AmountsController(string table) : base(table) { }
+        private List<Element> elements;
+        private int id_recepture;
 
+        public AmountsController(string table) : base(table) { }
+  
         public void setTable(string table)
         {
             base.table = table;
