@@ -351,8 +351,8 @@ namespace MajPAbGr_project
 
         private void AmountsTable(Mode mode)
         {
-            if (tb.getSelected() == 0) return;            
-            InsertAmounts frm = new InsertAmounts(tb.getSelected(), mode, tb);
+            if (tb.getSelected() == 0) return;           
+            InsertAmounts frm = new InsertAmounts(mode, tb);
             frm.ShowDialog();
         }
 

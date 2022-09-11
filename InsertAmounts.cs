@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+//using System.Globalization;
 
 namespace MajPAbGr_project
 {
@@ -20,6 +21,7 @@ namespace MajPAbGr_project
         Mode mode; //create new or edit old
         List<Element> elements; // id and name, amounts
         double[] amounts;
+       // NumberFormatInfo nfi = new CultureInfo("Ru-ru", false).NumberFormat;
 
         public InsertAmounts(int id)
         {
@@ -47,17 +49,17 @@ namespace MajPAbGr_project
         //    FillCatalog();
         //}
 
-        public InsertAmounts(int id, Mode mode, FormMainController tb) //from FormMain
+        public InsertAmounts(Mode mode, FormMainController tb) //from FormMain
         {
             InitializeComponent();
 
-            id_recepture = id;
+            id_recepture = tb.Selected;
             this.mode = mode;
             this.tb = tb;
 
             tbIngred = new IngredientsController(1);
             tbIngred.setCatalog();
-            tbAmounts = new AmountsController("AmountsT");
+            tbAmounts = new AmountsController("AmountsT", tb);
             //calc = new CalcFunction();
 
             elements = tb.readElement(1);
@@ -72,7 +74,8 @@ namespace MajPAbGr_project
         {
             btn_recipe.Enabled = false; //insert recipe           
             btn_submit.Enabled = false; // submit ingredients
-            txbAmounts.Text = "0" + "." + "0"; // "," Enviroment decimal separator
+            txbAmounts.Text = "0" + "," + "0"; // "," number decimal separator
+            //txbAmounts.Text = "0" + nfi.NumberDecimalSeparator + "0";
 
             if (mode == Mode.Edit)
             {

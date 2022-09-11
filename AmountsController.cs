@@ -6,14 +6,35 @@ using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
-    class AmountsController: tbClass1
+    class AmountsController : tbClass1
     {
         private List<string> amounts_id;
         private List<Element> elements;
         private int id_recepture;
 
         public AmountsController(string table) : base(table) { }
-  
+
+        public AmountsController(string table, FormMainController tb) : base(table)
+        {
+            elements = tb.readElement(1);
+            id_recepture = tb.Selected;
+        }
+
+        public Element getElement(int index)
+        {
+            return elements[index];
+        }
+
+        public void RefreshElements(FormMainController tb)
+        {
+            elements = tb.readElement(1);
+        }
+
+        public int Id_recepture 
+        {
+            get { return id_recepture; }
+        }
+
         public void setTable(string table)
         {
             base.table = table;
@@ -75,6 +96,18 @@ namespace MajPAbGr_project
             if (ind == (count * 2)) return 0;
             else return -1;
         }
+
+        //public List<Element> readElement() // for Form1.cs
+        //{
+        //    List<Element> el;
+
+        //    query = "SELECT id_ingredients, name, amount" +
+        //    " FROM Amounts AS am JOIN Ingredients AS ingr " +
+        //    "ON am.id_ingredients = ingr.id WHERE am.id_recepture = "
+        //    + id_recepture + ";";
+        //    el = dbReadElement(query);
+        //    return el;
+        //}
     }
 }
 
