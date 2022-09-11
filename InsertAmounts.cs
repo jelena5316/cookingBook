@@ -15,15 +15,14 @@ namespace MajPAbGr_project
     {
         readonly int id_recepture;
         IngredientsController tbIngred;
-        AmountsController tbAmounts;
-        FormMainController tb;
+        AmountsController tbAmounts;        
         CalcFunction calc;
         Mode mode; //create new or edit old
         List<Element> elements; // id and name, amounts
         double[] amounts;
        // NumberFormatInfo nfi = new CultureInfo("Ru-ru", false).NumberFormat;
 
-        public InsertAmounts(int id)
+        public InsertAmounts(int id) // New Recepture
         {
             InitializeComponent();
             id_recepture = id;           
@@ -35,39 +34,23 @@ namespace MajPAbGr_project
             Class1.FillCombo(receptures, ref cmbIngr); 
         }
 
-        //public InsertAmounts(int id, Mode mode)
-        //{
-        //    InitializeComponent();
-        //    id_recepture = id;
-        //    this.mode = mode;
-
-        //    tbIngred = new IngredientsController(1);
-        //    tbIngred.setCatalog();
-        //    tbAmounts = new AmountsController("Amounts");
-        //    //calc = new CalcFunction();
-
-        //    FillCatalog();
-        //}
-
-        public InsertAmounts(Mode mode, FormMainController tb) //from FormMain
+        public InsertAmounts(Mode mode, AmountsController tbAmounts)
         {
             InitializeComponent();
-
-            id_recepture = tb.Selected;
+            
+            this.tbAmounts = tbAmounts;
             this.mode = mode;
-            this.tb = tb;
-
+            id_recepture = tbAmounts.Id_recepture;
+            elements = tbAmounts.getElements();
+            
             tbIngred = new IngredientsController(1);
             tbIngred.setCatalog();
-            tbAmounts = new AmountsController("AmountsT", tb);
-            //calc = new CalcFunction();
+            List<Item> receptures = tbIngred.getCatalog();
+            Class1.FillCombo(receptures, ref cmbIngr);
 
-            elements = tb.readElement(1);
             fillAmounts();
             FillAmountsView(); // listview
-            showOldAmounts();
-            List<Item> receptures = tbIngred.getCatalog();
-            Class1.FillCombo(receptures, ref cmbIngr);           
+            showOldAmounts(); // for edit mode
         }
 
         private void InsertAmounts_Load(object sender, EventArgs e)
@@ -90,9 +73,9 @@ namespace MajPAbGr_project
             }
         }
 
-        private void fillAmounts()
+        private void fillAmounts() //for create mode
         {
-            amounts = new double[elements.Count + 1];
+            amounts = new double[elements.Count + 1]; 
             int k;
             for (k = 0; k < amounts.Length - 1; k++)
             {
@@ -170,6 +153,13 @@ namespace MajPAbGr_project
             listView1.Items.Add(item);
             item.Selected = true;
 
+            //добавить в список элементов
+            Element el = new Element();
+            el.Id = (int)item.Tag;
+            el.Name = cmbIngr.Text;
+            el.Amounts = num;
+            elements.Insert(item.Index, el);
+
             txbAmounts.Text = "0"+","+"0"; //Enviroment decimal separator
             cmbIngr.Focus();
         }
@@ -177,6 +167,7 @@ namespace MajPAbGr_project
         private void button2_Click(object sender, EventArgs e) // edit listview item
         {
             if (listView1.SelectedItems.Count < 0) return;
+            if (listView1.SelectedIndices[0] >= elements.Count) return;
             if (btn_select.Text == "select")
             {
                 if (SelectToEdit() == 0)
@@ -197,7 +188,7 @@ namespace MajPAbGr_project
                         btn_remove.Enabled = true;
                 }
                 else MessageBox.Show("Please, select any ingredient to edit!");
-            }
+            }            
         }
 
         private int SelectToEdit()
@@ -221,8 +212,13 @@ namespace MajPAbGr_project
 
         private int Edit()
         {
-            if (listView1.SelectedItems.Count < 1) return -1;
+            if (listView1.SelectedItems.Count < 1) return -1;            
             ListViewItem item = listView1.SelectedItems[0];
+
+            double num;
+            if (double.TryParse(txbAmounts.Text, out num))
+                num = double.Parse(txbAmounts.Text);
+            else return -2;
 
             item.SubItems[1].Text = txbAmounts.Text;
             item.SubItems[0].Text = cmbIngr.SelectedItem.ToString();
@@ -233,6 +229,11 @@ namespace MajPAbGr_project
                 btn_submit.Enabled = false; // submit
                 btn_calc.Focus(); // calc
             }
+
+            elements[listView1.SelectedIndices[0]].Amounts = num;
+            elements[listView1.SelectedIndices[0]].Name = (string)cmbIngr.SelectedItem;
+            elements[listView1.SelectedIndices[0]].Id = (int)item.Tag;
+
             txbAmounts.Text = "0"+","+"0"; //Enviroment decimal separator
             return 0;
         }
@@ -240,9 +241,10 @@ namespace MajPAbGr_project
         private void btn_remove_Click(object sender, EventArgs e)
         {
             ListViewItem items;
+            int index = listView1.SelectedItems[0].Index;
             if (listView1.Items.Count > 0) // proverka spiska
             {            
-                listView1.Items.RemoveAt(listView1.SelectedItems[0].Index);
+                listView1.Items.RemoveAt(index);
                 if (listView1.Items.Count > 0)
                 {
                     items = listView1.Items[listView1.Items.Count - 1];
@@ -250,11 +252,11 @@ namespace MajPAbGr_project
                 }
                 else btn_submit.Enabled = false;
             }
-            //if (mode == Mode.Edit)
-            //{
-            //    elements.RemoveAt(listView1.SelectedItems[0].Index);
-            //    MessageBox.Show($"Are deleted {listView1.SelectedItems[0].Index}");
-            //}
+            if (mode == Mode.Edit)
+            {
+                elements.RemoveAt(index);
+                MessageBox.Show($"Are deleted {listView1.SelectedItems[0].Index}");
+            }
         }
 
         private void button3_Click(object sender, EventArgs e) // calculation
@@ -309,33 +311,22 @@ namespace MajPAbGr_project
             
             if (mode == Mode.Edit)
             {
-                ListView lv = listView1;
-                int count = lv.Items.Count - 1;
-                string [] id_ingredients = new string [count];
-                string [] amounts_of_ingredients = new string [count];
-                List<string> amounts = tbAmounts.setAmounts(id_recepture);
-                int k;
-                for (k = 0; k < count; k++)
-                {
-                    id_ingredients[k] = lv.Items[k].Tag.ToString();
-                    amounts_of_ingredients[k] = lv.Items[k].SubItems[1].Text;
-                }
-                //tbAmounts.UpdateAmounts(id_ingredients, amounts_of_ingredients, id_recepture);
+                int count = elements.Count, k;
+                List<string> amounts = tbAmounts.setAmountsIdList(id_recepture);               
 
                 for (k = 0; k < count; k++)
                 {
-                    ind += tbAmounts.UpdateReceptureOrCards("id_ingredients", id_ingredients[k], int.Parse(amounts[k]));
-                    ind += tbAmounts.UpdateReceptureOrCards("amount", amounts_of_ingredients[k], int.Parse(amounts[k]));
+                    ind += tbAmounts.UpdateReceptureOrCards("id_ingredients", elements[k].Id.ToString(), int.Parse(amounts[k]));
+                    ind += tbAmounts.UpdateReceptureOrCards("amount", elements[k].Amounts.ToString(), int.Parse(amounts[k]));
                 }
-                //if (ind == (count * 2))
-                //{
-                //    //return 0;
-                //}
-                //else
-                //{
-                //    //return -1;
-                //}
                 MessageBox.Show("Updated"+ind.ToString());
+                tbAmounts.RefreshElements();
+                elements = tbAmounts.getElements();
+
+                fillAmounts();
+                FillAmountsView(); // listview
+                showOldAmounts(); // for edit mode
+
             }
             else
             {
@@ -345,7 +336,7 @@ namespace MajPAbGr_project
 
                 btn_recipe.Enabled = true;
                 btn_submit.Enabled = false;
-                //mode = Mode.Edit;
+                mode = Mode.Edit;
             }
         }
 

@@ -6,31 +6,37 @@ using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
-    class AmountsController : tbClass1
+    public class AmountsController : tbClass1
     {
         private List<string> amounts_id;
         private List<Element> elements;
         private int id_recepture;
+        FormMainController tbRec;
 
-        public AmountsController(string table) : base(table) { }
+        public AmountsController(string table) : base(table) { } // New Recepture; create mode
 
-        public AmountsController(string table, FormMainController tb) : base(table)
+        public AmountsController(string table, FormMainController tb) : base(table) // for edit mode
         {
-            elements = tb.readElement(1);
             id_recepture = tb.Selected;
+            amounts_id = setAmountsIdList(id_recepture);
+            tbRec = tb;
+            elements = tb.readElement(1);
         }
 
-        public Element getElement(int index)
+        public Element getElementByID(int index)
         {
             return elements[index];
         }
 
-        public void RefreshElements(FormMainController tb)
+        public List<Element> getElements() { return elements; }
+
+
+        public void RefreshElements()
         {
-            elements = tb.readElement(1);
+            elements = tbRec.readElement(1);
         }
 
-        public int Id_recepture 
+        public int Id_recepture
         {
             get { return id_recepture; }
         }
@@ -40,12 +46,14 @@ namespace MajPAbGr_project
             base.table = table;
         }
 
-        public List<string> setAmounts(int recepture)
+        public List<string> setAmountsIdList(int recepture)
         {
             string query = $"select id  from AmountsT where id_recepture = {recepture}";
             amounts_id = dbReader(query);
             return amounts_id;
         }
+
+        public List<string> getAmountsIdList { get {return amounts_id; } }
 
         public int InsertAmounts(ref System.Windows.Forms.ListView lv, int id_recepture) // mode: create
         {
