@@ -34,7 +34,7 @@ namespace MajPAbGr_project
             Class1.FillCombo(receptures, ref cmbIngr); 
         }
 
-        public InsertAmounts(Mode mode, AmountsController tbAmounts)
+        public InsertAmounts(Mode mode, ref AmountsController tbAmounts)
         {
             InitializeComponent();
             

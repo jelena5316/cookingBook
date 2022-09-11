@@ -352,8 +352,8 @@ namespace MajPAbGr_project
         private void AmountsTable(Mode mode)
         {
             if (tb.getSelected() == 0) return;
-            AmountsController cntrl = new AmountsController("AmountsT", tb);
-            InsertAmounts frm = new InsertAmounts(mode, cntrl);           
+            AmountsController cntrl = new AmountsController("AmountsT", ref tb);
+            InsertAmounts frm = new InsertAmounts(mode, ref cntrl);           
             frm.ShowDialog();
         }
 
