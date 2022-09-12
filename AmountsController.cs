@@ -48,7 +48,7 @@ namespace MajPAbGr_project
 
         public List<string> setAmountsIdList(int recepture)
         {
-            string query = $"select id  from AmountsT where id_recepture = {recepture}";
+            string query = $"select id  from Amounts where id_recepture = {recepture}";
             amounts_id = dbReader(query);
             return amounts_id;
         }
@@ -75,7 +75,7 @@ namespace MajPAbGr_project
                 amount = lv.Items[index].SubItems[2].Text;
                 amount = calc.ColonToPoint(amount);
 
-                query = "insert into AmountsT (id_recepture, id_ingredients, amount) " +
+                query = "insert into Amounts (id_recepture, id_ingredients, amount) " +
                 $"values ({id_recepture}, {id_ingr}, {amount} );";                
                 ind = Edit(query);
                 if (ind > 0)

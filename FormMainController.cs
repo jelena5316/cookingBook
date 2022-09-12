@@ -21,7 +21,7 @@ namespace MajPAbGr_project
             {
                 case 1: // amounts
                     query = "SELECT id_ingredients, name, amount" +
-                    " FROM AmountsT AS am JOIN Ingredients AS ingr " +
+                    " FROM Amounts AS am JOIN Ingredients AS ingr " +
                     "ON am.id_ingredients = ingr.id WHERE am.id_recepture = "
                     + selected + ";";
 
