@@ -1,13 +1,11 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using System.Globalization;
+using System.Globalization;
 
 namespace MajPAbGr_project
 {
@@ -20,7 +18,9 @@ namespace MajPAbGr_project
         Mode mode; //create new or edit old
         List<Element> elements; // id and name, amounts
         double[] amounts;
-       // NumberFormatInfo nfi = new CultureInfo("Ru-ru", false).NumberFormat;
+
+        NumberFormatInfo nfi;
+        string decimal_separator;
 
         public InsertAmounts(int id) // New Recepture
         {
@@ -57,8 +57,13 @@ namespace MajPAbGr_project
         {
             btn_recipe.Enabled = false; //insert recipe           
             btn_submit.Enabled = false; // submit ingredients
-            txbAmounts.Text = "0" + "," + "0"; // "," number decimal separator
-            //txbAmounts.Text = "0" + nfi.NumberDecimalSeparator + "0";
+            
+            CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
+            nfi = CultureInfo.CurrentCulture.NumberFormat;
+            decimal_separator = nfi.NumberDecimalSeparator;
+            this.Text += " " + CultureInfo.CurrentCulture +
+                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
+            txbAmounts.Text = "0" + decimal_separator + "0";
 
             if (mode == Mode.Edit)
             {
@@ -160,7 +165,7 @@ namespace MajPAbGr_project
             el.Amounts = num;
             elements.Insert(item.Index, el);
 
-            txbAmounts.Text = "0"+","+"0"; //Enviroment decimal separator
+            txbAmounts.Text = "0" + decimal_separator + "0";
             cmbIngr.Focus();
         }
 
@@ -234,7 +239,7 @@ namespace MajPAbGr_project
             elements[listView1.SelectedIndices[0]].Name = (string)cmbIngr.SelectedItem;
             elements[listView1.SelectedIndices[0]].Id = (int)item.Tag;
 
-            txbAmounts.Text = "0"+","+"0"; //Enviroment decimal separator
+            txbAmounts.Text = "0" + decimal_separator + "0";
             return 0;
         }
 
@@ -317,7 +322,8 @@ namespace MajPAbGr_project
                 for (k = 0; k < count; k++)
                 {
                     ind += tbAmounts.UpdateReceptureOrCards("id_ingredients", elements[k].Id.ToString(), int.Parse(amounts[k]));
-                    ind += tbAmounts.UpdateReceptureOrCards("amount", elements[k].Amounts.ToString(), int.Parse(amounts[k]));
+                    string amount = calc.ColonToPoint(elements[k].Amounts.ToString());
+                    ind += tbAmounts.UpdateReceptureOrCards("amount", amount, int.Parse(amounts[k]));
                 }
                 MessageBox.Show("Updated"+ind.ToString());
                 tbAmounts.RefreshElements();
