@@ -144,28 +144,50 @@ namespace MajPAbGr_project
                 num = double.Parse(txbAmounts.Text);
             else return;
 
-            //ubiraem vydelenie
             ListViewItem items;
+            int index = 0;
             if (listView1.SelectedItems.Count > 0) //proverka spiska            
             {
                 items = listView1.SelectedItems[0];
-                items.Selected = false;
+                index = items.Index;
+                items.Selected = false; // ubiraem vydelenie
+
+                ListViewItem item = new ListViewItem(cmbIngr.Text);
+                item.SubItems.Add(txbAmounts.Text);
+                item.SubItems.Add("");
+                item.Tag = tbIngred.getSelected(); // id of ingredient                                                 
+                listView1.Items.Insert(index+1, item);                
+
+                //добавить в список элементов
+                Element el = new Element();
+                el.Id = (int)item.Tag;
+                el.Name = cmbIngr.Text;
+                el.Amounts = num;
+                elements.Insert(index+1, el);
+
+                //выделить новый
+                items = listView1.Items[index+1];
+                items.Selected = true;
             }
+            else
+            {
+                ListViewItem item = new ListViewItem(cmbIngr.Text);
+                item.SubItems.Add(txbAmounts.Text);
+                item.SubItems.Add(""); // заготовка под проценты
+                item.Tag = tbIngred.getSelected(); // id of ingredient       
+                listView1.Items.Insert(listView1.Items.Count-1, item);
+            
+                //добавить в список элементов
+                Element el = new Element();
+                el.Id = (int)item.Tag;
+                el.Name = cmbIngr.Text;
+                el.Amounts = num;
+                elements.Add(el);
 
-            ListViewItem item = new ListViewItem(cmbIngr.Text);
-            item.SubItems.Add(txbAmounts.Text);
-            item.SubItems.Add(""); // заготовка под проценты
-            item.Tag = tbIngred.getSelected(); // id of ingredient       
-            listView1.Items.Add(item);
-            item.Selected = true;
-
-            //добавить в список элементов
-            Element el = new Element();
-            el.Id = (int)item.Tag;
-            el.Name = cmbIngr.Text;
-            el.Amounts = num;
-            elements.Insert(item.Index, el);
-
+                //выделить новый
+                items = listView1.Items[listView1.Items.Count-2];
+                items.Selected = true;
+            }
             txbAmounts.Text = "0" + decimal_separator + "0";
             cmbIngr.Focus();
         }
@@ -265,6 +287,9 @@ namespace MajPAbGr_project
                 elements.RemoveAt(index);
                 MessageBox.Show($"Are deleted {listView1.SelectedItems[0].Index}");
             }
+            items = listView1.SelectedItems[0];
+            items.Selected = false;
+            listView1.Items[elements.Count-1].Selected = true;
         }
 
         private void button3_Click(object sender, EventArgs e) // calculation
@@ -320,8 +345,8 @@ namespace MajPAbGr_project
             if (mode == Mode.Edit)
             {
                 int count = elements.Count, k;
-                List<string> amounts = tbAmounts.setAmountsIdList(id_recepture);               
-
+                List<string> amounts = tbAmounts.setAmountsIdList(id_recepture);
+    
                 for (k = 0; k < count; k++)
                 {
                     ind += tbAmounts.UpdateReceptureOrCards("id_ingredients", elements[k].Id.ToString(), int.Parse(amounts[k]));
@@ -374,8 +399,8 @@ namespace MajPAbGr_project
                 r.Enabled = false;
                 //пока проверяю один из подрежимов
 
-                btn_remove.Enabled = false;
-                btn_edit.Enabled = false;
+                //btn_remove.Enabled = false;
+                //btn_edit.Enabled = false;
 
                 //MessageBox.Show("radio button is checked");
             }
