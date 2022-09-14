@@ -59,13 +59,6 @@ namespace MajPAbGr_project
             btn_submit.Enabled = false; // submit ingredients
             txbAmounts.Text = "0" + ","+ "0";
 
-            //CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
-            //nfi = CultureInfo.CurrentCulture.NumberFormat;
-            //decimal_separator = nfi.NumberDecimalSeparator;
-            //this.Text += " " + CultureInfo.CurrentCulture +
-            //    " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
-            //txbAmounts.Text = "0" + decimal_separator + "0";
-
             if (mode == Mode.Edit)
             {
                 listView1.Columns[1].Text = "Amounts(%) new";
@@ -77,6 +70,13 @@ namespace MajPAbGr_project
                 //label1.Visible = false;
                 radioButton1.Checked = true;
             }
+
+            CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
+            nfi = CultureInfo.CurrentCulture.NumberFormat;
+            decimal_separator = nfi.NumberDecimalSeparator;
+            this.Text += " " + CultureInfo.CurrentCulture +
+                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
+            txbAmounts.Text = "0" + decimal_separator + "0";
         }
 
         private void fillAmounts() //for create mode
@@ -213,6 +213,7 @@ namespace MajPAbGr_project
             }
             txbAmounts.Text = item.SubItems[1].Text;
             cmbIngr.Text = item.SubItems[0].Text;
+            cmbIngr.Enabled = false;
             return 0;
         }
 
@@ -241,6 +242,7 @@ namespace MajPAbGr_project
             elements[listView1.SelectedIndices[0]].Id = (int)item.Tag;
 
             txbAmounts.Text = "0" + decimal_separator + "0";
+            cmbIngr.Enabled = true;
             return 0;
         }
 
