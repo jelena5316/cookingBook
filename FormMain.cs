@@ -35,12 +35,22 @@ namespace MajPAbGr_project
             list = listView1;
         }
 
+        private void AutocompleteRecipeName()
+        {
+            AutoCompleteStringCollection source = new AutoCompleteStringCollection();
+            foreach (Element el in recipes) source.Add(el.Name);
+            txb_new_recipe.AutoCompleteCustomSource = source;
+            txb_new_recipe.AutoCompleteMode = AutoCompleteMode.Suggest;
+            txb_new_recipe.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             tb.setCatalog();
             fillCatalog(tb.getCatalog());
             tb.setSubCatalog(); // table Recipe
             fillSubCatalog(); // table Recipe
+            AutocompleteRecipeName(); // table Recipe
             checkBox1.Checked = false;
             checkBox1.Enabled = false;
             btn_insert.Enabled = false;
@@ -52,10 +62,6 @@ namespace MajPAbGr_project
                 " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";           
         }
 
-        private void localizacijaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //
-        }
         private void uSToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CultureInfo.CurrentCulture = new CultureInfo("us-US");
@@ -143,6 +149,7 @@ namespace MajPAbGr_project
             string info;
             tb.setSubCatalog();
             fillSubCatalog();
+            AutocompleteRecipeName(); // table Recipe
 
             category = tb.getById("id_category", selected);
 
@@ -234,12 +241,11 @@ namespace MajPAbGr_project
              {
                  amount = double.Parse(txb_coeff.Text);//us_Us: from '0,x' get a 'x'
              }
-            else
+            else // при латышской или русской локализации
             {
                 //MessageBox.Show("String was not in correct format");
-
                 //point to colon -- улавливает ошибку неверного формата строки и исрпавляет её
-                // при латышской или русской локализации
+                
                 t = txb_coeff.Text;
                 temp = "";
                 if (t.Contains('.'))
@@ -594,10 +600,6 @@ namespace MajPAbGr_project
             txb_new_recipe.Text = "";
         }
 
-        private void txb_new_recipe_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         //private void executeViewToolStripMenuItem_Click(object sender, EventArgs e)
         //{
@@ -623,16 +625,3 @@ namespace MajPAbGr_project
         //}
     }
 }
-//SELECT(
-//               SELECT name
-//                 FROM Recepture
-//                WHERE id = 8
-//           )
-//           AS recepture,
-//           name,
-//           Coefficient AS coefficient,
-//           amount * Coefficient AS amount
-//      FROM Recipe AS r
-//           JOIN
-//           Amounts AS a ON r.id_recepture = a.id_recepture
-//     WHERE r.id_recepture = 8

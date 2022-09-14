@@ -237,7 +237,7 @@ namespace MajPAbGr_project
             this.localizacijaToolStripMenuItem.Name = "localizacijaToolStripMenuItem";
             this.localizacijaToolStripMenuItem.Size = new System.Drawing.Size(31, 20);
             this.localizacijaToolStripMenuItem.Text = "LV";
-            this.localizacijaToolStripMenuItem.Click += new System.EventHandler(this.localizacijaToolStripMenuItem_Click);
+           
             // 
             // uSToolStripMenuItem
             // 
@@ -289,6 +289,7 @@ namespace MajPAbGr_project
             this.txb_new_recipe.Size = new System.Drawing.Size(143, 20);
             this.txb_new_recipe.TabIndex = 15;
             this.txb_new_recipe.Text = "автодополнение! сделать";
+            
             // 
             // btn_insert
             // 
