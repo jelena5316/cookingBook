@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Globalization;
 
 namespace MajPAbGr_project
 {
@@ -22,6 +19,9 @@ namespace MajPAbGr_project
         ComboBox combo;
         ComboBox recipe;
         ListView list;
+
+        NumberFormatInfo nfi;
+        string decimal_separator;
 
         public FormMain()
         {
@@ -44,7 +44,49 @@ namespace MajPAbGr_project
             checkBox1.Checked = false;
             checkBox1.Enabled = false;
             btn_insert.Enabled = false;
+
+            CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
+            nfi = CultureInfo.CurrentCulture.NumberFormat;
+            decimal_separator = nfi.NumberDecimalSeparator;
+            this.Text += " " + CultureInfo.CurrentCulture +
+                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";           
         }
+
+        private void localizacijaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //
+        }
+        private void uSToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CultureInfo.CurrentCulture = new CultureInfo("us-US");
+            nfi = CultureInfo.CurrentCulture.NumberFormat;
+            decimal_separator = nfi.NumberDecimalSeparator;
+            this.Text = "Receptures " + CultureInfo.CurrentCulture +
+                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
+            localizacijaToolStripMenuItem.Text = "US";
+        }
+
+        private void lVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CultureInfo.CurrentCulture = new CultureInfo("lv-LV");
+            nfi = CultureInfo.CurrentCulture.NumberFormat;
+            decimal_separator = nfi.NumberDecimalSeparator;
+            this.Text = "Receptures " + CultureInfo.CurrentCulture +
+                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
+            localizacijaToolStripMenuItem.Text = "LV";
+        }
+
+        private void rUToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
+            nfi = CultureInfo.CurrentCulture.NumberFormat;
+            decimal_separator = nfi.NumberDecimalSeparator;
+            this.Text = "Receptures " + CultureInfo.CurrentCulture +
+                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
+            localizacijaToolStripMenuItem.Text = "RU";
+        }
+
+
 
         private List<Item> fillCatalog(List<Item> items)
         {
@@ -116,7 +158,7 @@ namespace MajPAbGr_project
             }
             lbl_info.Text = info;
 
-            //used more in `InsertAmounts`, mode:edit
+            //used more one time in `InsertAmounts`, mode:edit
             List<Element> rec = tb.readElement(1); // amounts
             calc.setAmounts(rec); // сохраняет и cуммирует величины
             InputRecepture(rec);
@@ -149,7 +191,7 @@ namespace MajPAbGr_project
         {
             if (comboBox2.SelectedIndex < 0) return;
             calc.Coefficient = recipes[comboBox2.SelectedIndex].Amounts;
-            lbl_koef.Text = calc.Coefficient.ToString();
+            lbl_koef.Text = calc.Coefficient.ToString();            
         }
 
         private void button1_Click(object sender, EventArgs e) // recalc recepture
@@ -180,40 +222,51 @@ namespace MajPAbGr_project
              string indikator = cmb_option.Text;
              string temp, t;
 
-             if (double.TryParse(txb_coeff.Text, out amount))
-             {
-                 amount = double.Parse(txb_coeff.Text);
-             }
-             else 
-             {
-                //point to colon
-                 t = txb_coeff.Text;
-                 temp = "";
-                 if (t.Contains('.'))
-                 {
-                     int k;
-                     for (k = 0; k < t.Length; k++)
-                     {
-                         if (t[k] != '.')
-                             temp += t[k];
-                         else
-                             temp += ',';
-                     }
-                     t = temp;
-                     txb_coeff.Text = temp;
-                 }
+            //if (nfi.NumberDecimalSeparator == ".")
+            //    txb_coeff.Text = calc.ColonToPoint(txb_coeff.Text);
+            // или
+            if (CultureInfo.CurrentCulture.Name == "us-US")
+                txb_coeff.Text = calc.ColonToPoint(txb_coeff.Text);
+            // потому что при английской локализации (".")
+            // число с запятой парсируется, но не верно;
 
-                 if (double.TryParse(t, out amount))
-                 {
-                     amount = double.Parse(t);
-                 }
-                 else
-                 {
-                     amount = 1;
-                     txb_coeff.Text = "not number";
-                     return;
-                 }
+            if (double.TryParse(txb_coeff.Text, out amount))
+             {
+                 amount = double.Parse(txb_coeff.Text);//us_Us: from '0,x' get a 'x'
              }
+            else
+            {
+                //MessageBox.Show("String was not in correct format");
+
+                //point to colon -- улавливает ошибку неверного формата строки и исрпавляет её
+                // при латышской или русской локализации
+                t = txb_coeff.Text;
+                temp = "";
+                if (t.Contains('.'))
+                {
+                    int k;
+                    for (k = 0; k < t.Length; k++)
+                    {
+                        if (t[k] != '.')
+                            temp += t[k];
+                        else
+                            temp += ',';
+                    }
+                    t = temp;
+                    txb_coeff.Text = temp;
+                }
+
+                if (double.TryParse(t, out amount))
+                {
+                    amount = double.Parse(t);
+                }
+                else
+                {
+                    amount = 1;
+                    txb_coeff.Text = "not number";
+                    return;
+                }
+            }
 
             // вынести в CalcFunction.cs (?)
             switch (indikator)
@@ -252,6 +305,7 @@ namespace MajPAbGr_project
          {
             string str_coeff;
             string count;
+
             RecipeController recipe = new RecipeController
                 ("Recipe", comboBox2.SelectedIndex, tb.Selected);
             count = recipe.Count
@@ -273,7 +327,7 @@ namespace MajPAbGr_project
                     MessageBox.Show($"Recipe {txb_new_recipe.Text} already exists");
                 }
             }
-            else
+            else //Recipe.cs
             {
                 if (txb_coeff.Text == "" || txb_coeff.Text == " ")
                 {
@@ -540,6 +594,45 @@ namespace MajPAbGr_project
             txb_new_recipe.Text = "";
         }
 
-        
+        private void txb_new_recipe_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        //private void executeViewToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    string file;
+        //    if (!string.IsNullOrEmpty(comboBox1.SelectedItem.ToString()))
+        //        file = comboBox1.SelectedItem.ToString();
+        //    else file = "recipe";
+        //    List<string> strings = PrintViewRezult();
+
+        //    //PrintToFile(strings, file);
+        //    Form2 frm = new Form2(strings, file);
+        //    frm.Show();
+        //}
+
+        //private List<string> PrintViewRezult()
+        //{
+        //    string query = "SELECT (SELECT name FROM Recepture WHERE id = 8) AS recepture, " +
+        //    "name, Coefficient AS coefficient, amount*Coefficient AS amount " +
+        //   "FROM Recipe AS r " +
+        //   "JOIN " +
+        //   "Amounts AS a ON r.id_recepture = a.id_recepture WHERE r.id_recepture = 8;";   
+        //    return tb.dbReader(query);
+        //}
     }
 }
+//SELECT(
+//               SELECT name
+//                 FROM Recepture
+//                WHERE id = 8
+//           )
+//           AS recepture,
+//           name,
+//           Coefficient AS coefficient,
+//           amount * Coefficient AS amount
+//      FROM Recipe AS r
+//           JOIN
+//           Amounts AS a ON r.id_recepture = a.id_recepture
+//     WHERE r.id_recepture = 8

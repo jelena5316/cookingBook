@@ -15,13 +15,13 @@ namespace MajPAbGr_project
         public RecipeController (string table, int index, int recepture) : base (table)
         {
             this.recepture = recepture;
-            selected = recepture;
+            catalog = setSubCatalog();
+            selected = setSelected(0);
 
-            if(index >-1)
+            if (index > -1)
             {
-                catalog = setSubCatalog();
-                selected = setSelected(index);  
-            }       
+                selected = setSelected(index);
+            }  
         }
 
         public new List<Item> setSubCatalog()
@@ -58,7 +58,7 @@ namespace MajPAbGr_project
         {
             string query = $"insert into Recipe" +
                 $" (name, id_recepture, coefficient) values" +
-                $" ('{name}', {selected}, {coeff});";
+                $" ('{name}', {recepture}, {coeff});";
             return Edit(query);
         }
     }

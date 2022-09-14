@@ -126,7 +126,7 @@ namespace MajPAbGr_project
         public string ColonToPoint(string text)
         {
             string number;
-            if (text.Contains(","))
+            if (text.Contains(",")) // if (text.Contains(",") || text.Contains((char)44)))
             {
                 int k;
                 number = "";
@@ -146,3 +146,35 @@ namespace MajPAbGr_project
         }
     }
 }
+
+//static string ColonToPoint(string t) // from  gdb
+//{
+//    char[] new_string = new char[t.Length];
+//    for (int k = 0; k < t.Length; k++)
+//    {
+//        if (t[k] == (char)44)
+//        {
+//            new_string[k] = '.';
+//        }
+//        else new_string[k] = t[k];
+//    }
+//    t = new String(new_string);
+//    return t;
+//}
+
+// static string PointToColon ( string t ) // 196 -209 in Formmain.cs
+// {
+// char[] temp = new char[t.Length];
+// if (t.Contains('.'))
+//  {
+//    int k;
+//    for (k = 0; k < t.Length; k++)
+//    {
+//        if (t[k] == '.')
+//          temp [] = ',';
+//        else
+//          temp [k]= t[k];
+//    }
+//    t = new String(temp);    
+//  return t;
+//}

@@ -57,13 +57,14 @@ namespace MajPAbGr_project
         {
             btn_recipe.Enabled = false; //insert recipe           
             btn_submit.Enabled = false; // submit ingredients
-            
-            CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
-            nfi = CultureInfo.CurrentCulture.NumberFormat;
-            decimal_separator = nfi.NumberDecimalSeparator;
-            this.Text += " " + CultureInfo.CurrentCulture +
-                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
-            txbAmounts.Text = "0" + decimal_separator + "0";
+            txbAmounts.Text = "0" + ","+ "0";
+
+            //CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
+            //nfi = CultureInfo.CurrentCulture.NumberFormat;
+            //decimal_separator = nfi.NumberDecimalSeparator;
+            //this.Text += " " + CultureInfo.CurrentCulture +
+            //    " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
+            //txbAmounts.Text = "0" + decimal_separator + "0";
 
             if (mode == Mode.Edit)
             {
