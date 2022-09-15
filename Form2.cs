@@ -74,10 +74,14 @@ namespace MajPAbGr_project
             richTextBox1.ReadOnly = true;
             richTextBox1.Text = "";
 
-            foreach (string str in strings)
+            if (strings != null)
             {
-                richTextBox1.Text += str + "\n";
+                foreach (string str in strings)
+                {
+                    richTextBox1.Text += str + "\n";
+                }
             }
+            
         }
     }
 }

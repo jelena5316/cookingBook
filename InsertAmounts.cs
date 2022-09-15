@@ -22,6 +22,8 @@ namespace MajPAbGr_project
         NumberFormatInfo nfi;
         string decimal_separator;
 
+        Form2 frm = new Form2();
+
         public InsertAmounts(int id) // New Recepture
         {
             InitializeComponent();
@@ -46,8 +48,7 @@ namespace MajPAbGr_project
             tbIngred = new IngredientsController(1);
             tbIngred.setCatalog();
             List<Item> receptures = tbIngred.getCatalog();
-            Class1.FillCombo(receptures, ref cmbIngr);
-
+            Class1.FillCombo(receptures, ref cmbIngr);           
             fillAmounts();
             FillAmountsView(); // listview
             showOldAmounts(); // for edit mode
@@ -77,6 +78,21 @@ namespace MajPAbGr_project
             this.Text += " " + CultureInfo.CurrentCulture +
                 " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
             txbAmounts.Text = "0" + decimal_separator + "0";
+
+            // эмулятор консоли, выводит метаданные           
+            frm.Show();
+            frm.richTextBox1.Text = "On Load: \n";
+            frm.richTextBox1.Text += this.Text + " ";
+            frm.richTextBox1.Text += this.mode == Mode.Create ? "crete mode" : "edit mode";
+            frm.richTextBox1.Text += "\nelements count: " + tbAmounts.Elements_count;
+            frm.richTextBox1.Text += "\nid count: " + tbAmounts.Amount_id_count + "\n";
+            frm.richTextBox1.Text += tbAmounts.Amount_id_count >= tbAmounts.Elements_count;
+            frm.richTextBox1.Text += "\nAmounts from array \'amounts\': \n";
+            for (int k = 0; k < amounts.Length-1; k++)
+            {
+                frm.richTextBox1.Text += amounts[k] + " ";
+            }
+            frm.richTextBox1.Text += "\n****\n";
         }
 
         private void fillAmounts() //for create mode
@@ -90,6 +106,13 @@ namespace MajPAbGr_project
             calc = new CalcFunction();
             calc.setAmounts(elements); // сохраняет и cуммирует величины
             amounts[k] = calc.getTotal();
+
+            //вывод в консоль
+            frm.richTextBox1.Text += "On fillAmounts (write ingredients amounts from this elements)\n";
+            for (k = 0; k <amounts.Length; k++)
+            {
+                frm.richTextBox1.Text += amounts[k] + " ";
+            }
         }
 
         private void FillAmountsView()
@@ -190,6 +213,15 @@ namespace MajPAbGr_project
             }
             txbAmounts.Text = "0" + decimal_separator + "0";
             cmbIngr.Focus();
+
+            //вывод в консоль
+            frm.richTextBox1.Text += "On btn_edit click, new item added\n";
+            frm.richTextBox1.Text += "records in list view count: " + (listView1.Items.Count - 1).ToString();
+            frm.richTextBox1.Text += "\nrecords in \'elements\' count: " + this.elements.Count;
+            frm.richTextBox1.Text += "\nrecords in controller \'elements\' count: " + tbAmounts.Elements_count;
+            frm.richTextBox1.Text += "\nid count: " + tbAmounts.Amount_id_count + "\n";
+            frm.richTextBox1.Text += tbAmounts.Amount_id_count >= tbAmounts.Elements_count;
+            frm.richTextBox1.Text += "\n***\n";
         }
 
         private void button2_Click(object sender, EventArgs e) // edit listview item
@@ -290,6 +322,15 @@ namespace MajPAbGr_project
             items = listView1.SelectedItems[0];
             items.Selected = false;
             listView1.Items[elements.Count-1].Selected = true;
+
+            //вывод в консоль
+            frm.richTextBox1.Text += "On btn_remove click, an item deleted\n";
+            frm.richTextBox1.Text += "records in list view count: " + (listView1.Items.Count - 1).ToString();
+            frm.richTextBox1.Text += "\nrecords in \'elements\' count: " + this.elements.Count;
+            frm.richTextBox1.Text += "\nrecords in controller \'elements\' count: " + tbAmounts.Elements_count;
+            frm.richTextBox1.Text += "\nid count: " + tbAmounts.Amount_id_count + "\n";
+            frm.richTextBox1.Text += tbAmounts.Amount_id_count >= tbAmounts.Elements_count;
+            frm.richTextBox1.Text += "\n***\n";
         }
 
         private void button3_Click(object sender, EventArgs e) // calculation

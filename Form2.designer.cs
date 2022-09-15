@@ -99,11 +99,10 @@ namespace MajPAbGr_project
         }
 
         #endregion
-
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
+        public System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
