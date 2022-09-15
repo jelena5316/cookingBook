@@ -13,10 +13,15 @@ namespace MajPAbGr_project
         /// </summary>
         [STAThread]
         static void Main()
-        {
+        { 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMain());
+
+            FormMainController tb = new FormMainController("Recepture");
+            tb.Selected = 8;
+            AmountsController cntrl = new AmountsController("Amounts", ref tb);            
+            //Application.Run(new FormMain());
+            Application.Run(new InsertAmounts(Mode.Edit, ref cntrl));
         }
     }
 }

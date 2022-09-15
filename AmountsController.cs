@@ -8,6 +8,7 @@ namespace MajPAbGr_project
 {
     public class AmountsController : tbClass1
     {
+        private int amount_id_count, elements_count;
         private List<string> amounts_id;
         private List<Element> elements;
         private int id_recepture;
@@ -21,19 +22,27 @@ namespace MajPAbGr_project
             amounts_id = setAmountsIdList(id_recepture);
             tbRec = tb;
             elements = tb.readElement(1);
+
+            // for data updating
+            amount_id_count = amounts_id.Count;
+            elements_count = elements.Count;
         }
 
-        public Element getElementByID(int index)
+        public int Amount_id_count { get { return amount_id_count; } }
+
+        public int Elements_count { get { elements_count = elements.Count; return elements_count; } }
+
+        public Element getElementByIndex(int index)
         {
             return elements[index];
         }
 
         public List<Element> getElements() { return elements; }
 
-
         public void RefreshElements()
         {
             elements = tbRec.readElement(1);
+            elements_count = elements.Count;
         }
 
         public int Id_recepture
@@ -86,7 +95,7 @@ namespace MajPAbGr_project
         }
 
         public int UpdateAmounts
-            (string [] id_ingredients, string [] amounts_of_ingredients, int id_recepture)
+            (string [] id_ingredients, string [] amounts_of_ingredients, int id_recepture) // mode: edit
         //случай, когда число записей не меняется
         {
             //перенесла код в форму

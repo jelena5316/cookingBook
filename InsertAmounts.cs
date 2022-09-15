@@ -109,7 +109,7 @@ namespace MajPAbGr_project
 
             //вывод в консоль
             frm.richTextBox1.Text += "On fillAmounts (write ingredients amounts from this elements)\n";
-            for (k = 0; k <amounts.Length; k++)
+            for (k = 0; k < amounts.Length-1; k++)
             {
                 frm.richTextBox1.Text += amounts[k] + " ";
             }
@@ -248,6 +248,7 @@ namespace MajPAbGr_project
                         btn_remove.Enabled = true;
                 }
                 else MessageBox.Show("Please, select any ingredient to edit!");
+                btn_remove.Enabled = true;
             }            
         }
 
@@ -378,6 +379,63 @@ namespace MajPAbGr_project
             btn_submit.Enabled = true;
         }
 
+        private int updateRecords()
+        {
+            int element_count = tbAmounts.Elements_count, k, amount_count, ind = 0;
+            List<string> amounts = tbAmounts.getAmountsIdList;
+            amount_count = tbAmounts.Amount_id_count;
+            //bool diff = amount_count >= element_count;
+            
+            if(amount_count >= element_count)
+            {
+                frm.richTextBox1.Text += "\n***\nUpdating db\n";
+                for (k = 0; k < element_count; k++)
+                {
+                    ind += tbAmounts.UpdateReceptureOrCards("id_ingredients", elements[k].Id.ToString(), int.Parse(amounts[k]));
+                    string amount = calc.ColonToPoint(elements[k].Amounts.ToString());
+                    ind += tbAmounts.UpdateReceptureOrCards("amount", amount, int.Parse(amounts[k]));
+                    frm.richTextBox1.Text += ind/2 + "th records, where id " + amounts[k]+"\n";
+                }
+                if(amount_count - element_count > 0)
+                {
+                    //удаляем лишнее
+                    frm.richTextBox1.Text += "\n***\nDeleting from db\n";
+                    for (int q = k; q < amount_count; q++)
+                    {
+                        string query = $"delete from Amounts where id = {amounts[q]};";
+                        int rezult = tbAmounts.Edit(query);
+                        frm.richTextBox1.Text += rezult + " records, where id " + amounts[q]+"\n";
+                    }
+                }
+            }
+            else
+            {
+                frm.richTextBox1.Text += "\n***\nUpdating db\n";
+                for (k = 0; k < amount_count; k++)
+                {
+                    ind += tbAmounts.UpdateReceptureOrCards("id_ingredients", elements[k].Id.ToString(), int.Parse(amounts[k]));
+                    string amount = calc.ColonToPoint(elements[k].Amounts.ToString());
+                    ind += tbAmounts.UpdateReceptureOrCards("amount", amount, int.Parse(amounts[k]));
+                    frm.richTextBox1.Text += ind/2 + "th records, where row id " + amounts[k] + "\n";
+                }
+                frm.richTextBox1.Text += "\n***\nInserting into db\n";
+                for (int q = k; q < element_count; q++)
+                {
+                    // дописывает недостающее и получаем номера                    
+                    string amount = calc.ColonToPoint(elements[q].Amounts.ToString());
+                    string query = "insert into Amounts (id_recepture, id_ingredients, amount) " +
+                    $"values ({id_recepture}, {elements[q].Id.ToString()}, {amount}); select last_insert_rowid();";
+                    string id = tbAmounts.Count(query);
+                    frm.richTextBox1.Text += "last insert records id "+  id + ", where ingredients id " + elements[q].Id.ToString() + "\n";
+
+                    // вносим номера в список номеров в контроллере
+                    amounts.Add(id);
+                }
+                frm.richTextBox1.Text += "records are " + amounts.Count + "\n";
+            }
+            return ind;
+        }
+
         private void button4_Click(object sender, EventArgs e) // submit
         {
             int ind=0;
@@ -385,15 +443,7 @@ namespace MajPAbGr_project
             
             if (mode == Mode.Edit)
             {
-                int count = elements.Count, k;
-                List<string> amounts = tbAmounts.setAmountsIdList(id_recepture);
-    
-                for (k = 0; k < count; k++)
-                {
-                    ind += tbAmounts.UpdateReceptureOrCards("id_ingredients", elements[k].Id.ToString(), int.Parse(amounts[k]));
-                    string amount = calc.ColonToPoint(elements[k].Amounts.ToString());
-                    ind += tbAmounts.UpdateReceptureOrCards("amount", amount, int.Parse(amounts[k]));
-                }
+                ind = updateRecords();
                 MessageBox.Show("Updated"+ind.ToString());
                 tbAmounts.RefreshElements();
                 elements = tbAmounts.getElements();
