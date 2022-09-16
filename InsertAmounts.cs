@@ -151,7 +151,7 @@ namespace MajPAbGr_project
         {
             tbIngred.setSelected(cmbIngr.SelectedIndex);
             cmbIngr.Text = cmbIngr.SelectedItem.ToString();
-            txbAmounts.Focus();
+            //txbAmounts.Focus();
             if(mode == Mode.Create)
                 txbAmounts.Text = "";
         }
@@ -334,48 +334,93 @@ namespace MajPAbGr_project
             frm.richTextBox1.Text += "\n***\n";
         }
 
+        /******************************************************************
+         * Калькуляция рецептуры и суммарного веса
+         ******************************************************************/
+        
+        private double [] AmountsFromListToArray(ref ListView lv, byte num)
+        {
+            double[] arr = new double[lv.Items.Count];
+            string t;
+            double arr_item;
+            for (int index = 0; index < arr.Length; index++)
+            {
+                t = listView1.Items[index].SubItems[num].Text;                
+                if (double.TryParse(t, out arr_item))
+                    arr[index] = arr_item;              
+                else
+                    arr[index] = 0.0;
+            }
+            return arr;
+        }
+
+        private double [] CalcRecepture(double a, ref double[] arr)
+        {
+            return calc.ReCalc(100 / a, arr);
+        }
+
         private void button3_Click(object sender, EventArgs e) // calculation
         {
-           
-            if (listView1.Items.Count < 1) return; 
-             calc = new CalcFunction();
+            if (listView1.Items.Count < 1) return;
 
+            double summa, a;
+            double[] arr;
+
+            a = double.Parse(listView1.Items[0].SubItems[1].Text);
+            arr = AmountsFromListToArray(ref listView1, 1);                 
+            calc = new CalcFunction();
+            summa = calc.Summa(arr); // 2 column
+
+            arr = CalcRecepture(a, ref arr);
+            calc.Coefficient = a / 100;
+  
             if  (mode == Mode.Create)
             {
-                double a = double.Parse(listView1.Items[0].SubItems[1].Text);
-                double[] arr = new double[listView1.Items.Count];
-                for (int index = 0; index < arr.Length; index++)
-                {
-                    arr[index] = double.Parse(listView1.Items[index].SubItems[1].Text);
-                }
-                arr = calc.ReCalc(100 / a, arr);
+                ListViewItem items;
+                items = new ListViewItem("Total");
+                items.Tag = -1;
+                items.SubItems.Add(summa.ToString());
+                summa = calc.Summa(arr);
+                items.SubItems.Add(summa.ToString());
 
                 for (int index = 0; index < arr.Length; index++)
                 {
                    listView1.Items[index].SubItems[2].Text = arr[index].ToString();
                 }
-                calc.Coefficient = a / 100;                
+                listView1.Items.Add(items);
                 //btn_submit.Enabled = true;
-
             }
             else
             {
-                //getting new total summ of ingredients amounts
                 int index;
-                ListView lv = listView1;
-                List<double> values = new List<double>();
-                for (index = 0; index < lv.Items.Count-1; index++)
+                if (a != 100.0)
                 {
-                     string amount = lv.Items[index].SubItems[1].Text;                     
-                     double value = double.Parse(amount);
-                    values.Add(value);
-                }                
-                calc.setAmounts(values);
-                double summa = calc.getTotal();
-
-                ListViewItem items = listView1.Items[listView1.Items.Count - 1];
-                items.SubItems[1].Text = summa.ToString();
+                    for (index = 0; index < arr.Length; index++)
+                    {
+                        listView1.Items[index].SubItems[1].Text += " (" + arr[index].ToString() + ")"; ;
+                    }
+                    listView1.Items[listView1.Items.Count - 1].SubItems[1].Text = summa.ToString();
+                    btn_calc.Enabled = false;
+                }
+                else
+                {
+                    //getting new total summ of ingredients amounts
+                    ListView lv = listView1;
+                    List<double> values = new List<double>();
+                    for (index = 0; index < lv.Items.Count-1; index++)
+                    {
+                         string amount = lv.Items[index].SubItems[1].Text;                     
+                         double value = double.Parse(amount);
+                        values.Add(value);
+                    }                
+                    calc.setAmounts(values);
+                    summa = calc.getTotal();
+                    ListViewItem items = listView1.Items[listView1.Items.Count - 1];
+                    items.SubItems[1].Text = summa.ToString();
+                }
+                
             }
+            
             btn_submit.Enabled = true;
         }
 
@@ -499,6 +544,11 @@ namespace MajPAbGr_project
             {
                 //MessageBox.Show("radio button is not checked");
             }
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

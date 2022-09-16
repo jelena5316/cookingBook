@@ -56,8 +56,8 @@ namespace MajPAbGr_project
             this.btn_submit.Location = new System.Drawing.Point(220, 268);
             this.btn_submit.Name = "btn_submit";
             this.btn_submit.Size = new System.Drawing.Size(79, 31);
-            this.btn_submit.TabIndex = 40;
-            this.btn_submit.Text = "Submit";
+            this.btn_submit.TabIndex = 2;
+            this.btn_submit.Text = "Refresh DB";
             this.btn_submit.UseVisualStyleBackColor = true;
             this.btn_submit.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -66,7 +66,7 @@ namespace MajPAbGr_project
             this.btn_recipe.Location = new System.Drawing.Point(220, 175);
             this.btn_recipe.Name = "btn_recipe";
             this.btn_recipe.Size = new System.Drawing.Size(62, 20);
-            this.btn_recipe.TabIndex = 37;
+            this.btn_recipe.TabIndex = 1;
             this.btn_recipe.Text = "Insert";
             this.btn_recipe.UseVisualStyleBackColor = true;
             this.btn_recipe.Click += new System.EventHandler(this.button1_Click);
@@ -76,7 +76,7 @@ namespace MajPAbGr_project
             this.txbRecipe.Location = new System.Drawing.Point(18, 175);
             this.txbRecipe.Name = "txbRecipe";
             this.txbRecipe.Size = new System.Drawing.Size(190, 20);
-            this.txbRecipe.TabIndex = 34;
+            this.txbRecipe.TabIndex = 0;
             this.txbRecipe.Text = "recipe\'s name";
             // 
             // txbAmounts
@@ -84,7 +84,7 @@ namespace MajPAbGr_project
             this.txbAmounts.Location = new System.Drawing.Point(171, 20);
             this.txbAmounts.Name = "txbAmounts";
             this.txbAmounts.Size = new System.Drawing.Size(54, 20);
-            this.txbAmounts.TabIndex = 24;
+            this.txbAmounts.TabIndex = 1;
             this.txbAmounts.Text = "amounts";
             // 
             // btn_calc
@@ -92,7 +92,7 @@ namespace MajPAbGr_project
             this.btn_calc.Location = new System.Drawing.Point(231, 86);
             this.btn_calc.Name = "btn_calc";
             this.btn_calc.Size = new System.Drawing.Size(50, 24);
-            this.btn_calc.TabIndex = 39;
+            this.btn_calc.TabIndex = 5;
             this.btn_calc.Text = "Calc";
             this.btn_calc.UseVisualStyleBackColor = true;
             this.btn_calc.Click += new System.EventHandler(this.button3_Click);
@@ -109,9 +109,11 @@ namespace MajPAbGr_project
             this.listView1.Location = new System.Drawing.Point(321, 15);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(316, 285);
-            this.listView1.TabIndex = 32;
+            this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.listView1.DoubleClick += new System.EventHandler(this.button2_Click);
             // 
             // columnHeader1
             // 
@@ -133,7 +135,7 @@ namespace MajPAbGr_project
             this.btn_remove.Location = new System.Drawing.Point(6, 75);
             this.btn_remove.Name = "btn_remove";
             this.btn_remove.Size = new System.Drawing.Size(62, 23);
-            this.btn_remove.TabIndex = 18;
+            this.btn_remove.TabIndex = 4;
             this.btn_remove.Text = "remove";
             this.btn_remove.UseVisualStyleBackColor = true;
             this.btn_remove.Click += new System.EventHandler(this.btn_remove_Click);
@@ -149,7 +151,7 @@ namespace MajPAbGr_project
             this.groupBox1.Location = new System.Drawing.Point(12, 15);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(287, 126);
-            this.groupBox1.TabIndex = 30;
+            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ingredients";
             // 
@@ -158,7 +160,7 @@ namespace MajPAbGr_project
             this.btn_select.Location = new System.Drawing.Point(6, 46);
             this.btn_select.Name = "btn_select";
             this.btn_select.Size = new System.Drawing.Size(62, 23);
-            this.btn_select.TabIndex = 40;
+            this.btn_select.TabIndex = 3;
             this.btn_select.Text = "select";
             this.btn_select.UseVisualStyleBackColor = true;
             this.btn_select.Click += new System.EventHandler(this.button2_Click);
@@ -168,7 +170,7 @@ namespace MajPAbGr_project
             this.btn_edit.Location = new System.Drawing.Point(231, 20);
             this.btn_edit.Name = "btn_edit";
             this.btn_edit.Size = new System.Drawing.Size(50, 20);
-            this.btn_edit.TabIndex = 20;
+            this.btn_edit.TabIndex = 2;
             this.btn_edit.Text = "add";
             this.btn_edit.UseVisualStyleBackColor = true;
             this.btn_edit.Click += new System.EventHandler(this.btn_edit_Click);
@@ -181,7 +183,7 @@ namespace MajPAbGr_project
             this.cmbIngr.Location = new System.Drawing.Point(6, 19);
             this.cmbIngr.Name = "cmbIngr";
             this.cmbIngr.Size = new System.Drawing.Size(159, 21);
-            this.cmbIngr.TabIndex = 16;
+            this.cmbIngr.TabIndex = 0;
             this.cmbIngr.Text = "pick an ingredients";
             this.cmbIngr.SelectedIndexChanged += new System.EventHandler(this.cmbIngr_SelectedIndexChanged);
             // 
@@ -191,7 +193,7 @@ namespace MajPAbGr_project
             this.label1.Location = new System.Drawing.Point(15, 159);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(96, 13);
-            this.label1.TabIndex = 31;
+            this.label1.TabIndex = 2;
             this.label1.Text = "Save as recipe too";
             // 
             // groupBox2
@@ -201,7 +203,7 @@ namespace MajPAbGr_project
             this.groupBox2.Location = new System.Drawing.Point(18, 213);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(159, 68);
-            this.groupBox2.TabIndex = 41;
+            this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Edit mode`s options";
             // 
@@ -240,6 +242,7 @@ namespace MajPAbGr_project
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
+            this.KeyPreview = true;
             this.Name = "InsertAmounts";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "InsertAmounts";
