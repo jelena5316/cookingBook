@@ -12,6 +12,7 @@ namespace MajPAbGr_project
     public partial class InsertAmounts : Form
     {
         readonly int id_recepture;
+        private int pragma; // for create mode
         double[] amounts;
         Mode mode; //create new or edit old
         List<Element> elements; // id and name, amounts
@@ -32,7 +33,7 @@ namespace MajPAbGr_project
             tbIngred = new IngredientsController(1);
             tbIngred.setCatalog();
             tbAmounts = new AmountsController("Amounts");
-            //calc = new CalcFunction();
+            calc = new CalcFunction();
             List<Item> receptures = tbIngred.getCatalog();
             Class1.FillCombo(receptures, ref cmbIngr); 
         }
@@ -54,7 +55,9 @@ namespace MajPAbGr_project
 
             fillAmounts();
             FillAmountsView(); // listview
-            showOldAmounts(); // for edit mode
+
+            if (mode == (Mode)2) showOldAmounts(); // for edit mode
+            else pragma = 0;
         }
 
         private void InsertAmounts_Load(object sender, EventArgs e)
@@ -133,12 +136,16 @@ namespace MajPAbGr_project
                 items.SubItems.Add(""); // заготовка под старые величины     
                 listView1.Items.Add(items);
             }
-            //заготовка под сумму
-            items = new ListViewItem("Total");
-            items.Tag = -1;
-            items.SubItems.Add("");
-            items.SubItems.Add("");
-            listView1.Items.Add(items);
+            if (mode == Mode.Edit)
+            {
+                //заготовка под сумму
+                items = new ListViewItem("Total");
+                items.Tag = -1;
+                items.SubItems.Add("");
+                items.SubItems.Add("");
+                listView1.Items.Add(items);
+            }
+            
         }
 
         private void showOldAmounts()
@@ -201,7 +208,7 @@ namespace MajPAbGr_project
                 item.SubItems.Add(txbAmounts.Text);
                 item.SubItems.Add(""); // заготовка под проценты
                 item.Tag = tbIngred.getSelected(); // id of ingredient       
-                listView1.Items.Insert(listView1.Items.Count-1, item);
+                listView1.Items.Add(item);
             
                 //добавить в список элементов
                 Element el = new Element();
@@ -211,7 +218,7 @@ namespace MajPAbGr_project
                 elements.Add(el);
 
                 //выделить новый
-                items = listView1.Items[listView1.Items.Count-2];
+                items = listView1.Items[listView1.Items.Count-1];
                 items.Selected = true;
             }
             txbAmounts.Text = "0" + decimal_separator + "0";
@@ -306,27 +313,24 @@ namespace MajPAbGr_project
 
         private void btn_remove_Click(object sender, EventArgs e)
         {
-            ListViewItem items;
-            int index = listView1.SelectedItems[0].Index;
-            if (listView1.Items.Count > 0) // proverka spiska
-            {            
-                listView1.Items.RemoveAt(index);
-                if (listView1.Items.Count > 0)
-                {
-                    items = listView1.Items[listView1.Items.Count - 1];
-                    items.Selected = true;
-                }
-                else btn_submit.Enabled = false;
-            }
-            if (mode == Mode.Edit)
-            {
-                elements.RemoveAt(index);
-                MessageBox.Show($"Are deleted {listView1.SelectedItems[0].Index}");
-            }
-            items = listView1.SelectedItems[0];
-            items.Selected = false;
-            listView1.Items[elements.Count-1].Selected = true;
+            if (listView1.Items.Count < 1) return; // proverka spiska
+            if (listView1.SelectedItems.Count < 1) return;
 
+            int index = listView1.SelectedItems[0].Index;
+            listView1.Items[index].Selected = false;
+
+            listView1.Items.RemoveAt(index);
+            if (index < elements.Count)
+                elements.RemoveAt(index);
+
+            if (listView1.Items.Count > 0)
+            {
+                if (index > 0) index--;
+                if (index < 0) index = 0;
+                listView1.Items[index].Selected = true;
+            }
+            else btn_submit.Enabled = false;
+    
             //вывод в консоль
             frm.richTextBox1.Text += "On btn_remove click, an item deleted\n";
             frm.richTextBox1.Text += "records in list view count: " + (listView1.Items.Count - 1).ToString();
@@ -372,19 +376,29 @@ namespace MajPAbGr_project
 
             if  (mode == Mode.Create)
             {
-                ListViewItem items;
-                items = new ListViewItem("Total");
-                items.Tag = -1;
-                items.SubItems.Add(summa.ToString());
-                summa = calc.Summa(arr);
-                items.SubItems.Add(summa.ToString());
-
                 for (int index = 0; index < arr.Length; index++)
                 {
                    listView1.Items[index].SubItems[2].Text = arr[index].ToString();
                 }
-                listView1.Items.Add(items);
-                btn_submit.Enabled = true;
+                if (pragma > 0)
+                {
+                    listView1.Items[listView1.Items.Count - 1].SubItems[1].Text = summa.ToString();
+                    summa = calc.Summa(arr);
+                    listView1.Items[listView1.Items.Count - 1].SubItems[2].Text = summa.ToString();
+                }
+                else
+                {
+                    ListViewItem items;
+                    items = new ListViewItem("Total");
+                    items.Tag = -1;
+                    items.SubItems.Add(summa.ToString());
+                    summa = calc.Summa(arr);
+                    items.SubItems.Add(summa.ToString());
+                    listView1.Items.Add(items);
+                    pragma = 1;
+                }
+
+                btn_submit.Enabled = true;                
 
                 // вывод в консоль
                 frm.richTextBox1.Text += "\n Mode Create";
