@@ -49,7 +49,9 @@ namespace MajPAbGr_project
             tbIngred = new IngredientsController(1);
             tbIngred.setCatalog();
             List<Item> receptures = tbIngred.getCatalog();
-            Class1.FillCombo(receptures, ref cmbIngr);           
+            Class1.FillCombo(receptures, ref cmbIngr);
+            calc = new CalcFunction();
+
             fillAmounts();
             FillAmountsView(); // listview
             showOldAmounts(); // for edit mode
@@ -104,7 +106,7 @@ namespace MajPAbGr_project
             {
                 amounts[k] = elements[k].Amounts;
             }
-            calc = new CalcFunction();
+            
             calc.setAmounts(elements); // сохраняет и cуммирует величины
             amounts[k] = calc.getTotal();
 
@@ -339,25 +341,15 @@ namespace MajPAbGr_project
         /******************************************************************
          * Калькуляция рецептуры и суммарного веса
          ******************************************************************/
-        private double [] AmountsFromListToArray(ref ListView lv, byte num)
+        
+        private double[] AmountsFromElementsListToArray()
         {
-            double[] arr = new double[lv.Items.Count];
-            string t;
-            double arr_item;
+            double[] arr = new double[elements.Count];          
             for (int index = 0; index < arr.Length; index++)
             {
-                t = listView1.Items[index].SubItems[num].Text;                
-                if (double.TryParse(t, out arr_item))
-                    arr[index] = arr_item;              
-                else
-                    arr[index] = 0.0;
+                arr[index] = elements[index].Amounts;
             }
             return arr;
-        }
-
-        private double [] CalcRecepture(double a, ref double[] arr)
-        {
-            return calc.ReCalc(100 / a, arr);
         }
 
         private void button3_Click(object sender, EventArgs e) // calculation
@@ -368,13 +360,16 @@ namespace MajPAbGr_project
             double[] arr;
 
             a = double.Parse(listView1.Items[0].SubItems[1].Text);
-            arr = AmountsFromListToArray(ref listView1, 1);                 
-            calc = new CalcFunction();
+            arr = AmountsFromElementsListToArray();
             summa = calc.Summa(arr); // 2 column, index 1
-
-            arr = CalcRecepture(a, ref arr);
+            arr = calc.ReCalc (100 / a, arr); // create mode or edit mode if main is changed          
             calc.Coefficient = a / 100;
-  
+
+            // вывод в консоль
+            frm.richTextBox1.Text += "On Calc";
+            frm.richTextBox1.Text += "\nsumma " + summa.ToString();
+            frm.richTextBox1.Text += "\ncoeficient " + calc.Coefficient.ToString();
+
             if  (mode == Mode.Create)
             {
                 ListViewItem items;
@@ -390,7 +385,10 @@ namespace MajPAbGr_project
                 }
                 listView1.Items.Add(items);
                 btn_submit.Enabled = true;
-            }
+
+                // вывод в консоль
+                frm.richTextBox1.Text += "\n Mode Create";
+                }
             else
             {
                 int index;
@@ -409,22 +407,22 @@ namespace MajPAbGr_project
                     summa = calc.Summa(arr);
                     listView1.Items[listView1.Items.Count - 1].SubItems[1].Text = summa.ToString();
                     btn_calc.Enabled = false;
+
+                    // вывод в консоль
+                    frm.richTextBox1.Text += "\n Mode Edit: edit with main ingredients";
+                    frm.richTextBox1.Text += "\n summa of new " + summa.ToString();
+                    frm.richTextBox1.Text += "\n***";
+
                 }
                 else
-                {
-                    //getting new total summ of ingredients amounts
-                    //ListView lv = listView1;
-                    //List<double> values = new List<double>();
-                    //for (index = 0; index < lv.Items.Count-1; index++)
-                    //{
-                    //     string amount = lv.Items[index].SubItems[1].Text;                     
-                    //     double value = double.Parse(amount);
-                    //     values.Add(value);
-                    //}                
-                    //calc.setAmounts(values);
-                    //summa = calc.getTotal();
+                {            
                     ListViewItem items = listView1.Items[listView1.Items.Count - 1];
                     items.SubItems[1].Text = summa.ToString();
+
+                    // вывод в консоль
+                    frm.richTextBox1.Text += "\n Mode Edit: edit without main ingredients";
+                    frm.richTextBox1.Text += "\n summa of new " + summa.ToString();
+                    frm.richTextBox1.Text += "\n***\n";
                 }
             }
             btn_submit.Enabled = true;
