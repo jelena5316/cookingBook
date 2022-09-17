@@ -110,6 +110,7 @@ namespace MajPAbGr_project
 
         public double [] ReCalc(double koeff, double[] list)
         {
+            if (koeff == 1 || koeff == 0) return list;
             for (int k = 0; k < list.Length; k++)
                 list[k] *= koeff;
             return list;

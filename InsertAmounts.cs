@@ -64,7 +64,7 @@ namespace MajPAbGr_project
         {
             btn_recipe.Enabled = false; //insert recipe           
             btn_submit.Enabled = false; // submit ingredients
-            txbAmounts.Text = "0" + ","+ "0";
+            txbAmounts.Text = "0" + decimal_separator + "0";
 
             if (mode == Mode.Edit)
             {
@@ -176,27 +176,34 @@ namespace MajPAbGr_project
             if (double.TryParse(txbAmounts.Text, out num))
                 num = double.Parse(txbAmounts.Text);
             else return;
+            // see more in FormMain.cs
 
             ListViewItem items;
             int index = 0;
             if (listView1.SelectedItems.Count > 0) //proverka spiska            
             {
                 items = listView1.SelectedItems[0];
-                index = items.Index;
+                index = items.Index;                
                 items.Selected = false; // ubiraem vydelenie
-
-                ListViewItem item = new ListViewItem(cmbIngr.Text);
-                item.SubItems.Add(txbAmounts.Text);
-                item.SubItems.Add("");
-                item.Tag = tbIngred.getSelected(); // id of ingredient                                                 
-                listView1.Items.Insert(index+1, item);                
 
                 //добавить в список элементов
                 Element el = new Element();
-                el.Id = (int)item.Tag;
+                el.Id = tbIngred.getSelected(); // id of ingredient 
                 el.Name = cmbIngr.Text;
                 el.Amounts = num;
-                elements.Insert(index+1, el);
+                if (elements.Count > 0)
+                    elements.Insert(index + 1, el);
+                else
+                    elements.Add(el);
+                
+                ListViewItem item = new ListViewItem(el.Name);
+                item.SubItems.Add(el.Amounts.ToString());
+                item.SubItems.Add("");
+                item.Tag = el.Id;
+                if ((int)listView1.Items[index].Tag == -1)
+                    index = -1;
+                listView1.Items.Insert(index+1, item);
+                
 
                 //выделить новый
                 items = listView1.Items[index+1];
@@ -204,18 +211,18 @@ namespace MajPAbGr_project
             }
             else
             {
-                ListViewItem item = new ListViewItem(cmbIngr.Text);
-                item.SubItems.Add(txbAmounts.Text);
-                item.SubItems.Add(""); // заготовка под проценты
-                item.Tag = tbIngred.getSelected(); // id of ingredient       
-                listView1.Items.Add(item);
-            
                 //добавить в список элементов
                 Element el = new Element();
-                el.Id = (int)item.Tag;
+                el.Id = tbIngred.getSelected(); // id of ingredient  
                 el.Name = cmbIngr.Text;
                 el.Amounts = num;
                 elements.Add(el);
+
+                ListViewItem item = new ListViewItem(el.Name);
+                item.SubItems.Add(el.Amounts.ToString());
+                item.SubItems.Add(""); // заготовка под проценты
+                item.Tag = el.Id; // id of ingredient       
+                listView1.Items.Add(item);
 
                 //выделить новый
                 items = listView1.Items[listView1.Items.Count-1];
@@ -316,7 +323,10 @@ namespace MajPAbGr_project
             if (listView1.Items.Count < 1) return; // proverka spiska
             if (listView1.SelectedItems.Count < 1) return;
 
-            int index = listView1.SelectedItems[0].Index;
+            int index = listView1.SelectedItems[0].Index;            
+            int tag = (int)listView1.Items[index].Tag;
+            if (tag == -1) return; //check tag to preserve row with sum in case when create mode
+
             listView1.Items[index].Selected = false;
 
             listView1.Items.RemoveAt(index);
@@ -570,6 +580,41 @@ namespace MajPAbGr_project
                 //MessageBox.Show("radio button is not checked");
             }
         }
-        
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count < 1) return;
+            int index = listView1.SelectedItems[0].Index;
+            int tag = (int)listView1.Items[index].Tag;
+
+            if (tag > -1) //check tag to preserve row with sum in case when create mode
+            {
+                btn_select.Enabled = true;
+                btn_remove.Enabled = true;
+                btn_edit.Enabled = true;               
+            }
+            else
+            {
+                btn_select.Enabled = false;
+                btn_remove.Enabled = false;
+                //btn_edit.Enabled = false;
+                return;
+            }
+
+            if (index == 0) // check first ingredients amounts (not equil zero)
+            {
+                string text;
+                double num;
+                    
+                text = listView1.Items[index].SubItems[1].Text;
+                num = double.TryParse(text, out num) ? num : 100;
+                num = (num == 0) ? 100 : num;
+                listView1.Items[index].SubItems[1].Text = num.ToString();
+                elements[index].Amounts = num;
+            }
+
+            
+            
+        }
     }
 }

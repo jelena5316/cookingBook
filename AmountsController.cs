@@ -8,7 +8,7 @@ namespace MajPAbGr_project
 {
     public class AmountsController : tbClass1
     {
-        private int amount_id_count, elements_count;
+        private int amount_id_count, elements_count, selected_element;
         private List<string> amounts_id;
         private List<Element> elements;
         private int id_recepture;
@@ -26,6 +26,12 @@ namespace MajPAbGr_project
             // for data updating
             amount_id_count = amounts_id.Count;
             elements_count = elements.Count;
+        }
+
+        public new int setSelected(int temp)
+        {
+            this.selected_element = elements[temp].Id;
+            return selected_element;
         }
 
         public int Amount_id_count { get { return amount_id_count; } }

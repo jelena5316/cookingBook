@@ -18,10 +18,10 @@ namespace MajPAbGr_project
             Application.SetCompatibleTextRenderingDefault(false);
 
             FormMainController tb = new FormMainController("Recepture");
-            tb.Selected = 8;
+            tb.Selected = 28;
             AmountsController cntrl = new AmountsController("Amounts", ref tb);            
             //Application.Run(new FormMain());
-            Application.Run(new InsertAmounts(Mode.Edit, ref cntrl));
+            Application.Run(new InsertAmounts(Mode.Create, ref cntrl));
         }
     }
 }

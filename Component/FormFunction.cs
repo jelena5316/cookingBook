@@ -29,5 +29,21 @@ namespace MajPAbGr_project
             combo.Focus();
             return items;
         }
+
+        static public double[] AmountsFromListToArray(ref ListView lv, byte num)
+        {
+            double[] arr = new double[lv.Items.Count];
+            string t;
+            double arr_item;
+            for (int index = 0; index < arr.Length; index++)
+            {
+                t = lv.Items[index].SubItems[num].Text;
+                if (double.TryParse(t, out arr_item))
+                    arr[index] = arr_item;
+                else
+                    arr[index] = 0.0;
+            }
+            return arr;
+        }
     }
 }
