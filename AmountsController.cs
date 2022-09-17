@@ -28,6 +28,16 @@ namespace MajPAbGr_project
             elements_count = elements.Count;
         }
 
+        public FormMainController TbRec
+        {
+            set { tbRec = value; }
+        }
+
+        public void tbRecSelected(int id)
+        {
+            tbRec.Selected = id;
+        }
+
         public new int setSelected(int temp)
         {
             this.selected_element = elements[temp].Id;
@@ -53,6 +63,7 @@ namespace MajPAbGr_project
 
         public int Id_recepture
         {
+            set { id_recepture = value; }
             get { return id_recepture; }
         }
 
@@ -80,7 +91,7 @@ namespace MajPAbGr_project
             id_ingr = lv.Items[0].Tag.ToString();
             tbClass1 tb = new tbClass1("Recepture");
             ind = tb.UpdateReceptureOrCards("id_main", id_ingr, id_recepture); // Recepture
-            if (ind == 0) return -1; 
+            if (ind == 0) return -1;
  
             //writing ingredients' amounts into Amounts
             //for (index = lv.Items.Count - 1, sum = 0; index > -1; index--)                       
