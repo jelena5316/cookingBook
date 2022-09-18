@@ -16,6 +16,7 @@ namespace MajPAbGr_project
         double[] amounts;
         Mode mode; //create new or edit old
         List<Element> elements; // id and name, amounts
+        List<Item> ingredients;
 
         IngredientsController tbIngred;
         AmountsController tbAmounts;        
@@ -62,12 +63,12 @@ namespace MajPAbGr_project
             id_recepture = tbAmounts.Id_recepture;
             elements = tbAmounts.getElements();
 
-            //this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1;
+            this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1;
             
             tbIngred = new IngredientsController(1);
             tbIngred.setCatalog();
-            List<Item> receptures = tbIngred.getCatalog();
-            Class1.FillCombo(receptures, ref cmbIngr);
+            ingredients = tbIngred.getCatalog();
+            Class1.FillCombo(ingredients, ref cmbIngr);
             calc = new CalcFunction();
 
             fillAmounts();
@@ -91,6 +92,10 @@ namespace MajPAbGr_project
                 btn_recipe.Enabled = false;
                 label1.Enabled = false;                
                 radioButton1.Checked = true;
+            }
+            else
+            {
+                groupBox2.Visible = false;
             }
 
             CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
@@ -365,9 +370,8 @@ namespace MajPAbGr_project
             else btn_submit.Enabled = false;
 
             if (listView1.Items.Count == 1 && (int)listView1.SelectedItems[0].Tag == -1)
-                btn_calc.Enabled = false;
-
-
+               btn_calc.Enabled = false;
+      
             //вывод в консоль
             frm.richTextBox1.Text += "On btn_remove click, an item deleted\n";
             frm.richTextBox1.Text += "records in list view count: " + (listView1.Items.Count - 1).ToString();
@@ -543,29 +547,32 @@ namespace MajPAbGr_project
         {
             int ind=0;
             if (string.IsNullOrEmpty(listView1.Items[0].SubItems[1].Text)) return;
-            
+            if (listView1.Items.Count == 1 && (int)listView1.Items[0].Tag == -1)
+            {
+                MessageBox.Show("Warning! You can lost data! Recepture will do not contain any ingredient!");
+                mode = (Mode)1;
+            }
+  
             if (mode == Mode.Edit)
             {
                 ind = updateRecords();
                 MessageBox.Show("Updated"+ind.ToString());
-                tbAmounts.RefreshElements();
-                elements = tbAmounts.getElements();
-
-                fillAmounts();
-                FillAmountsView(); // listview
-                showOldAmounts(); // for edit mode
-
             }
             else
             {
                 ind = tbAmounts.InsertAmounts(ref listView1, id_recepture);
                 if (ind == 0) MessageBox.Show("All amounts are inserted");
                 else MessageBox.Show($"{ind} from {listView1.Items.Count} are inserted");
-
-                btn_recipe.Enabled = true;
-                btn_submit.Enabled = false;
+                btn_recipe.Enabled = true;                
                 mode = Mode.Edit;
             }
+                tbAmounts.RefreshElements();
+                elements = tbAmounts.getElements();
+                fillAmounts();
+                FillAmountsView(); // listview
+                showOldAmounts(); // for edit mode
+                groupBox2.Visible = true;
+                btn_submit.Enabled = false;
         }
         /********************************************************************************
          * Ввод рецепта (коэфициента) к расчитанной из него рецептуре
@@ -610,7 +617,7 @@ namespace MajPAbGr_project
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listView1.SelectedItems.Count < 1) return;
+            if (listView1.SelectedItems.Count < 1) return;          
             int index = listView1.SelectedItems[0].Index;
             int tag = (int)listView1.Items[index].Tag;
 
@@ -639,6 +646,34 @@ namespace MajPAbGr_project
                 listView1.Items[index].SubItems[1].Text = num.ToString();
                 elements[index].Amounts = num;
             }
-        }
+            checked
+            {
+                try
+                {
+                    int id = tbAmounts.setSelected(index);
+                    Element el = tbAmounts.getElementByIndex(index);
+                    frm.richTextBox1.Text += ">>> Selected element\n";
+                    int k;
+                    for (k = 0; k < ingredients.Count; k++)
+                    {
+                        if (ingredients[k].id == el.Id)
+                        {
+                            cmbIngr.SelectedIndex = k;
+                            frm.richTextBox1.Text += "> selected index of combo item: " + cmbIngr.SelectedIndex + "\n";
+                            frm.richTextBox1.Text += "> selected item name: " + cmbIngr.Items[k].ToString() + "\n";
+                        }
+                    }
+                    cmbIngr.Text = el.Name;
+                    txbAmounts.Text = el.Amounts.ToString();
+                    listView1.Focus();
+                    frm.richTextBox1.Text += "> Selected ingredients (name, id): " + el.Name + " " + el.Id + "\n";
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+                    throw ex;                
+                }
+            }
+
+        }   
     }
 }

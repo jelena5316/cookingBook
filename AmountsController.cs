@@ -95,7 +95,7 @@ namespace MajPAbGr_project
  
             //writing ingredients' amounts into Amounts
             //for (index = lv.Items.Count - 1, sum = 0; index > -1; index--)                       
-            for (index = 0, sum = 0; index < lv.Items.Count; index++)
+            for (index = 0, sum = 0; index < lv.Items.Count-1; index++)
             {
                 id_ingr = lv.Items[index].Tag.ToString();
                 amount = lv.Items[index].SubItems[2].Text;
