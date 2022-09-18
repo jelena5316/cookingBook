@@ -14,6 +14,13 @@ namespace MajPAbGr_project
         private int id_recepture;
         FormMainController tbRec;
 
+        enum Columns
+        {
+            id_ingredients,
+            amount,
+            id_recepture
+        }
+
         public AmountsController(string table) : base(table) { } // New Recepture; create mode
 
         public AmountsController(string table, ref FormMainController tb) : base(table) // for edit mode
@@ -111,7 +118,7 @@ namespace MajPAbGr_project
             else return sum;
         }
 
-        public int UpdateAmounts
+        public int UpdateAmountsNoChangeInRowCount
             (string [] id_ingredients, string [] amounts_of_ingredients, int id_recepture) // mode: edit
         //случай, когда число записей не меняется
         {
@@ -131,24 +138,71 @@ namespace MajPAbGr_project
             else return -1;
         }
 
-        //public List<Element> readElement() // for Form1.cs
-        //{
-        //    List<Element> el;
+        public int updateRecords(ref Form2 frm)
+        {
+            int k, ind = 0;
+            string query, amount;           
+            CalcFunction calc = new CalcFunction();
+            
+            string UpdateAmountQuery(Columns column, string value, string id_recepture)=>
+             $"update {table} set {column.ToString()} = '{value}' where id = {id_recepture};";
 
-        //    query = "SELECT id_ingredients, name, amount" +
-        //    " FROM Amounts AS am JOIN Ingredients AS ingr " +
-        //    "ON am.id_ingredients = ingr.id WHERE am.id_recepture = "
-        //    + id_recepture + ";";
-        //    el = dbReadElement(query);
-        //    return el;
-        //}
+            if (amount_id_count >= elements_count)//amount_count >= element_count
+            {
+                frm.richTextBox1.Text += "\n***\nUpdating db\n";
+                for (k = 0; k < elements_count; k++)
+                {
+                    query = UpdateAmountQuery(Columns.id_ingredients, elements[k].Id.ToString(), amounts_id[k]);
+                    ind = Edit(query);
+                    amount = calc.ColonToPoint(elements[k].Amounts.ToString());
+                    query = UpdateAmountQuery(Columns.amount, amount, amounts_id[k]);
+                    ind+= Edit(query);
+                    frm.richTextBox1.Text += ind / 2 + "th records, where id " + amounts_id[k] + "\n";
+                }
+                if (amount_id_count - elements_count > 0)//amount_count - element_count > 0
+                {
+                    //удаляем лишнее
+                    frm.richTextBox1.Text += "\n***\nDeleting from db\n";
+                    for (int q = k; q < amount_id_count; q++)
+                    {
+                        query = $"delete from Amounts where id = {amounts_id[q]};";
+                        int rezult = Edit(query);
+                        frm.richTextBox1.Text += rezult + " records, where id " + amounts_id[q] + "\n";
+                    }
+                }
+            }
+            else
+            {
+                frm.richTextBox1.Text += "\n***\nUpdating db\n";
+                for (k = 0; k < amount_id_count; k++)
+                {
+                    query = UpdateAmountQuery(Columns.id_ingredients, elements[k].Id.ToString(), amounts_id[k]);
+                    ind = Edit(query);
+                    amount = calc.ColonToPoint(elements[k].Amounts.ToString());
+                    query = UpdateAmountQuery(Columns.amount, amount, amounts_id[k]);
+                    ind += Edit(query);
+                    frm.richTextBox1.Text += ind / 2 + "th records, where id " + amounts_id[k] + "\n";
+                }
+
+                frm.richTextBox1.Text += "\n***\nInserting into db\n";
+                for (int q = k; q < elements_count; q++)
+                {
+                    // дописывает недостающее и получаем номера                    
+                    amount = calc.ColonToPoint(elements[q].Amounts.ToString());
+                    query = $"insert into Amounts ({Columns.id_recepture.ToString()},"+
+                        $"{Columns.id_ingredients.ToString()}, {Columns.amount.ToString()})" +
+                        $"values ({id_recepture}, {elements[q].Id.ToString()}, {amount});"+
+                        "select last_insert_rowid();";
+                    string id = Count(query);
+
+                    // вносим номера в список номеров в контроллере
+                    amounts_id.Add(id);
+
+                    frm.richTextBox1.Text += "last insert records id " + id + ", where ingredients id " + elements[q].Id.ToString() + "\n";
+                }
+                frm.richTextBox1.Text += "records are " + amounts_id.Count + "\n";
+            }
+            return ind;
+        }
     }
 }
-
-//public int UpdateReceptureOrCards(string column, string value, int id_recepture)
-//{
-//    int ind = 0;
-//    query = $"update {table} set {column} = '{value}' where id = {id_recepture};";
-//    ind = Edit(query);
-//    return ind;
-//}

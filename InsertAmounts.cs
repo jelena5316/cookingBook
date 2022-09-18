@@ -547,15 +547,15 @@ namespace MajPAbGr_project
         {
             int ind=0;
             if (string.IsNullOrEmpty(listView1.Items[0].SubItems[1].Text)) return;
-            if (listView1.Items.Count == 1 && (int)listView1.Items[0].Tag == -1)
-            {
-                MessageBox.Show("Warning! You can lost data! Recepture will do not contain any ingredient!");
-                mode = (Mode)1;
-            }
+            //if (listView1.Items.Count == 1 && (int)listView1.Items[0].Tag == -1)
+            //{
+            //    MessageBox.Show("Warning! You can lost data! Recepture will do not contain any ingredient!");
+            //    mode = (Mode)1;
+            //}
   
             if (mode == Mode.Edit)
             {
-                ind = updateRecords();
+                ind = tbAmounts.updateRecords(ref frm);
                 MessageBox.Show("Updated"+ind.ToString());
             }
             else
@@ -670,7 +670,7 @@ namespace MajPAbGr_project
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
-                    throw ex;                
+                    //throw ex;                
                 }
             }
 
