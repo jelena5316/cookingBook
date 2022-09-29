@@ -13,7 +13,7 @@ namespace MajPAbGr_project
     {
         readonly int id_recepture;
         private int pragma; // for create mode
-        double[] amounts;
+        double[] amounts;        
         Mode mode; //create new or edit old
         List<Element> elements; // id and name, amounts
         List<Item> ingredients;
@@ -48,18 +48,21 @@ namespace MajPAbGr_project
 
             this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1; // mode autodetector
             pragma = (mode == 0) ? 0 : 1;
-            fillAmounts();
+            
             FillAmountsView(); // listview
-            if (mode == (Mode)1) showOldAmounts(); // for edit mode
+            if (mode == (Mode)1)// for edit mode
+            { 
+              fillAmounts();
+              showOldAmounts();
+            } 
             else pragma = 0;
         }
 
-        public InsertAmounts(Mode mode, ref AmountsController tbAmounts)
+        public InsertAmounts(ref AmountsController tbAmounts)
         {
             InitializeComponent();
             
-            this.tbAmounts = tbAmounts;
-            this.mode = mode;
+            this.tbAmounts = tbAmounts;            
             id_recepture = tbAmounts.Id_recepture;
             elements = tbAmounts.getElements();
 
@@ -71,10 +74,13 @@ namespace MajPAbGr_project
             Class1.FillCombo(ingredients, ref cmbIngr);
             calc = new CalcFunction();
 
-            fillAmounts();
             FillAmountsView(); // listview
-
-            if (mode == (Mode)1) showOldAmounts(); // for edit mode
+            if (mode == (Mode)1) // for edit mode
+            {
+                fillAmounts();
+                showOldAmounts();
+                pragma = 1;
+            }
             else pragma = 0;
         }
 
@@ -89,14 +95,9 @@ namespace MajPAbGr_project
                 listView1.Columns[2].Text += " old";
 
                 txbRecipe.Enabled = false;
-                btn_recipe.Enabled = false;
-                label1.Enabled = false;                
-                radioButton1.Checked = true;
+                btn_recipe.Enabled = false;                
             }
-            else
-            {
-                groupBox2.Visible = false;
-            }
+            this.Text += $" into '{tbAmounts.dbReader($"select name from Recepture where id = {id_recepture}")[0]}' ";
 
             CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
             nfi = CultureInfo.CurrentCulture.NumberFormat;
@@ -122,14 +123,18 @@ namespace MajPAbGr_project
             frm.richTextBox1.Text += "\nid count: " + tbAmounts.Amount_id_count + "\n";
             frm.richTextBox1.Text += tbAmounts.Amount_id_count >= tbAmounts.Elements_count;
             frm.richTextBox1.Text += "\nAmounts from array \'amounts\': \n";
-            for (int k = 0; k < amounts.Length-1; k++)
-            {
-                frm.richTextBox1.Text += amounts[k] + " ";
+            if (mode == Mode.Edit)
+            { 
+                for (int k = 0; k < amounts.Length-1; k++)
+                {
+                    frm.richTextBox1.Text += amounts[k] + " ";
+                }
             }
+                
             frm.richTextBox1.Text += "\n****\n";
         }
 
-        private void fillAmounts() //for create (?) mode
+        private void fillAmounts()
         {
             amounts = new double[elements.Count + 1]; 
             int k;
@@ -161,7 +166,7 @@ namespace MajPAbGr_project
                 items = new ListViewItem(elements[k].Name);
                 items.Tag = elements[k].Id;
                 items.SubItems.Add(elements[k].Amounts.ToString());
-                items.SubItems.Add(""); // заготовка под старые величины     
+                items.SubItems.Add(""); // заготовка под старые величины или проценты  
                 listView1.Items.Add(items);
             }
             if (mode == Mode.Edit)
@@ -191,6 +196,7 @@ namespace MajPAbGr_project
             txbAmounts.Focus();
             if(mode == Mode.Create)
                 txbAmounts.Text = "100" + decimal_separator + "0";
+            else txbAmounts.Text = "";
         }
 
         private void btn_edit_Click(object sender, EventArgs e) // add an ingredient
@@ -205,6 +211,19 @@ namespace MajPAbGr_project
             else return;
             // see more in FormMain.cs
 
+            Element AddElement(int i)  //добавить в список элементов   
+            {
+                Element el = new Element();
+                el.Id = tbIngred.getSelected(); // id of ingredient 
+                el.Name = cmbIngr.Text;
+                el.Amounts = num;
+                if (elements.Count > 0)
+                    elements.Insert(i + 1, el);
+                else
+                    elements.Add(el);
+                return el;
+            }
+  
             ListViewItem items;
             int index = 0;
             if (listView1.SelectedItems.Count > 0) //proverka spiska            
@@ -213,15 +232,8 @@ namespace MajPAbGr_project
                 index = items.Index;                
                 items.Selected = false; // ubiraem vydelenie
 
-                //добавить в список элементов
-                Element el = new Element();
-                el.Id = tbIngred.getSelected(); // id of ingredient 
-                el.Name = cmbIngr.Text;
-                el.Amounts = num;
-                if (elements.Count > 0)
-                    elements.Insert(index + 1, el);
-                else
-                    elements.Add(el);
+                //добавить в список элементов                
+                 Element el = AddElement(index);              
                 
                 ListViewItem item = new ListViewItem(el.Name);
                 item.SubItems.Add(el.Amounts.ToString());
@@ -238,11 +250,7 @@ namespace MajPAbGr_project
             else
             {
                 //добавить в список элементов
-                Element el = new Element();
-                el.Id = tbIngred.getSelected(); // id of ingredient  
-                el.Name = cmbIngr.Text;
-                el.Amounts = num;
-                elements.Add(el);
+                Element el = AddElement(index);                
 
                 ListViewItem item = new ListViewItem(el.Name);
                 item.SubItems.Add(el.Amounts.ToString());
@@ -287,9 +295,7 @@ namespace MajPAbGr_project
                 if (Edit() == 0)
                 {
                     btn_select.Text = "select";
-                    btn_edit.Enabled = true;
-                    if (radioButton1.Checked == false)
-                        btn_remove.Enabled = true;
+                    btn_edit.Enabled = true;                    
                 }
                 else MessageBox.Show("Please, select any ingredient to edit!");
                 btn_remove.Enabled = true;
@@ -312,7 +318,7 @@ namespace MajPAbGr_project
             }
             txbAmounts.Text = item.SubItems[1].Text;
             cmbIngr.Text = item.SubItems[0].Text;
-            cmbIngr.Enabled = false;
+            //cmbIngr.Enabled = false;
             return 0;
         }
 
@@ -341,7 +347,7 @@ namespace MajPAbGr_project
             elements[listView1.SelectedIndices[0]].Id = (int)item.Tag;
 
             txbAmounts.Text = "0" + decimal_separator + "0";
-            cmbIngr.Enabled = true;
+            //cmbIngr.Enabled = true;
             return 0;
         }
 
@@ -353,7 +359,8 @@ namespace MajPAbGr_project
             int index = listView1.SelectedItems[0].Index;            
             int tag = (int)listView1.Items[index].Tag;
 
-            if (tag == -1) return; //check tag to preserve row with sum in case when create mode
+            if (tag == -1) pragma = 0;
+                //return; //check tag to preserve row with sum in case when create mode
 
             listView1.Items[index].Selected = false;
 
@@ -382,7 +389,6 @@ namespace MajPAbGr_project
             frm.richTextBox1.Text += "\n***\n";
         }
 
-        
         /******************************************************************
          * Калькуляция рецептуры и суммарного веса
          ******************************************************************/
@@ -409,7 +415,7 @@ namespace MajPAbGr_project
             summa = calc.Summa(arr); // 2 column, index 1
             arr = calc.ReCalc (100 / a, arr); // create mode or edit mode if main is changed          
             calc.Coefficient = a / 100;
-
+           
             // вывод в консоль
             frm.richTextBox1.Text += "On Calc";
             frm.richTextBox1.Text += "\nsumma " + summa.ToString();
@@ -428,6 +434,7 @@ namespace MajPAbGr_project
                     listView1.Items[listView1.Items.Count - 1].SubItems[2].Text = summa.ToString();
                 }
                 else
+                // вот это и для режима редактированмя, на случай, если строку с суммой удалили
                 {
                     ListViewItem items;
                     items = new ListViewItem("Total");
@@ -486,72 +493,11 @@ namespace MajPAbGr_project
         /*************************************************************************
          * Запись в базу данных
          *************************************************************************/
-        private int updateRecords()
-        {
-            int element_count = tbAmounts.Elements_count, k, amount_count, ind = 0;
-            List<string> amounts = tbAmounts.getAmountsIdList;
-            amount_count = tbAmounts.Amount_id_count;
-            //bool diff = amount_count >= element_count;
-            
-            if(amount_count >= element_count)
-            {
-                frm.richTextBox1.Text += "\n***\nUpdating db\n";
-                for (k = 0; k < element_count; k++)
-                {
-                    ind += tbAmounts.UpdateReceptureOrCards("id_ingredients", elements[k].Id.ToString(), int.Parse(amounts[k]));
-                    string amount = calc.ColonToPoint(elements[k].Amounts.ToString());
-                    ind += tbAmounts.UpdateReceptureOrCards("amount", amount, int.Parse(amounts[k]));
-                    frm.richTextBox1.Text += ind/2 + "th records, where id " + amounts[k]+"\n";
-                }
-                if(amount_count - element_count > 0)
-                {
-                    //удаляем лишнее
-                    frm.richTextBox1.Text += "\n***\nDeleting from db\n";
-                    for (int q = k; q < amount_count; q++)
-                    {
-                        string query = $"delete from Amounts where id = {amounts[q]};";
-                        int rezult = tbAmounts.Edit(query);
-                        frm.richTextBox1.Text += rezult + " records, where id " + amounts[q]+"\n";
-                    }
-                }
-            }
-            else
-            {
-                frm.richTextBox1.Text += "\n***\nUpdating db\n";
-                for (k = 0; k < amount_count; k++)
-                {
-                    ind += tbAmounts.UpdateReceptureOrCards("id_ingredients", elements[k].Id.ToString(), int.Parse(amounts[k]));
-                    string amount = calc.ColonToPoint(elements[k].Amounts.ToString());
-                    ind += tbAmounts.UpdateReceptureOrCards("amount", amount, int.Parse(amounts[k]));
-                    frm.richTextBox1.Text += ind/2 + "th records, where row id " + amounts[k] + "\n";
-                }
-                frm.richTextBox1.Text += "\n***\nInserting into db\n";
-                for (int q = k; q < element_count; q++)
-                {
-                    // дописывает недостающее и получаем номера                    
-                    string amount = calc.ColonToPoint(elements[q].Amounts.ToString());
-                    string query = "insert into Amounts (id_recepture, id_ingredients, amount) " +
-                    $"values ({id_recepture}, {elements[q].Id.ToString()}, {amount}); select last_insert_rowid();";
-                    string id = tbAmounts.Count(query);
-                    frm.richTextBox1.Text += "last insert records id "+  id + ", where ingredients id " + elements[q].Id.ToString() + "\n";
-
-                    // вносим номера в список номеров в контроллере
-                    amounts.Add(id);
-                }
-                frm.richTextBox1.Text += "records are " + amounts.Count + "\n";
-            }
-            return ind;
-        }
-
+       
         private void button4_Click(object sender, EventArgs e) // submit
         {
             int ind=0;
-            if (string.IsNullOrEmpty(listView1.Items[0].SubItems[1].Text)) return;
-            //if (listView1.Items.Count == 1 && (int)listView1.Items[0].Tag == -1)
-            //{
-            //    MessageBox.Show("Warning! You can lost data! Recepture will do not contain any ingredient!");
-            //    mode = (Mode)1;
-            //}
+            if (string.IsNullOrEmpty(listView1.Items[0].SubItems[1].Text)) return;         
   
             if (mode == Mode.Edit)
             {
@@ -560,20 +506,20 @@ namespace MajPAbGr_project
             }
             else
             {
-                ind = tbAmounts.InsertAmounts(ref listView1, id_recepture);
+                ind = tbAmounts.updateRecords(ref frm);
                 if (ind == 0) MessageBox.Show("All amounts are inserted");
                 else MessageBox.Show($"{ind} from {listView1.Items.Count} are inserted");
                 btn_recipe.Enabled = true;                
                 mode = Mode.Edit;
             }
-                tbAmounts.RefreshElements();
-                elements = tbAmounts.getElements();
-                fillAmounts();
-                FillAmountsView(); // listview
-                showOldAmounts(); // for edit mode
-                groupBox2.Visible = true;
+                //tbAmounts.RefreshElements();
+                //elements = tbAmounts.getElements();
+                //fillAmounts();
+                //FillAmountsView(); // listview
+                //showOldAmounts(); // for edit mode                
                 btn_submit.Enabled = false;
         }
+
         /********************************************************************************
          * Ввод рецепта (коэфициента) к расчитанной из него рецептуре
          *******************************************************************************/
@@ -595,26 +541,7 @@ namespace MajPAbGr_project
         /****************************************************************************
          * Подрежимы редактирования
          ***************************************************************************/
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButton r = radioButton1;
-            if(r.Checked == true)
-            {
-                radioButton2.Enabled = false;
-                r.Enabled = false;
-                //пока проверяю один из подрежимов
-
-                //btn_remove.Enabled = false;
-                //btn_edit.Enabled = false;
-
-                //MessageBox.Show("radio button is checked");
-            }
-            else
-            {
-                //MessageBox.Show("radio button is not checked");
-            }
-        }
-
+        
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listView1.SelectedItems.Count < 1) return;          
@@ -670,10 +597,16 @@ namespace MajPAbGr_project
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
-                    //throw ex;                
+                    //throw ex;
+                    return;
                 }
             }
 
-        }   
+        }
+
+        private void txbRecipe_TextChanged(object sender, EventArgs e)
+        {
+            //
+        }
     }
 }

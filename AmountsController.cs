@@ -8,10 +8,9 @@ namespace MajPAbGr_project
 {
     public class AmountsController : tbClass1
     {
-        private int amount_id_count, elements_count, selected_element;
+        private int amount_id_count, elements_count, selected_element, id_recepture;
         private List<string> amounts_id;
-        private List<Element> elements;
-        private int id_recepture;
+        private List<Element> elements;       
         FormMainController tbRec;
 
         enum Columns
@@ -51,6 +50,12 @@ namespace MajPAbGr_project
             return selected_element;
         }
 
+        public new int Selected
+        {
+            set { selected_element = value;  }
+            get { return selected_element; }
+        }
+
         public int Amount_id_count { get { return amount_id_count; } }
 
         public int Elements_count { get { elements_count = elements.Count; return elements_count; } }
@@ -73,11 +78,7 @@ namespace MajPAbGr_project
             set { id_recepture = value; }
             get { return id_recepture; }
         }
-
-        public void setTable(string table)
-        {
-            base.table = table;
-        }
+       
 
         public List<string> setAmountsIdList(int recepture)
         {
@@ -86,67 +87,24 @@ namespace MajPAbGr_project
             return amounts_id;
         }
 
-        public List<string> getAmountsIdList { get {return amounts_id; } }
-
-        public int InsertAmounts(ref System.Windows.Forms.ListView lv, int id_recepture) // mode: create
-        {
-            CalcFunction calc = new CalcFunction();
-            int index = 0, ind = 0, sum;
-            string amount, id_ingr, query;            
-
-            //writting main ingredient id into table Recepture
-            id_ingr = lv.Items[0].Tag.ToString();
-            tbClass1 tb = new tbClass1("Recepture");
-            ind = tb.UpdateReceptureOrCards("id_main", id_ingr, id_recepture); // Recepture
-            if (ind == 0) return -1;
- 
-            //writing ingredients' amounts into Amounts
-            //for (index = lv.Items.Count - 1, sum = 0; index > -1; index--)                       
-            for (index = 0, sum = 0; index < lv.Items.Count-1; index++)
-            {
-                id_ingr = lv.Items[index].Tag.ToString();
-                amount = lv.Items[index].SubItems[2].Text;
-                amount = calc.ColonToPoint(amount);
-
-                query = "insert into Amounts (id_recepture, id_ingredients, amount) " +
-                $"values ({id_recepture}, {id_ingr}, {amount} );";                
-                ind = Edit(query);
-                if (ind > 0)
-                    sum++; // proverka zapisi
-            }
-            if (sum == lv.Items.Count) return 0;// vse zapisalosj
-            else return sum;
-        }
-
-        public int UpdateAmountsNoChangeInRowCount
-            (string [] id_ingredients, string [] amounts_of_ingredients, int id_recepture) // mode: edit
-        //случай, когда число записей не меняется
-        {
-            //перенесла код в форму
-            int k, ind=0;
-            int count = id_ingredients.Length;
-            for (k = 0; k < count; k++)
-            {
-               //query = $"update {table} set id_ingredients = {id_ingredients[k]} where id = {amounts_id[k]};";
-               //ind += Edit(query);             
-               //query = $"update {table} set amount = {amounts_of_ingredients[k]} where id = {amounts_id[k]};";
-               //ind += Edit(query);
-               ind += UpdateReceptureOrCards("id_ingredients", id_ingredients[k], id_recepture);
-               ind += UpdateReceptureOrCards("amount", amounts_of_ingredients[k], id_recepture);
-            }
-            if (ind == (count * 2)) return 0;
-            else return -1;
-        }
-
         public int updateRecords(ref Form2 frm)
         {
             int k, ind = 0;
             string query, amount;           
             CalcFunction calc = new CalcFunction();
-            
+
+            //writting main ingredient id into table Recepture
+            if (elements.Count > 0 && id_recepture > 0)
+            {
+                tbClass1 tb = new tbClass1("Recepture");
+                ind = tb.UpdateReceptureOrCards("id_main", elements[0].Id.ToString(), id_recepture); // Recepture
+                if (ind == 0) return -1;
+                else ind = 0;
+            }
+            else ind = 0;
+
             string UpdateAmountQuery(Columns column, string value, string id_recepture)=>
              $"update {table} set {column.ToString()} = '{value}' where id = {id_recepture};";
-
             if (amount_id_count >= elements_count)//amount_count >= element_count
             {
                 frm.richTextBox1.Text += "\n***\nUpdating db\n";

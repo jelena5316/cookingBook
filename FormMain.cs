@@ -168,10 +168,7 @@ namespace MajPAbGr_project
             //used more one time in `InsertAmounts`, mode:edit
             List<Element> rec = tb.readElement(1); // amounts
             calc.setAmounts(rec); // сохраняет и cуммирует величины
-            InputRecepture(rec);
-
-            if (rec.Count < 1) insertIgredientsToolStripMenuItem.Enabled = true;
-            else insertIgredientsToolStripMenuItem.Enabled = false;
+            InputRecepture(rec);            
         }             
 
         private void InputRecepture(List<Element> ingr)
@@ -362,6 +359,10 @@ namespace MajPAbGr_project
 
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Reload();
+        }
+        private void Reload()
+        {
             int selected = comboBox1.SelectedIndex;
 
             tb.setCatalog();
@@ -397,24 +398,19 @@ namespace MajPAbGr_project
             */           
         }
 
-        private void insertIgredientsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void amountsEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (listView1.Items.Count < 1) return;
-            AmountsTable(Mode.Create);
+            AmountsTable();
         }
 
-        private void editIngredientsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (listView1.Items.Count < 1) return;
-            AmountsTable(Mode.Edit);
-        }
-
-        private void AmountsTable(Mode mode)
+        private void AmountsTable()
         {
             if (tb.getSelected() == 0) return;
             AmountsController cntrl = new AmountsController("Amounts", ref tb);
-            InsertAmounts frm = new InsertAmounts(mode, ref cntrl);           
+            InsertAmounts frm = new InsertAmounts(ref cntrl);
             frm.ShowDialog();
+            Reload();
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -599,6 +595,8 @@ namespace MajPAbGr_project
         {
             txb_new_recipe.Text = "";
         }
+
+        
 
 
         //private void executeViewToolStripMenuItem_Click(object sender, EventArgs e)
