@@ -13,8 +13,12 @@ namespace MajPAbGr_project
     {
         readonly int id_recepture;
         private int pragma; // for create mode
-        double[] amounts;        
+        double summa;
+        double[] amounts;         
         Mode mode; //create new or edit old
+        string name; // name of recepture
+
+
         List<Element> elements; // id and name, amounts
         List<Item> ingredients;
 
@@ -43,19 +47,21 @@ namespace MajPAbGr_project
             tbIngred = new IngredientsController(1);
             tbIngred.setCatalog();
             List<Item> receptures = tbIngred.getCatalog();
-            Class1.FillCombo(receptures, ref cmbIngr);
+            //Class1.FillCombo(receptures, ref cmbIngr);
             calc = new CalcFunction();
 
             this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1; // mode autodetector
             pragma = (mode == 0) ? 0 : 1;
-            
-            FillAmountsView(); // listview
-            if (mode == (Mode)1)// for edit mode
-            { 
-              fillAmounts();
-              showOldAmounts();
-            } 
-            else pragma = 0;
+
+            name = tbAmounts.dbReader($"select name from Recepture where id = {id_recepture}")[0];
+
+            //FillAmountsView(); // listview
+            //if (mode == (Mode)1)// for edit mode
+            //{ 
+            //  fillAmounts();
+            //  showOldAmounts();
+            //} 
+            //else pragma = 0;
         }
 
         public InsertAmounts(ref AmountsController tbAmounts)
@@ -70,10 +76,16 @@ namespace MajPAbGr_project
             
             tbIngred = new IngredientsController(1);
             tbIngred.setCatalog();
-            ingredients = tbIngred.getCatalog();
-            Class1.FillCombo(ingredients, ref cmbIngr);
+            ingredients = tbIngred.getCatalog();            
             calc = new CalcFunction();
 
+            pragma = 0;
+            name = tbAmounts.dbReader($"select name from Recepture where id = {id_recepture}")[0];
+        }
+
+        private void InsertAmounts_Load(object sender, EventArgs e)
+        {
+            Class1.FillCombo(ingredients, ref cmbIngr);
             FillAmountsView(); // listview
             if (mode == (Mode)1) // for edit mode
             {
@@ -82,10 +94,7 @@ namespace MajPAbGr_project
                 pragma = 1;
             }
             else pragma = 0;
-        }
 
-        private void InsertAmounts_Load(object sender, EventArgs e)
-        {
             btn_recipe.Enabled = false; //insert recipe           
             btn_submit.Enabled = false; // submit ingredients
             
@@ -97,8 +106,9 @@ namespace MajPAbGr_project
                 txbRecipe.Enabled = false;
                 btn_recipe.Enabled = false;                
             }
-            this.Text += $" into '{tbAmounts.dbReader($"select name from Recepture where id = {id_recepture}")[0]}' ";
 
+            //this.Text += $" into '{tbAmounts.dbReader($"select name from Recepture where id = {id_recepture}")[0]}' ";
+            this.Text += $" into '{name}' ";
             CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
             nfi = CultureInfo.CurrentCulture.NumberFormat;
             decimal_separator = nfi.NumberDecimalSeparator;
@@ -123,6 +133,7 @@ namespace MajPAbGr_project
             frm.richTextBox1.Text += "\nid count: " + tbAmounts.Amount_id_count + "\n";
             frm.richTextBox1.Text += tbAmounts.Amount_id_count >= tbAmounts.Elements_count;
             frm.richTextBox1.Text += "\nAmounts from array \'amounts\': \n";
+            
             if (mode == Mode.Edit)
             { 
                 for (int k = 0; k < amounts.Length-1; k++)
@@ -145,6 +156,7 @@ namespace MajPAbGr_project
             
             calc.setAmounts(elements); // сохраняет и cуммирует величины
             amounts[k] = calc.getTotal();
+            summa = calc.getTotal();
 
             //вывод в консоль
             frm.richTextBox1.Text += "On fillAmounts (write ingredients amounts from this elements)\n";
@@ -169,21 +181,12 @@ namespace MajPAbGr_project
                 items.SubItems.Add(""); // заготовка под старые величины или проценты  
                 listView1.Items.Add(items);
             }
-            if (mode == Mode.Edit)
-            {
-                //заготовка под сумму
-                items = new ListViewItem("Total");
-                items.Tag = -1;
-                items.SubItems.Add("");
-                items.SubItems.Add("");
-                listView1.Items.Add(items);
-            }
         }
 
         private void showOldAmounts()
         {
             ListView list = listView1;
-            for (int k = 0; k < elements.Count + 1; k++)
+            for (int k = 0; k < elements.Count; k++)
             {
                 list.Items[k].SubItems[2].Text = amounts[k].ToString();
             }
@@ -211,12 +214,13 @@ namespace MajPAbGr_project
             else return;
             // see more in FormMain.cs
 
-            Element AddElement(int i)  //добавить в список элементов   
+            Element AddElement(int i)  //добавить в список элементов по индексу
             {
                 Element el = new Element();
                 el.Id = tbIngred.getSelected(); // id of ingredient 
                 el.Name = cmbIngr.Text;
                 el.Amounts = num;
+
                 if (elements.Count > 0)
                     elements.Insert(i + 1, el);
                 else
@@ -407,7 +411,7 @@ namespace MajPAbGr_project
         {
             if (listView1.Items.Count < 1) return;
 
-            double summa, a;
+            double a; // summa already exists
             double[] arr;
 
             a = double.Parse(listView1.Items[0].SubItems[1].Text);
@@ -427,24 +431,24 @@ namespace MajPAbGr_project
                 {
                    listView1.Items[index].SubItems[2].Text = arr[index].ToString();
                 }
-                if (pragma > 0)
-                {
-                    listView1.Items[listView1.Items.Count - 1].SubItems[1].Text = summa.ToString();
-                    summa = calc.Summa(arr);
-                    listView1.Items[listView1.Items.Count - 1].SubItems[2].Text = summa.ToString();
-                }
-                else
-                // вот это и для режима редактированмя, на случай, если строку с суммой удалили
-                {
-                    ListViewItem items;
-                    items = new ListViewItem("Total");
-                    items.Tag = -1;
-                    items.SubItems.Add(summa.ToString());
-                    summa = calc.Summa(arr);
-                    items.SubItems.Add(summa.ToString());
-                    listView1.Items.Add(items);
-                    pragma = 1;
-                }
+                //if (pragma > 0)
+                //{
+                //    listView1.Items[listView1.Items.Count - 1].SubItems[1].Text = summa.ToString();
+                //    summa = calc.Summa(arr);
+                //    listView1.Items[listView1.Items.Count - 1].SubItems[2].Text = summa.ToString();
+                //}
+                //else
+                //    вот это и для режима редактированмя, на случай, если строку с суммой удалили
+                //{
+                //    ListViewItem items;
+                //    items = new ListViewItem("Total");
+                //    items.Tag = -1;
+                //    items.SubItems.Add(summa.ToString());
+                //    summa = calc.Summa(arr);
+                //    items.SubItems.Add(summa.ToString());
+                //    listView1.Items.Add(items);
+                //    pragma = 1;
+                //}
 
                 btn_submit.Enabled = true;                
 
@@ -465,10 +469,10 @@ namespace MajPAbGr_project
                         item.SubItems[1].Text = arr[index].ToString();
                     }
                     listView1.Columns.Insert(2, "Amounts*(g)");                    
-                    listView1.Items[listView1.Items.Count - 1].SubItems[2].Text = summa.ToString();
-                    summa = calc.Summa(arr);
-                    listView1.Items[listView1.Items.Count - 1].SubItems[1].Text = summa.ToString();
-                    btn_calc.Enabled = false;
+                    //listView1.Items[listView1.Items.Count - 1].SubItems[2].Text = summa.ToString();
+                    //summa = calc.Summa(arr);
+                    //listView1.Items[listView1.Items.Count - 1].SubItems[1].Text = summa.ToString();
+                    //btn_calc.Enabled = false;
 
                     // вывод в консоль
                     frm.richTextBox1.Text += "\n Mode Edit: edit with main ingredients";

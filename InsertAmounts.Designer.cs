@@ -43,6 +43,8 @@ namespace MajPAbGr_project
             this.btn_select = new System.Windows.Forms.Button();
             this.btn_edit = new System.Windows.Forms.Button();
             this.cmbIngr = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -183,11 +185,31 @@ namespace MajPAbGr_project
             this.cmbIngr.Text = "pick an ingredients";
             this.cmbIngr.SelectedIndexChanged += new System.EventHandler(this.cmbIngr_SelectedIndexChanged);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(347, 286);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(37, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Total: ";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(383, 286);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "label2";
+            // 
             // InsertAmounts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(649, 311);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_recipe);
             this.Controls.Add(this.txbRecipe);
             this.Controls.Add(this.listView1);
@@ -220,5 +242,7 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Button btn_edit;
         private System.Windows.Forms.ComboBox cmbIngr;
         private System.Windows.Forms.Button btn_select;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
