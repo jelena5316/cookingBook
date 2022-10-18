@@ -48,6 +48,8 @@ namespace MajPAbGr_project
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -211,10 +213,12 @@ namespace MajPAbGr_project
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 345);
+            this.toolStripStatusLabel2,
+            this.toolStripStatusLabel3,
+            this.toolStripStatusLabel4});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 343);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(649, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(649, 24);
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -226,9 +230,23 @@ namespace MajPAbGr_project
             // 
             // toolStripStatusLabel2
             // 
+            this.toolStripStatusLabel2.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(13, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(17, 19);
             this.toolStripStatusLabel2.Text = "0";
+            // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(65, 19);
+            this.toolStripStatusLabel3.Text = "in percents";
+            // 
+            // toolStripStatusLabel4
+            // 
+            this.toolStripStatusLabel4.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(17, 19);
+            this.toolStripStatusLabel4.Text = "0";
             // 
             // InsertAmounts
             // 
@@ -277,5 +295,7 @@ namespace MajPAbGr_project
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
     }
 }

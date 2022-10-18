@@ -434,6 +434,8 @@ namespace MajPAbGr_project
                 {
                    listView1.Items[index].SubItems[2].Text = arr[index].ToString();
                 }
+                summa = calc.Summa(arr);
+                toolStripStatusLabel4.Text = summa.ToString();
                 //if (pragma > 0)
                 //{
                 //    listView1.Items[listView1.Items.Count - 1].SubItems[1].Text = summa.ToString();
