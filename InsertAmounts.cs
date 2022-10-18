@@ -90,6 +90,7 @@ namespace MajPAbGr_project
             if (mode == (Mode)1) // for edit mode
             {
                 fillAmounts();
+                toolStripStatusLabel2.Text = summa.ToString();
                 showOldAmounts();
                 pragma = 1;
             }
@@ -419,6 +420,8 @@ namespace MajPAbGr_project
             summa = calc.Summa(arr); // 2 column, index 1
             arr = calc.ReCalc (100 / a, arr); // create mode or edit mode if main is changed          
             calc.Coefficient = a / 100;
+
+            toolStripStatusLabel2.Text = summa.ToString();
            
             // вывод в консоль
             frm.richTextBox1.Text += "On Calc";
@@ -482,9 +485,6 @@ namespace MajPAbGr_project
                 }
                 else
                 {            
-                    ListViewItem items = listView1.Items[listView1.Items.Count - 1];
-                    items.SubItems[1].Text = summa.ToString();
-
                     // вывод в консоль
                     frm.richTextBox1.Text += "\n Mode Edit: edit without main ingredients";
                     frm.richTextBox1.Text += "\n summa of new " + summa.ToString();
