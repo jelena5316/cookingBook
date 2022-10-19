@@ -17,11 +17,12 @@ namespace MajPAbGr_project
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            FormMainController tb = new FormMainController("Recepture");
-            tb.Selected = 28;
-            AmountsController cntrl = new AmountsController("Amounts", ref tb);            
-            //Application.Run(new FormMain());
-            Application.Run(new InsertAmounts(ref cntrl));
+            //FormMainController tb = new FormMainController("Recepture");
+            //tb.Selected = 8;
+            //tb.Selected = 28;
+            //AmountsController cntrl = new AmountsController("Amounts", ref tb);            
+            Application.Run(new FormMain());
+            //Application.Run(new InsertAmounts(ref cntrl));
         }
     }
 }

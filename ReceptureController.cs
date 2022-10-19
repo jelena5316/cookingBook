@@ -33,6 +33,7 @@ namespace MajPAbGr_project
         {
             base.table = table;
             id_recepture = id;
+            selected = id;
             this.category = category;
 
             Info[0, 0] = "name";

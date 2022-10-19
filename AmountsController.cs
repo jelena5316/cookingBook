@@ -11,7 +11,8 @@ namespace MajPAbGr_project
         private int amount_id_count, elements_count, selected_element, id_recepture;
         private List<string> amounts_id;
         private List<Element> elements;       
-        FormMainController tbRec;
+        private FormMainController tbRec;
+     
 
         enum Columns
         {
