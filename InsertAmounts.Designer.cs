@@ -50,8 +50,14 @@ namespace MajPAbGr_project
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.localizacijaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_submit
@@ -66,7 +72,7 @@ namespace MajPAbGr_project
             // 
             // btn_recipe
             // 
-            this.btn_recipe.Location = new System.Drawing.Point(552, 184);
+            this.btn_recipe.Location = new System.Drawing.Point(552, 219);
             this.btn_recipe.Name = "btn_recipe";
             this.btn_recipe.Size = new System.Drawing.Size(62, 20);
             this.btn_recipe.TabIndex = 1;
@@ -76,7 +82,7 @@ namespace MajPAbGr_project
             // 
             // txbRecipe
             // 
-            this.txbRecipe.Location = new System.Drawing.Point(350, 184);
+            this.txbRecipe.Location = new System.Drawing.Point(350, 219);
             this.txbRecipe.Name = "txbRecipe";
             this.txbRecipe.Size = new System.Drawing.Size(190, 20);
             this.txbRecipe.TabIndex = 0;
@@ -109,7 +115,7 @@ namespace MajPAbGr_project
             this.columnHeader3});
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(12, 31);
+            this.listView1.Location = new System.Drawing.Point(12, 47);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(316, 285);
             this.listView1.TabIndex = 1;
@@ -152,7 +158,7 @@ namespace MajPAbGr_project
             this.groupBox1.Controls.Add(this.btn_edit);
             this.groupBox1.Controls.Add(this.cmbIngr);
             this.groupBox1.Controls.Add(this.btn_calc);
-            this.groupBox1.Location = new System.Drawing.Point(350, 12);
+            this.groupBox1.Location = new System.Drawing.Point(350, 47);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(287, 148);
             this.groupBox1.TabIndex = 0;
@@ -194,7 +200,7 @@ namespace MajPAbGr_project
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(347, 286);
+            this.label1.Location = new System.Drawing.Point(347, 321);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(37, 13);
             this.label1.TabIndex = 2;
@@ -203,7 +209,7 @@ namespace MajPAbGr_project
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(383, 286);
+            this.label2.Location = new System.Drawing.Point(383, 321);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 3;
@@ -216,7 +222,7 @@ namespace MajPAbGr_project
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel3,
             this.toolStripStatusLabel4});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 343);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 375);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(649, 24);
             this.statusStrip1.TabIndex = 4;
@@ -225,7 +231,7 @@ namespace MajPAbGr_project
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(32, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(32, 19);
             this.toolStripStatusLabel1.Text = "Total";
             // 
             // toolStripStatusLabel2
@@ -248,12 +254,55 @@ namespace MajPAbGr_project
             this.toolStripStatusLabel4.Size = new System.Drawing.Size(17, 19);
             this.toolStripStatusLabel4.Text = "0";
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.localizacijaToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(649, 24);
+            this.menuStrip1.TabIndex = 5;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // localizacijaToolStripMenuItem
+            // 
+            this.localizacijaToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.localizacijaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3});
+            this.localizacijaToolStripMenuItem.Name = "localizacijaToolStripMenuItem";
+            this.localizacijaToolStripMenuItem.Size = new System.Drawing.Size(34, 20);
+            this.localizacijaToolStripMenuItem.Text = "RU";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Text = "US";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Text = "LV";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem3.Text = "RU";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            // 
             // InsertAmounts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(649, 367);
+            this.ClientSize = new System.Drawing.Size(649, 399);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_recipe);
@@ -261,6 +310,7 @@ namespace MajPAbGr_project
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.groupBox1);
             this.KeyPreview = true;
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "InsertAmounts";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "InsertAmounts";
@@ -269,6 +319,8 @@ namespace MajPAbGr_project
             this.groupBox1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -297,5 +349,10 @@ namespace MajPAbGr_project
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem localizacijaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
     }
 }

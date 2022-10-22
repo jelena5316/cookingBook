@@ -62,6 +62,10 @@ namespace MajPAbGr_project
                 " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";           
         }
 
+        /*
+         * Lokalizacija
+         */
+
         private void uSToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CultureInfo.CurrentCulture = new CultureInfo("us-US");
@@ -92,7 +96,9 @@ namespace MajPAbGr_project
             localizacijaToolStripMenuItem.Text = "RU";
         }
 
-
+        /*
+         * Konec lokalizaciji
+         */
 
         private List<Item> fillCatalog(List<Item> items)
         {
@@ -427,6 +433,7 @@ namespace MajPAbGr_project
         {
             IngredientsController cntrl = new IngredientsController(opt);
             Ingredients frm = new Ingredients(cntrl);
+            frm.Show();
         }
 
         //Print to file        
@@ -596,7 +603,7 @@ namespace MajPAbGr_project
             txb_new_recipe.Text = "";
         }
 
-        
+
 
 
         //private void executeViewToolStripMenuItem_Click(object sender, EventArgs e)

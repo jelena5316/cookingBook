@@ -146,6 +146,43 @@ namespace MajPAbGr_project
             frm.richTextBox1.Text += "\n****\n";
         }
 
+        /*
+         * Lokalizacija
+         */
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            CultureInfo.CurrentCulture = new CultureInfo("us-US");
+            nfi = CultureInfo.CurrentCulture.NumberFormat;
+            decimal_separator = nfi.NumberDecimalSeparator;
+            this.Text = "Receptures " + CultureInfo.CurrentCulture +
+                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
+            localizacijaToolStripMenuItem.Text = "US";      }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            CultureInfo.CurrentCulture = new CultureInfo("lv-LV");
+            nfi = CultureInfo.CurrentCulture.NumberFormat;
+            decimal_separator = nfi.NumberDecimalSeparator;
+            this.Text = "Receptures " + CultureInfo.CurrentCulture +
+                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
+            localizacijaToolStripMenuItem.Text = "LV";
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
+            nfi = CultureInfo.CurrentCulture.NumberFormat;
+            decimal_separator = nfi.NumberDecimalSeparator;
+            this.Text = "Receptures " + CultureInfo.CurrentCulture +
+                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
+            localizacijaToolStripMenuItem.Text = "RU";
+        }
+
+        /*
+         * Konec lokalizaciji
+         */
+
         private void fillAmounts()
         {
             amounts = new double[elements.Count + 1]; 
@@ -614,5 +651,7 @@ namespace MajPAbGr_project
         {
             //
         }
+
+        
     }
 }
