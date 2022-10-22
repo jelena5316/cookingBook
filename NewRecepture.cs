@@ -121,12 +121,20 @@ namespace MajPAbGr_project
             //this.Dispose();
         }
 
-        private void button1_Click(object sender, EventArgs e)//remove
+        private void button1_Click(object sender, EventArgs e) //remove
         {
+            int selected = tb.Selected;
+            if (selected == 0)
+            {
+                MessageBox.Show($"Recipe do not recorded into data base!");
+                this.Dispose();
+                this.Close();
+                return;
+            }               
             int count = tb.RemoveItem();
             MessageBox.Show($"Is removed {count} records");
         }
-
+         
         private void cmbCat_SelectedIndexChanged(object sender, EventArgs e)
         {
            tbCat.setSelected(cmbCat.SelectedIndex);
