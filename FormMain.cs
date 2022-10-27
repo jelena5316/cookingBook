@@ -62,6 +62,7 @@ namespace MajPAbGr_project
                 " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";           
         }
 
+        
         /*
          * Lokalizacija
          */
@@ -179,21 +180,25 @@ namespace MajPAbGr_project
 
         private void InputRecepture(List<Element> ingr)
         {
+            string t;
             ListViewItem items;
             list.Items.Clear();
             for (int k = 0; k < ingr.Count; k++)
             {
                 items = new ListViewItem(ingr[k].Name);
                 items.Tag = ingr[k].Id;
-                items.SubItems.Add(ingr[k].Amounts.ToString());
+                t = string.Format("{0:f2}", ingr[k].Amounts);
+                items.SubItems.Add(t);
                 listView1.Items.Add(items);
+                t = "";
             }
             //Сумма: счет и вывод
             double summa = calc.getTotal();
-
+            t = string.Format("{0:f2}", summa);
+            
             items = new ListViewItem("Total");
-            items.Tag = -1;
-            items.SubItems.Add(summa.ToString());
+            items.Tag = -1;           
+            items.SubItems.Add(t);
             listView1.Items.Add(items);
         }
 

@@ -227,26 +227,26 @@ namespace MajPAbGr_project
             this.rUToolStripMenuItem});
             this.localizacijaToolStripMenuItem.Name = "localizacijaToolStripMenuItem";
             this.localizacijaToolStripMenuItem.Size = new System.Drawing.Size(31, 20);
-            this.localizacijaToolStripMenuItem.Text = "LV";            
+            this.localizacijaToolStripMenuItem.Text = "LV";
             // 
             // uSToolStripMenuItem
             // 
             this.uSToolStripMenuItem.Name = "uSToolStripMenuItem";
-            this.uSToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.uSToolStripMenuItem.Size = new System.Drawing.Size(89, 22);
             this.uSToolStripMenuItem.Text = "US";
             this.uSToolStripMenuItem.Click += new System.EventHandler(this.uSToolStripMenuItem_Click);
             // 
             // lVToolStripMenuItem
             // 
             this.lVToolStripMenuItem.Name = "lVToolStripMenuItem";
-            this.lVToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.lVToolStripMenuItem.Size = new System.Drawing.Size(89, 22);
             this.lVToolStripMenuItem.Text = "LV";
             this.lVToolStripMenuItem.Click += new System.EventHandler(this.lVToolStripMenuItem_Click);
             // 
             // rUToolStripMenuItem
             // 
             this.rUToolStripMenuItem.Name = "rUToolStripMenuItem";
-            this.rUToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.rUToolStripMenuItem.Size = new System.Drawing.Size(89, 22);
             this.rUToolStripMenuItem.Text = "RU";
             this.rUToolStripMenuItem.Click += new System.EventHandler(this.rUToolStripMenuItem_Click);
             // 
@@ -278,7 +278,6 @@ namespace MajPAbGr_project
             this.txb_new_recipe.Name = "txb_new_recipe";
             this.txb_new_recipe.Size = new System.Drawing.Size(143, 20);
             this.txb_new_recipe.TabIndex = 15;
-            this.txb_new_recipe.Text = "автодополнение! сделать";
             // 
             // btn_insert
             // 
