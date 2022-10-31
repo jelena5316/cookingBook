@@ -124,6 +124,42 @@ namespace MajPAbGr_project
             return summa;
         }
 
+        public List<string> FormatAmounts(double[] arr, double summa)
+        {
+            List<string> texts = new List<string>();
+            //форматировать числа при переводе в строку
+            int k;
+            string t = "";
+            for (k = 0; k < arr.Length; k++)
+            {
+                t = string.Format("{0:f1}", arr[k]);
+                texts.Add(t);
+                t = "";
+            }
+            t = string.Format("{0:f1}", summa);
+            texts.Add(t);
+            return texts;
+        }
+
+        public List<string> FormatAmounts()
+        {
+            int k;           
+            double[] arr = ReCalc();
+            string t = "";
+            List<string> texts = new List<string>();
+
+            //форматировать числа при переводе в строку           
+            for (k = 0; k < arr.Length; k++)
+            {
+                t = string.Format("{0:f1}", arr[k]);
+                texts.Add(t);
+                t = "";
+            }
+            t = string.Format("{0:f1}", Summa(arr));
+            texts.Add(t);
+            return texts;
+        }
+
         public string ColonToPoint(string text)
         {
             string number;
@@ -146,6 +182,8 @@ namespace MajPAbGr_project
             return number;
         }
     }
+
+   
 }
 
 //static string ColonToPoint(string t) // from  gdb

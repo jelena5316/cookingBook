@@ -30,6 +30,49 @@ namespace MajPAbGr_project
             return items;
         }
 
+        static public List<string> FormatAmounts(List<Element> ingr, double summa)
+        {
+           List<string> texts = new List<string>();
+            //форматировать числа при переводе в строку
+            int k;
+            string t = "";
+            for (k = 0; k < ingr.Count; k++)
+            {
+                t = string.Format("{0:f1}", ingr[k].Amounts);
+                texts.Add(t);
+                t = "";
+            }
+            t = string.Format("{0:f1}", summa);
+            texts.Add(t);
+            return texts;
+        }
+
+       
+
+    static public void FillListView(List <Element> ingr, List<string> texts, ref ListView list)
+        {
+            /*запись в списочное представления*/
+            int k = 0;           
+            ListViewItem items;
+            list.Items.Clear();
+            for(k = 0; k <ingr.Count; k++)
+            {
+                items = new ListViewItem(ingr[k].Name);
+                items.Tag = ingr[k].Id;
+                items.SubItems.Add(texts[k]);
+                list.Items.Add(items);
+            }
+            /*сумма: счет и вывод */
+            items = new ListViewItem("Total");
+            items.Tag = -1;
+            items.SubItems.Add(texts[k]);
+            list.Items.Add(items);
+
+            //return texts;
+        }
+
+        
+
         static public double[] AmountsFromListToArray(ref ListView lv, byte num)
         {
             double[] arr = new double[lv.Items.Count];

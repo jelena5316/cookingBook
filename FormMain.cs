@@ -13,6 +13,7 @@ namespace MajPAbGr_project
         int category;
         double coefficient;
         public List<Element> recipes;
+        public List <Element> elements;
         FormMainController tb;
         CalcFunction calc;
 
@@ -174,33 +175,36 @@ namespace MajPAbGr_project
 
             //used more one time in `InsertAmounts`, mode:edit
             List<Element> rec = tb.readElement(1); // amounts
+            elements = tb.readElement(1);
             calc.setAmounts(rec); // сохраняет и cуммирует величины
-            InputRecepture(rec);            
-        }             
 
-        private void InputRecepture(List<Element> ingr)
-        {
-            string t;
-            ListViewItem items;
-            list.Items.Clear();
-            for (int k = 0; k < ingr.Count; k++)
-            {
-                items = new ListViewItem(ingr[k].Name);
-                items.Tag = ingr[k].Id;
-                t = string.Format("{0:f2}", ingr[k].Amounts);
-                items.SubItems.Add(t);
-                listView1.Items.Add(items);
-                t = "";
-            }
-            //Сумма: счет и вывод
-            double summa = calc.getTotal();
-            t = string.Format("{0:f2}", summa);
-            
-            items = new ListViewItem("Total");
-            items.Tag = -1;           
-            items.SubItems.Add(t);
-            listView1.Items.Add(items);
+            //InputRecepture(rec);            
+            Class1.FillListView (rec, Class1.FormatAmounts(rec, calc.getTotal()), ref listView1);
         }
+
+        //private void InputRecepture(List<Element> ingr)
+        //{
+        //    string t;
+        //    ListViewItem items;
+        //    list.Items.Clear();
+        //    for (int k = 0; k < ingr.Count; k++)
+        //    {
+        //        items = new ListViewItem(ingr[k].Name);
+        //        items.Tag = ingr[k].Id;
+        //        t = string.Format("{0:f2}", ingr[k].Amounts);
+        //        items.SubItems.Add(t);
+        //        listView1.Items.Add(items);
+        //        t = "";
+        //    }
+        //    //Сумма: счет и вывод
+        //    double summa = calc.getTotal();
+        //    t = string.Format("{0:f2}", summa);
+
+        //    items = new ListViewItem("Total");
+        //    items.Tag = -1;
+        //    items.SubItems.Add(t);
+        //    listView1.Items.Add(items);
+        //}
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -214,13 +218,19 @@ namespace MajPAbGr_project
             if (recipes.Count < 1) return;
             double coeff = calc.Coefficient;
             if (coeff == 1) return;
-            double[] arr = calc.ReCalc();
+
             int index;
-            for (index = 0; index < arr.Length; index++)
+            List<string> t = calc.FormatAmounts();
+            for (index = 0; index < t.Count; index++)
             {
-                list.Items[index].SubItems[1].Text = arr[index].ToString();
+                list.Items[index].SubItems[1].Text = t[index];
             }
-            list.Items[index].SubItems[1].Text = calc.Summa(arr).ToString();
+
+            calc.setAmounts(calc.ReCalc());           
+            for (index = 0; index < calc.getAmounts().Length; index++)
+            {
+                elements[index].Amounts = calc.getAmounts()[index];
+            }
             columnHeader2.Text = "Amounts (g)";
         }
 
