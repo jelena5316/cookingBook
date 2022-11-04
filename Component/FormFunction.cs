@@ -11,10 +11,6 @@ namespace MajPAbGr_project
     {
         static public List <Item> FillCombo(List <Item> items, ref ComboBox combo)
         {
-            // в Форме 1:
-            //List<Item> catalog = tb.getCatalog();
-            //Class1.FillCombo(catalog, ref combo);
-
             if (items.Count != 0)
             {
                 if (combo.Items.Count > 0)
@@ -47,7 +43,6 @@ namespace MajPAbGr_project
             return texts;
         }
 
-       
 
     static public void FillListView(List <Element> ingr, List<string> texts, ref ListView list)
         {
@@ -70,8 +65,6 @@ namespace MajPAbGr_project
 
             //return texts;
         }
-
-        
 
         static public double[] AmountsFromListToArray(ref ListView lv, byte num)
         {

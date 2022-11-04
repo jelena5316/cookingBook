@@ -220,7 +220,7 @@ namespace MajPAbGr_project
                 listView1.Items.Add(items);
             }
         }
-
+        
         private void showOldAmounts()
         {
             ListView list = listView1;
