@@ -47,8 +47,8 @@ namespace MajPAbGr_project
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            tb.setCatalog();
-            fillCatalog(tb.getCatalog());
+            tb.setCatalog();           
+            Class1.FillCombo(tb.getCatalog(), ref combo);
             tb.setSubCatalog(); // table Recipe
             fillSubCatalog(); // table Recipe
             AutocompleteRecipeName(); // table Recipe
@@ -102,28 +102,7 @@ namespace MajPAbGr_project
          * Konec lokalizaciji
          */
 
-        private List<Item> fillCatalog(List<Item> items)
-        {
-            //List<Item> items = tb.getCatalog(); // читает два поля, наименование и номер
-            //пишет в комбинированное поле
-            if (items.Count != 0)
-            {
-                if (combo.Items.Count > 0)
-                    combo.Items.Clear();
-                for (int index = 0; index < items.Count; index++)
-                {
-                    combo.Items.Add(items[index].name);
-                }
-                combo.Text = combo.Items[0].ToString();
-            }
-            else combo.Text = "empty";
-            combo.Focus();
-            //int i = combo.SelectedIndex;
-            //this.Text += combo.Items[i].ToString() + " " + tb.getSelected();
-            //смена выбранного индекса при записи происходит
-            return items;
-        }
-
+        
         public void fillSubCatalog()  // recipes of recepture, combobox
         {
             //бывшая функция setRecipes()
@@ -387,7 +366,7 @@ namespace MajPAbGr_project
             int selected = comboBox1.SelectedIndex;
 
             tb.setCatalog();
-            fillCatalog(tb.getCatalog());
+            Class1.FillCombo(tb.getCatalog(), ref combo);
 
             columnHeader2.Text = "Amounts (%)";
             comboBox1.SelectedIndex = selected;
