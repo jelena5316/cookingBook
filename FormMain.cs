@@ -152,13 +152,11 @@ namespace MajPAbGr_project
             }
             lbl_info.Text = info;
 
-            //used more one time in `InsertAmounts`, mode:edit
-            List<Element> rec = tb.readElement(1); // amounts
-            elements = tb.readElement(1);
-            calc.setAmounts(rec); // сохраняет и cуммирует величины
-
-            //InputRecepture(rec);           
-            Class1.FillListView (rec, Class1.FormatAmounts(rec, calc.getTotal()), ref listView1);
+            //used more one time in `InsertAmounts`, mode:edit           
+            elements = tb.readElement(1);// amounts            
+            calc.setAmounts(elements); // сохраняет и cуммирует величины
+            //InputRecepture(elements);  
+            Class1.FillListView(elements, calc.FormatAmounts(), ref listView1);
         }
 
         private void InputRecepture(List<Element> ingr)
