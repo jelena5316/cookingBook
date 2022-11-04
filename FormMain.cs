@@ -157,33 +157,33 @@ namespace MajPAbGr_project
             elements = tb.readElement(1);
             calc.setAmounts(rec); // сохраняет и cуммирует величины
 
-            //InputRecepture(rec);            
+            //InputRecepture(rec);           
             Class1.FillListView (rec, Class1.FormatAmounts(rec, calc.getTotal()), ref listView1);
         }
 
-        //private void InputRecepture(List<Element> ingr)
-        //{
-        //    string t;
-        //    ListViewItem items;
-        //    list.Items.Clear();
-        //    for (int k = 0; k < ingr.Count; k++)
-        //    {
-        //        items = new ListViewItem(ingr[k].Name);
-        //        items.Tag = ingr[k].Id;
-        //        t = string.Format("{0:f2}", ingr[k].Amounts);
-        //        items.SubItems.Add(t);
-        //        listView1.Items.Add(items);
-        //        t = "";
-        //    }
-        //    //Сумма: счет и вывод
-        //    double summa = calc.getTotal();
-        //    t = string.Format("{0:f2}", summa);
+        private void InputRecepture(List<Element> ingr)
+        {
+            string t;
+            ListViewItem items;
+            list.Items.Clear();
+            for (int k = 0; k < ingr.Count; k++)
+            {
+                items = new ListViewItem(ingr[k].Name);
+                items.Tag = ingr[k].Id;
+                t = string.Format("{0:f2}", ingr[k].Amounts);
+                items.SubItems.Add(t);
+                listView1.Items.Add(items);
+                t = "";
+            }
+            //Сумма: счет и вывод
+            double summa = calc.getTotal();
+            t = string.Format("{0:f2}", summa);
 
-        //    items = new ListViewItem("Total");
-        //    items.Tag = -1;
-        //    items.SubItems.Add(t);
-        //    listView1.Items.Add(items);
-        //}
+            items = new ListViewItem("Total");
+            items.Tag = -1;
+            items.SubItems.Add(t);
+            listView1.Items.Add(items);
+        }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
