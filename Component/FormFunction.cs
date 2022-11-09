@@ -9,7 +9,31 @@ namespace MajPAbGr_project
 {
     public class Class1
     {
-        static public List <Item> FillCombo(List <Item> items, ref ComboBox combo)
+        static public List <string> setBox (List <Item> items, ref ComboBox combo)
+        {
+            List<string> list = new List<string>();
+            if (items.Count != 0)
+            {
+                if (combo.Items.Count > 0)
+                    combo.Items.Clear();
+                for (int index = 0; index < items.Count; index++)
+                {
+                    string t = items[index].name;
+                    combo.Items.Add(t);
+                    list.Add(t);
+                }
+                combo.Text = combo.Items[0].ToString();
+            }
+            else
+            {
+                combo.Text = "empty";
+                list.Add("empty");
+            }
+            combo.Focus();            
+            return list;
+        }
+
+        static public List<string> FillCombo(List<string> items, ref ComboBox combo)
         {
             if (items.Count != 0)
             {
@@ -17,31 +41,13 @@ namespace MajPAbGr_project
                     combo.Items.Clear();
                 for (int index = 0; index < items.Count; index++)
                 {
-                    combo.Items.Add(items[index].name);
+                    combo.Items.Add(items[index]);                    
                 }
                 combo.Text = combo.Items[0].ToString();
             }
             else combo.Text = "empty";
             combo.Focus();
             return items;
-        }
-
-
-        static public void FillCombo(List<string> items, ref ComboBox combo)
-        {
-            if (items.Count != 0)
-            {
-                if (combo.Items.Count > 0)
-                    combo.Items.Clear();
-                for (int index = 0; index < items.Count; index++)
-                {
-                    combo.Items.Add(items[index]);
-                }
-                combo.Text = combo.Items[0].ToString();
-            }
-            else combo.Text = "empty";
-            combo.Focus();
-            //return items;
         }
 
 

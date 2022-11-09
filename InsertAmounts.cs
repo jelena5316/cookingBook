@@ -20,7 +20,7 @@ namespace MajPAbGr_project
 
 
         List<Element> elements; // id and name, for amounts
-        List<Item> ingredients;        
+        List<Item> ingredients;     
 
         IngredientsController tbIngred;
         AmountsController tbAmounts;        
@@ -46,8 +46,7 @@ namespace MajPAbGr_project
             
             tbIngred = new IngredientsController(1);
             tbIngred.setCatalog();
-            List<Item> ingredients = tbIngred.getCatalog();
-            //Class1.FillCombo(ingredients, ref cmbIngr);
+            List<Item> ingredients = tbIngred.getCatalog();            
             calc = new CalcFunction();
 
             this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1; // mode autodetector
@@ -85,7 +84,6 @@ namespace MajPAbGr_project
 
         private void InsertAmounts_Load(object sender, EventArgs e)
         {
-            
             FillAmountsView(); // listview
             if (mode == (Mode)1) // for edit mode
             {
@@ -104,8 +102,8 @@ namespace MajPAbGr_project
                 listView1.Columns[1].Text = "Amounts(%) new";
                 listView1.Columns[2].Text += " old";
 
-                txbRecipe.Enabled = false;
-                btn_recipe.Enabled = false;                
+               //txbRecipe.Enabled = false;
+               btn_recipe.Enabled = false;                
             }
 
             this.Text += $" into '{name}' ";
@@ -119,24 +117,23 @@ namespace MajPAbGr_project
 
             /*
              * Текстовые поля: ингредиенты и рецепты
-             */
-            List<string> recipes = tbAmounts.dbReader
-                ($"select name from Recipe;");
-            AutoCompleteStringCollection source = new AutoCompleteStringCollection();
-            foreach (String el in recipes) source.Add(el);
-            txbRecipe.AutoCompleteCustomSource = source;
+             */ 
+            cmbIngr.AutoCompleteCustomSource = AutoCompleteNames
+                (Class1.setBox(ingredients, ref cmbIngr));
+            cmbIngr.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cmbIngr.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+            txbRecipe.AutoCompleteCustomSource = AutoCompleteNames
+                (tbAmounts.dbReader($"select name from Recipe;"));
             txbRecipe.AutoCompleteMode = AutoCompleteMode.Suggest;
             txbRecipe.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
-            List<string> ingredients = tbAmounts.dbReader
-                ($"select name from Ingredients;");            
-            Class1.FillCombo(ingredients, ref cmbIngr);            
-            AutoCompleteStringCollection source1 = new AutoCompleteStringCollection();            
-            foreach (String el in recipes) source1.Add(el);            
-            txbRecipe.AutoCompleteCustomSource = source;
-            txbRecipe.AutoCompleteMode = AutoCompleteMode.Suggest;
-            txbRecipe.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
+             AutoCompleteStringCollection AutoCompleteNames(List <string> list)
+            {
+                AutoCompleteStringCollection source = new AutoCompleteStringCollection();
+                foreach (String el in list) source.Add(el);
+                return source;
+            }
 
             // эмулятор консоли, выводит метаданные           
             frm.Show();
@@ -162,7 +159,6 @@ namespace MajPAbGr_project
         /*
          * Lokalizacija
          */
-
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             CultureInfo.CurrentCulture = new CultureInfo("us-US");

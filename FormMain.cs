@@ -48,7 +48,7 @@ namespace MajPAbGr_project
         private void Form1_Load(object sender, EventArgs e)
         {
             tb.setCatalog();           
-            Class1.FillCombo(tb.getCatalog(), ref combo);
+            Class1.setBox(tb.getCatalog(), ref combo);
             tb.setSubCatalog(); // table Recipe
             fillSubCatalog(); // table Recipe
             AutocompleteRecipeName(); // table Recipe
@@ -364,7 +364,7 @@ namespace MajPAbGr_project
             int selected = comboBox1.SelectedIndex;
 
             tb.setCatalog();
-            Class1.FillCombo(tb.getCatalog(), ref combo);
+            Class1.setBox(tb.getCatalog(), ref combo);
 
             columnHeader2.Text = "Amounts (%)";
             comboBox1.SelectedIndex = selected;
