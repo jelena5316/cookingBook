@@ -206,7 +206,7 @@ namespace MajPAbGr_project
 
         private void FillAmountsView()
         {
-            //from InputRecepture(); edited
+            //from InputRecepture(); edited            
             ListView list = listView1;
             list.Items.Clear();
 
@@ -214,10 +214,17 @@ namespace MajPAbGr_project
             for (int k = 0; k < elements.Count; k++)
             {
                 items = new ListViewItem(elements[k].Name);
-                items.Tag = elements[k].Id;
+                items.Tag = elements[k].Id;                
                 items.SubItems.Add(elements[k].Amounts.ToString());
                 items.SubItems.Add(""); // заготовка под старые величины или проценты  
                 listView1.Items.Add(items);
+
+                //items = new ListViewItem(elements[k].Name);
+                //items.Tag = elements[k].Id;
+                //t = string.Format("{0:f1}", elements[k].Amounts);
+                //items.SubItems.Add(t);
+                //items.SubItems.Add(""); // заготовка под старые величины или проценты  
+                //listView1.Items.Add(items);
             }
         }
         
@@ -652,6 +659,9 @@ namespace MajPAbGr_project
             //
         }
 
-        
+        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
+        {
+            //
+        }
     }
 }
