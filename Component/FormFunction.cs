@@ -26,6 +26,25 @@ namespace MajPAbGr_project
             return items;
         }
 
+
+        static public void FillCombo(List<string> items, ref ComboBox combo)
+        {
+            if (items.Count != 0)
+            {
+                if (combo.Items.Count > 0)
+                    combo.Items.Clear();
+                for (int index = 0; index < items.Count; index++)
+                {
+                    combo.Items.Add(items[index]);
+                }
+                combo.Text = combo.Items[0].ToString();
+            }
+            else combo.Text = "empty";
+            combo.Focus();
+            //return items;
+        }
+
+
         static public List<string> FormatAmounts(List<Element> ingr, double summa)
         {
            List<string> texts = new List<string>();
@@ -66,7 +85,7 @@ namespace MajPAbGr_project
             //return texts;
         }
 
-        static public double[] AmountsFromListToArray(ref ListView lv, byte num)
+    static public double[] AmountsFromListToArray(ref ListView lv, byte num)
         {
             double[] arr = new double[lv.Items.Count];
             string t;

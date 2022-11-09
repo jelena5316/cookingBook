@@ -187,8 +187,6 @@ namespace MajPAbGr_project
             // 
             // cmbIngr
             // 
-            this.cmbIngr.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.cmbIngr.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbIngr.FormattingEnabled = true;
             this.cmbIngr.Location = new System.Drawing.Point(6, 19);
             this.cmbIngr.Name = "cmbIngr";
@@ -233,7 +231,6 @@ namespace MajPAbGr_project
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(32, 19);
             this.toolStripStatusLabel1.Text = "Total";
-            this.toolStripStatusLabel1.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
             // 
             // toolStripStatusLabel2
             // 
