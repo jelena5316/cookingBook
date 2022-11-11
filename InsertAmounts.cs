@@ -17,8 +17,7 @@ namespace MajPAbGr_project
         double[] amounts;         
         Mode mode; //create new or edit old
         string name; // name of recepture
-
-
+        
         List<Element> elements; // id and name, for amounts
         List<Item> ingredients;     
 
@@ -42,25 +41,14 @@ namespace MajPAbGr_project
             tbAmounts.tbRecSelected(id);
             tbAmounts.RefreshElements();
             elements = tbAmounts.getElements();
-            tbAmounts.setSelected(0);
-            
-            tbIngred = new IngredientsController(1);
-            tbIngred.setCatalog();
-            List<Item> ingredients = tbIngred.getCatalog();            
+            tbAmounts.setSelected(0);            
+                    
             calc = new CalcFunction();
 
             this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1; // mode autodetector
             pragma = (mode == 0) ? 0 : 1;
 
             name = tbAmounts.dbReader($"select name from Recepture where id = {id_recepture}")[0];
-
-            //FillAmountsView(); // listview
-            //if (mode == (Mode)1)// for edit mode
-            //{ 
-            //  fillAmounts();
-            //  showOldAmounts();
-            //} 
-            //else pragma = 0;
         }
 
         public InsertAmounts(ref AmountsController tbAmounts)
@@ -71,11 +59,8 @@ namespace MajPAbGr_project
             id_recepture = tbAmounts.Id_recepture;
             elements = tbAmounts.getElements();
 
-            this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1;
-            
-            tbIngred = new IngredientsController(1);
-            tbIngred.setCatalog();
-            ingredients = tbIngred.getCatalog();            
+            this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1;            
+                       
             calc = new CalcFunction();
 
             pragma = 0;
@@ -84,6 +69,10 @@ namespace MajPAbGr_project
 
         private void InsertAmounts_Load(object sender, EventArgs e)
         {
+            tbIngred = new IngredientsController(1);
+            tbIngred.setCatalog();
+            ingredients = tbIngred.getCatalog();
+
             FillAmountsView(); // listview
             if (mode == (Mode)1) // for edit mode
             {

@@ -10,9 +10,8 @@ namespace MajPAbGr_project
     {
         private int amount_id_count, elements_count, selected_element, id_recepture;
         private List<string> amounts_id;
-        private List<Element> elements;       
+        private List<Element> elements; // id and name, for amounts      
         private FormMainController tbRec;
-     
 
         enum Columns
         {
@@ -51,11 +50,11 @@ namespace MajPAbGr_project
             return selected_element;
         }
 
-        public new int Selected
-        {
-            set { selected_element = value;  }
-            get { return selected_element; }
-        }
+        //public new int Selected
+        //{
+        //    set { selected_element = value;  }
+        //    get { return selected_element; }
+        //}
 
         public int Amount_id_count { get { return amount_id_count; } }
 
