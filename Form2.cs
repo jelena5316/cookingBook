@@ -33,10 +33,7 @@ namespace MajPAbGr_project
         {
             const string PATH = "C:\\Users\\user\\Documents\\2_diplom\\Receptures\\";
             string path;
-
-            if (!string.IsNullOrEmpty(textBox1.Text))
-                file = textBox1.Text;
-            
+           
             file = $"{file}.txt";
             path = PATH + file;
             using (StreamWriter stream = new StreamWriter(path, true))
@@ -44,11 +41,13 @@ namespace MajPAbGr_project
                 if (!File.Exists(path))
                 {
                     File.CreateText(path);
+                    stream.WriteLine($"File is created: {File.GetLastWriteTime(path)} \n");
                 }
                 for (int k = 0; k < strings.Count; k++)
                 {
                     stream.WriteLine(strings[k]);
                 }
+                stream.WriteLine($"[Record of: {System.DateTime.Now}]\n");
                 stream.Close();
             }
             string message = $"File {path} is created";
@@ -62,15 +61,51 @@ namespace MajPAbGr_project
 
         private void button2_Click(object sender, EventArgs e)
         {
-            PrintToFile();
+            if (!string.IsNullOrEmpty(textBox1.Text))
+            {
+                file = textBox1.Text;
+            }                
+            else
+            {
+                if (file == null)
+                {
+                    file = "recipe";
+                }
+                textBox1.Text = file;
+            }
+
+            if (strings != null)
+            {
+                PrintToFile();
+            }
+            else
+            {
+                if (richTextBox1.Lines != null)
+                {
+                    strings = new List<string>();
+                    string[] lines = richTextBox1.Lines;
+                    foreach (string l in lines)
+                    {
+                        strings.Add(l);
+                    }
+                    PrintToFile();
+                }
+                else
+                {
+                    MessageBox.Show("Nothing to write into file");
+                    return;
+                }
+            }
         }
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            label1.Text = "File name";
+            
+            label1.Text = "File name";            
             button1.Text = "Cancel";
             button2.Text = "Print";
             this.StartPosition = (FormStartPosition)1;
+            
             richTextBox1.ReadOnly = true;
             richTextBox1.Text = "";
 
