@@ -38,7 +38,7 @@ namespace MajPAbGr_project
             tbAmounts.Id_recepture = id;            
             
             tbAmounts.TbRec = new FormMainController("Recepture");
-            tbAmounts.tbRecSelected(id);
+            tbAmounts.tbRecSelected(id); // а использую ли я его где-нибудь?
             tbAmounts.RefreshElements();
             elements = tbAmounts.getElements();
             tbAmounts.setSelected(0);            

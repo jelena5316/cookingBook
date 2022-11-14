@@ -428,21 +428,17 @@ namespace MajPAbGr_project
             frm.Show();
         }
 
-        //Print to file        
-
+        //Print to file  
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string file;
             if (!string.IsNullOrEmpty(comboBox1.SelectedItem.ToString()))
                 file = comboBox1.SelectedItem.ToString();
             else file = "recipe";
-            List<string> strings = PrepareOutput();
-
-            //PrintToFile(strings, file);
-            Form2 frm = new Form2(strings, file);
+            List<string> strings = PrepareOutput();            
+            Form2 frm = new Form2(strings, file); // method PrintToFile is a Form2 method
             frm.Show();
-        }
-        
+        }        
         private List<string> PrepareOutput()
         {
             string name, output, mesuare, info;
@@ -485,29 +481,7 @@ namespace MajPAbGr_project
             strings.Add(info);
             return strings;
         }
-
-        private void PrintToFile(List<string> list, string file_name)
-        {
-            const string PATH = "C:\\Users\\user\\Documents\\2_diplom\\Receptures\\";
-            string path, file;
-            List<string> strings = list;
-            file = $"{file_name}.txt";
-            path = PATH + file;
-            using (StreamWriter stream = new StreamWriter(path, true))
-            {
-                if (!File.Exists(path))
-                {
-                    File.CreateText(path);
-                }
-                for (int k = 0; k < strings.Count; k++)
-                {
-                    stream.WriteLine(strings[k]);
-                }
-                stream.Close();
-            }
-            string message = $"File {path} is created";
-            MessageBox.Show(message);
-        }
+        // konec 'print to file'
 
         private void recipeToolStripMenuItem_Click(object sender, EventArgs e)
         {
