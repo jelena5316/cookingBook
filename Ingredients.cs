@@ -6,8 +6,12 @@ namespace MajPAbGr_project
 {
     public partial class Ingredients : Form
     {
-        string used;
         int option, l_used=0;
+        string used;
+
+        List<string> output;
+        Form2 frm;
+
         IngredientsController tb;
 
         public Ingredients(int opt)
@@ -29,14 +33,16 @@ namespace MajPAbGr_project
             tb = controller;
             this.option = tb.getOption();
             string table = tb.getTable();
-            tb.setCatalog();
-            Elements();
-            fillCatalog(tb.getCatalog());
+            tb.setCatalog();            
         }
 
-        private void Elements()
+        private void Ingredients_Load(object sender, EventArgs e)
         {
-            string table = tb.getTable();
+            string table;            
+            frm = new Form2();
+            
+            // Elements()
+            table = tb.getTable();
             groupBox1.Text = table;
             this.Text = table;
 
@@ -48,25 +54,44 @@ namespace MajPAbGr_project
             label1.Text = "";
             label1.Visible = false;
             // к списку записей
+
+            frm.Show();
+            Output();       
         }
 
-        private void fillCatalog(List<Item> items)
+        private void Output()
         {
-            ComboBox c = cmbData;            
-            //List<Item> items = tb.getCatalog();         
-
-            //пишет в комбинированное поле
-            if (items.Count != 0)
+            int index;
+            List<int> id;
+            output = Class1.FillComboString(tb.getCatalog(), ref cmbData, out id);
+            frm.richTextBox1.Text = "";            
+            
+            for (index = 0; index < output.Count; index++)
             {
-                if (c.Items.Count > 0)
-                    c.Items.Clear();
-                for (int index = 0; index < items.Count; index++)
+                tb.Selected = id[index];                
+                tb.setUsed();
+                used = tb.getUsed();
+
+                // for csv files, to open in Exel
+                // переделать на "человеческий" формат!!!
+                frm.richTextBox1.Text += index + 1 + "," + output[index];
+                string t = "";
+                if (used == "0")
                 {
-                    c.Items.Add(items[index].name);
+                    t =  ",not used\n";                    
                 }
+                else
+                {
+                    t = "," + used + "_records";
+                    List<string> recipes = tb.SeeMoreFunc();
+                    foreach (string li in recipes)
+                    { 
+                        t += "," + li;
+                    }
+                    t += "\n";
+                }
+                frm.richTextBox1.Text += t;
             }
-            cmbData.Text = cmbData.Items[0].ToString();
-            cmbData.Focus();            
         }
 
         private void btn_edit_Click(object sender, EventArgs e)
@@ -115,7 +140,9 @@ namespace MajPAbGr_project
 
             if (count != 0)
             {
-                fillCatalog(tb.getCatalog());
+                //fillCatalog(tb.getCatalog());
+                Output();
+
                 btn_add.Enabled = false;
                 txbAdd.Clear();
                 groupBox2.Text = "Insert new";                
@@ -152,7 +179,8 @@ namespace MajPAbGr_project
             int count = RemoveSelected();
             if (count > 0)
             {
-                fillCatalog(tb.getCatalog());
+                //fillCatalog(tb.getCatalog());
+                Output();
                 btn_remove.Enabled = false;
             }
             else

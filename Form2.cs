@@ -34,7 +34,8 @@ namespace MajPAbGr_project
             const string PATH = "C:\\Users\\user\\Documents\\2_diplom\\Receptures\\";
             string path;
            
-            file = $"{file}.txt";
+            //file = $"{file}.txt";
+            file = $"{file}.csv"; // for lists to be able to be opened with Exel
             path = PATH + file;
             using (StreamWriter stream = new StreamWriter(path, true))
             {

@@ -26,6 +26,34 @@ namespace MajPAbGr_project
             return items;
         }
 
+        static public List <string> FillComboString(List <Item> items, ref ComboBox combo,
+           out List <int> id)
+        {
+            id = new List<int>();
+            List<string> list = new List<string>();
+            if (items.Count != 0)
+            {
+                if (combo.Items.Count > 0)
+                    combo.Items.Clear();
+                for (int index = 0; index < items.Count; index++)
+                {
+                    string t = items[index].name;
+                    combo.Items.Add(t);
+                    list.Add(t);
+                }
+                combo.Text = combo.Items[0].ToString();
+            }
+            else combo.Text = "empty";
+            combo.Focus();
+            
+            for (int index = 0; index < items.Count; index++)
+            {
+                int num = items[index].id;
+                id.Add(num);
+            }
+            return list;
+        }
+
         static public List<string> FormatAmounts(List<Element> ingr, double summa)
         {
            List<string> texts = new List<string>();
