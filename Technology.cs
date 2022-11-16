@@ -302,6 +302,11 @@ namespace MajPAbGr_project
             //Печать(номер технологии)
         }
 
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
         private void button2_Click(object sender, EventArgs e) // remove (set null)
         {
             dbController db = new dbController();
@@ -315,7 +320,7 @@ namespace MajPAbGr_project
             //without method getReceptureByName()
             string tech_of_rec = null, name = "no", data = null;
             if (selected == 0) selected = 1;
-            data = tbRec.getById("id_technology", selected).ToString();
+            data = tbRec.getById("id_technology", selected);
             //$"select id_technology from Recepture where id={selected};";            
    
             if (!string.IsNullOrEmpty(tech_of_rec))

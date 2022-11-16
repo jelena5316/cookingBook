@@ -65,8 +65,8 @@ namespace MajPAbGr_project
 
             if (id_technology > 0)
             {
-                t = tb.getById("name", id_technology).ToString();
-                //t = tb.dbReader($"select name from Technology where id = {id_technology};")[0];
+                t = tb.getById("name", id_technology);
+                //t = tb.dbReader($"select name from Technology where id = {id_technology};")[0];                
                 this.Text += $" \"{t}\"";
             }
             else
@@ -99,7 +99,7 @@ namespace MajPAbGr_project
 
         private void TechnologyCards_Load(object sender, EventArgs e)
         {
-            //авозаполнения для поля "Наименование"
+            //автозаполнения для поля "Наименование"
             AutoCompleteStringCollection source = new AutoCompleteStringCollection();
             foreach (Item i in catalog) source.Add(i.name);
             textBox1.AutoCompleteCustomSource = source;
@@ -132,6 +132,36 @@ namespace MajPAbGr_project
                     }
                 }              
             }
+
+            // вывод в консоль
+            Form2 frm = new Form2();
+            frm.Show();
+            if (cmbData.SelectedIndex < tb.getCatalog().Count)
+            {
+                //cmbData.SelectedIndex = 4;
+                tb.setSelected(4);
+                id_cards = tb.Selected;
+            }
+
+            if (id_cards > 0)
+            {
+                //вывод в поля данных консоли
+                string data;
+                string ind = tb.cardsCount(id_cards).ToString();
+
+                data = tb.getById("name", id_cards);
+                frm.richTextBox1.Text = data + "\n";
+
+                if (ind != "0")
+                {
+                    data = tb.getById("description", id_cards);
+                    frm.richTextBox1.Text = data + "\n"; ;
+                }
+
+                data = tb.getById("technology", id_cards);
+                frm.richTextBox1.Text = data;
+            }
+            else frm.richTextBox1.Text = "pusto!";
         }
 
         private List<Item> fillCatalog() //список с технологиями
@@ -189,20 +219,20 @@ namespace MajPAbGr_project
             if (id_cards < 1) { cmbData.Text = "no selection"; return; }
 
             //вывод в поля данных карты
-            int data;
+            string data;
             string ind = tb.cardsCount(id_cards).ToString();
 
             data = tb.getById("name", id_cards);
-            textBox1.Text = data.ToString();
+            textBox1.Text = data;
 
             if (ind != "0")
             {
                 data = tb.getById("description", id_cards);
-                textBox2.Text = data.ToString();
+                textBox2.Text = data;
             }
 
             data = tb.getById("technology", id_cards);
-            textBox3.Text = data.ToString();
+            textBox3.Text = data;
 
             output_cards_id = id_cards;
             //btn_edit.Enabled = true;

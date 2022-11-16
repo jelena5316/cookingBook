@@ -63,7 +63,6 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(179, 20);
             this.textBox1.TabIndex = 0;
-            
             // 
             // button1
             // 
@@ -174,7 +173,7 @@
             this.groupBox1.Size = new System.Drawing.Size(199, 206);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Change a technology of recepture";
+            this.groupBox1.Text = "Change a technology of recepture";            
             // 
             // button4
             // 

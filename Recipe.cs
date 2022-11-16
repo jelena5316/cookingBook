@@ -69,7 +69,7 @@ namespace MajPAbGr_project
 
         private void label2_Click(object sender, EventArgs e)
         {
-            int category = tb.getById("id_category", recepture_id);
+            int category = int.Parse(tb.getById("id_category", recepture_id));
             int selected = tb.getSelected();            
             ReceptureController cntrl = new ReceptureController("Recepture", recepture_id, category);
             NewRecepture frm = new NewRecepture(cntrl);

@@ -55,7 +55,7 @@ namespace MajPAbGr_project
 
         public string cardsCount(string name) // see SelectedCount in FormMain
         {
-            query = $"select count (*) from Technology_card where name = {name};";
+            query = $"select count (*) from Technology_card where name = '{name}';";
             return Count(query);
         }
 
