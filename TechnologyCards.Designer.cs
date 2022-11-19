@@ -48,6 +48,7 @@ namespace MajPAbGr_project
             this.lblCardsOfTech = new System.Windows.Forms.Label();
             this.btn_update = new System.Windows.Forms.Button();
             this.btn_new = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -210,7 +211,7 @@ namespace MajPAbGr_project
             this.lblCardsOfTech.Name = "lblCardsOfTech";
             this.lblCardsOfTech.Size = new System.Drawing.Size(111, 13);
             this.lblCardsOfTech.TabIndex = 25;
-            this.lblCardsOfTech.Text = "Technology comtains:";
+            this.lblCardsOfTech.Text = "Technology comtains:";            
             // 
             // btn_update
             // 
@@ -232,11 +233,22 @@ namespace MajPAbGr_project
             this.btn_new.UseVisualStyleBackColor = true;
             this.btn_new.Click += new System.EventHandler(this.btn_new_Click);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(285, 462);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(49, 13);
+            this.label5.TabIndex = 28;
+            this.label5.Text = "Print Info";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
             // TechnologyCards
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(653, 494);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.btn_new);
             this.Controls.Add(this.btn_update);
             this.Controls.Add(this.lblCardsOfTech);
@@ -280,5 +292,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Button btn_new;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label5;
     }
 }

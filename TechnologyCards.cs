@@ -133,40 +133,7 @@ namespace MajPAbGr_project
                         c.Items.Add(items[index].name);
                     }
                 }              
-            }
-
-            // вывод в консоль
-            Form2 frm = new Form2();
-            frm.Show();
-            frm.richTextBox1.Text = $"Id of technology is {id_technology} \n";            
-
-            if (cmbData.SelectedIndex < tb.getCatalog().Count)
-            {
-                //cmbData.SelectedIndex = 4;
-                tb.setSelected(4);
-                id_cards = tb.Selected;
-                frm.richTextBox1.Text += $"Id of card is {id_cards.ToString()} \n";
-            }
-            if (id_cards > 0)
-            {
-                //вывод в поля данных консоли
-                string data;
-                string ind = tb.cardsCount(id_cards); // id            
-
-                data = tb.getById("name", id_cards);
-                frm.richTextBox1.Text += data + "\n";
-
-                if (ind != "0")
-                {
-                    data = tb.getById("description", id_cards);
-                    frm.richTextBox1.Text += data + "\n"; ;
-                }
-
-                data = tb.getById("technology", id_cards);
-                frm.richTextBox1.Text += data;
-            }
-            else frm.richTextBox1.Text = "pusto!";
-            frm.richTextBox1.Text += "\n********";
+            } 
         }
 
         private List<Item> fillCatalog() //список с технологиями
@@ -221,14 +188,17 @@ namespace MajPAbGr_project
                 id_cards = tb.Selected;
             }
 
+            tb.setFields(); // заполняем поля
+
             if (id_cards < 1) { cmbData.Text = "no selection"; return; }
 
-            //вывод в поля данных карты
+            //вывод в поля данных карты (из полей объекта)
             string data;
             string ind = tb.cardsCount(id_cards).ToString();
 
-            data = tb.getById("name", id_cards);
-            textBox1.Text = data;
+            //data = tb.getById("name", id_cards);
+            //textBox1.Text = data;
+            textBox1.Text = tb.Name;
 
             if (ind != "0")
             {
@@ -296,6 +266,47 @@ namespace MajPAbGr_project
             textBox2.Clear();
             textBox3.Clear();
             btn_update.Enabled = false;
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+            PrintInfo();
+        }
+
+        private void PrintInfo()
+        {
+            // вывод в консоль
+            Form2 frm = new Form2();
+            frm.Show();
+            frm.richTextBox1.Text = $"Id of technology is {id_technology} \n";
+
+            if (cmbData.SelectedIndex < tb.getCatalog().Count)
+            {
+                //cmbData.SelectedIndex = 4;
+                tb.setSelected(4);
+                id_cards = tb.Selected;
+                frm.richTextBox1.Text += $"Id of card is {id_cards.ToString()} \n";
+            }
+            if (id_cards > 0)
+            {
+                //вывод в поля данных консоли
+                string data;
+                string ind = tb.cardsCount(id_cards); // id            
+
+                data = tb.getById("name", id_cards);
+                frm.richTextBox1.Text += data + "\n";
+
+                if (ind != "0")
+                {
+                    data = tb.getById("description", id_cards);
+                    frm.richTextBox1.Text += data + "\n"; ;
+                }
+
+                data = tb.getById("technology", id_cards);
+                frm.richTextBox1.Text += data;
+            }
+            else frm.richTextBox1.Text = "pusto!";
+            frm.richTextBox1.Text += "\n********";
         }
 
         private void btn_remove_Click(object sender, EventArgs e)

@@ -8,7 +8,46 @@ namespace MajPAbGr_project
 {
     class TechnologyCardsController: tbClass1
     {
+
+        private string name, description, card;
+        
         public TechnologyCardsController(string table) : base(table) { }
+
+        
+        //set and get fields
+        public string Name
+        {
+            set { name = value; }
+            get { return name; }
+        }
+
+        public string Description
+        {
+            set { description = value; }
+            get { return description; }
+        }
+        public string Card
+        {
+            set { card = value; }
+            get { return card; }
+        }
+
+        public void setFields() // 'cards_id' is equel selected
+        {
+            name = getById("name", selected);
+            if (cardsCount(selected) != "0")
+            {
+                description = getById("description", selected);
+            }
+            else description = "";
+            card = getById("technology", selected);
+        }
+
+        public string [] getFields()
+        {
+            string[] arr = new string[] { name, description, card };
+            return arr;
+        }
 
         //insert into Tecnology_chain
         public int insertCardsIntoChain(int technology, int cards)
