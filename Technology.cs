@@ -302,10 +302,6 @@ namespace MajPAbGr_project
             //Печать(номер технологии)
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
 
         private void button2_Click(object sender, EventArgs e) // remove (set null)
         {

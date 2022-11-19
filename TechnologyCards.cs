@@ -61,11 +61,13 @@ namespace MajPAbGr_project
             string t;
             btn_remove.Enabled = false;
             //btn_edit.Enabled = false;
-            btn_insert.Text = "insert";
+            btn_insert.Text = "insert";            
 
+            TechnologyController tbTechn = new TechnologyController("Technology");
+            
             if (id_technology > 0)
             {
-                t = tb.getById("name", id_technology);
+                t = tbTechn.getById("name", id_technology);
                 //t = tb.dbReader($"select name from Technology where id = {id_technology};")[0];                
                 this.Text += $" \"{t}\"";
             }
@@ -136,32 +138,35 @@ namespace MajPAbGr_project
             // вывод в консоль
             Form2 frm = new Form2();
             frm.Show();
+            frm.richTextBox1.Text = $"Id of technology is {id_technology} \n";            
+
             if (cmbData.SelectedIndex < tb.getCatalog().Count)
             {
                 //cmbData.SelectedIndex = 4;
                 tb.setSelected(4);
                 id_cards = tb.Selected;
+                frm.richTextBox1.Text += $"Id of card is {id_cards.ToString()} \n";
             }
-
             if (id_cards > 0)
             {
                 //вывод в поля данных консоли
                 string data;
-                string ind = tb.cardsCount(id_cards).ToString();
+                string ind = tb.cardsCount(id_cards); // id            
 
                 data = tb.getById("name", id_cards);
-                frm.richTextBox1.Text = data + "\n";
+                frm.richTextBox1.Text += data + "\n";
 
                 if (ind != "0")
                 {
                     data = tb.getById("description", id_cards);
-                    frm.richTextBox1.Text = data + "\n"; ;
+                    frm.richTextBox1.Text += data + "\n"; ;
                 }
 
                 data = tb.getById("technology", id_cards);
-                frm.richTextBox1.Text = data;
+                frm.richTextBox1.Text += data;
             }
             else frm.richTextBox1.Text = "pusto!";
+            frm.richTextBox1.Text += "\n********";
         }
 
         private List<Item> fillCatalog() //список с технологиями
