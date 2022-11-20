@@ -28,7 +28,7 @@ namespace MajPAbGr_project
 
             //Application.Run(new InsertAmounts(ref cntrl));
 
-            Application.Run(new Technology());
+            Application.Run(new TechnologyCards(4));
 
 
         }

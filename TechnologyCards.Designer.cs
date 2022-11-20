@@ -168,7 +168,7 @@ namespace MajPAbGr_project
             // lblTest
             // 
             this.lblTest.AutoSize = true;
-            this.lblTest.Location = new System.Drawing.Point(220, 27);
+            this.lblTest.Location = new System.Drawing.Point(172, 41);
             this.lblTest.Name = "lblTest";
             this.lblTest.Size = new System.Drawing.Size(15, 13);
             this.lblTest.TabIndex = 18;
@@ -211,7 +211,7 @@ namespace MajPAbGr_project
             this.lblCardsOfTech.Name = "lblCardsOfTech";
             this.lblCardsOfTech.Size = new System.Drawing.Size(111, 13);
             this.lblCardsOfTech.TabIndex = 25;
-            this.lblCardsOfTech.Text = "Technology comtains:";            
+            this.lblCardsOfTech.Text = "Technology comtains:";
             // 
             // btn_update
             // 
