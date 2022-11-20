@@ -44,16 +44,16 @@ namespace MajPAbGr_project
             InitializeComponent();
             this.id_technology = id_technology;
             tb = new TechnologyCardsController("Technology_card");
-            tb.Selected = id_technology;
-            db = new dbController();
-            tb.setCatalog();           
+            db = new dbController();           
+            tb.setCatalog();
             catalog = Class1.FillCombo(tb.getCatalog(), ref cmbData);
+            tb.Selected = id_technology; // не раньше! иначе изменится при записи в поле (строка выше)
 
             //set field `cards`
-            setCards();
-            
+            //setCards();
+
             //set text of form one and buttons
-            setTextAndButtons();  
+            //setTextAndButtons();  
         }
 
         private void setTextAndButtons()
@@ -100,6 +100,17 @@ namespace MajPAbGr_project
 
         private void TechnologyCards_Load(object sender, EventArgs e)
         {
+            // выставить нужную технологическую карту
+            int selected = tb.Selected;
+            for (int index = 0; index < catalog.Count; index++)
+            {
+                if (selected == catalog[index].id)
+                {
+                    cmbData.SelectedIndex = index;
+                    break;
+                }
+            }
+
             //автозаполнения для поля "Наименование"
             AutoCompleteStringCollection source = new AutoCompleteStringCollection();
             foreach (Item i in catalog) source.Add(i.name);
@@ -158,7 +169,14 @@ namespace MajPAbGr_project
         private void cmbData_SelectedIndexChanged(object sender, EventArgs e)
         {
            string ind;
-           if (cmbData.SelectedIndex < tb.getCatalog().Count)
+
+            if (tb.Selected < 1 && cmbData.Items.Count > 0)
+            {
+                cmbData.SelectedIndex = 1;
+                tb.setSelected(1);
+            }            
+            
+            if (cmbData.SelectedIndex < tb.getCatalog().Count)
             {
                 int temp = cmbData.SelectedIndex;
                 tb.setSelected(temp);
@@ -185,8 +203,7 @@ namespace MajPAbGr_project
                 textBox2.Text = tb.Description; 
             textBox3.Text = tb.Card;
 
-            output_cards_id = id_cards;
-            //btn_edit.Enabled = true;
+            output_cards_id = id_cards;            
             btn_remove.Enabled = true;
             btn_update.Enabled = true;
         }
