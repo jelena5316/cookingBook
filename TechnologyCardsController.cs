@@ -100,6 +100,8 @@ namespace MajPAbGr_project
 
         public List<string> SeeOtherCards(int id_technology) //for TechnologyCards.cs
         {
+            //id_technology здесь индефикатор технологии, а не карты
+            
             List<string> list;
             query = "select technology from Technology_card where id in " +
                 $" (select id_card from Technology_chain where id_technology = {id_technology});";

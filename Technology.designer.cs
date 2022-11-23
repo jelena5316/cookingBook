@@ -51,6 +51,9 @@
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.lblCards = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -142,7 +145,7 @@
             // 
             // btn_technology
             // 
-            this.btn_technology.Location = new System.Drawing.Point(125, 80);
+            this.btn_technology.Location = new System.Drawing.Point(125, 79);
             this.btn_technology.Name = "btn_technology";
             this.btn_technology.Size = new System.Drawing.Size(60, 23);
             this.btn_technology.TabIndex = 10;
@@ -162,7 +165,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lblCards);
             this.groupBox1.Controls.Add(this.btn_technology);
+            this.groupBox1.Controls.Add(this.comboBox3);
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.comboBox2);
             this.groupBox1.Controls.Add(this.button2);
@@ -170,14 +175,14 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Location = new System.Drawing.Point(297, 51);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(199, 206);
+            this.groupBox1.Size = new System.Drawing.Size(199, 274);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Change a technology of recepture";            
+            this.groupBox1.Text = "Change a technology of recepture";
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(125, 134);
+            this.button4.Location = new System.Drawing.Point(125, 137);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(60, 23);
             this.button4.TabIndex = 18;
@@ -189,7 +194,7 @@
             // 
             this.lbl_cards.AutoSize = true;
             this.lbl_cards.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_cards.Location = new System.Drawing.Point(64, 181);
+            this.lbl_cards.Location = new System.Drawing.Point(63, 245);
             this.lbl_cards.Name = "lbl_cards";
             this.lbl_cards.Size = new System.Drawing.Size(125, 13);
             this.lbl_cards.TabIndex = 15;
@@ -278,6 +283,23 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Editor";
             // 
+            // comboBox3
+            // 
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Location = new System.Drawing.Point(9, 210);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(179, 21);
+            this.comboBox3.TabIndex = 20;
+            // 
+            // lblCards
+            // 
+            this.lblCards.AutoSize = true;
+            this.lblCards.Location = new System.Drawing.Point(6, 194);
+            this.lblCards.Name = "lblCards";
+            this.lblCards.Size = new System.Drawing.Size(37, 13);
+            this.lblCards.TabIndex = 21;
+            this.lblCards.Text = "Cards ";
+            // 
             // Technology
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -331,5 +353,8 @@
         private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Label lblCards;
     }
 }

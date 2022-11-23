@@ -39,20 +39,20 @@ namespace MajPAbGr_project
         {
             InitializeComponent();
             db = new dbController();
-            
-            id_recepture = recepture;
-            tbRec.setCatalog();
-            receptures = tbRec.getCatalog();
-            fillCatalogRec(receptures);
-            tbRec.Selected = recepture;           
-            selected_rec = recepture;
-            
+
             id_technology = 0;
             tb.setCatalog();
             technologies = tb.getCatalog();           
             fillCatalog(technologies);
             selected_tech = 1;
             id = 1;
+
+            id_recepture = recepture;
+            tbRec.setCatalog();
+            receptures = tbRec.getCatalog();
+            fillCatalogRec(receptures);
+            tbRec.Selected = recepture;           
+            selected_rec = recepture;
            
             toolStripStatusLabel1.Text = $"Recepture {id_recepture}, technology none";
             toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology none";
@@ -67,19 +67,20 @@ namespace MajPAbGr_project
 
             db = new dbController();
 
+            id_technology = technology;
+            tb.setCatalog();
+            technologies = tb.getCatalog();
+            fillCatalog(technologies);
+            tb.Selected = technology;            
+            id = technology;            
+            
             id_recepture = recepture;
             tbRec.setCatalog();           
             receptures = tbRec.getCatalog();
             fillCatalogRec(receptures);
             tbRec.Selected = recepture;            
             selected_rec = recepture;
-
-            id_technology = technology;
-            tb.setCatalog();
-            technologies = tb.getCatalog();
-            fillCatalog(technologies);
-            tb.Selected = technology;            
-            id = technology;
+            
 
             toolStripStatusLabel1.Text = $"Recepture {id_recepture}, technology {id_technology}";
             toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology {selected_tech}";
@@ -95,7 +96,7 @@ namespace MajPAbGr_project
             string technology = "";
             technology = db.dbReadTechnology(query)[0];            
             string[] arr = null;
-            arr = technology.Split(',');
+            arr = technology.Split('*'); // заменить разделитель, не знак препинания
             technology = arr[0] + ": " + arr[1];
             textBox1.Text = arr[0];
             textBox3.Text = arr[1];            
@@ -298,8 +299,54 @@ namespace MajPAbGr_project
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e) //print
         {
+            int id_rec, id_tech;
+            string rec, tech;
+            RichTextBox frm_textbox;
+
+            Form2 frm;
+            TechnologyCardsController tbCards;
+
+
+            frm = new Form2();
+            frm.Show();
+            frm_textbox = frm.richTextBox1;
+            frm_textbox.Text = "";
+
+            id_rec = receptures[comboBox1.SelectedIndex].id;
+            rec = receptures[comboBox1.SelectedIndex].name;
+            id_tech = technologies[comboBox2.SelectedIndex].id;
+            tech = technologies[comboBox2.SelectedIndex].name;
+
+
+            //выведет название рецепта
+            frm_textbox.Text += id_rec + " " + rec + "\n";
+
+            //выведет выбранную технологию и описание технологии
+            frm_textbox.Text += id_tech + " " + tech + "\n";
+            frm_textbox.Text += textBox3.Text + "\n";
+
             //выведет на печать технологию с цепочкой карт
-            //Печать(номер технологии)
+
+            if (id_technology == 0)
+            {
+                string id = tb.dbReader($"select id_technology from Recepture where id ={tbRec.Selected};")[0];
+                if (id == null)
+                    return;
+                else
+                    id_technology = int.Parse(id);
+            }
+            
+                string text = "***\n";
+                if (id_technology > 1)
+                {
+                tbCards = new TechnologyCardsController("Technology_card");
+                List<string> chain = tbCards.SeeOtherCards(id_technology);
+                    foreach (string card in chain)
+                    {
+                        text += $"{card} \n";
+                    }
+                }
+            frm_textbox.Text += text;
         }
 
 
@@ -338,6 +385,19 @@ namespace MajPAbGr_project
             int selected = tbRec.setSelected(index);
             //id_recepture = selected;
             selected_rec = selected;
+
+            string id = tb.dbReader($"select id_technology from Recepture where id ={tbRec.Selected};")[0];
+            int probe = int.Parse(id);
+            
+            for (int num = 0; num < receptures.Count; num++)
+            {
+                if (technologies[num].id == probe)
+                {
+                    comboBox2.SelectedIndex = num;
+                    break;
+                }
+                id_technology = probe;
+            }
 
             //label6.Text = selected.ToString();
             toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology {selected_tech}";

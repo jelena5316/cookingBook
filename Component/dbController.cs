@@ -140,7 +140,7 @@ namespace MajPAbGr_project
                         while (reader.Read())
                         {
                             string technology = reader.GetValue(0).ToString();
-                            technology += "," + reader.GetValue(1).ToString();
+                            technology += "*" + reader.GetValue(1).ToString();
                             cards.Add(technology);
                         }
                     }
