@@ -48,7 +48,7 @@ namespace MajPAbGr_project
         private void Form1_Load(object sender, EventArgs e)
         {
             tb.setCatalog();           
-            Class1.FillCombo(tb.getCatalog(), ref combo);
+            Class1.setBox(tb.getCatalog(), ref combo);
             tb.setSubCatalog(); // table Recipe
             fillSubCatalog(); // table Recipe
             AutocompleteRecipeName(); // table Recipe
@@ -152,13 +152,11 @@ namespace MajPAbGr_project
             }
             lbl_info.Text = info;
 
-            //used more one time in `InsertAmounts`, mode:edit
-            List<Element> rec = tb.readElement(1); // amounts
-            elements = tb.readElement(1);
-            calc.setAmounts(rec); // сохраняет и cуммирует величины
-
-            //InputRecepture(rec);           
-            Class1.FillListView (rec, Class1.FormatAmounts(rec, calc.getTotal()), ref listView1);
+            //used more one time in `InsertAmounts`, mode:edit           
+            elements = tb.readElement(1);// amounts            
+            calc.setAmounts(elements); // сохраняет и cуммирует величины
+            //InputRecepture(elements);  
+            Class1.FillListView(elements, calc.FormatAmounts(), ref listView1);
         }
 
         private void InputRecepture(List<Element> ingr)
@@ -366,7 +364,7 @@ namespace MajPAbGr_project
             int selected = comboBox1.SelectedIndex;
 
             tb.setCatalog();
-            Class1.FillCombo(tb.getCatalog(), ref combo);
+            Class1.setBox(tb.getCatalog(), ref combo);
 
             columnHeader2.Text = "Amounts (%)";
             comboBox1.SelectedIndex = selected;
@@ -430,21 +428,17 @@ namespace MajPAbGr_project
             frm.Show();
         }
 
-        //Print to file        
-
+        //Print to file  
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string file;
             if (!string.IsNullOrEmpty(comboBox1.SelectedItem.ToString()))
                 file = comboBox1.SelectedItem.ToString();
             else file = "recipe";
-            List<string> strings = PrepareOutput();
-
-            //PrintToFile(strings, file);
-            Form2 frm = new Form2(strings, file);
+            List<string> strings = PrepareOutput();            
+            Form2 frm = new Form2(strings, file); // method PrintToFile is a Form2 method
             frm.Show();
-        }
-        
+        }        
         private List<string> PrepareOutput()
         {
             string name, output, mesuare, info;
@@ -487,29 +481,7 @@ namespace MajPAbGr_project
             strings.Add(info);
             return strings;
         }
-
-        private void PrintToFile(List<string> list, string file_name)
-        {
-            const string PATH = "C:\\Users\\user\\Documents\\2_diplom\\Receptures\\";
-            string path, file;
-            List<string> strings = list;
-            file = $"{file_name}.txt";
-            path = PATH + file;
-            using (StreamWriter stream = new StreamWriter(path, true))
-            {
-                if (!File.Exists(path))
-                {
-                    File.CreateText(path);
-                }
-                for (int k = 0; k < strings.Count; k++)
-                {
-                    stream.WriteLine(strings[k]);
-                }
-                stream.Close();
-            }
-            string message = $"File {path} is created";
-            MessageBox.Show(message);
-        }
+        // konec 'print to file'
 
         private void recipeToolStripMenuItem_Click(object sender, EventArgs e)
         {

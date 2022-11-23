@@ -187,8 +187,6 @@ namespace MajPAbGr_project
             // 
             // cmbIngr
             // 
-            this.cmbIngr.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.cmbIngr.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbIngr.FormattingEnabled = true;
             this.cmbIngr.Location = new System.Drawing.Point(6, 19);
             this.cmbIngr.Name = "cmbIngr";
@@ -278,21 +276,21 @@ namespace MajPAbGr_project
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(89, 22);
             this.toolStripMenuItem1.Text = "US";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(89, 22);
             this.toolStripMenuItem2.Text = "LV";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(89, 22);
             this.toolStripMenuItem3.Text = "RU";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 

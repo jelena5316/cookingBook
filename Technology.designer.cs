@@ -40,6 +40,8 @@
             this.btn_technology = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblCards = new System.Windows.Forms.Label();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.button4 = new System.Windows.Forms.Button();
             this.lbl_cards = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -51,9 +53,6 @@
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.lblCards = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -180,6 +179,23 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Change a technology of recepture";
             // 
+            // lblCards
+            // 
+            this.lblCards.AutoSize = true;
+            this.lblCards.Location = new System.Drawing.Point(6, 194);
+            this.lblCards.Name = "lblCards";
+            this.lblCards.Size = new System.Drawing.Size(37, 13);
+            this.lblCards.TabIndex = 21;
+            this.lblCards.Text = "Cards ";
+            // 
+            // comboBox3
+            // 
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Location = new System.Drawing.Point(9, 210);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(179, 21);
+            this.comboBox3.TabIndex = 20;
+            // 
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(125, 137);
@@ -283,23 +299,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Editor";
             // 
-            // comboBox3
-            // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(9, 210);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(179, 21);
-            this.comboBox3.TabIndex = 20;
-            // 
-            // lblCards
-            // 
-            this.lblCards.AutoSize = true;
-            this.lblCards.Location = new System.Drawing.Point(6, 194);
-            this.lblCards.Name = "lblCards";
-            this.lblCards.Size = new System.Drawing.Size(37, 13);
-            this.lblCards.TabIndex = 21;
-            this.lblCards.Text = "Cards ";
-            // 
             // Technology
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -354,7 +353,6 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Label lblCards;
     }
 }

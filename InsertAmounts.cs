@@ -17,10 +17,9 @@ namespace MajPAbGr_project
         double[] amounts;         
         Mode mode; //create new or edit old
         string name; // name of recepture
-
-
-        List<Element> elements; // id and name, amounts
-        List<Item> ingredients;
+        
+        List<Element> elements; // id and name, for amounts
+        List<Item> ingredients;     
 
         IngredientsController tbIngred;
         AmountsController tbAmounts;        
@@ -39,29 +38,17 @@ namespace MajPAbGr_project
             tbAmounts.Id_recepture = id;            
             
             tbAmounts.TbRec = new FormMainController("Recepture");
-            tbAmounts.tbRecSelected(id);
+            tbAmounts.tbRecSelected(id); // а использую ли я его где-нибудь?
             tbAmounts.RefreshElements();
             elements = tbAmounts.getElements();
-            tbAmounts.setSelected(0);
-            
-            tbIngred = new IngredientsController(1);
-            tbIngred.setCatalog();
-            List<Item> receptures = tbIngred.getCatalog();
-            //Class1.FillCombo(receptures, ref cmbIngr);
+            tbAmounts.setSelected(0);            
+                    
             calc = new CalcFunction();
 
             this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1; // mode autodetector
             pragma = (mode == 0) ? 0 : 1;
 
             name = tbAmounts.dbReader($"select name from Recepture where id = {id_recepture}")[0];
-
-            //FillAmountsView(); // listview
-            //if (mode == (Mode)1)// for edit mode
-            //{ 
-            //  fillAmounts();
-            //  showOldAmounts();
-            //} 
-            //else pragma = 0;
         }
 
         public InsertAmounts(ref AmountsController tbAmounts)
@@ -72,11 +59,8 @@ namespace MajPAbGr_project
             id_recepture = tbAmounts.Id_recepture;
             elements = tbAmounts.getElements();
 
-            this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1;
-            
-            tbIngred = new IngredientsController(1);
-            tbIngred.setCatalog();
-            ingredients = tbIngred.getCatalog();            
+            this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1;            
+                       
             calc = new CalcFunction();
 
             pragma = 0;
@@ -85,7 +69,10 @@ namespace MajPAbGr_project
 
         private void InsertAmounts_Load(object sender, EventArgs e)
         {
-            Class1.FillCombo(ingredients, ref cmbIngr);
+            tbIngred = new IngredientsController(1);
+            tbIngred.setCatalog();
+            ingredients = tbIngred.getCatalog();
+
             FillAmountsView(); // listview
             if (mode == (Mode)1) // for edit mode
             {
@@ -99,16 +86,15 @@ namespace MajPAbGr_project
             btn_recipe.Enabled = false; //insert recipe           
             btn_submit.Enabled = false; // submit ingredients
             
-            if (mode == Mode.Edit)
+            if (mode == Mode.Edit) //1
             {
                 listView1.Columns[1].Text = "Amounts(%) new";
                 listView1.Columns[2].Text += " old";
 
-                txbRecipe.Enabled = false;
-                btn_recipe.Enabled = false;                
+               //txbRecipe.Enabled = false;
+               btn_recipe.Enabled = false;                
             }
 
-            //this.Text += $" into '{tbAmounts.dbReader($"select name from Recepture where id = {id_recepture}")[0]}' ";
             this.Text += $" into '{name}' ";
             CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
             nfi = CultureInfo.CurrentCulture.NumberFormat;
@@ -117,13 +103,26 @@ namespace MajPAbGr_project
                 " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
             txbAmounts.Text = "100" + decimal_separator + "0";
 
-            AutoCompleteStringCollection source = new AutoCompleteStringCollection();
-            List<string> recipes = tbAmounts.dbReader
-                ($"select name from Recipe;");
-            foreach (String el in recipes) source.Add(el);            
-            txbRecipe.AutoCompleteCustomSource = source;
+
+            /*
+             * Текстовые поля: ингредиенты и рецепты
+             */ 
+            cmbIngr.AutoCompleteCustomSource = AutoCompleteNames
+                (Class1.setBox(ingredients, ref cmbIngr));
+            cmbIngr.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cmbIngr.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+            txbRecipe.AutoCompleteCustomSource = AutoCompleteNames
+                (tbAmounts.dbReader($"select name from Recipe;"));
             txbRecipe.AutoCompleteMode = AutoCompleteMode.Suggest;
             txbRecipe.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+             AutoCompleteStringCollection AutoCompleteNames(List <string> list)
+            {
+                AutoCompleteStringCollection source = new AutoCompleteStringCollection();
+                foreach (String el in list) source.Add(el);
+                return source;
+            }
 
             // эмулятор консоли, выводит метаданные           
             frm.Show();
@@ -149,7 +148,6 @@ namespace MajPAbGr_project
         /*
          * Lokalizacija
          */
-
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             CultureInfo.CurrentCulture = new CultureInfo("us-US");
@@ -206,7 +204,7 @@ namespace MajPAbGr_project
 
         private void FillAmountsView()
         {
-            //from InputRecepture(); edited
+            //from InputRecepture(); edited            
             ListView list = listView1;
             list.Items.Clear();
 
@@ -214,10 +212,17 @@ namespace MajPAbGr_project
             for (int k = 0; k < elements.Count; k++)
             {
                 items = new ListViewItem(elements[k].Name);
-                items.Tag = elements[k].Id;
+                items.Tag = elements[k].Id;                
                 items.SubItems.Add(elements[k].Amounts.ToString());
                 items.SubItems.Add(""); // заготовка под старые величины или проценты  
                 listView1.Items.Add(items);
+
+                //items = new ListViewItem(elements[k].Name);
+                //items.Tag = elements[k].Id;
+                //t = string.Format("{0:f1}", elements[k].Amounts);
+                //items.SubItems.Add(t);
+                //items.SubItems.Add(""); // заготовка под старые величины или проценты  
+                //listView1.Items.Add(items);
             }
         }
         
@@ -646,12 +651,5 @@ namespace MajPAbGr_project
             }
 
         }
-
-        private void txbRecipe_TextChanged(object sender, EventArgs e)
-        {
-            //
-        }
-
-        
     }
 }

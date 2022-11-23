@@ -24,11 +24,9 @@ namespace MajPAbGr_project
             //FormMainController tb = new FormMainController("Recepture");
             //tb.Selected = 8;
             //tb.Selected = 28;
-            //AmountsController cntrl = new AmountsController("Amounts", ref tb);        
-
+            //AmountsController cntrl = new AmountsController("Amounts", ref tb);            
+            Application.Run(new FormMain());
             //Application.Run(new InsertAmounts(ref cntrl));
-
-            Application.Run(new Technology(5));
         }
     }
 }
