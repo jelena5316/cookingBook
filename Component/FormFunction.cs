@@ -33,23 +33,6 @@ namespace MajPAbGr_project
             return list;
         }
 
-        static public List<string> FillCombo(List<string> items, ref ComboBox combo)
-        {
-            if (items.Count != 0)
-            {
-                if (combo.Items.Count > 0)
-                    combo.Items.Clear();
-                for (int index = 0; index < items.Count; index++)
-                {
-                    combo.Items.Add(items[index]);                    
-                }
-                combo.Text = combo.Items[0].ToString();
-            }
-            else combo.Text = "empty";
-            combo.Focus();
-            return items;
-        }
-
         static public List<Item> FillCombo(List<Item> items, ref ComboBox combo)
         {
             if (items.Count != 0)
