@@ -30,21 +30,22 @@ namespace MajPAbGr_project
 
         Form2 frm = new Form2();
 
-        public InsertAmounts(int id)
+        public InsertAmounts(int id) // а если и сюда передовать котроллер главной формы?
+                                     // задача: чтобы старый selected не мешал
         {
-            InitializeComponent();
-            id_recepture = id;
+            InitializeComponent();            
             tbAmounts = new AmountsController("Amounts");
-            tbAmounts.Id_recepture = id;            
-            elements = tbAmounts.getElements();
-            
             tbAmounts.TbRec = new FormMainController("Recepture");
+            tbAmounts.tbRecSelected(id);  // определяем номер рецептуры в базе данных              
             tbAmounts.RefreshElements(); // elements, elements_count
-            //tbAmounts.tbRecSelected(id); // а использую ли я его где-нибудь?            
-            //tbAmounts.setSelected(0); // ? а использую ли я где?         
+            tbAmounts.Id_recepture = id;
+            
+            id_recepture = id;                      
+            elements = tbAmounts.getElements();
 
-            // а если и сюда передовать котроллер главной формы?
-            // проблемма: чтобы selected не мешал
+            // в обработчике private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+            tbAmounts.setSelected(0); 
+            // определяем выбранный элемент из списка; разобраться с обработчиком!     
 
             calc = new CalcFunction();
 
@@ -58,6 +59,7 @@ namespace MajPAbGr_project
         {
             InitializeComponent();
             this.tbAmounts = Amounts; // содержит tbRec, selected (tbRec), elements (= tb.readElement(1));
+            
             id_recepture = tbAmounts.Id_recepture; // tbRec.selected               
             elements = tbAmounts.getElements(); // elements (= tb.readElement(1))
 
@@ -633,7 +635,7 @@ namespace MajPAbGr_project
             {
                 try
                 {
-                    //int id = tbAmounts.setSelected(index);
+                    int id = tbAmounts.setSelected(index);
                     Element el = tbAmounts.getElementByIndex(index);
                     frm.richTextBox1.Text += ">>> Selected element\n";
                     int k;
