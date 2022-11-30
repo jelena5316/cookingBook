@@ -44,7 +44,8 @@ namespace MajPAbGr_project
             elements = tbAmounts.getElements();
 
             // в обработчике private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-            tbAmounts.setSelected(0); 
+            //tbAmounts.setSelected(0);
+            tbAmounts.Selected = tbAmounts.getElementByIndex(0).Id;
             // определяем выбранный элемент из списка; разобраться с обработчиком!     
 
             calc = new CalcFunction();
@@ -631,24 +632,26 @@ namespace MajPAbGr_project
                 listView1.Items[index].SubItems[1].Text = num.ToString();
                 elements[index].Amounts = num;
             }
+
             checked
             {
                 try
                 {
-                    int id = tbAmounts.setSelected(index);
+                    int id; // номер выбранного элемента
                     Element el = tbAmounts.getElementByIndex(index);
+                    tbAmounts.Selected = el.Id;
+                    id = tbAmounts.Selected;
                     frm.richTextBox1.Text += ">>> Selected element\n";
                     int k;
                     for (k = 0; k < ingredients.Count; k++)
                     {
-                        if (ingredients[k].id == el.Id)
+                        if (ingredients[k].id == id)
                         {
                             cmbIngr.SelectedIndex = k;
                             frm.richTextBox1.Text += "> selected index of combo item: " + cmbIngr.SelectedIndex + "\n";
                             frm.richTextBox1.Text += "> selected item name: " + cmbIngr.Items[k].ToString() + "\n";
                         }
-                    }
-                    cmbIngr.Text = el.Name;
+                    }                    
                     txbAmounts.Text = el.Amounts.ToString();
                     listView1.Focus();
                     frm.richTextBox1.Text += "> Selected ingredients (name, id): " + el.Name + " " + el.Id + "\n";

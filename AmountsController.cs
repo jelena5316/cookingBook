@@ -51,18 +51,17 @@ namespace MajPAbGr_project
             return selected_element;
         }
 
-        //public new int Selected
-        //{
-        //    set { selected_element = value;  }
-        //    get { return selected_element; }
-        //}
+        public new int Selected
+        {
+            set { selected_element = value; }
+            get { return selected_element; }
+        }
 
         public int Amount_id_count { get { return amount_id_count; } }
 
         public int Elements_count
-        {
-            set { elements_count = value; }
-            get { /*elements_count = elements.Count;*/ return elements_count; }
+        {           
+            get { elements_count = elements.Count; return elements_count; }
         }
 
         public Element getElementByIndex(int index)
