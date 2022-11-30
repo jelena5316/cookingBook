@@ -461,6 +461,21 @@ namespace MajPAbGr_project
             return arr;
         }
 
+        private void AmountsFromArrayToElementsList(double [] arr)
+        {
+            int index, length;
+
+            if(arr.Length < elements.Count)
+                length = arr.Length;         
+            else
+                length = elements.Count;           
+
+            for (index = 0; index < length; index++)
+            {
+                elements[index].Amounts = arr[index];
+            }
+        }
+
         private void button3_Click(object sender, EventArgs e) // calculation
         {
             if (listView1.Items.Count < 1) return;
@@ -474,21 +489,25 @@ namespace MajPAbGr_project
             arr = calc.ReCalc (100 / a, arr); // create mode or edit mode if main is changed          
             calc.Coefficient = a / 100;
 
-            toolStripStatusLabel2.Text = summa.ToString();
+            toolStripStatusLabel2.Text = string.Format("{0:f1}", summa);
            
             // вывод в консоль
             frm.richTextBox1.Text += "On Calc";
             frm.richTextBox1.Text += "\nsumma " + summa.ToString();
             frm.richTextBox1.Text += "\ncoeficient " + calc.Coefficient.ToString();
 
+            
+            int index;
             if  (mode == Mode.Create)
             {
-                for (int index = 0; index < arr.Length; index++)
-                {
-                   listView1.Items[index].SubItems[2].Text = arr[index].ToString();
-                }
                 summa = calc.Summa(arr);
-                toolStripStatusLabel4.Text = summa.ToString();
+                List<string> formated = calc.FormatAmounts(arr, summa); //format number
+                for (index = 0; index < arr.Length; index++)
+                {
+                    listView1.Items[index].SubItems[2].Text = formated[index];                    
+                }                
+                toolStripStatusLabel4.Text = formated[index];
+
                 //if (pragma > 0)
                 //{
                 //    listView1.Items[listView1.Items.Count - 1].SubItems[1].Text = summa.ToString();
@@ -515,22 +534,28 @@ namespace MajPAbGr_project
                 }
             else
             {
-                int index;
+                //int index;
+                index = 0;
                 if (a != 100.0)
                 {
+                    double summa1 = calc.Summa(arr);
+                    List<string> formated = calc.FormatAmounts(arr, summa1); //format number
+
                     //recalculating a recepture
                     for (index = 0; index < arr.Length; index++)
                     {
                         ListViewItem item = listView1.Items[index];
                         item.SubItems.Insert(2, new ListViewItem.ListViewSubItem());
-                        item.SubItems[2].Text = item.SubItems[1].Text;
-                        item.SubItems[1].Text = arr[index].ToString();
+                        item.SubItems[2].Text = item.SubItems[1].Text;                        
+                        item.SubItems[1].Text = formated[index];
                     }
-                    listView1.Columns.Insert(2, "Amounts*(g)");                    
+                    toolStripStatusLabel4.Text = formated[index];
+
+                    //listView1.Columns.Insert(2, "Amounts*(g)");
                     //listView1.Items[listView1.Items.Count - 1].SubItems[2].Text = summa.ToString();
                     //summa = calc.Summa(arr);
                     //listView1.Items[listView1.Items.Count - 1].SubItems[1].Text = summa.ToString();
-                    //btn_calc.Enabled = false;
+                    ////btn_calc.Enabled = false;
 
                     // вывод в консоль
                     frm.richTextBox1.Text += "\n Mode Edit: edit with main ingredients";
@@ -547,6 +572,8 @@ namespace MajPAbGr_project
                 }
             }
             btn_submit.Enabled = true;
+
+            AmountsFromArrayToElementsList(arr);
         }
 
         /*************************************************************************
