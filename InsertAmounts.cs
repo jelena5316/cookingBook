@@ -36,13 +36,16 @@ namespace MajPAbGr_project
             id_recepture = id;
             tbAmounts = new AmountsController("Amounts");
             tbAmounts.Id_recepture = id;            
+            elements = tbAmounts.getElements();
             
             tbAmounts.TbRec = new FormMainController("Recepture");
-            tbAmounts.tbRecSelected(id); // а использую ли я его где-нибудь?
-            tbAmounts.RefreshElements();
-            elements = tbAmounts.getElements();
-            tbAmounts.setSelected(0);            
-                    
+            tbAmounts.RefreshElements(); // elements, elements_count
+            //tbAmounts.tbRecSelected(id); // а использую ли я его где-нибудь?            
+            //tbAmounts.setSelected(0); // ? а использую ли я где?         
+
+            // а если и сюда передовать котроллер главной формы?
+            // проблемма: чтобы selected не мешал
+
             calc = new CalcFunction();
 
             this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1; // mode autodetector
@@ -51,20 +54,25 @@ namespace MajPAbGr_project
             name = tbAmounts.dbReader($"select name from Recepture where id = {id_recepture}")[0];
         }
 
-        public InsertAmounts(ref AmountsController tbAmounts)
+        public InsertAmounts(ref AmountsController Amounts)
         {
             InitializeComponent();
+            this.tbAmounts = Amounts; // содержит tbRec, selected (tbRec), elements (= tb.readElement(1));
+            id_recepture = tbAmounts.Id_recepture; // tbRec.selected               
+            elements = tbAmounts.getElements(); // elements (= tb.readElement(1))
+
+            calc = new CalcFunction();           
             
-            this.tbAmounts = tbAmounts;            
-            id_recepture = tbAmounts.Id_recepture;
-            elements = tbAmounts.getElements();
-
-            this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1;            
-                       
-            calc = new CalcFunction();
-
+            this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1;
             pragma = 0;
+
             name = tbAmounts.dbReader($"select name from Recepture where id = {id_recepture}")[0];
+        }
+
+        public CalcFunction Calc
+        {
+            set { calc = value; }
+            get { return calc; }
         }
 
         private void InsertAmounts_Load(object sender, EventArgs e)
@@ -625,7 +633,7 @@ namespace MajPAbGr_project
             {
                 try
                 {
-                    int id = tbAmounts.setSelected(index);
+                    //int id = tbAmounts.setSelected(index);
                     Element el = tbAmounts.getElementByIndex(index);
                     frm.richTextBox1.Text += ">>> Selected element\n";
                     int k;

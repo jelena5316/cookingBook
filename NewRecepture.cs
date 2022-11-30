@@ -18,7 +18,7 @@ namespace MajPAbGr_project
 
         ReceptureController tb;
         tbClass1 tbCat;
-        
+
         //public NewRecepture()
         //{
         //    InitializeComponent();

@@ -37,6 +37,7 @@ namespace MajPAbGr_project
         public FormMainController TbRec
         {
             set { tbRec = value; }
+            get { return tbRec; }
         }
 
         public void tbRecSelected(int id)
@@ -44,7 +45,7 @@ namespace MajPAbGr_project
             tbRec.Selected = id;
         }
 
-        public new int setSelected(int temp)
+        public new int setSelected(int temp) // а использую ли я это где-нибудь?
         {
             this.selected_element = elements[temp].Id;
             return selected_element;

@@ -103,7 +103,7 @@ namespace MajPAbGr_project
          */
 
         
-        public void fillSubCatalog()  // recipes of recepture, combobox
+        public int fillSubCatalog()  // recipes of recepture, combobox
         {
             //бывшая функция setRecipes()
             if (recipes.Count > 0) recipes.Clear();
@@ -125,8 +125,9 @@ namespace MajPAbGr_project
             else
             {
                 recipe.Text = "add recepture (g)";
-                lbl_koef.Text = "koeff";
+                lbl_koef.Text = calc.Coefficient.ToString();
             }
+            return recipes.Count;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -135,10 +136,10 @@ namespace MajPAbGr_project
             int selected = tb.setSelected(index);
             string info;
             tb.setSubCatalog();
-            fillSubCatalog();
+            int count = fillSubCatalog();
             AutocompleteRecipeName(); // table Recipe
 
-            category = int.Parse(tb.getById("id_category", selected));
+            category = int.Parse(tb.getById("id_category", selected));            
 
             // Info about recepture
             info = $"  {tb.getName(index)}: id {tb.getSelected()}, category ({category})\n";
@@ -151,6 +152,12 @@ namespace MajPAbGr_project
                 }
             }
             lbl_info.Text = info;
+
+            if(count == 0)
+            {
+                calc.Coefficient = 1;
+                lbl_koef.Text = "1";
+            }
 
             //used more one time in `InsertAmounts`, mode:edit           
             elements = tb.readElement(1);// amounts            
@@ -185,9 +192,18 @@ namespace MajPAbGr_project
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox2.SelectedIndex < 0) return;
-            calc.Coefficient = recipes[comboBox2.SelectedIndex].Amounts;
-            lbl_koef.Text = calc.Coefficient.ToString();            
+            if (comboBox2.SelectedIndex < 0) 
+            {
+                //lbl_koef.Text = calc.Coefficient.ToString();
+                return;
+            }
+            else
+            {
+                calc.Coefficient = recipes[comboBox2.SelectedIndex].Amounts;
+                lbl_koef.Text = calc.Coefficient.ToString();
+            }
+            
+
         }
 
         private void button1_Click(object sender, EventArgs e) // recalc recepture
@@ -399,7 +415,7 @@ namespace MajPAbGr_project
         private void amountsEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (listView1.Items.Count < 1) return;
-            AmountsTable();
+            AmountsTable();            
         }
 
         private void AmountsTable()
@@ -408,7 +424,14 @@ namespace MajPAbGr_project
             AmountsController cntrl = new AmountsController("Amounts", ref tb);
             InsertAmounts frm = new InsertAmounts(ref cntrl);
             frm.ShowDialog();
+            calc.Coefficient = frm.Calc.Coefficient;
             Reload();
+            // проследить, чтобы передался новый (верный) коэфициент!
+            // при смене эелемента комбинированого поля вызывается метод заполнения списочного представлеяни,
+            // а до него -- форматирования числа, которое использует внутри себя метод ReCalc()
+            // с "неверным" коэфициентом,
+            // причина -- в неверно выбранном объекте для вызова методов класса CalcFunction.
+
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
