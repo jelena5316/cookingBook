@@ -118,7 +118,21 @@ namespace MajPAbGr_project
             //return texts;
         }
 
-    static public double[] AmountsFromListToArray(ref ListView lv, byte num)
+        static public void FillListView(List<Item> ingr, ref ListView list)
+        {
+            /*запись в списочное представления*/
+            int k = 0;
+            ListViewItem items;
+            list.Items.Clear();
+            for (k = 0; k < ingr.Count; k++)
+            {
+                items = new ListViewItem(ingr[k].name);
+                items.Tag = ingr[k].id;                
+                list.Items.Add(items);
+            }            
+        }
+
+        static public double[] AmountsFromListToArray(ref ListView lv, byte num)
         {
             double[] arr = new double[lv.Items.Count];
             string t;
