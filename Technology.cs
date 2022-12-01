@@ -30,7 +30,8 @@ namespace MajPAbGr_project
             fillCatalogRec(receptures);
             tb.setCatalog();
             technologies = tb.getCatalog();
-            fillCatalog(technologies);
+            //fillCatalog(technologies);
+            Class1.FillCombo(technologies, ref comboBox2);
             
             this.Text += ": no technology";
         }
@@ -42,8 +43,9 @@ namespace MajPAbGr_project
 
             id_technology = 0;
             tb.setCatalog();
-            technologies = tb.getCatalog();           
-            fillCatalog(technologies);
+            technologies = tb.getCatalog();
+            //fillCatalog(technologies);
+            Class1.FillCombo(technologies, ref comboBox2);
             selected_tech = 1;
             id = 1;
 
@@ -68,9 +70,11 @@ namespace MajPAbGr_project
             db = new dbController();
 
             id_technology = technology;
-            tb.setCatalog();
+            tb.setCatalog(); 
             technologies = tb.getCatalog();
-            fillCatalog(technologies);
+            //fillCatalog(technologies);
+            Class1.FillCombo(technologies, ref comboBox2);
+            ChangeIndex(technologies);
             tb.Selected = technology;            
             id = technology;            
             
@@ -103,45 +107,52 @@ namespace MajPAbGr_project
             return technology;
         }
 
-        private List<Item> fillCatalog(List<Item> items) //  technology
+        private int ChangeIndex(List<Item> items) // if id_technology != 0            
         {
-            //List<Item> items = tb.getCatalog(); // читает два поля, наименование и номер           
-
-            //пишет в комбинированное поле
             if (items.Count != 0)
             {
-                int tech_of_recipe = -1, index;
-
-                if (comboBox2.Items.Count > 0)
-                    comboBox2.Items.Clear();
-
+                int tech_of_recipe = 1, index;
                 for (index = 0; index < items.Count; index++)
                 {
                     if (items[index].id == id_technology)
                     {
                         tech_of_recipe = index;
-                        //label6.Text += " tech "+tech_of_recipe;
                     }
-                    comboBox2.Items.Add(items[index].name);
                 }
                 index--;
-               
-                if (id_technology == 0)
+
+                if (id_technology == 0) // if tech_of_recipe == -1
                 {
-                    comboBox2.Text = comboBox2.Items[0].ToString();                    
+                    comboBox2.SelectedIndex = 0;
                 }
                 else
                 {
-                    comboBox2.SelectedIndex = index;                                       
-                    comboBox2.Text = comboBox2.Items[index].ToString();
+                    comboBox2.SelectedIndex = index; // if 'items' has not 'id'
                     if (tech_of_recipe > -1)
                     {
-                        comboBox2.SelectedIndex = tech_of_recipe;
-                        comboBox2.Text = comboBox2.Items[tech_of_recipe].ToString();
+                        comboBox2.SelectedIndex = tech_of_recipe; // if 'id' is in 'items'
                     }
-                }  
+                }
+                return tech_of_recipe;
             }
-            else comboBox2.Text = "empty";
+            else return 0;
+        }
+
+        private List<Item> fillCatalog(List<Item> items) //  technology
+        {
+            if (items.Count != 0)
+            {
+                if (comboBox2.Items.Count > 0)
+                    comboBox2.Items.Clear();
+
+                for (int index = 0; index < items.Count; index++)
+                {
+                    comboBox2.Items.Add(items[index].name);
+                }
+                comboBox2.Text = comboBox2.Items[0].ToString();
+                //ChangeIndex(items);
+            }
+            else comboBox2.Text = "empty";             
             comboBox2.Focus();
             return items;
         }
@@ -218,7 +229,8 @@ namespace MajPAbGr_project
             }            
             MessageBox.Show($"Technology {name} (id {technology}) is inserted or updated");
             tb.setCatalog();
-            technologies = fillCatalog(tb.getCatalog());
+            technologies = Class1.FillCombo(tb.getCatalog(), ref comboBox2);
+            ChangeIndex(technologies);
         }
 
         private void lbl_cards_Click(object sender, EventArgs e)
@@ -280,21 +292,21 @@ namespace MajPAbGr_project
 
             //удаляем
             //string query = $"delete from Technology where id = {selected_tech};";
-            //ind = db.Edit(query);
-            tb.RemoveItem();           
-            technologies = fillCatalog(technologies);
-  
+            //ind = db.Edit(query);            
+            ind = tb.RemoveItem();
+
             //обновляем форму
             if (ind > 0)
             {
                 tb.setCatalog();
-                technologies = fillCatalog(tb.getCatalog());               
+                technologies = Class1.FillCombo(tb.getCatalog(), ref comboBox2);
+                ChangeIndex(technologies);
                 textBox1.Focus();
                 selected_tech = tb.Selected;
                 toolStripStatusLabel2.Text =
                     $"Selected: recepture {selected_rec} technology {selected_tech}";
             }
-            else MessageBox.Show("Nothing isw deleted");
+            else MessageBox.Show("Nothing is deleted");
         }
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e) //print
@@ -386,7 +398,8 @@ namespace MajPAbGr_project
             //id_recepture = selected;
             selected_rec = selected;
 
-            string id = tb.dbReader($"select id_technology from Recepture where id ={tbRec.Selected};")[0];
+            string id = tb.dbReader($"select id_technology from Recepture where id ={tbRec.Selected};")[0];            
+            if (id == "") id = "0";            
             int probe = int.Parse(id);
             
             for (int num = 0; num < receptures.Count; num++)
