@@ -27,17 +27,37 @@ namespace MajPAbGr_project
             TechnologyController techn = controller.tbTechController;
 
             items = cards.getCatalog();
-            Class1.FillCombo(items, ref cmbData);            
+            Class1.FillCombo(items, ref cmbData);
             items = techn.getCatalog();
             Class1.FillCombo(items, ref cmbTechn);
         }
 
+        private void cmbData_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = cmbData.SelectedIndex, selected_cards = 0;
+            TechnologyCardsController cards = controller.tbCardsController;           
+
+            cards.setSelected(index);
+            selected_cards = cards.Selected;
+
+            toolStripStatusLabel1.Text = "id_cards " + selected_cards;
+        }
+
+        private void cmbTechn_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = cmbTechn.SelectedIndex, selected_techn = 0;
+            TechnologyController techn = controller.tbTechController;
+
+            techn.setSelected(index);
+            selected_techn = techn.Selected;
+
+            toolStripStatusLabel2.Text = "id_techns " + selected_techn;
+        }
+
         private void btn_add_Click(object sender, EventArgs e)
         {
-            int id_technology=0, id_cards = 0;
-
-            int ind = controller.tbCardsController.insertCardsIntoChain(id_technology, id_cards);
-            //int ind = 0;
+            int ind = 0;
+            ind = controller.CreateChain();
             MessageBox.Show($"Is inserted {ind} records");
         } 
         

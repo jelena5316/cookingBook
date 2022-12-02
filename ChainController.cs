@@ -40,6 +40,15 @@ namespace MajPAbGr_project
             get { return tbTech; }
         }
 
+        public int CreateChain()
+        {
+            id_cards = tbCards.Selected;
+            id_technology = tbTech.Selected;
+            string query = $"insert into Technology_chain" +
+                $" (id_technology, id_card) values ({id_technology}, {id_cards});";
+            return tbCards.Edit(query);
+        }
+
 
     }
 }

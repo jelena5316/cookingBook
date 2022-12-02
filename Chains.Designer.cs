@@ -110,6 +110,7 @@ namespace MajPAbGr_project
             this.cmbData.Name = "cmbData";
             this.cmbData.Size = new System.Drawing.Size(198, 21);
             this.cmbData.TabIndex = 16;
+            this.cmbData.SelectedIndexChanged += new System.EventHandler(this.cmbData_SelectedIndexChanged);
             // 
             // cmbTechn
             // 
@@ -120,6 +121,7 @@ namespace MajPAbGr_project
             this.cmbTechn.Name = "cmbTechn";
             this.cmbTechn.Size = new System.Drawing.Size(198, 21);
             this.cmbTechn.TabIndex = 25;
+            this.cmbTechn.SelectedIndexChanged += new System.EventHandler(this.cmbTechn_SelectedIndexChanged);
             // 
             // label1
             // 
