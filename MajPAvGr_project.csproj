@@ -85,6 +85,13 @@
       <DependentUpon>Categories.cs</DependentUpon>
     </Compile>
     <Compile Include="CategoriesController.cs" />
+    <Compile Include="Chains.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Chains.Designer.cs">
+      <DependentUpon>Chains.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChainController.cs" />
     <Compile Include="Component\dbController.cs" />
     <Compile Include="Component\Element.cs" />
     <Compile Include="Component\Enum.cs" />
@@ -158,6 +165,9 @@
     <Compile Include="TechnologyController.cs" />
     <EmbeddedResource Include="Categories.resx">
       <DependentUpon>Categories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Chains.resx">
+      <DependentUpon>Chains.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditDB.resx">
       <DependentUpon>EditDB.cs</DependentUpon>

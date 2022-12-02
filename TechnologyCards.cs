@@ -20,7 +20,7 @@ namespace MajPAbGr_project
         // По ошибке использовала как идентификатор карты!
 
         //* output_cards_id нужен для правки записи в базе данных, запоминает идентификатор
-        //выбранного элемента списка из текстового поля, обнудяется при очитски поля ("clear")
+        //выбранного элемента списка из текстового поля, обнуляется при очистке поля ("clear")
 
         List <Item> catalog;
         TechnologyCardsController tb;
@@ -44,6 +44,14 @@ namespace MajPAbGr_project
             btn_remove.Enabled = false;           
             btn_insert.Text = "insert";            
             btn_add.Enabled = false; 
+        }
+
+        public int Cards { set { id_cards = value; } } // for quick accessing
+        public int Technology { set { id_technology = value; } } //for quick accessing
+
+        public void activdApplyButton() //for quick accessing
+        {
+            btn_add.Enabled = true;
         }
 
         public TechnologyCards(int id_technology)
@@ -151,8 +159,8 @@ namespace MajPAbGr_project
                     {
                         c.Items.Add(items[index].name);
                     }
-                }              
-            } 
+                }                
+            }
         }
         
         private void ChangeSelectedIndex(int selected)
@@ -328,6 +336,12 @@ namespace MajPAbGr_project
             frm.richTextBox1.Text += "\n********\n";
 
             frm.richTextBox1.Text += FillCards(2);           
+        }
+
+        private void lbl_open_Click(object sender, EventArgs e)
+        {
+            Chains frm = new Chains();
+            frm.Show();
         }
 
         private void btn_remove_Click(object sender, EventArgs e)
