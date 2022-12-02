@@ -146,7 +146,7 @@ namespace MajPAbGr_project
             this.button4.Size = new System.Drawing.Size(60, 23);
             this.button4.TabIndex = 24;
             this.button4.Text = "Delete";
-            this.button4.UseVisualStyleBackColor = true;
+            this.button4.UseVisualStyleBackColor = true;           
             // 
             // button2
             // 

@@ -108,6 +108,5 @@ namespace MajPAbGr_project
             list = dbReader(query);
             return list;
         }
-
     }
 }

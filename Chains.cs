@@ -35,11 +35,25 @@ namespace MajPAbGr_project
         private void cmbData_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = cmbData.SelectedIndex, selected_cards = 0;
-            TechnologyCardsController cards = controller.tbCardsController;           
+            List<string> technologies, names;
+            TechnologyCardsController cards = controller.tbCardsController;
+            TechnologyController techn = controller.tbTechController;
+            tbChainController chains = controller.tbChainController;            
 
             cards.setSelected(index);
             selected_cards = cards.Selected;
-
+            
+            cmbUsedIn.Items.Clear();
+            technologies = chains.TechnologiesWithSelectedCard(selected_cards);
+            for (int k = 0; k< technologies.Count; k++)
+            {
+                names = techn.dbReader($"select name from {techn.getTable()} where id = {technologies[k]};");
+                cmbUsedIn.Items.Add(names[0]); // а есть ли проверка на уникальность имени?
+            }
+            if (cmbUsedIn.Items.Count != 0) cmbUsedIn.SelectedIndex = 0;
+            else cmbUsedIn.Text = "";
+ 
+            lblInfo.Text = chains.TechnologiesWithSelectedCardCount(selected_cards).ToString();
             toolStripStatusLabel1.Text = "id_cards " + selected_cards;
         }
 
@@ -54,13 +68,26 @@ namespace MajPAbGr_project
             toolStripStatusLabel2.Text = "id_techns " + selected_techn;
         }
 
+        private void cmbUsedIn_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string text = cmbUsedIn.SelectedItem.ToString();
+            cmbUsedIn.Text = text;
+        }
+
         private void btn_add_Click(object sender, EventArgs e)
         {
             int ind = 0;
             ind = controller.CreateChain();
             MessageBox.Show($"Is inserted {ind} records");
-        } 
-        
+        }
+
+        private void btn_remove_Click(object sender, EventArgs e)
+        {
+            int ind = 0;
+            ind = controller.RemoveFromChain();
+            MessageBox.Show($"Is deleted {ind} records");
+        }
+
         private void label3_Click(object sender, EventArgs e)
         {
             //
@@ -70,5 +97,12 @@ namespace MajPAbGr_project
         {
             //
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //
+        }
+
+        
     }
 }

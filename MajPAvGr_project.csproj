@@ -123,6 +123,7 @@
       <DependentUpon>Recipe.cs</DependentUpon>
     </Compile>
     <Compile Include="RecipeController.cs" />
+    <Compile Include="tbChainController.cs" />
     <Compile Include="TechnologyCards.cs">
       <SubType>Form</SubType>
     </Compile>

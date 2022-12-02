@@ -39,7 +39,5 @@ namespace MajPAbGr_project
         {
             return $"select count(*) from Recepture where id = '{recepture}' and id_technology = '{technology}';";
         }
-
-        
     }
 }
