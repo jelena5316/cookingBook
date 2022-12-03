@@ -59,7 +59,11 @@ namespace MajPAbGr_project
 
         public int RemoveFromChain()
         {
-            return 0;
+            int ind;
+            id_cards = tbCards.Selected;
+            id_technology = tbTech.Selected;
+            ind = tbChain.RemoveCardFromChain(id_technology.ToString(), id_cards.ToString());
+            return ind;
         }
 
 
