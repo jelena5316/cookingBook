@@ -94,7 +94,7 @@ namespace MajPAbGr_project
                 id = recipe.Selected;
                 indicator = recipe.RemoveItem();               
                 MessageBox.Show($"Recipe {id} is deleted");
-                tb.setSubCatalog();
+                tb.setSubCatalog("Recipe", "id_recepture");
                 frm.fillSubCatalog();
             }
             else

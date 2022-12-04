@@ -45,9 +45,9 @@ namespace MajPAbGr_project
             setCatalog();
         }
 
-        public List<Item> setSubCatalog()
+        public List<Item> setSubCatalog(string subtable, string column) //Recipe, id_recepture
         {
-            query = $"select id, name from Recipe where id_recepture = "
+            query = $"select id, name from {subtable} where {column} = "
                 + selected + ";";
             subcatalog = Catalog(query);
             return subcatalog;

@@ -49,7 +49,7 @@ namespace MajPAbGr_project
         {
             tb.setCatalog();           
             Class1.setBox(tb.getCatalog(), ref combo);
-            tb.setSubCatalog(); // table Recipe
+            tb.setSubCatalog("Recipe", "id_recepture"); // table Recipe, id_recepture
             fillSubCatalog(); // table Recipe
             AutocompleteRecipeName(); // table Recipe
             checkBox1.Checked = false;
@@ -135,7 +135,7 @@ namespace MajPAbGr_project
             int index = combo.SelectedIndex;
             int selected = tb.setSelected(index);
             string info;
-            tb.setSubCatalog();
+            tb.setSubCatalog("Recipe", "id_recepture");
             int count = fillSubCatalog();
             AutocompleteRecipeName(); // table Recipe
 
