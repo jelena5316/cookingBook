@@ -49,7 +49,6 @@ namespace MajPAbGr_project
             this.btn_update = new System.Windows.Forms.Button();
             this.btn_new = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.lbl_open = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -146,7 +145,7 @@ namespace MajPAbGr_project
             this.button4.Size = new System.Drawing.Size(60, 23);
             this.button4.TabIndex = 24;
             this.button4.Text = "Delete";
-            this.button4.UseVisualStyleBackColor = true;           
+            this.button4.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
@@ -244,22 +243,11 @@ namespace MajPAbGr_project
             this.label5.Text = "Print Info";
             this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
-            // lbl_open
-            // 
-            this.lbl_open.AutoSize = true;
-            this.lbl_open.Location = new System.Drawing.Point(388, 245);
-            this.lbl_open.Name = "lbl_open";
-            this.lbl_open.Size = new System.Drawing.Size(93, 13);
-            this.lbl_open.TabIndex = 25;
-            this.lbl_open.Text = "Open Chain Editor";
-            this.lbl_open.Click += new System.EventHandler(this.lbl_open_Click);
-            // 
             // TechnologyCards
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(653, 494);
-            this.Controls.Add(this.lbl_open);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btn_new);
             this.Controls.Add(this.btn_update);
@@ -305,6 +293,5 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label lbl_open;
     }
 }

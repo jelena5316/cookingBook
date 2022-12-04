@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
-    class ChainController
+    public class ChainController
     {
-        int id_technology, id_cards;
+        int id_technology, id_card = 0, id_recepture;     
         TechnologyCardsController tbCards;
         TechnologyController tbTech;
         tbChainController tbChain;
@@ -20,11 +20,11 @@ namespace MajPAbGr_project
             tbTech = new TechnologyController("Technology");
             tbTech.setCatalog();
             tbChain = new tbChainController("Technology_chain");
-        }
+        }        
 
         public ChainController(int id_tech, int id_cards)
         {
-            this.id_cards = id_cards;
+            this.id_card = id_cards;
             this.id_technology = id_tech;
             tbCards = new TechnologyCardsController("Technology_card");
             tbCards.setCatalog();
@@ -33,6 +33,46 @@ namespace MajPAbGr_project
             tbChain = new tbChainController("Technology_chain");
         }
 
+        public int Technology
+        {
+            set
+            {
+                id_technology = value;
+                int count = tbChain.CardsInTechnologyCount(id_technology);
+                if (count != 0)
+                {
+                    id_card = int.Parse(tbChain.CardsInTechnology(id_technology)[0]);
+                }
+            }
+            get { return id_technology; }
+        }
+
+        public int Card
+        {
+            get
+            {
+                if (id_card != 0)
+                {
+                    int count = tbChain.CardsInTechnologyCount(id_technology);
+                    if (count != 0)
+                    {
+                        id_card = int.Parse(tbChain.CardsInTechnology(id_technology)[0]);
+                        return id_card;
+                    }
+                    else
+                        return 0;
+                }
+                else
+                    return 0;
+            }
+        }
+
+        public int Recepture
+        {
+            set { id_recepture = value; }
+            get { return id_recepture; }
+        }
+        
         public TechnologyCardsController tbCardsController
         {
             get { return tbCards; }
@@ -48,24 +88,23 @@ namespace MajPAbGr_project
             get { return tbChain; }
         }    
 
-        public int CreateChain()
+        public int ApplyToChain()
         {
-            id_cards = tbCards.Selected;
+            id_card = tbCards.Selected;
             id_technology = tbTech.Selected;
             string query = $"insert into Technology_chain" +
-                $" (id_technology, id_card) values ({id_technology}, {id_cards});";
+                $" (id_technology, id_card) values ({id_technology}, {id_card});";
             return tbCards.Edit(query);
         }
 
         public int RemoveFromChain()
         {
             int ind;
-            id_cards = tbCards.Selected;
+            id_card = tbCards.Selected;
             id_technology = tbTech.Selected;
-            ind = tbChain.RemoveCardFromChain(id_technology.ToString(), id_cards.ToString());
+            ind = tbChain.RemoveCardFromChain(id_technology.ToString(), id_card.ToString());
             return ind;
-        }
-
+        }        
 
     }
 }

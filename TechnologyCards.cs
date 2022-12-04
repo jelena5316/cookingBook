@@ -338,12 +338,6 @@ namespace MajPAbGr_project
             frm.richTextBox1.Text += FillCards(2);           
         }
 
-        private void lbl_open_Click(object sender, EventArgs e)
-        {
-            Chains frm = new Chains();
-            frm.Show();
-        }
-
         private void btn_remove_Click(object sender, EventArgs e)
         {
 

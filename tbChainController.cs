@@ -7,16 +7,71 @@ using System.Threading.Tasks;
 namespace MajPAbGr_project
 {
     
-    class tbChainController: tbClass1
+    public class tbChainController: tbClass1
     {
-        //int id_cards, id_technology;
+        int technology, card;
+        string name;
+        List<Item> cards, technologies;
 
-        public tbChainController(string table) : base(table) { }        
+        public tbChainController(string table) : base(table)
+        {
+            cards = new List<Item>();
+        }        
         
+
+        /***********************************************************************
+         Getters and setters
+         ***********************************************************************/
+        // public int Card
+        //{
+        //    set { card = value; }
+        //    get { return card; }
+        //}
+
+        //public int Technology
+        //{
+        //    set { technology = value; }
+        //    get { return technology; }
+        //}
+
+        //public string Name
+        //{
+        //    set { name = value; }
+        //    get { return name; }
+        //}
+
+        //public void setCards(TechnologyCardsController tbCards)
+        //{
+        //    query = $"select id_card from {table} where id_technology = {technology};";
+        //    List <string> id = dbReader(query);            
+        //    for (int k = 0; k < id.Count; k++)
+        //    {
+        //        Item item = new Item();
+        //        item.createItem(int.Parse(id[k]), tbCards.dbReader($"select name from {tbCards.getTable()} where id = {id[k]};")[0]);
+        //        cards.Add(item);
+        //    }  
+        //}
+
+        //public List<Item> getCards()
+        //{
+        //    return cards;
+        //}
+
+        /************************************************************************
+         Read data from table
+         ************************************************************************/
         public int TechnologiesWithSelectedCardCount(int id)
         {
             int count = 0;
-            query = $"select count (*) from Technology_chain where id_card = {id};";
+            query = $"select count (*) from {table} where id_card = {id};";
+            count = int.Parse(Count(query));
+            return count;
+        }
+
+        public int CardsInTechnologyCount(int id)
+        {
+            int count = 0;
+            query = $"select count (*) from {table} where id_technology = {id};";
             count = int.Parse(Count(query));
             return count;
         }
@@ -27,20 +82,16 @@ namespace MajPAbGr_project
             return dbReader(query);
         }
 
-        public int CardsInTechnologyCount(int id)
-        {
-            int count = 0;
-            query = $"select count (*) from Technology_chain where id_technology = {id};";
-            count = int.Parse(Count(query));
-            return count;
-        }
-
         public List <string> CardsInTechnology(int id)
         {
             query = $"select id_card from {table} where id_technology = {id};";
             return dbReader(query);
         }
 
+
+        /*******************************************************************************
+         Write and remove data in table
+         *******************************************************************************/
         public int RemoveCardFromChain (string techn, string card)
         {
             int ind;

@@ -16,7 +16,7 @@ namespace MajPAbGr_project
         { 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new FormMain());
+            Application.Run(new FormMain());
 
             /*
              * test mode
@@ -29,11 +29,11 @@ namespace MajPAbGr_project
 
             //Application.Run(new Categories());
 
-            TechnologyCards cards = new TechnologyCards();
-            cards.Cards = 6;
-            //cards.Technology = 1;
-            cards.activdApplyButton();
-            Application.Run(cards);
+            //TechnologyCards cards = new TechnologyCards();
+            //cards.Cards = 6;
+            ////cards.Technology = 1;
+            //cards.activdApplyButton();
+            //Application.Run(cards);
         }
     }
 }

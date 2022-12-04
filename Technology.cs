@@ -36,6 +36,8 @@ namespace MajPAbGr_project
             this.Text += ": no technology";
         }
 
+
+
         public Technology(int recepture)
         {
             InitializeComponent();
@@ -61,7 +63,7 @@ namespace MajPAbGr_project
             //toolStripStatusLabel3.Text = toolStripStatusLabel1.Text;
             setStatusLabel3(selected_rec);
             OutTechnology();
-        }
+        } 
 
         public Technology(int recepture, int technology)
         {

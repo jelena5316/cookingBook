@@ -534,26 +534,48 @@ namespace MajPAbGr_project
 
         private void technologyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
-            Technology frm;
-            int selected, id_technology, count;// id of recepture and of technology;
 
+            Chains frm;
+            ChainController controller;
+            int selected, id_technology, count;// id of recepture and of technology;
             // проверить выбранный в списке                   
             selected = tb.getSelected();
-            count = tb.SelectedCount("Recepture", "id_technology", selected);// dos recepture contain any technology
 
+            count = tb.SelectedCount("Recepture", "id_technology", selected); // dos recepture contain any technology
             if (count == 1)
             {
                 id_technology = int.Parse(tb.getById("id_technology", selected));
-                frm = new Technology(selected, id_technology);
+                controller = new ChainController();
+                controller.Technology = id_technology;
+                controller.Recepture = selected;
+                frm = new Chains(ref controller);
                 frm.Show();
             }
             else
             {
-                frm = new Technology(selected);
+                frm = new Chains();
                 frm.Show();
             }
-            
+
+            //Technology frm;
+            //int selected, id_technology, count;// id of recepture and of technology;
+
+            //// проверить выбранный в списке                   
+            //selected = tb.getSelected();
+            //count = tb.SelectedCount("Recepture", "id_technology", selected);// dos recepture contain any technology
+
+            //if (count == 1)
+            //{
+            //    id_technology = int.Parse(tb.getById("id_technology", selected));
+            //    frm = new Technology(selected, id_technology);
+            //    frm.Show();
+            //}
+            //else
+            //{
+            //    frm = new Technology(selected);
+            //    frm.Show();
+            //}
+
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)

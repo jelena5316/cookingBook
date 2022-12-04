@@ -46,7 +46,11 @@ namespace MajPAbGr_project
             this.cmbHasCards = new System.Windows.Forms.ComboBox();
             this.lblCards = new System.Windows.Forms.Label();
             this.lblTechn = new System.Windows.Forms.Label();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.statusStrip1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_remove
@@ -62,7 +66,7 @@ namespace MajPAbGr_project
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(261, 94);
+            this.label4.Location = new System.Drawing.Point(261, 100);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(44, 13);
             this.label4.TabIndex = 22;
@@ -71,7 +75,7 @@ namespace MajPAbGr_project
             // lblTest
             // 
             this.lblTest.AutoSize = true;
-            this.lblTest.Location = new System.Drawing.Point(215, 94);
+            this.lblTest.Location = new System.Drawing.Point(215, 100);
             this.lblTest.Name = "lblTest";
             this.lblTest.Size = new System.Drawing.Size(33, 13);
             this.lblTest.TabIndex = 18;
@@ -90,7 +94,7 @@ namespace MajPAbGr_project
             // lblInfo
             // 
             this.lblInfo.AutoSize = true;
-            this.lblInfo.Location = new System.Drawing.Point(306, 94);
+            this.lblInfo.Location = new System.Drawing.Point(306, 100);
             this.lblInfo.Name = "lblInfo";
             this.lblInfo.Size = new System.Drawing.Size(48, 13);
             this.lblInfo.TabIndex = 19;
@@ -101,7 +105,7 @@ namespace MajPAbGr_project
             this.cmbData.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cmbData.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbData.FormattingEnabled = true;
-            this.cmbData.Location = new System.Drawing.Point(11, 86);
+            this.cmbData.Location = new System.Drawing.Point(11, 92);
             this.cmbData.Name = "cmbData";
             this.cmbData.Size = new System.Drawing.Size(198, 21);
             this.cmbData.TabIndex = 16;
@@ -112,7 +116,7 @@ namespace MajPAbGr_project
             this.cmbTechn.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cmbTechn.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbTechn.FormattingEnabled = true;
-            this.cmbTechn.Location = new System.Drawing.Point(12, 22);
+            this.cmbTechn.Location = new System.Drawing.Point(12, 28);
             this.cmbTechn.Name = "cmbTechn";
             this.cmbTechn.Size = new System.Drawing.Size(198, 21);
             this.cmbTechn.TabIndex = 25;
@@ -121,7 +125,7 @@ namespace MajPAbGr_project
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(216, 30);
+            this.label1.Location = new System.Drawing.Point(216, 36);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(34, 13);
             this.label1.TabIndex = 26;
@@ -130,7 +134,7 @@ namespace MajPAbGr_project
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(262, 30);
+            this.label2.Location = new System.Drawing.Point(262, 36);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(24, 13);
             this.label2.TabIndex = 28;
@@ -139,19 +143,18 @@ namespace MajPAbGr_project
             // lblInfo2
             // 
             this.lblInfo2.AutoSize = true;
-            this.lblInfo2.Location = new System.Drawing.Point(292, 30);
+            this.lblInfo2.Location = new System.Drawing.Point(292, 36);
             this.lblInfo2.Name = "lblInfo2";
             this.lblInfo2.Size = new System.Drawing.Size(39, 13);
             this.lblInfo2.TabIndex = 27;
             this.lblInfo2.Text = "card(s)";
-            this.lblInfo2.Click += new System.EventHandler(this.label3_Click);
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 207);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 252);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(543, 22);
             this.statusStrip1.TabIndex = 30;
@@ -168,21 +171,19 @@ namespace MajPAbGr_project
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(55, 17);
             this.toolStripStatusLabel2.Text = "techns id";
-            this.toolStripStatusLabel2.Click += new System.EventHandler(this.toolStripStatusLabel2_Click);
             // 
             // cmbUsedIn
             // 
             this.cmbUsedIn.FormattingEnabled = true;
-            this.cmbUsedIn.Location = new System.Drawing.Point(360, 91);
+            this.cmbUsedIn.Location = new System.Drawing.Point(360, 97);
             this.cmbUsedIn.Name = "cmbUsedIn";
             this.cmbUsedIn.Size = new System.Drawing.Size(165, 21);
             this.cmbUsedIn.TabIndex = 31;
-            this.cmbUsedIn.SelectedIndexChanged += new System.EventHandler(this.cmbUsedIn_SelectedIndexChanged);
             // 
             // cmbHasCards
             // 
             this.cmbHasCards.FormattingEnabled = true;
-            this.cmbHasCards.Location = new System.Drawing.Point(361, 30);
+            this.cmbHasCards.Location = new System.Drawing.Point(361, 36);
             this.cmbHasCards.Name = "cmbHasCards";
             this.cmbHasCards.Size = new System.Drawing.Size(165, 21);
             this.cmbHasCards.TabIndex = 32;
@@ -190,7 +191,7 @@ namespace MajPAbGr_project
             // lblCards
             // 
             this.lblCards.AutoSize = true;
-            this.lblCards.Location = new System.Drawing.Point(11, 120);
+            this.lblCards.Location = new System.Drawing.Point(11, 126);
             this.lblCards.Name = "lblCards";
             this.lblCards.Size = new System.Drawing.Size(55, 13);
             this.lblCards.TabIndex = 33;
@@ -199,17 +200,43 @@ namespace MajPAbGr_project
             // lblTechn
             // 
             this.lblTechn.AutoSize = true;
-            this.lblTechn.Location = new System.Drawing.Point(11, 57);
+            this.lblTechn.Location = new System.Drawing.Point(11, 63);
             this.lblTechn.Name = "lblTechn";
             this.lblTechn.Size = new System.Drawing.Size(58, 13);
             this.lblTechn.TabIndex = 34;
             this.lblTechn.Text = "description";
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
+            this.toolStripLabel2});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(543, 25);
+            this.toolStrip1.TabIndex = 35;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(68, 22);
+            this.toolStripLabel1.Text = "Technology";
+            this.toolStripLabel1.Click += new System.EventHandler(this.toolStripLabel1_Click);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(37, 22);
+            this.toolStripLabel2.Text = "Cards";
+            this.toolStripLabel2.Click += new System.EventHandler(this.toolStripLabel2_Click);
+            // 
             // Chains
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 229);
+            this.ClientSize = new System.Drawing.Size(543, 274);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.lblTechn);
             this.Controls.Add(this.lblCards);
             this.Controls.Add(this.cmbHasCards);
@@ -230,6 +257,8 @@ namespace MajPAbGr_project
             this.Load += new System.EventHandler(this.Chains_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -253,5 +282,8 @@ namespace MajPAbGr_project
         private System.Windows.Forms.ComboBox cmbHasCards;
         private System.Windows.Forms.Label lblCards;
         private System.Windows.Forms.Label lblTechn;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
     }
 }
