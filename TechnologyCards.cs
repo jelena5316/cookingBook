@@ -46,7 +46,15 @@ namespace MajPAbGr_project
             btn_add.Enabled = false; 
         }
 
-        public int Cards { set { id_cards = value; } } // for quick accessing
+        public int Cards
+        { 
+            set
+            { 
+                id_cards = value;
+                ChangeSelectedIndex(id_cards);
+            }
+        } // for quick accessing
+
         public int Technology { set { id_technology = value; } } //for quick accessing
 
         public void activdApplyButton() //for quick accessing
@@ -69,7 +77,7 @@ namespace MajPAbGr_project
             setCards();
 
             //set text of form one and buttons
-            setTextAndButtons();  
+            setTextAndButtons();            
         }
 
         private void setTextAndButtons()
