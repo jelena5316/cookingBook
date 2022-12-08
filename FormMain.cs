@@ -534,28 +534,25 @@ namespace MajPAbGr_project
 
         private void technologyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             Chains frm;
             ChainController controller;
             int selected, id_technology, count;// id of recepture and of technology;
             // проверить выбранный в списке                   
             selected = tb.getSelected();
 
+            controller = new ChainController();
+            controller.Recepture = selected;
+
+            //id_technology
             count = tb.SelectedCount("Recepture", "id_technology", selected); // dos recepture contain any technology
             if (count == 1)
             {
-                id_technology = int.Parse(tb.getById("id_technology", selected));
-                controller = new ChainController();
-                controller.Technology = id_technology;
-                controller.Recepture = selected;
-                frm = new Chains(ref controller);
-                frm.Show();
+                id_technology = int.Parse(tb.getById("id_technology", selected));                
+                controller.Technology = id_technology;                 
             }
-            else
-            {
-                frm = new Chains();
-                frm.Show();
-            }
+            
+            frm = new Chains(ref controller);
+            frm.Show();
 
             //Technology frm;
             //int selected, id_technology, count;// id of recepture and of technology;

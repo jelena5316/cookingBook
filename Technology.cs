@@ -27,7 +27,7 @@ namespace MajPAbGr_project
 
             tbRec.setCatalog();
             receptures = tbRec.getCatalog();
-            fillCatalogRec(receptures);
+            //fillCatalogRec(receptures);
             tb.setCatalog();
             technologies = tb.getCatalog();
             //fillCatalog(technologies);
@@ -54,7 +54,7 @@ namespace MajPAbGr_project
             id_recepture = recepture;
             tbRec.setCatalog();
             receptures = tbRec.getCatalog();
-            fillCatalogRec(receptures);
+            //fillCatalogRec(receptures);
             tbRec.Selected = recepture;           
             selected_rec = recepture;
            
@@ -63,7 +63,7 @@ namespace MajPAbGr_project
             //toolStripStatusLabel3.Text = toolStripStatusLabel1.Text;
             setStatusLabel3(selected_rec);
             OutTechnology();
-        } 
+        }       
 
         public Technology(int recepture, int technology)
         {
@@ -83,7 +83,7 @@ namespace MajPAbGr_project
             id_recepture = recepture;
             tbRec.setCatalog();           
             receptures = tbRec.getCatalog();
-            fillCatalogRec(receptures);
+            fillCatalogRec(receptures); // will be deleted as unused
             tbRec.Selected = recepture;            
             selected_rec = recepture;
             
@@ -161,7 +161,7 @@ namespace MajPAbGr_project
 
         private List<Item> fillCatalogRec(List<Item> items) // recepture
         {
-            
+
             //List<Item> items = tbRec.getCatalog(); // читает два поля, наименование и номер
             //пишет в комбинированное поле
 
@@ -179,7 +179,7 @@ namespace MajPAbGr_project
                         recepture = index;
                     }
                 }
-                index--;         
+                index--;
                 comboBox1.Text = comboBox1.Items[index].ToString();
                 if (recepture > -1)
                 {
@@ -395,16 +395,22 @@ namespace MajPAbGr_project
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) // rec
         {
-            int index = comboBox1.SelectedIndex;
-            int selected = tbRec.setSelected(index);
-            //id_recepture = selected;
-            selected_rec = selected;
-
-            string id = tb.dbReader($"select id_technology from Recepture where id ={tbRec.Selected};")[0];            
-            if (id == "") id = "0";            
-            int probe = int.Parse(id);
+            int index, selected, probe, count, num;
+            string id, query;
             
-            for (int num = 0; num < receptures.Count; num++)
+           index = comboBox1.SelectedIndex;
+           selected = tbRec.setSelected(index);           
+           selected_rec = selected;
+           query = $"select id_technology from Recepture where id ={tbRec.Selected};";
+           id = tb.dbReader(query)[0]; 
+                      
+           if (id == "")
+                id = "0";            
+           probe = int.Parse(id);
+           count = (technologies.Count < receptures.Count) ? technologies.Count : receptures.Count;
+
+            //ChangeIndex(technologies); // работает иначе
+            for (num = 0; num < count; num++)
             {
                 if (technologies[num].id == probe)
                 {
@@ -414,7 +420,8 @@ namespace MajPAbGr_project
                 id_technology = probe;
             }
 
-            //label6.Text = selected.ToString();
+            txbRec.Text = comboBox1.Items[index].ToString();
+            
             toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology {selected_tech}";
             setStatusLabel3(selected);
         }
