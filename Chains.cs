@@ -35,14 +35,19 @@ namespace MajPAbGr_project
 
             items = techn.getCatalog();
             Class1.FillCombo(items, ref cmbTechn);
-            for (k = 0; k < items.Count; k++)
+
+            if (controller.Technology > 0)
             {
-                if (items[k].id == controller.Technology)
+                for (k = 0; k < items.Count; k++)
                 {
-                    cmbTechn.SelectedIndex = k;
+                    if (items[k].id == controller.Technology)
+                    {
+                        cmbTechn.SelectedIndex = k;
+                        break;
+                    }
                 }
             }
-
+   
             items = cards.getCatalog();
             Class1.FillCombo(items, ref cmbData);
             id = controller.Card;
@@ -63,7 +68,7 @@ namespace MajPAbGr_project
             Technology frm; // разобраться с конструкторами!           
             int technology = controller.tbTechController.Selected;
             int recepture = controller.Recepture;
-            frm = new Technology(recepture, technology);
+            frm = new Technology(technology);
             frm.Show();
 
             //int selected, id_technology, count;// id of recepture and of technology;

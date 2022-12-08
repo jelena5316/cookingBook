@@ -18,80 +18,30 @@ namespace MajPAbGr_project
         int id_technology, id_recepture, id, selected_tech, selected_rec;
         List<Item> technologies, receptures;
 
-        public Technology()
-        {
-            InitializeComponent();
-            db = new dbController();
-            id_technology = 0;
-            id = 0;
-
-            tbRec.setCatalog();
-            receptures = tbRec.getCatalog();
-            //fillCatalogRec(receptures);
-            tb.setCatalog();
-            technologies = tb.getCatalog();
-            //fillCatalog(technologies);
-            Class1.FillCombo(technologies, ref comboBox2);
-            
-            this.Text += ": no technology";
-        }
-
-
-
-        public Technology(int recepture)
-        {
-            InitializeComponent();
-            db = new dbController();
-
-            id_technology = 0;
-            tb.setCatalog();
-            technologies = tb.getCatalog();
-            //fillCatalog(technologies);
-            Class1.FillCombo(technologies, ref comboBox2);
-            selected_tech = 1;
-            id = 1;
-
-            id_recepture = recepture;
-            tbRec.setCatalog();
-            receptures = tbRec.getCatalog();
-            //fillCatalogRec(receptures);
-            tbRec.Selected = recepture;           
-            selected_rec = recepture;
-           
-            toolStripStatusLabel1.Text = $"Recepture {id_recepture}, technology none";
-            toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology none";
-            //toolStripStatusLabel3.Text = toolStripStatusLabel1.Text;
-            setStatusLabel3(selected_rec);
-            OutTechnology();
-        }       
-
-        public Technology(int recepture, int technology)
+        public Technology (int technology)
         {
             InitializeComponent();
 
             db = new dbController();
 
             id_technology = technology;
-            tb.setCatalog(); 
-            technologies = tb.getCatalog();
-            //fillCatalog(technologies);
+            tb.setCatalog();
+            technologies = tb.getCatalog();            
             Class1.FillCombo(technologies, ref comboBox2);
             ChangeIndex(technologies);
-            tb.Selected = technology;            
-            id = technology;            
-            
-            id_recepture = recepture;
-            tbRec.setCatalog();           
-            receptures = tbRec.getCatalog();
-            fillCatalogRec(receptures); // will be deleted as unused
-            tbRec.Selected = recepture;            
-            selected_rec = recepture;
-            
+            tb.Selected = technology;
+            id = technology;
+
+            receptures = tb.setSubCatalog("Recepture", "id_technology");        
+            fillCatalogRec(receptures);
+            if (receptures.Count > 0)
+                tbRec.Selected = receptures[0].id;
+            else
+                tbRec.Selected = 0; // разобраться, где используется!
 
             toolStripStatusLabel1.Text = $"Recepture {id_recepture}, technology {id_technology}";
             toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology {selected_tech}";
-            setStatusLabel3(selected_rec);
-            //toolStripStatusLabel3.Text = toolStripStatusLabel1.Text;
+            setStatusLabel3(selected_rec);           
 
             OutTechnology();
         }
@@ -161,10 +111,6 @@ namespace MajPAbGr_project
 
         private List<Item> fillCatalogRec(List<Item> items) // recepture
         {
-
-            //List<Item> items = tbRec.getCatalog(); // читает два поля, наименование и номер
-            //пишет в комбинированное поле
-
             if (items.Count != 0)
             {
                 int recepture = -1, index;
@@ -187,7 +133,11 @@ namespace MajPAbGr_project
                     comboBox1.Text = comboBox1.Items[recepture].ToString();
                 }
             }
-            else comboBox1.Text = "empty";
+            else
+            {
+                comboBox1.Text = "empty";
+                txbRec.Text = "";
+            }
             //comboBox1.Focus();
             return items;
         }
@@ -395,35 +345,35 @@ namespace MajPAbGr_project
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) // rec
         {
-            int index, selected, probe, count, num;
-            string id, query;
-            
+           int index, selected, probe, count, num;
+           // string id, query;
+          
            index = comboBox1.SelectedIndex;
-           selected = tbRec.setSelected(index);           
-           selected_rec = selected;
-           query = $"select id_technology from Recepture where id ={tbRec.Selected};";
-           id = tb.dbReader(query)[0]; 
+           txbRec.Text = comboBox1.Items[index].ToString();
+
+           //selected = tbRec.setSelected(index);           
+           //selected_rec = selected;
+           //query = $"select id_technology from Recepture where id ={tbRec.Selected};";
+           //id = tb.dbReader(query)[0]; 
                       
-           if (id == "")
-                id = "0";            
-           probe = int.Parse(id);
-           count = (technologies.Count < receptures.Count) ? technologies.Count : receptures.Count;
+           //if (id == "")
+           //     id = "0";            
+           //probe = int.Parse(id);
+           //count = (technologies.Count < receptures.Count) ? technologies.Count : receptures.Count;
 
-            //ChangeIndex(technologies); // работает иначе
-            for (num = 0; num < count; num++)
-            {
-                if (technologies[num].id == probe)
-                {
-                    comboBox2.SelectedIndex = num;
-                    break;
-                }
-                id_technology = probe;
-            }
+           // ChangeIndex(technologies); // работает иначе
+           // for (num = 0; num < count; num++)
+           // {
+           //     if (technologies[num].id == probe)
+           //     {
+           //         comboBox2.SelectedIndex = num;
+           //         break;
+           //     }
+           //     id_technology = probe;
+           // }
 
-            txbRec.Text = comboBox1.Items[index].ToString();
-            
-            toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology {selected_tech}";
-            setStatusLabel3(selected);
+           // toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology {selected_tech}";
+           // setStatusLabel3(selected);
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e) // tech
@@ -439,6 +389,14 @@ namespace MajPAbGr_project
                 // output in textbox
                 id = selected;
                 OutTechnology();
+
+                //output receptures
+                receptures = tb.setSubCatalog("Recepture", "id_technology");
+                fillCatalogRec(receptures);
+                if (receptures.Count > 0)
+                    tbRec.Selected = receptures[0].id;
+                else
+                    tbRec.Selected = 0; // разобраться, где используется!      
             }
         }
 

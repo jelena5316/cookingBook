@@ -532,7 +532,7 @@ namespace MajPAbGr_project
             frm.Show();
         }
 
-        private void technologyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void technologyToolStripMenuItem_Click(object sender, EventArgs e) // open chains` of technology cards editor
         {
             Chains frm;
             ChainController controller;
@@ -549,7 +549,7 @@ namespace MajPAbGr_project
             {
                 id_technology = int.Parse(tb.getById("id_technology", selected));                
                 controller.Technology = id_technology;                 
-            }
+            }  
             
             frm = new Chains(ref controller);
             frm.Show();

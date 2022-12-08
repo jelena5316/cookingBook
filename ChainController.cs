@@ -8,7 +8,7 @@ namespace MajPAbGr_project
 {
     public class ChainController
     {
-        int id_technology, id_card = 0, id_recepture;     
+        int id_technology = 0, id_card = 0, id_recepture;     
         TechnologyCardsController tbCards;
         TechnologyController tbTech;
         tbChainController tbChain;
