@@ -71,9 +71,9 @@ namespace MajPAbGr_project
             textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
 
-        private int ChangeIndex(List<Item> items)         
+        private int ChangeIndex(List<Item> items)  // 'load', 'submit', 'delete'        
         {   
-            int /*tech_of_recipe = -1,*/ index = -1, temp_id = id_technology;
+            int index = -1, temp_id = id_technology;
             if (items.Count != 0)
             {
                 comboBox2.SelectedIndex = 0;
@@ -81,10 +81,9 @@ namespace MajPAbGr_project
                 {
                     for (index = 0; index < items.Count; index++)
                     {
-                        if (items[index].id == temp_id) // -D
+                        if (items[index].id == temp_id)
                         {
-                            comboBox2.SelectedIndex = index; // B
-                            //tech_of_recipe = 0; // -A
+                            comboBox2.SelectedIndex = index;                          
                             break;
                         }
                     }                  
@@ -92,25 +91,6 @@ namespace MajPAbGr_project
                 return index;
             }
             else return -2;
-        }
-
-        private List<Item> fillCatalog(List<Item> items) //  technology
-        {
-            if (items.Count != 0)
-            {
-                if (comboBox2.Items.Count > 0)
-                    comboBox2.Items.Clear();
-
-                for (int index = 0; index < items.Count; index++)
-                {
-                    comboBox2.Items.Add(items[index].name);
-                }
-                comboBox2.Text = comboBox2.Items[0].ToString();
-                //ChangeIndex(items);
-            }
-            else comboBox2.Text = "empty";             
-            comboBox2.Focus();
-            return items;
         }
 
         private List<Item> fillCatalogRec(List<Item> items) // recepture
@@ -139,8 +119,9 @@ namespace MajPAbGr_project
             }
             else
             {
-                comboBox1.Text = "empty";
-                txbRec.Text = "";
+                comboBox1.Items.Clear();
+                comboBox1.Text = "";
+                txbRec.Text = "empty";
             }
             //comboBox1.Focus();
             return items;
@@ -187,40 +168,6 @@ namespace MajPAbGr_project
             tb.setCatalog();
             technologies = Class1.FillCombo(tb.getCatalog(), ref comboBox2);
             ChangeIndex(technologies);
-        }
-
-        private void lbl_cards_Click(object sender, EventArgs e)
-        {
-            TechnologyCards frm = new TechnologyCards(selected_tech);
-            frm.Show();
-        }
-
-        private void btn_technology_Click(object sender, EventArgs e) // apply technology to recepture
-        {
-            int ind;
-            string query, indStr;
-            //id_technology = tb.getSelected();           
-
-            // проверка, есть ли уже у рецептуры технология   
-            query = tb.recepturesCount(selected_rec, selected_tech); //$"select count(*) from Recepture where id = '{selected_rec}' and id_technology = '{selected_tech}';";
-            indStr = db.Count(query);
-            if (indStr != "0") { this.Text += "*"; return; }
-
-            //замена с отчетом в тексте окна           
-            query =  $"update Recepture set id_technology = {selected_tech} where id = {selected_rec};";
-            ind = db.Edit(query);
-            if (ind != 0)
-            {
-                string t = $"Technology {id_recepture} {selected_tech}";
-                this.Text = t;
-            }
-            MessageBox.Show($"Technology {selected_tech} is applaied to recepture {selected_rec}");           
-
-            //возврат значений
-            tb.Selected = id_technology;
-            selected_tech = tb.Selected;
-            tbRec.Selected = id_recepture;
-            selected_rec = tbRec.Selected;
         }
 
         private void button3_Click(object sender, EventArgs e) // clear
@@ -319,15 +266,6 @@ namespace MajPAbGr_project
             frm_textbox.Text += text;
         }
 
-
-        private void button2_Click(object sender, EventArgs e) // remove (set null)
-        {
-            dbController db = new dbController();
-            string query = $"update Recepture set id_technology = null where id = {selected_rec};";
-            db.Edit(query);
-            MessageBox.Show("У рецептуры больше нет технологии");                    
-        }
-
         private void setStatusLabel3(int selected) //toolstrips` labels with technology name of selected recepture
         {
             //without method getReceptureByName()
@@ -399,10 +337,13 @@ namespace MajPAbGr_project
                 //output receptures
                 receptures = tb.setSubCatalog("Recepture", "id_technology");
                 fillCatalogRec(receptures);
-                if (receptures.Count > 0)
+                if (receptures.Count > 0)               
                     tbRec.Selected = receptures[0].id;
                 else
-                    tbRec.Selected = 0; // разобраться, где используется!      
+                {
+                    tbRec.Selected = 0; // разобраться, где используется!                    
+                }
+                        
             }
         }
 
