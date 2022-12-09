@@ -71,36 +71,27 @@ namespace MajPAbGr_project
             textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
 
-        private int ChangeIndex(List<Item> items) // if id_technology != 0            
-        {
+        private int ChangeIndex(List<Item> items)         
+        {   
+            int /*tech_of_recipe = -1,*/ index = -1, temp_id = id_technology;
             if (items.Count != 0)
-            {          
-                int tech_of_recipe = -1, index;
-                for (index = 0; index < items.Count; index++)
+            {
+                comboBox2.SelectedIndex = 0;
+                if (temp_id > 0)
                 {
-                    if (items[index].id == id_technology) // -D
+                    for (index = 0; index < items.Count; index++)
                     {
-                        comboBox2.SelectedIndex = index; // B, -A
-                        tech_of_recipe = index; // -A                    
-                    }
+                        if (items[index].id == temp_id) // -D
+                        {
+                            comboBox2.SelectedIndex = index; // B
+                            //tech_of_recipe = 0; // -A
+                            break;
+                        }
+                    }                  
                 }
-                index--;
-
-                if (id_technology == 0) // if tech_of_recipe == -1
-                {
-                    comboBox2.SelectedIndex = 0;
-                }
-                else
-                {
-                    comboBox2.SelectedIndex = index; // if 'items' has not 'id'
-                    if (tech_of_recipe > -1)
-                    {
-                        comboBox2.SelectedIndex = tech_of_recipe; // if 'id' is in 'items'
-                    }
-                }
-                return tech_of_recipe;
+                return index;
             }
-            else return 0;
+            else return -2;
         }
 
         private List<Item> fillCatalog(List<Item> items) //  technology
