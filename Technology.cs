@@ -15,7 +15,7 @@ namespace MajPAbGr_project
         dbController db;
         TechnologyController tb = new TechnologyController("Technology");
         tbClass1 tbRec = new tbClass1("Recepture");
-        int id_technology, id_recepture, id, selected_tech, selected_rec;
+        int id_technology, id_recepture=0, id, selected_tech, selected_rec;
         List<Item> technologies, receptures;
 
         public Technology (int technology)
@@ -24,51 +24,64 @@ namespace MajPAbGr_project
 
             db = new dbController();
 
+            if (technology < 0) technology = 0;
             id_technology = technology;
             tb.setCatalog();
             technologies = tb.getCatalog();            
-            Class1.FillCombo(technologies, ref comboBox2);
-            ChangeIndex(technologies);
+            
             tb.Selected = technology;
             id = technology;
-
-            receptures = tb.setSubCatalog("Recepture", "id_technology");        
-            fillCatalogRec(receptures);
-            if (receptures.Count > 0)
-                tbRec.Selected = receptures[0].id;
-            else
-                tbRec.Selected = 0; // разобраться, где используется!
-
-            toolStripStatusLabel1.Text = $"Recepture {id_recepture}, technology {id_technology}";
-            toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology {selected_tech}";
-            setStatusLabel3(selected_rec);           
-
-            OutTechnology();
         }
 
         private string OutTechnology() //into textbox
         {
             string query = $"select name, description from Technology where id = {id};";
             string technology = "";
-            technology = db.dbReadTechnology(query)[0];            
+            technology = tb.dbReadTechnology(query)[0];            
             string[] arr = null;
-            arr = technology.Split('*'); // заменить разделитель, не знак препинания
+            arr = technology.Split('*');
             technology = arr[0] + ": " + arr[1];
             textBox1.Text = arr[0];
             textBox3.Text = arr[1];            
             return technology;
         }
 
+        private void Technology_Load(object sender, EventArgs e)
+        {
+            Class1.FillCombo(technologies, ref comboBox2);
+            ChangeIndex(technologies);
+
+            receptures = tb.setSubCatalog("Recepture", "id_technology");
+            fillCatalogRec(receptures);
+            if (receptures.Count > 0)
+                tbRec.Selected = receptures[0].id;
+            else
+                tbRec.Selected = 0; // разобраться, где используется!            
+
+            OutTechnology();
+
+            toolStripStatusLabel1.Text = $"Recepture {id_recepture}, technology {id_technology}";
+            toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology {selected_tech}";
+            setStatusLabel3(selected_rec);
+
+            AutoCompleteStringCollection source = new AutoCompleteStringCollection();
+            foreach (Item i in technologies) source.Add(i.name);
+            textBox1.AutoCompleteCustomSource = source;
+            textBox1.AutoCompleteMode = AutoCompleteMode.Suggest;
+            textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        }
+
         private int ChangeIndex(List<Item> items) // if id_technology != 0            
         {
             if (items.Count != 0)
-            {
-                int tech_of_recipe = 1, index;
+            {          
+                int tech_of_recipe = -1, index;
                 for (index = 0; index < items.Count; index++)
                 {
-                    if (items[index].id == id_technology)
+                    if (items[index].id == id_technology) // -D
                     {
-                        tech_of_recipe = index;
+                        comboBox2.SelectedIndex = index; // B, -A
+                        tech_of_recipe = index; // -A                    
                     }
                 }
                 index--;
@@ -165,7 +178,7 @@ namespace MajPAbGr_project
                 //query = $"select id from Technology where name = '{name}';";
                 //id_technology = int.Parse(tb.dbReader(query)[0]);
 
-                id_technology = tb.technologiesCountByName(name);
+                id_technology = tb.technologiesIdByName(name);
                 int ind = tb.UpdateReceptureOrCards("description", description, id_technology);               
             }
             else
@@ -235,6 +248,7 @@ namespace MajPAbGr_project
             //проверка, используется ли
             //string query = $"select count (*) from Recepture count where id_technology = {selected_tech};";
             int ind = tb.recepturesCount(selected_tech); //int.Parse(tb.Count(query));
+            // а что делать, если selected_tech = id_technology?
         
             if (ind > 0)
             {
@@ -291,20 +305,21 @@ namespace MajPAbGr_project
 
             //выведет на печать технологию с цепочкой карт
 
+            int temp=0;
             if (id_technology == 0)
-            {
+            {  
                 string id = tb.dbReader($"select id_technology from Recepture where id ={tbRec.Selected};")[0];
                 if (id == null)
                     return;
                 else
-                    id_technology = int.Parse(id);
+                    temp = int.Parse(id);
             }
             
                 string text = "***\n";
-                if (id_technology > 1)
+                if (temp > 1)
                 {
                 tbCards = new TechnologyCardsController("Technology_card");
-                List<string> chain = tbCards.SeeOtherCards(id_technology);
+                List<string> chain = tbCards.SeeOtherCards(temp);
                     foreach (string card in chain)
                     {
                         text += $"{card} \n";
@@ -400,13 +415,6 @@ namespace MajPAbGr_project
             }
         }
 
-            private void Technology_Load(object sender, EventArgs e)
-            {
-                AutoCompleteStringCollection source = new AutoCompleteStringCollection();
-                foreach (Item i in technologies) source.Add(i.name);                
-                textBox1.AutoCompleteCustomSource = source;
-                textBox1.AutoCompleteMode = AutoCompleteMode.Suggest;
-                textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            }
+            
     }
 }

@@ -11,7 +11,7 @@ namespace MajPAbGr_project
 
         public TechnologyController(string table) : base(table) { }
 
-        public int technologiesCountByName(string name)
+        public int technologiesIdByName(string name)
         {
             query = $"select id from Technology where name = '{name}';";
             return int.Parse(dbReader(query)[0]);            
