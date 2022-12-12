@@ -253,6 +253,7 @@ namespace MajPAbGr_project
             this.Controls.Add(this.lblInfo);
             this.Controls.Add(this.lblTest);
             this.Name = "Chains";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Chains";
             this.Load += new System.EventHandler(this.Chains_Load);
             this.statusStrip1.ResumeLayout(false);
