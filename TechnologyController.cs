@@ -31,7 +31,7 @@ namespace MajPAbGr_project
         }
         public int recepturesCount(int id)
         {
-            query = $"select count (*) from Recepture count where id_technology = {id};";
+            query = $"select count (*) from Recepture where id_technology = {id};";
             return int.Parse(Count(query));
         }
 
