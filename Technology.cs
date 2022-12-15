@@ -20,7 +20,7 @@ namespace MajPAbGr_project
 		/*		 
 		 * id_technology -- переданный номер, выставляет с поле имя из списка в поле технологий;  номер исправленной технологии (теперь и новой);
 		 * selected_tech -- номер выбранной из списка в поле, равен c tb.Selected; обнуляется при их очистке; по нему удаляем  и правим;
-		 * id - возможно, больше не нужен, испульзуется в OutTechnology(), с прежних конструкторов на случай,
+		 * id - возможно, больше не нужен, (уже не) используется в  OutTechnology(), с прежних конструкторов на случай,
 		 * если не технология не передавалась;
 		 * submit new, setStatusLabel3, comboBox2_SelectedIndexChanged;
 		 * id_recepture - используется в fillCatalogRec();
@@ -143,47 +143,59 @@ namespace MajPAbGr_project
 
 		private void button1_Click(object sender, EventArgs e) // submit new
 		{
-			string name, description, query, technology;
+			int ind=0, id_temp = id_technology; // id_technology = 0!
+			string name, description, query, technology, report = "";
 
 			if (string.IsNullOrEmpty(textBox1.Text)) return;
 			if (string.IsNullOrEmpty(textBox3.Text)) return;
-
+			
 			name = textBox1.Text;
 			description = textBox3.Text;
-
 			
 			technology = tb.technologiesCount(name);
 			//query = $"select count(*) from Technology where name = '{name}';";
-			// see `cardCount (string):in` t in TecnologyCardController;
-			
+			// see `cardCount (string):in` t in TecnologyCardController;			
 
+			void Insert()
+			{
+				int num;
+				query = tb.insertTechnology(name, description);				
+				technology = tb.Count(query);
+				if (int.TryParse(technology, out num))
+				{
+					id_technology = num;
+				}
+                else
+                {
+					id_technology = id;
+					ind--;
+                }
+			}
+			
 			if (technology != "0")
 			{
-				// if dialog rezult is ok, then update records
-
-				//query = $"select id from Technology where name = '{name}';";
-				//id_technology = int.Parse(tb.dbReader(query)[0]);
-
-				id_technology = tb.technologiesIdByName(name);
-				int ind = tb.UpdateReceptureOrCards("description", description, id_technology);              
+				MessageBox.Show($"Data base has {technology} technologies with this name. Want you update?", "Quation", MessageBoxButtons.YesNo);
+				if (DialogResult == DialogResult.Yes)
+				{
+					id_technology = tb.technologiesIdByName(name);
+					ind = tb.UpdateReceptureOrCards("description", description, id_technology);					
+				}   
 			}
 			else
-			{
-				query = tb.insertTechnology(name, description);
-					//$"insert into Technology (name, description) values ('{name}', '{description}'); select last_insert_rowid()";
-				technology = tb.Count(query);               
-				if (int.TryParse(technology, out id_technology))
-				{
-					id = int.Parse(technology);
-				}
-				else return;
-			}            
-			MessageBox.Show($"Technology {name} (id {technology}) is inserted or updated");
+				Insert();
+			
+			report = id_temp == id_technology ? "not inserted" : "inserted";
+			report = ind > 0 ? "updated" : report;
+			MessageBox.Show($"Technology {name} (id {id_technology}) is {report}");
+			setStatusLabel3(id_recepture);
+
+			if (ind < 0)
+				selected_tech = id; //  пока selected_tech  обнуляется при очистке!
+	
 			tb.setCatalog();
 			technologies = Class1.FillCombo(tb.getCatalog(), ref comboBox2);
 			ChangeIndex(technologies);
-			id_technology = id;
-			setStatusLabel3(id_recepture);// аргумент может не существовать!
+			OutTechnology();
 		}
 
 		private void button3_Click(object sender, EventArgs e) // clear
@@ -192,6 +204,7 @@ namespace MajPAbGr_project
 			 textBox3.Clear();
 			 textBox1.Focus();			 
 			 selected_tech = 0;
+			 id = id_recepture; // пока не ясно с selected_tech
 			 id_recepture = 0;
 			 toolStripStatusLabel2.Text =
 				 $"Selected: recepture {id_recepture} technology {selected_tech}";
