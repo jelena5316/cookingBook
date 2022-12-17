@@ -66,5 +66,26 @@ namespace MajPAbGr_project
 			return receptures;
         }
 
+		public List <Item> Receptures
+        {
+			get { return receptures; }
+        }
+
+		public string SeeRecepturesCategory(int index)
+        {
+			int selected;
+			string category = "category: ", query;
+			if (receptures.Count > 0)
+			{
+				tbRec.Selected = receptures[index].id;	
+				selected = receptures[index].id;							
+				query = $"select name from Categories where id = " +
+					$"(select id_category from Recepture where id = {selected});";
+				category += tbRec.dbReader(query);
+				
+			}
+			return category;
+        }
+
 	}
 }

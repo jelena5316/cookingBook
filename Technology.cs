@@ -60,7 +60,6 @@ namespace MajPAbGr_project
 			Class1.FillCombo(technologies, ref comboBox2);
 			ChangeIndex(technologies);
 			OutTechnology();
-
             fillCatalogRec();            
 
             toolStripStatusLabel1.Text = $"Recepture {id_recepture}, technology {id_technology}";
@@ -77,7 +76,7 @@ namespace MajPAbGr_project
 
 		private int ChangeIndex(List<Item> items)  // 'load', 'submit', 'delete'        
 		{   
-			int index = -1, temp_id = id_technology;
+			int index = -1, temp_id = selected_tech;
 			if (items.Count != 0)
 			{
 				comboBox2.SelectedIndex = 0;
@@ -118,7 +117,34 @@ namespace MajPAbGr_project
              }
         }
 
-        private void button1_Click(object sender, EventArgs e) // submit new
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) // rec
+		{
+			int index = index = comboBox1.SelectedIndex;
+		    txbRec.Text = comboBox1.Items[index].ToString();			
+			label5.Text = controller.SeeRecepturesCategory(index);
+
+			//id_recepture = tbRec.Selected;
+			toolStripStatusLabel2.Text = $"Selected: recepture {tbRec.Selected} technology {selected_tech}";
+		}
+
+		private void comboBox2_SelectedIndexChanged(object sender, EventArgs e) // tech
+		{
+			{
+				int index = comboBox2.SelectedIndex;
+				int selected = tb.setSelected(index);				
+				selected_tech = selected;
+				id_technology = selected;
+				toolStripStatusLabel2.Text = $"Selected: recepture {id_recepture} technology {selected_tech}";				
+
+				// output in textbox				
+				OutTechnology();
+
+                //output receptures				
+                fillCatalogRec();                
+            }
+		}
+		
+		private void button1_Click(object sender, EventArgs e) // submit new
 		{
 			int ind=0, id_temp = id_technology; // id_technology = 0!
 			string name, description, query, technology, report = "";
@@ -180,7 +206,7 @@ namespace MajPAbGr_project
 			 textBox1.Clear();
 			 textBox3.Clear();
 			 textBox1.Focus();			 
-			 selected_tech = 0;
+			 //selected_tech = 0;
 			 id = id_recepture; // пока не ясно с selected_tech
 			 id_recepture = 0;
 			 toolStripStatusLabel2.Text =
@@ -305,63 +331,7 @@ namespace MajPAbGr_project
 			else toolStripStatusLabel3.Text = $"R {id_recepture} contains {name} T";
 		}
 
-		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) // rec
-		{
-		   int index, selected, probe, count, num;
-			// string id, query;
-		   
-		   index = comboBox1.SelectedIndex;
-		   txbRec.Text = comboBox1.Items[index].ToString();			
-			if (receptures.Count > 0)
-			{
-				selected = receptures[index].id;
-				tbRec.Selected = receptures[index].id;
-				string id_category = tbRec.dbReader($"select id_category from Recepture where id = {selected};")[0];
-				string category = tbRec.dbReader($"select name from Categories where id = {id_category};")[0];
-				label5.Text = category;				
-			}			
-	 
-			//         
-			//selected_rec = selected;
-			//query = $"select id_technology from Recepture where id ={tbRec.Selected};";
-			//id = tb.dbReader(query)[0]; 
-
-			//if (id == "")
-			//     id = "0";            
-			//probe = int.Parse(id);
-			//count = (technologies.Count < receptures.Count) ? technologies.Count : receptures.Count;
-
-			// ChangeIndex(technologies); // работает иначе
-			// for (num = 0; num < count; num++)
-			// {
-			//     if (technologies[num].id == probe)
-			//     {
-			//         comboBox2.SelectedIndex = num;
-			//         break;
-			//     }
-			//     id_technology = probe;
-			// }
-
-			// toolStripStatusLabel2.Text = $"Selected: recepture {selected_rec} technology {selected_tech}";
-			// setStatusLabel3(selected);
-		}
-
-		private void comboBox2_SelectedIndexChanged(object sender, EventArgs e) // tech
-		{
-			{
-				int index = comboBox2.SelectedIndex;
-				int selected = tb.setSelected(index);				
-				selected_tech = selected;
-				id_technology = selected;
-				toolStripStatusLabel2.Text = $"Selected: recepture {id_recepture} technology {selected_tech}";				
-
-				// output in textbox				
-				OutTechnology();
-
-                //output receptures				
-                fillCatalogRec();                
-            }
-		}
+		
 
 			
 	}
