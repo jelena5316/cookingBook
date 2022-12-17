@@ -164,6 +164,7 @@
     </Compile>
     <Compile Include="TechnologyCardsController.cs" />
     <Compile Include="tbTechnologyController.cs" />
+    <Compile Include="TechnologyController.cs" />
     <EmbeddedResource Include="Categories.resx">
       <DependentUpon>Categories.cs</DependentUpon>
     </EmbeddedResource>
