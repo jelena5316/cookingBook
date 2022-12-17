@@ -31,7 +31,7 @@ namespace MajPAbGr_project
             int id, k;
             List<Item> items;
             TechnologyCardsController cards = controller.tbCardsController;
-            TechnologyController techn = controller.tbTechController;
+            tbTechnologyController techn = controller.tbTechController;
 
             items = techn.getCatalog();
             Class1.FillCombo(items, ref cmbTechn);
@@ -103,7 +103,7 @@ namespace MajPAbGr_project
             string description;
             List<string> technologies, names;            
             TechnologyCardsController cards = controller.tbCardsController;
-            TechnologyController techn = controller.tbTechController;
+            tbTechnologyController techn = controller.tbTechController;
             tbChainController chains = controller.tbChainController;            
 
             cards.setSelected(index);
@@ -132,7 +132,7 @@ namespace MajPAbGr_project
             string description;
             List<string> cards_id, names;
             TechnologyCardsController cards = controller.tbCardsController;
-            TechnologyController techn = controller.tbTechController;
+            tbTechnologyController techn = controller.tbTechController;
             tbChainController chains = controller.tbChainController;
 
             techn.setSelected(index);

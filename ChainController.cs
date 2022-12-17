@@ -10,14 +10,14 @@ namespace MajPAbGr_project
     {
         int id_technology = 0, id_card = 0, id_recepture;     
         TechnologyCardsController tbCards;
-        TechnologyController tbTech;
+        tbTechnologyController tbTech;
         tbChainController tbChain;
 
         public ChainController()
         {
             tbCards = new TechnologyCardsController("Technology_card");
             tbCards.setCatalog();
-            tbTech = new TechnologyController("Technology");
+            tbTech = new tbTechnologyController("Technology");
             tbTech.setCatalog();
             tbChain = new tbChainController("Technology_chain");
         }        
@@ -28,7 +28,7 @@ namespace MajPAbGr_project
             this.id_technology = id_tech;
             tbCards = new TechnologyCardsController("Technology_card");
             tbCards.setCatalog();
-            tbTech = new TechnologyController("Technology");
+            tbTech = new tbTechnologyController("Technology");
             tbTech.setCatalog();
             tbChain = new tbChainController("Technology_chain");
         }
@@ -78,7 +78,7 @@ namespace MajPAbGr_project
             get { return tbCards; }
         }
 
-        public TechnologyController tbTechController
+        public tbTechnologyController tbTechController
         {
             get { return tbTech; }
         }

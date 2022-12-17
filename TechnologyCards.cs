@@ -84,7 +84,7 @@ namespace MajPAbGr_project
         {
             //set text of form one and buttons
             string t;
-            TechnologyController tbTechn = new TechnologyController("Technology");            
+            tbTechnologyController tbTechn = new tbTechnologyController("Technology");            
             if (id_technology > 0)
             {
                 t = tbTechn.getById("name", id_technology);

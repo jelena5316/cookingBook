@@ -14,7 +14,7 @@ namespace MajPAbGr_project
 	{
 		int id_technology, id_recepture, id, selected_tech/*, selected_rec*/;
 		List<Item> technologies, receptures;        
-		TechnologyController tb;
+		tbTechnologyController tb;
 		tbClass1 tbRec;
 
 		/*		 
@@ -31,7 +31,7 @@ namespace MajPAbGr_project
 		{
 			InitializeComponent();
 
-			tb = new TechnologyController("Technology");
+			tb = new tbTechnologyController("Technology");
 			tbRec = new tbClass1("Recepture");
 			id_recepture = 0;			
 

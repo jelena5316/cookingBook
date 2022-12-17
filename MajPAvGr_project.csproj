@@ -163,7 +163,7 @@
       <DependentUpon>Technology.cs</DependentUpon>
     </Compile>
     <Compile Include="TechnologyCardsController.cs" />
-    <Compile Include="TechnologyController.cs" />
+    <Compile Include="tbTechnologyController.cs" />
     <EmbeddedResource Include="Categories.resx">
       <DependentUpon>Categories.cs</DependentUpon>
     </EmbeddedResource>
