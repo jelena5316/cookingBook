@@ -32,9 +32,9 @@ namespace MajPAbGr_project
 		{
 			InitializeComponent();
 
-			tb = new tbTechnologyController("Technology");
-			tbRec = new tbClass1("Recepture");
 			controller = new TechnologyController(technology);
+			tb = controller.getTbController();
+			tbRec = controller.getRecTbController();
 			id_recepture = 0;			
 
 			if (technology < 0) technology = 0;
@@ -61,19 +61,9 @@ namespace MajPAbGr_project
 			ChangeIndex(technologies);
 			OutTechnology();
 
-			receptures = controller.setReceptures();
-			fillCatalogRec(receptures);
+            fillCatalogRec();            
 
-			// для вывода на печать и в полосу состояний
-			if (receptures.Count > 0)
-			{ 
-				tbRec.Selected = receptures[0].id;
-				id_recepture = tbRec.Selected;
-            }	
-			else
-				tbRec.Selected = 0;      
-
-			toolStripStatusLabel1.Text = $"Recepture {id_recepture}, technology {id_technology}";
+            toolStripStatusLabel1.Text = $"Recepture {id_recepture}, technology {id_technology}";
 			toolStripStatusLabel2.Text = $"Selected: recepture {id_recepture} technology {selected_tech}";
 			setStatusLabel3(id_recepture);
 
@@ -107,28 +97,28 @@ namespace MajPAbGr_project
 			else return -2;
 		}
 
-		private List<Item> fillCatalogRec(List<Item> items) // recepture
+		private void fillCatalogRec() // recepture
 		{
-			if (items.Count != 0)
-			{
-				if (comboBox1.Items.Count > 0)
-					comboBox1.Items.Clear();
-				for (int index = 0; index < items.Count; index++)
-				{
-					comboBox1.Items.Add(items[index].name);					
-				}
-				comboBox1.SelectedIndex = 0;
-			}
-			else
-			{
-				comboBox1.Items.Clear();
-				comboBox1.Text = "";
+            receptures = controller.setReceptures();
+            Class1.FillCombo(receptures, ref comboBox1);            
+            if (receptures.Count > 0)
+            {
+                tbRec.Selected = receptures[0].id;//// вывод на печать
+				id_recepture = tbRec.Selected;
+            }
+            else
+            {
+                tbRec.Selected = 0; // вывод на печать
+                label5.Text = "no category";
 				txbRec.Text = "empty";
-			}
-			return items;
-		}
 
-		private void button1_Click(object sender, EventArgs e) // submit new
+				comboBox1.Items.Clear();
+                comboBox1.Text = "";
+                //посмотреть, как в FormFunktion отвязать от подаваемого списка! 
+             }
+        }
+
+        private void button1_Click(object sender, EventArgs e) // submit new
 		{
 			int ind=0, id_temp = id_technology; // id_technology = 0!
 			string name, description, query, technology, report = "";
@@ -361,26 +351,16 @@ namespace MajPAbGr_project
 			{
 				int index = comboBox2.SelectedIndex;
 				int selected = tb.setSelected(index);				
-				selected_tech = selected;// вместо id_technology = selected;				
+				selected_tech = selected;
+				id_technology = selected;
 				toolStripStatusLabel2.Text = $"Selected: recepture {id_recepture} technology {selected_tech}";				
 
-				// output in textbox
-				id = selected;
+				// output in textbox				
 				OutTechnology();
 
-				//output receptures				
-				receptures = tb.setSubCatalog("Recepture", "id_technology");
-				fillCatalogRec(receptures);
-				if (receptures.Count > 0)
-				{
-					tbRec.Selected = receptures[0].id;					
-				}
-				else
-				{
-					tbRec.Selected = 0; // разобраться, где используется!
-					label5.Text = "no category";					
-				}		
-			}
+                //output receptures				
+                fillCatalogRec();                
+            }
 		}
 
 			

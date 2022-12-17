@@ -39,6 +39,17 @@ namespace MajPAbGr_project
 			id = technology;
 		}
 
+		public tbTechnologyController getTbController()
+        {
+			return tb;
+        }
+
+		public tbClass1 getRecTbController()
+		{
+			return tbRec;
+		}
+
+		
 		public string [] OutTechnology(int selected) //into textbox
 		{
 			string query = $"select name, description from Technology where id ={selected};"; //id
