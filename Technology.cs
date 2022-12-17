@@ -15,11 +15,12 @@ namespace MajPAbGr_project
 		int id_technology, id_recepture, id, selected_tech/*, selected_rec*/;
 		List<Item> technologies, receptures;        
 		tbTechnologyController tb;
+		TechnologyController controller;
 		tbClass1 tbRec;
 
 		/*		 
-		 * id_technology -- переданный номер, выставляет с поле имя из списка в поле технологий;  номер исправленной технологии (теперь и новой);
-		 * selected_tech -- номер выбранной из списка в поле, равен c tb.Selected; обнуляется при их очистке; по нему удаляем  и правим;
+		 * id_technology -- переданный номер, для редактора; меняется и при правке, и при записи нового
+		 * selected_tech -- номер выбранной из списка, равен c tb.Selected; по нему удаляем  и правим;
 		 * id - возможно, больше не нужен, (уже не) используется в  OutTechnology(), с прежних конструкторов на случай,
 		 * если не технология не передавалась;
 		 * submit new, setStatusLabel3, comboBox2_SelectedIndexChanged;
@@ -33,6 +34,7 @@ namespace MajPAbGr_project
 
 			tb = new tbTechnologyController("Technology");
 			tbRec = new tbClass1("Recepture");
+			controller = new TechnologyController(technology);
 			id_recepture = 0;			
 
 			if (technology < 0) technology = 0;
@@ -47,35 +49,35 @@ namespace MajPAbGr_project
 
 		private string OutTechnology() //into textbox
 		{
-			string query = $"select name, description from Technology where id ={selected_tech};"; //id
-			string technology = "";
-			technology = tb.dbReadTechnology(query)[0];            
-			string[] arr = null;
-			arr = technology.Split('*');
-			technology = arr[0] + ": " + arr[1];
+			string[] arr = controller.OutTechnology(selected_tech);
 			textBox1.Text = arr[0];
 			textBox3.Text = arr[1];            
-			return technology;
+			return arr[0] + ": " + arr[1];;
 		}
 
 		private void Technology_Load(object sender, EventArgs e)
 		{
 			Class1.FillCombo(technologies, ref comboBox2);
-			ChangeIndex(technologies);			
-
-			receptures = tb.setSubCatalog("Recepture", "id_technology");
-			fillCatalogRec(receptures);
-			if (receptures.Count > 0)
-				tbRec.Selected = receptures[0].id;
-			else
-				tbRec.Selected = 0; // разобраться, где используется!            
-
+			ChangeIndex(technologies);
 			OutTechnology();
+
+			receptures = controller.setReceptures();
+			fillCatalogRec(receptures);
+
+			// для вывода на печать и в полосу состояний
+			if (receptures.Count > 0)
+			{ 
+				tbRec.Selected = receptures[0].id;
+				id_recepture = tbRec.Selected;
+            }	
+			else
+				tbRec.Selected = 0;      
 
 			toolStripStatusLabel1.Text = $"Recepture {id_recepture}, technology {id_technology}";
 			toolStripStatusLabel2.Text = $"Selected: recepture {id_recepture} technology {selected_tech}";
 			setStatusLabel3(id_recepture);
 
+			// автодополнение
 			AutoCompleteStringCollection source = new AutoCompleteStringCollection();
 			foreach (Item i in technologies) source.Add(i.name);
 			textBox1.AutoCompleteCustomSource = source;
@@ -109,35 +111,20 @@ namespace MajPAbGr_project
 		{
 			if (items.Count != 0)
 			{
-				int recepture = -1, index;
-
 				if (comboBox1.Items.Count > 0)
 					comboBox1.Items.Clear();
-				for (index = 0; index < items.Count; index++)
+				for (int index = 0; index < items.Count; index++)
 				{
-					comboBox1.Items.Add(items[index].name);
-					if (items[index].id == id_recepture) // уже нет смысла!
-					{
-						recepture = index;
-					}
+					comboBox1.Items.Add(items[index].name);					
 				}
-				index--;
 				comboBox1.SelectedIndex = 0;
-				//comboBox1.Text = comboBox1.Items[index].ToString();
-				//if (recepture > -1)
-				//{
-				//	comboBox1.SelectedIndex = recepture;
-				//	comboBox1.Text = comboBox1.Items[recepture].ToString();
-				//}
 			}
 			else
 			{
-				// что делать с выбранным номером в списке рецептур? Обнулять ли?
 				comboBox1.Items.Clear();
 				comboBox1.Text = "";
 				txbRec.Text = "empty";
 			}
-			//comboBox1.Focus();
 			return items;
 		}
 
