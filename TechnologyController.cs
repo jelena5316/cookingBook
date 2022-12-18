@@ -38,7 +38,7 @@ namespace MajPAbGr_project
 			tb.Selected = technology;
 			id = technology;
 		}
-
+		
 		public tbTechnologyController getTbController()
         {
 			return tb;
@@ -87,5 +87,46 @@ namespace MajPAbGr_project
 			return category;
         }
 
-	}
+		public string Submit(string name, string description, int techn_id)
+        {
+            int ind = 0, num, id = techn_id;
+            string technology = "", query, report = "";
+
+            if (techn_id == 0)
+            {
+                query = tb.insertTechnology(name, description);
+                technology = tb.Count(query);
+                if (int.TryParse(technology, out num))
+                {
+                    tb.Selected = num;
+                    techn_id = num;
+                }
+                else
+                {
+                    ind--;
+                }
+            }
+            else
+            {
+                if (techn_id > -1)
+                {
+					tb.Selected = techn_id;
+					ind = tb.UpdateReceptureOrCards("name", name, techn_id);
+                    ind += tb.UpdateReceptureOrCards("description", description, techn_id);
+                }
+                else
+                {
+                    tb.Selected = tb.technologyIdByName(name);
+                    ind = tb.UpdateReceptureOrCards("description", description, tb.Selected);
+                }
+            }
+            tb.setCatalog();
+            report = techn_id == id ? "not inserted or updated" : "inserted";
+            report = ind > 0 ? "updated" : report;
+            return report;
+
+            //tb.Selected = 26;
+            //return tb.Selected.ToString();
+        }
+    }
 }

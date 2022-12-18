@@ -144,7 +144,7 @@ namespace MajPAbGr_project
             }
 		}
 
-		private void button1_Click(object sender, EventArgs e) // submit new
+		private void button1_Click(object sender, EventArgs e) // submit inserting or updating (editing)
 		{
 			int ind = 0, id_temp = id_technology;
 			string name, description, query, technology, report = "";
@@ -155,72 +155,30 @@ namespace MajPAbGr_project
 			name = textBox1.Text;
 			description = textBox3.Text;
 
-			technology = tb.technologiesCount(name);
-			//query = $"select count(*) from Technology where name = '{name}';";
-			// see `cardCount (string):in` t in TecnologyCardController;
-
-			
-			//if (id_temp == 0 && technology != "0")
-			//{
-			//	MessageBox.Show($"Data base has {technology} technologies with this name. Want you it update?", "Quation", MessageBoxButtons.YesNo);
-			//	if (DialogResult == DialogResult.No)
-				//{
-				//	id_temp = 0;
-				//}
-			//}
-			// string message = controller.Submit(name, description, id_temp);
-
-			void Insert()
-			{
-				int num;
-				query = tb.insertTechnology(name, description);				
-				technology = tb.Count(query);
-				if (int.TryParse(technology, out num))
-				{
-					id_technology = num;
-				}
-                else
+			technology = tb.technologiesCount(name); //select count(*) from Technology where name = '{name}';	
+            if (id_temp == 0 && technology != "0")
+            {
+                DialogResult rezult =  MessageBox.Show($"Data base has {technology} technologies with this name. Want you it update?", "Quation", MessageBoxButtons.YesNo);
+				if (rezult == DialogResult.Yes)
                 {
-					id_technology = id;
-					ind--;
+					id_temp = -1;
+					//MessageBox.Show("Choose a recepture, what you want update!");
+					
                 }
-			}
+            }
+			report = controller.Submit(name, description, id_temp);
+			//tb.setCatalog(); --в 'Submit(string, string, int)'
 
-			if (id_temp > 0)
-			{
-				id_technology = tb.technologiesIdByName(name);
-				ind = tb.UpdateReceptureOrCards("description", description, id_technology);					
-			}
-			else
-			{
-				if (technology == "0")
-				{
-					Insert();
-				}
-                else
-                {
-					MessageBox.Show($"Data base has {technology} technologies with this name. Want you it update?", "Quation", MessageBoxButtons.YesNo);
-					if (DialogResult == DialogResult.Yes)
-					{
-						id_technology = tb.technologiesIdByName(name);
-						ind = tb.UpdateReceptureOrCards("description", description, id_technology);
-					}
-					else
-					{
-						Insert();
-					}
-				}
-			}
-		
-			report = id_temp == id_technology ? "not inserted" : "inserted";
-			report = ind > 0 ? "updated" : report;
-			MessageBox.Show($"Technology {name} (id {id_technology}) is {report}");
-			setStatusLabel3(id_recepture);			
-	
-			tb.setCatalog();
+			selected_tech = tb.Selected;
+			id_technology = tb.Selected;
+
 			technologies = Class1.FillCombo(tb.getCatalog(), ref comboBox2);
 			ChangeIndex(technologies);
 			OutTechnology();
+			MessageBox.Show($"Technology {name} (id {tb.Selected}) is {report}");
+			//setStatusLabel3(id_recepture);
+
+			//MessageBox.Show($"id from controller {report}, this selected  {tb.Selected}");
 		}
 
 		private void button3_Click(object sender, EventArgs e) // clear
