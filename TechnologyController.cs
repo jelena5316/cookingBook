@@ -81,7 +81,7 @@ namespace MajPAbGr_project
 				selected = receptures[index].id;							
 				query = $"select name from Categories where id = " +
 					$"(select id_category from Recepture where id = {selected});";
-				category += tbRec.dbReader(query);
+				category += tbRec.dbReader(query)[0];
 				
 			}
 			return category;
@@ -114,19 +114,16 @@ namespace MajPAbGr_project
 					ind = tb.UpdateReceptureOrCards("name", name, techn_id);
                     ind += tb.UpdateReceptureOrCards("description", description, techn_id);
                 }
-                else
-                {
-                    tb.Selected = tb.technologyIdByName(name);
-                    ind = tb.UpdateReceptureOrCards("description", description, tb.Selected);
-                }
+                //else
+                //{
+                //    tb.Selected = tb.technologyIdByName(name);
+                //    ind = tb.UpdateReceptureOrCards("description", description, tb.Selected);
+                //}
             }
             tb.setCatalog();
             report = techn_id == id ? "not inserted or updated" : "inserted";
             report = ind > 0 ? "updated" : report;
             return report;
-
-            //tb.Selected = 26;
-            //return tb.Selected.ToString();
         }
     }
 }

@@ -119,7 +119,7 @@ namespace MajPAbGr_project
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) // rec
 		{
-			int index = index = comboBox1.SelectedIndex;
+			int index = comboBox1.SelectedIndex;
 		    txbRec.Text = comboBox1.Items[index].ToString();			
 			label5.Text = controller.SeeRecepturesCategory(index);
 
@@ -161,9 +161,9 @@ namespace MajPAbGr_project
                 DialogResult rezult =  MessageBox.Show($"Data base has {technology} technologies with this name. Want you it update?", "Quation", MessageBoxButtons.YesNo);
 				if (rezult == DialogResult.Yes)
                 {
-					id_temp = -1;
-					//MessageBox.Show("Choose a recepture, what you want update!");
-					
+					//id_temp = -1;
+					MessageBox.Show("Choose a recepture, what you want update! Don't clear -- only submit!");					
+					return;
                 }
             }
 			report = controller.Submit(name, description, id_temp);

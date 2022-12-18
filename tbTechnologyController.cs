@@ -17,6 +17,12 @@ namespace MajPAbGr_project
             return int.Parse(dbReader(query)[0]);            
         }
 
+        public List <Item> technologiesOfSimilarName(string name)
+        {
+            query = $"select id, name from Technology where name = '{name}';";
+            return Catalog(query);
+        }
+
         public string insertTechnology(string name, string description)
         {
             return "insert into Technology (name, description)" +
