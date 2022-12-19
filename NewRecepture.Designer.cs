@@ -38,6 +38,7 @@ namespace MajPAbGr_project
             this.txbDescription = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // txbRecepture
@@ -60,7 +61,7 @@ namespace MajPAbGr_project
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(448, 306);
+            this.button2.Location = new System.Drawing.Point(448, 370);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(66, 27);
             this.button2.TabIndex = 25;
@@ -70,7 +71,7 @@ namespace MajPAbGr_project
             // 
             // txbSource
             // 
-            this.txbSource.Location = new System.Drawing.Point(12, 105);
+            this.txbSource.Location = new System.Drawing.Point(12, 150);
             this.txbSource.Name = "txbSource";
             this.txbSource.Size = new System.Drawing.Size(263, 20);
             this.txbSource.TabIndex = 28;
@@ -78,7 +79,7 @@ namespace MajPAbGr_project
             // 
             // txbAuthor
             // 
-            this.txbAuthor.Location = new System.Drawing.Point(12, 143);
+            this.txbAuthor.Location = new System.Drawing.Point(12, 188);
             this.txbAuthor.Name = "txbAuthor";
             this.txbAuthor.Size = new System.Drawing.Size(263, 20);
             this.txbAuthor.TabIndex = 29;
@@ -86,7 +87,7 @@ namespace MajPAbGr_project
             // 
             // txbURL
             // 
-            this.txbURL.Location = new System.Drawing.Point(12, 179);
+            this.txbURL.Location = new System.Drawing.Point(12, 224);
             this.txbURL.Name = "txbURL";
             this.txbURL.Size = new System.Drawing.Size(263, 20);
             this.txbURL.TabIndex = 30;
@@ -94,7 +95,7 @@ namespace MajPAbGr_project
             // 
             // txbDescription
             // 
-            this.txbDescription.Location = new System.Drawing.Point(12, 217);
+            this.txbDescription.Location = new System.Drawing.Point(12, 262);
             this.txbDescription.Multiline = true;
             this.txbDescription.Name = "txbDescription";
             this.txbDescription.Size = new System.Drawing.Size(502, 83);
@@ -113,19 +114,29 @@ namespace MajPAbGr_project
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(367, 310);
+            this.button1.Location = new System.Drawing.Point(367, 370);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(75, 27);
             this.button1.TabIndex = 33;
             this.button1.Text = "delete";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(12, 107);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(159, 21);
+            this.comboBox1.TabIndex = 34;
+            this.comboBox1.Text = "choose technology";
+            // 
             // NewRecepture
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(536, 345);
+            this.ClientSize = new System.Drawing.Size(536, 419);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txbDescription);
@@ -154,5 +165,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.TextBox txbDescription;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
