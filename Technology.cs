@@ -52,13 +52,15 @@ namespace MajPAbGr_project
 			string[] arr = controller.OutTechnology(selected_tech);
 			textBox1.Text = arr[0];
 			textBox3.Text = arr[1];            
-			return arr[0] + ": " + arr[1];;
+			return arr[0] + ": " + arr[1];
 		}
 
 		private void Technology_Load(object sender, EventArgs e)
 		{
+			int index = ChangeIndex(technologies, tb.Selected);
 			Class1.FillCombo(technologies, ref comboBox2);
-			ChangeIndex(technologies);
+			comboBox2.SelectedIndex = index;
+			//ChangeIndex(technologies);
 			OutTechnology();
             fillCatalogRec();            
 
@@ -74,26 +76,26 @@ namespace MajPAbGr_project
 			textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
 		}
 
-		private int ChangeIndex(List<Item> items)  // 'load', 'submit', 'delete'        
+		private int ChangeIndex(List<Item> items, int test)  // 'load', 'submit', 'delete'        
 		{   
-			int index = -1, temp_id = selected_tech;
+			int index = -1, temp_id = test;
 			if (items.Count != 0)
 			{
-				comboBox2.SelectedIndex = 0;
+				//comboBox2.SelectedIndex = 0;
 				if (temp_id > 0)
 				{
 					for (index = 0; index < items.Count; index++)
 					{
 						if (items[index].id == temp_id)
 						{
-							comboBox2.SelectedIndex = index;                          
+							//comboBox2.SelectedIndex = index;                          
 							break;
 						}
 					}                  
 				}
 				return index;
 			}
-			else return -2;
+			else return index;
 		}
 
 		private void fillCatalogRec() // recepture
@@ -182,18 +184,15 @@ namespace MajPAbGr_project
 			report = controller.Submit(name, description, id_temp);
 			MessageBox.Show(report);
 
+			//Class1.FillCombo(.., ..) меняет tb.Selected, selected_tech, меняет в setSelected(int index),
+			//где index = 0;
 			id_temp = tb.Selected;
-			technologies = Class1.FillCombo(tb.getCatalog(), ref comboBox2);
-			// меняет tb.Selected, selected_tech
-			// меняет в setSelected;
-			tb.Selected = id_temp;
-			selected_tech = tb.Selected;
-			id_technology = tb.Selected;			
-			ChangeIndex(technologies);
+			technologies = Class1.FillCombo(tb.getCatalog(), ref comboBox2);			
+			tb.Selected = id_temp;						
+			comboBox2.SelectedIndex = ChangeIndex(technologies, tb.Selected);
+			
 			OutTechnology();
-
 			toolStripStatusLabel2.Text = $"Selected: recepture {id_recepture} technology {selected_tech}";
-			//setStatusLabel3(id_recepture);
 		}
 
 		private void button3_Click(object sender, EventArgs e) // clear
@@ -228,7 +227,7 @@ namespace MajPAbGr_project
 			{
 				tb.setCatalog();
 				technologies = Class1.FillCombo(tb.getCatalog(), ref comboBox2);
-				ChangeIndex(technologies);
+				comboBox2.SelectedIndex = ChangeIndex(technologies, tb.Selected);
 				textBox1.Focus();
 				selected_tech = tb.Selected; //??
 				toolStripStatusLabel2.Text =
