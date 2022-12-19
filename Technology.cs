@@ -146,8 +146,8 @@ namespace MajPAbGr_project
 
 		private void button1_Click(object sender, EventArgs e) // submit inserting or updating (editing)
 		{
-			int ind = 0, id_temp = id_technology;
-			string name, description, query, technology, report = "";
+			int id_temp = id_technology;
+			string name, description, technology, report = "";
 
 			if (string.IsNullOrEmpty(textBox1.Text)) return;
 			if (string.IsNullOrEmpty(textBox3.Text)) return;
@@ -158,27 +158,42 @@ namespace MajPAbGr_project
 			technology = tb.technologiesCount(name); //select count(*) from Technology where name = '{name}';	
             if (id_temp == 0 && technology != "0")
             {
-                DialogResult rezult =  MessageBox.Show($"Data base has {technology} technologies with this name. Want you it update?", "Quation", MessageBoxButtons.YesNo);
-				if (rezult == DialogResult.Yes)
-                {
-					//id_temp = -1;
-					MessageBox.Show("Choose a recepture, what you want update! Don't clear -- only submit!");					
+                DialogResult rezult = MessageBox.Show
+					("Data base has {technology} technologies with this name. Want you it update?\n" +
+					"If you want update, than press 'Yes' and choose a technology what you want update from list!\n"+
+					"then press 'Submit'!\n"+
+					"If you don't want, than press 'No' and type new name, then press 'submit'",
+					"Quation",
+					MessageBoxButtons.YesNo,
+					MessageBoxIcon.Question,
+					MessageBoxDefaultButton.Button2);
+				if (rezult == DialogResult.No)
+				{
+					textBox1.Focus();
 					return;
-                }
+				}
+				else
+				{
+					if (comboBox1.Items.Count > 0)
+						comboBox1.SelectedIndex = 0;
+					return;
+				}
             }
 			report = controller.Submit(name, description, id_temp);
-			//tb.setCatalog(); --в 'Submit(string, string, int)'
+			MessageBox.Show(report);
 
-			selected_tech = tb.Selected;
-			id_technology = tb.Selected;
-
+			id_temp = tb.Selected;
 			technologies = Class1.FillCombo(tb.getCatalog(), ref comboBox2);
+			// меняет tb.Selected, selected_tech
+			// меняет в setSelected;
+			tb.Selected = id_temp;
+			selected_tech = tb.Selected;
+			id_technology = tb.Selected;			
 			ChangeIndex(technologies);
 			OutTechnology();
-			MessageBox.Show($"Technology {name} (id {tb.Selected}) is {report}");
-			//setStatusLabel3(id_recepture);
 
-			//MessageBox.Show($"id from controller {report}, this selected  {tb.Selected}");
+			toolStripStatusLabel2.Text = $"Selected: recepture {id_recepture} technology {selected_tech}";
+			//setStatusLabel3(id_recepture);
 		}
 
 		private void button3_Click(object sender, EventArgs e) // clear

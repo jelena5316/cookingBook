@@ -92,38 +92,25 @@ namespace MajPAbGr_project
             int ind = 0, num, id = techn_id;
             string technology = "", query, report = "";
 
-            if (techn_id == 0)
+            if (techn_id == 0) // insert
             {
-                query = tb.insertTechnology(name, description);
-                technology = tb.Count(query);
-                if (int.TryParse(technology, out num))
-                {
-                    tb.Selected = num;
-                    techn_id = num;
-                }
-                else
-                {
-                    ind--;
-                }
-            }
+				query = tb.insertTechnology(name, description);
+				technology = tb.Count(query);
+				num = int.Parse(technology);
+				if (num > 0)
+					tb.Selected = num;
+				techn_id = num;
+			}
             else
             {
-                if (techn_id > -1)
-                {
-					tb.Selected = techn_id;
-					ind = tb.UpdateReceptureOrCards("name", name, techn_id);
-                    ind += tb.UpdateReceptureOrCards("description", description, techn_id);
-                }
-                //else
-                //{
-                //    tb.Selected = tb.technologyIdByName(name);
-                //    ind = tb.UpdateReceptureOrCards("description", description, tb.Selected);
-                //}
-            }
+				ind = tb.UpdateReceptureOrCards("name", name, techn_id);
+				ind += tb.UpdateReceptureOrCards("description", description, techn_id);
+			}
+
             tb.setCatalog();
             report = techn_id == id ? "not inserted or updated" : "inserted";
             report = ind > 0 ? "updated" : report;
-            return report;
+			return $"Technology {name} (id {tb.Selected}) is {report}";
         }
     }
 }
