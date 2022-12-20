@@ -131,6 +131,7 @@ namespace MajPAbGr_project
             this.cmbTech.Size = new System.Drawing.Size(159, 21);
             this.cmbTech.TabIndex = 34;
             this.cmbTech.Text = "choose technology";
+            this.cmbTech.SelectedIndexChanged += new System.EventHandler(this.cmbTech_SelectedIndexChanged);
             // 
             // NewRecepture
             // 

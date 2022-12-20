@@ -58,7 +58,6 @@ namespace MajPAbGr_project
                 URL = data[3];
                 description = data[4];              
             }
-            
         }
 
         private void SetForm()
@@ -137,6 +136,16 @@ namespace MajPAbGr_project
             //this.Dispose();
         }
 
+        private void cmbTech_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            tbTechnologyController tbTech = new tbTechnologyController("Technology");
+            tbTech.setCatalog();
+            //List<Item> technologies = tbTech.getCatalog();
+            //string name = technologies[cmbTech.SelectedIndex].name;
+            int selected = tbTech.setSelected(cmbTech.SelectedIndex);            
+            technology = tbTech.Selected;
+        }
+
         private void button1_Click(object sender, EventArgs e) //remove
         {
             int selected = tb.Selected;
@@ -187,6 +196,8 @@ namespace MajPAbGr_project
               
                 num = tb.UpdateReceptureOrCards("name", name, id_recepture);
                 num = tb.UpdateReceptureOrCards("id_category", category.ToString(), id_recepture);
+                num = tb.UpdateReceptureOrCards("id_technology", technology.ToString(), id_recepture);                
+                //num = tb.Edit($"update Recepture set id_technology = {technology} where id = {id_recepture};");
             }
 
             if (string.IsNullOrEmpty(txbAuthor.Text)) return;

@@ -396,7 +396,6 @@ namespace MajPAbGr_project
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e) // edit recepture
         {
-           
             if (tb.getSelected() == 0) return;
             if (listView1.Items.Count < 1) return;
             int selected = tb.getSelected();
