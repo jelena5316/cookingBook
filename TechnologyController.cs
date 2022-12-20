@@ -112,5 +112,35 @@ namespace MajPAbGr_project
             report = ind > 0 ? "updated" : report;
 			return $"Technology {name} (id {tb.Selected}) is {report}";
         }
+
+		public string IsUsed()
+		{
+			string used = "";
+			tb.setUsed();
+			used = tb.getUsed();
+			if (used == "0")
+				return "";
+			else
+				return $"The technology is used in {used} Receptures. \nPlease, remove it before deleting";
+        }
+
+		public bool Remove(int index, out int new_index)
+        {
+			int ind = 0, count = tb.getCatalog().Count;
+			ind = tb.RemoveItem();
+			if (ind > 0)
+			{
+				if (index == count - 1) index--;
+				if (index == 0) index++;				
+				new_index = index;
+				return true;
+			}
+            else
+            {
+				new_index = index;
+				return false;
+            }
+				
+        }
     }
 }

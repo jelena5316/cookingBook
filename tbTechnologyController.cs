@@ -8,8 +8,17 @@ namespace MajPAbGr_project
 {
     public class tbTechnologyController: tbClass1
     {
-
+        string used="0";
+        
         public tbTechnologyController(string table) : base(table) { }
+
+        public override void setUsed()
+        {
+            query = $"select count (*) from Recepture where id_technology = {selected};";
+            used = Count(query);
+        }
+
+        public override string getUsed() { return used; }
 
         public int technologyIdByName(string name)
         {
@@ -35,11 +44,7 @@ namespace MajPAbGr_project
             query = $"select count(*) from Technology where name = '{name}';";
             return Count(query);
         }
-        public int recepturesCount(int id)
-        {
-            query = $"select count (*) from Recepture where id_technology = {id};";
-            return int.Parse(Count(query));
-        }
+        
 
         public string recepturesCount(int recepture, int technology)
         {

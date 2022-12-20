@@ -136,7 +136,7 @@ namespace MajPAbGr_project
 				int selected = tb.setSelected(index);				
 				selected_tech = selected;
 				id_technology = selected;
-				toolStripStatusLabel2.Text = $"Selected: recepture {id_recepture} technology {selected_tech}";				
+				toolStripStatusLabel2.Text = $"Selected: Recepture {id_recepture} technology {selected_tech}";				
 
 				// output in textbox				
 				OutTechnology();
@@ -205,35 +205,36 @@ namespace MajPAbGr_project
 
 		private void button4_Click(object sender, EventArgs e) //delete technology from data base
 		{
-			int count=0;
-			if (technologies.Count > 0) count++;            
-			if(selected_tech == id_technology) count++;
+			if (comboBox2.SelectedIndex == -1) return;
+			
+			int index=0;
+			bool ind;
+	
+			string message = controller.IsUsed();//проверка, используется ли			
+			if(message == "")
+            {
+				//удаляем
+				ind = controller.Remove(comboBox2.SelectedIndex, out index);
 
-			//проверка, используется ли			
-			int ind = tb.recepturesCount(selected_tech); //int.Parse(tb.Count(query));
-														 //		
-			if (ind > 0)
-			{
-				MessageBox.Show($"The technology is used in {ind} Receptures. \nPlease, remove it before deleting");
-				return;
+				if (ind && index > -1)
+				{
+					//обновляем форму
+					technologies = Class1.FillCombo(tb.getCatalog(), ref comboBox2);
+					comboBox2.SelectedIndex = index;
+					textBox1.Focus();
+					toolStripStatusLabel2.Text =
+						$"Selected: recepture {id_recepture} technology {tb.Selected}";
+				}
+				else
+				{ 
+					if(!ind)
+						MessageBox.Show("Nothing is deleted"); 						
+					else
+						MessageBox.Show("All technologies are deleted");	      
+				} 
 			}
-
-			//удаляем
-			tb.Selected = selected_tech;		          
-			ind = tb.RemoveItem();
-
-			//обновляем форму
-			if (ind > 0)
-			{
-				tb.setCatalog();
-				technologies = Class1.FillCombo(tb.getCatalog(), ref comboBox2);
-				comboBox2.SelectedIndex = ChangeIndex(technologies, tb.Selected);
-				textBox1.Focus();
-				selected_tech = tb.Selected; //??
-				toolStripStatusLabel2.Text =
-					$"Selected: recepture {id_recepture} technology {selected_tech}";
-			}
-			else MessageBox.Show("Nothing is deleted");
+            else
+				MessageBox.Show(message);
 		}
 
 		private void printToolStripMenuItem_Click(object sender, EventArgs e) //print

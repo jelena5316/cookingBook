@@ -82,6 +82,20 @@ namespace MajPAbGr_project
             return table;
         }
 
+        public string getById(string column, int id) // for Recepture and others
+        {
+            query = $"select {column} from {table} where id = " + id + ";";
+            List<string> id_list = dbReader(query);
+            if (id_list.Count > 0)
+                return id_list[0];
+            else
+                return "0";
+        }
+
+        public virtual void setUsed() {}
+
+        public virtual string getUsed() { return ""; }
+
 
         /*********************
          * Для отдельных форм
@@ -154,15 +168,7 @@ namespace MajPAbGr_project
         //    return list;
         //}
 
-        public string getById(string column, int id) // for Recepture and others
-        {
-            query = $"select {column} from {table} where id = " + id + ";";
-            List<string> id_list = dbReader(query);
-            if (id_list.Count > 0)
-                return id_list[0];
-            else
-                return "0";
-        }
+        
 
 
         /********************

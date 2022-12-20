@@ -22,14 +22,14 @@ namespace MajPAbGr_project
 
         public int getOption() { return opt; }
         
-        public void setUsed()
+        public override void setUsed()
         {
             query = (table == "Ingredients") ? $"select count(*) from(select id_recepture from Amounts where id_ingredients = {selected});"
                     : $"select count (*) from Recepture where id_category = {selected}";
             used = Count(query);
         }
 
-        public string getUsed()
+        public override string getUsed()
         {
             return used;
         }
