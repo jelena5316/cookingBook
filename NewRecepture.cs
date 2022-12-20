@@ -12,7 +12,7 @@ namespace MajPAbGr_project
 {
     public partial class NewRecepture : Form
     {
-        int id_recepture, category;
+        int id_recepture, category, technology;
         bool indicator; // choose mode
         string name, recepture, source, author, URL, description;
 
@@ -45,6 +45,7 @@ namespace MajPAbGr_project
             this.tb = controller;
             id_recepture = tb.getId();
             this.category = tb.getCategory();
+            this.technology = tb.getTechnology();
             tbCat = new tbClass1("Categories");
 
             List<string> data = tb.getData();
@@ -57,7 +58,7 @@ namespace MajPAbGr_project
                 URL = data[3];
                 description = data[4];              
             }
-            SetForm();
+            
         }
 
         private void SetForm()
@@ -65,6 +66,21 @@ namespace MajPAbGr_project
             //tbCat = new tbClass1("Categories");
             tbCat.setCatalog(); // we can check catalog on null
             FillCatalog(tbCat.getCatalog());
+
+            tbTechnologyController tbTech = new tbTechnologyController("Technology");
+            tbTech.setCatalog();
+            List<Item> technologies = tbTech.getCatalog();
+            Class1.FillCombo(technologies, ref cmbTech);
+            if(technology > 0)
+            {
+                cmbTech.Text = "the used technology";
+                //TechnologyController controller = new TechnologyController(technology);
+            }
+            else
+            {
+                cmbTech.Text = "choose any technology";
+            }
+            
             if (indicator)
             {
                 txbRecepture.Text = name;
@@ -223,6 +239,7 @@ namespace MajPAbGr_project
             source.Clear();
             ind = TextBoxAutocomplet(db, "author", source, ref txbAuthor);
             source.Clear();
+            SetForm();
 
             //int length;       
             //length = int.Parse(db.Count("select count (name) from Recepture;"));

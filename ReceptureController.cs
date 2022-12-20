@@ -8,9 +8,9 @@ namespace MajPAbGr_project
 {
     public class ReceptureController: tbClass1
     {
-        private int id_recepture, category;      
+        private int id_recepture, category, technology=0;   
         private bool indicator; // choose mode
-        string[,] Info = new string[2, 5];       
+        string[,] Info = new string[2, 6];       
 
         public ReceptureController(string table) // add new recepture
         {
@@ -35,6 +35,28 @@ namespace MajPAbGr_project
             id_recepture = id;
             selected = id;
             this.category = category;
+
+            Info[0, 0] = "name";
+            Info[0, 1] = "source";
+            Info[0, 2] = "author";
+            Info[0, 3] = "URL";
+            Info[0, 4] = "description";
+
+            //from method setIndicator (): void
+            if (id_recepture > 0) indicator = true;
+            else indicator = false;
+
+            setData();
+        }
+
+        public ReceptureController(string table, int id, int category, int technology) // edit recepture
+            : base()
+        {
+            base.table = table;
+            id_recepture = id;
+            selected = id;
+            this.category = category;
+            this.technology = technology;
 
             Info[0, 0] = "name";
             Info[0, 1] = "source";
@@ -80,6 +102,8 @@ namespace MajPAbGr_project
         public int getId () { return id_recepture; }
         public int getCategory () { return category; }
 
+        public int getTechnology(){ return technology; }
+        
         public void WriteIntoDataBase(string name, int category)
         {
             bool recordIs = IfRecordIs(name);
