@@ -23,14 +23,14 @@ namespace MajPAbGr_project
         //выбранного элемента списка из текстового поля, обнуляется при очистке поля ("clear")
 
         List <Item> catalog;
-        TechnologyCardsController tb;
+        tbTechnologyCardsController tb;
         //dbController db; // заменить на TechnologyController?  
 
         public TechnologyCards() // for quick accesing
         {
             InitializeComponent();
             this.id_technology = 0;            
-            tb = new TechnologyCardsController("Technology_card");
+            tb = new tbTechnologyCardsController("Technology_card");
             //db = new dbController();
             tb.setCatalog();
             catalog = Class1.FillCombo(tb.getCatalog(), ref cmbData);
@@ -66,7 +66,7 @@ namespace MajPAbGr_project
         {
             InitializeComponent();
             this.id_technology = id_technology;
-            tb = new TechnologyCardsController("Technology_card");
+            tb = new tbTechnologyCardsController("Technology_card");
             //db = new dbController();         
             tb.setCatalog();
             catalog = Class1.FillCombo(tb.getCatalog(), ref cmbData);
@@ -139,9 +139,9 @@ namespace MajPAbGr_project
             //автозаполнения для поля "Наименование"
             AutoCompleteStringCollection source = new AutoCompleteStringCollection();
             foreach (Item i in catalog) source.Add(i.name);
-            textBox1.AutoCompleteCustomSource = source;
-            textBox1.AutoCompleteMode = AutoCompleteMode.Suggest;
-            textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            cmbCards.AutoCompleteCustomSource = source;
+            cmbCards.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cmbCards.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
             // на случай, если не передаётся выбранная технология! 
             if (id_technology == 0)
@@ -236,7 +236,7 @@ namespace MajPAbGr_project
 
             //вывод в поля данных карты (из полей объекта)            
             ind = tb.cardsCount(id_cards);                        
-            textBox1.Text = tb.Name;
+            cmbCards.Text = tb.Name;
             if (ind != "0")
                 textBox2.Text = tb.Description; 
             textBox3.Text = tb.Card;
@@ -252,31 +252,31 @@ namespace MajPAbGr_project
         {
             string name, description, technology, query, ind;
 
-            //textBox1, textBox3
-            if (string.IsNullOrEmpty(textBox1.Text)) return;
+            //cmbCards textBox3
+            if (string.IsNullOrEmpty(cmbCards.Text)) return;
 
-            //query = $"select count(*) from Technology_card where name = '{textBox1.Text}';";
+            //query = $"select count(*) from Technology_card where name = '{cmbCards.Text}';";
             //ind = tb.Count(query); 
             
             // не писать с одинаковым названием
-            ind = tb.cardsCount(textBox1.Text);
+            ind = tb.cardsCount(cmbCards.Text);
             if (ind != "0")
             {
-                textBox1.Text = "";
+                cmbCards.Text = "";
                 textBox2.Text = "";
                 textBox3.Text = "";
                 return; // temporery                   
             }
 
             if (string.IsNullOrEmpty(textBox3.Text)) return;
-            if (textBox1.Text.Length > 20) // проверка длины
+            if (cmbCards.Text.Length > 20) // проверка длины
             {
-                //string t = textBox1.Text;
+                //string t = cmbCards.Text;
                 //t = t.Substring(0, 20);
-                //textBox1.Text = t;
+                //cmbCards.Text = t;
             }
 
-            name = textBox1.Text;
+            name = cmbCards.Text;
             technology = textBox3.Text;
 
             //textBox2
@@ -303,7 +303,7 @@ namespace MajPAbGr_project
         private void btn_new_Click(object sender, EventArgs e) // clear
         {
             output_cards_id = 0;
-            textBox1.Clear();
+            //cmbCards.Clear();
             textBox2.Clear();
             textBox3.Clear();
             btn_update.Enabled = false;
@@ -362,7 +362,7 @@ namespace MajPAbGr_project
             if (output_cards_id > 0)
             {
                 int ind = 0;
-                ind += tb.UpdateReceptureOrCards("name", textBox1.Text, output_cards_id);
+                ind += tb.UpdateReceptureOrCards("name", cmbCards.Text, output_cards_id);
                 ind += tb.UpdateReceptureOrCards("description", textBox2.Text, output_cards_id);
                 ind += tb.UpdateReceptureOrCards("technology", textBox3.Text, output_cards_id);
                 output_cards_id = 0;

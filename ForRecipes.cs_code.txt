@@ -1,0 +1,15 @@
+double coefficient = calc.Coefficient;
+            string query = $"SELECT id_ingredients, name, amount*{coefficient}" +
+                    " FROM Amounts AS am JOIN Ingredients AS ingr " +
+                    "ON am.id_ingredients = ingr.id WHERE am.id_recepture = "
+                    + tb.Selected + ";";
+            List<Element> elements = tb.dbReadElement(query);
+            string[] strings = new string[elements.Count];
+            for (int k=0; k < elements.Count; k++)
+            {
+                strings[k] = elements[k].Id + " " + elements[k].Name +" " + elements[k].Amounts;
+            }
+            List<string> list = new List<string>();
+            list.AddRange(strings);
+            Form2 frm = new Form2(list, "file");
+            frm.Show();

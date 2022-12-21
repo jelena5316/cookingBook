@@ -77,7 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmountsController.cs" />
-    <Compile Include="CalcFunction.cs" />
+    <Compile Include="Component\CalcFunction.cs" />
     <Compile Include="Categories.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -162,8 +162,9 @@
     <Compile Include="Technology.designer.cs">
       <DependentUpon>Technology.cs</DependentUpon>
     </Compile>
-    <Compile Include="TechnologyCardsController.cs" />
+    <Compile Include="tbTechnologyCardsController.cs" />
     <Compile Include="tbTechnologyController.cs" />
+    <Compile Include="TechnologyCardsController.cs" />
     <Compile Include="TechnologyController.cs" />
     <EmbeddedResource Include="Categories.resx">
       <DependentUpon>Categories.cs</DependentUpon>

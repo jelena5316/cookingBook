@@ -34,7 +34,6 @@ namespace MajPAbGr_project
             this.label1 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.btn_insert = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -49,6 +48,7 @@ namespace MajPAbGr_project
             this.btn_update = new System.Windows.Forms.Button();
             this.btn_new = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
+            this.cmbCards = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -98,13 +98,6 @@ namespace MajPAbGr_project
             this.btn_insert.UseVisualStyleBackColor = true;
             this.btn_insert.Click += new System.EventHandler(this.btn_submit_Click);
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(24, 50);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(310, 20);
-            this.textBox1.TabIndex = 15;
-            // 
             // textBox3
             // 
             this.textBox3.Location = new System.Drawing.Point(24, 205);
@@ -131,7 +124,7 @@ namespace MajPAbGr_project
             this.groupBox1.Controls.Add(this.btn_add);
             this.groupBox1.Controls.Add(this.lblInfo);
             this.groupBox1.Controls.Add(this.cmbData);
-            this.groupBox1.Location = new System.Drawing.Point(369, 49);
+            this.groupBox1.Location = new System.Drawing.Point(372, 267);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(258, 153);
             this.groupBox1.TabIndex = 23;
@@ -168,7 +161,7 @@ namespace MajPAbGr_project
             // lblTest
             // 
             this.lblTest.AutoSize = true;
-            this.lblTest.Location = new System.Drawing.Point(172, 41);
+            this.lblTest.Location = new System.Drawing.Point(170, 53);
             this.lblTest.Name = "lblTest";
             this.lblTest.Size = new System.Drawing.Size(34, 13);
             this.lblTest.TabIndex = 18;
@@ -188,7 +181,7 @@ namespace MajPAbGr_project
             this.cmbData.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cmbData.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbData.FormattingEnabled = true;
-            this.cmbData.Location = new System.Drawing.Point(8, 17);
+            this.cmbData.Location = new System.Drawing.Point(6, 22);
             this.cmbData.Name = "cmbData";
             this.cmbData.Size = new System.Drawing.Size(198, 21);
             this.cmbData.TabIndex = 16;
@@ -207,7 +200,7 @@ namespace MajPAbGr_project
             // lblCardsOfTech
             // 
             this.lblCardsOfTech.AutoSize = true;
-            this.lblCardsOfTech.Location = new System.Drawing.Point(388, 220);
+            this.lblCardsOfTech.Location = new System.Drawing.Point(369, 50);
             this.lblCardsOfTech.Name = "lblCardsOfTech";
             this.lblCardsOfTech.Size = new System.Drawing.Size(111, 13);
             this.lblCardsOfTech.TabIndex = 25;
@@ -243,11 +236,20 @@ namespace MajPAbGr_project
             this.label5.Text = "Print Info";
             this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
+            // cmbCards
+            // 
+            this.cmbCards.FormattingEnabled = true;
+            this.cmbCards.Location = new System.Drawing.Point(24, 50);
+            this.cmbCards.Name = "cmbCards";
+            this.cmbCards.Size = new System.Drawing.Size(310, 21);
+            this.cmbCards.TabIndex = 29;
+            // 
             // TechnologyCards
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(653, 494);
+            this.Controls.Add(this.cmbCards);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btn_new);
             this.Controls.Add(this.btn_update);
@@ -260,7 +262,6 @@ namespace MajPAbGr_project
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.btn_insert);
-            this.Controls.Add(this.textBox1);
             this.Name = "TechnologyCards";
             this.Text = "Technology Cards: create, delete and add to technology";
             this.Load += new System.EventHandler(this.TechnologyCards_Load);
@@ -278,7 +279,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button btn_insert;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -293,5 +293,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cmbCards;
     }
 }
