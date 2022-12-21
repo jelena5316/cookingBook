@@ -12,38 +12,106 @@ namespace MajPAbGr_project
 {
     public partial class TechnologyCards : Form
     {
-        int id_technology, id_cards = 0, cards = 0, output_cards_id = 0;
-        //int id_chain;
-
-
+        int id_technology=0, id_cards = 0, cards_count = 0, output_cards_id = 0;
+    
         // * id_technology -- идентификатор технологии.
         // По ошибке использовала как идентификатор карты!
-
         //* output_cards_id нужен для правки записи в базе данных, запоминает идентификатор
         //выбранного элемента списка из текстового поля, обнуляется при очистке поля ("clear")
 
-        List <Item> catalog;
+        List <Item> cards;
         tbTechnologyCardsController tb;
-        //dbController db; // заменить на TechnologyController?  
+        TechnologyCardsController controller;
+
+
+        public TechnologyCards(int card)
+        {
+            InitializeComponent();
+
+            controller = new TechnologyCardsController(card);
+            this.tb = controller.getTbController();
+            tb.setCatalog();
+            cards = Class1.FillCombo(tb.getCatalog(), ref cmbCards);
+            tb.Selected = card; // не раньше! иначе изменится при записи в поле (строка выше)
+            //не та таблица!
+        }
 
         public TechnologyCards() // for quick accesing
         {
             InitializeComponent();
-            this.id_technology = 0;            
+            this.id_technology = 0;
             tb = new tbTechnologyCardsController("Technology_card");
             //db = new dbController();
             tb.setCatalog();
-            catalog = Class1.FillCombo(tb.getCatalog(), ref cmbData);
+            cards = Class1.FillCombo(tb.getCatalog(), ref cmbData);
 
-            cards = 0;
+            cards_count = 0;
 
-            string t;            
+            string t;
             t = this.Text.Substring(0, 37);
             this.Text = $"{t}edit";
-            lblTest.Text = $"count {catalog.Count}";
-            btn_remove.Enabled = false;           
-            btn_insert.Text = "insert";            
-            btn_add.Enabled = false; 
+            lblTest.Text = $"count {cards.Count}";
+            btn_remove.Enabled = false;
+            btn_insert.Text = "insert";
+            btn_add.Enabled = false;
+        }
+
+        private void TechnologyCards_Load(object sender, EventArgs e)
+        {
+            //set field `cards` (from setCards()) ???
+            if (id_technology > 0)
+            {
+                string var = tb.cardsCountInChain(id_technology);
+                //string var = tb.Count("select count(*) from Technology_chain where id = {id_technology}");
+
+                if (int.TryParse(var, out cards_count))
+                {
+                    cards_count = int.Parse(var);
+                }
+                else cards_count = 0;
+            }
+            else
+            {
+                cards_count = 0;
+            }
+
+            //set text of form one and buttons (from setTextAndButtons())
+            string t;
+            tbTechnologyController tbTechn = new tbTechnologyController("Technology");
+            if (id_technology > 0)
+            {
+                t = tbTechn.getById("name", id_technology);
+                //t = tb.dbReader($"select name from Technology where id = {id_technology};")[0];                
+                this.Text += $" \"{t}\"";
+            }
+            else
+            {
+                btn_add.Enabled = false;
+                t = this.Text.Substring(0, 37);
+                this.Text = $"{t}edit";
+            }
+            lblTest.Text = $"count {cards.Count}";
+            btn_remove.Enabled = false;
+            btn_insert.Text = "insert";
+
+            int index = ChangeSelectedIndex(tb.Selected);
+
+            // заполняем поля
+            tb.setFields();           
+
+            //вывод в поля данных карты (из полей объекта)            
+            string ind = tb.cardsCount(id_cards);
+            cmbCards.SelectedIndex = index;
+            if (ind != "0")
+                textBox2.Text = tb.Description;
+            textBox3.Text = tb.Card;
+
+            //автозаполнения для поля "Наименование"
+            AutoCompleteStringCollection source = new AutoCompleteStringCollection();
+            foreach (Item i in cards) source.Add(i.name);
+            cmbCards.AutoCompleteCustomSource = source;
+            cmbCards.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cmbCards.AutoCompleteSource = AutoCompleteSource.CustomSource;            
         }
 
         public int Cards
@@ -62,131 +130,31 @@ namespace MajPAbGr_project
             btn_add.Enabled = true;
         }
 
-        public TechnologyCards(int id_technology)
+        private void cmbCards_SelectedIndexChanged(object sender, EventArgs e)
         {
-            InitializeComponent();
-            this.id_technology = id_technology;
-            tb = new tbTechnologyCardsController("Technology_card");
-            //db = new dbController();         
-            tb.setCatalog();
-            catalog = Class1.FillCombo(tb.getCatalog(), ref cmbData);
-            //tb.Selected = id_technology; // не раньше! иначе изменится при записи в поле (строка выше)
-            //не та таблица!
-
-            //set field `cards`
-            setCards();
-
-            //set text of form one and buttons
-            setTextAndButtons();            
+            tb.setSelected(cmbCards.SelectedIndex);
+            id_cards = tb.Selected;
+            tb.setFields(); //заполняем поля
+       
+            string ind = tb.cardsCount(id_cards);
+            if (ind != "0")
+                textBox2.Text = tb.Description;
+            textBox3.Text = tb.Card;
+            //вывод в поля данных карты (из полей объекта)  
         }
 
-        private void setTextAndButtons()
+        private int ChangeSelectedIndex(int selected)
         {
-            //set text of form one and buttons
-            string t;
-            tbTechnologyController tbTechn = new tbTechnologyController("Technology");            
-            if (id_technology > 0)
+            int index;
+            for (index = 0; index < cards.Count; index++)
             {
-                t = tbTechn.getById("name", id_technology);
-                //t = tb.dbReader($"select name from Technology where id = {id_technology};")[0];                
-                this.Text += $" \"{t}\"";
-            }
-            else
-            {
-                btn_add.Enabled = false;
-                t = this.Text.Substring(0, 37);
-                this.Text = $"{t}edit";
-            }
-            lblTest.Text = $"count {catalog.Count}";
-            btn_remove.Enabled = false;
-            btn_insert.Text = "insert";
-        }
-        
-        private void setCards()
-        {
-            //set field `cards`
-            if (id_technology > 0)
-            {
-                string var = tb.cardsCountInChain(id_technology);
-                //string var = tb.Count("select count(*) from Technology_chain where id = {id_technology}");
-
-                if (int.TryParse(var, out cards))
+                if (selected == cards[index].id)
                 {
-                    cards = int.Parse(var);
-                }
-                else cards = 0;
-            }
-            else
-            {
-                cards = 0;
-            }
-        }
-
-        private void TechnologyCards_Load(object sender, EventArgs e)
-        {
-            // выставить нужную технологическую карту
-            //ChangeSelectedIndex(tb.Selected);
-            int selected = tb.Selected;
-            for (int index = 0; index < catalog.Count; index++)
-            {
-                if (selected == catalog[index].id)
-                {
-                    cmbData.SelectedIndex = index;
+                    cmbCards.SelectedIndex = index;
                     break;
                 }
             }
-
-            //автозаполнения для поля "Наименование"
-            AutoCompleteStringCollection source = new AutoCompleteStringCollection();
-            foreach (Item i in catalog) source.Add(i.name);
-            cmbCards.AutoCompleteCustomSource = source;
-            cmbCards.AutoCompleteMode = AutoCompleteMode.Suggest;
-            cmbCards.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
-            // на случай, если не передаётся выбранная технология! 
-            if (id_technology == 0)
-            {
-                ComboBox cboTechnology = new ComboBox();
-                cboTechnology.Location = new Point(378, 399);
-                cboTechnology.Text = "Technology";
-                this.Controls.Add(cboTechnology);
-                //cboTechnology.DataSource = new string[] { "a", "B", "!" };
-
-                //get data for combo from data base
-                tbClass1 tbSub = new tbClass1("Technology");
-                tbSub.setCatalog();                
-                List<Item> items = tbSub.getCatalog(); //
-
-                //put data into combo
-                ComboBox c = cboTechnology;
-                if (items.Count != 0)
-                {
-                    if (c.Items.Count > 0)
-                        c.Items.Clear();
-                    for (int index = 0; index < items.Count; index++)
-                    {
-                        c.Items.Add(items[index].name);
-                    }
-                }                
-            }
-        }
-        
-        private void ChangeSelectedIndex(int selected)
-        {
-            for (int index = 0; index < catalog.Count; index++)
-            {
-                if (selected == catalog[index].id)
-                {
-                    cmbData.SelectedIndex = index;
-                    break;
-                }
-            }
-        }
-
-        private List<string> CardsChain() // a test for method FillCards(int)
-        {
-            List<string> cards = tb.SeeOtherCards(id_technology);
-            return cards;
+            return index;
         }
 
         private string FillCards(int id_tech) // ярлык с прочими картами
@@ -204,7 +172,7 @@ namespace MajPAbGr_project
             return text;
         }
 
-        private void cmbData_SelectedIndexChanged(object sender, EventArgs e)
+        private void cmbData_SelectedIndexChanged(object sender, EventArgs e) //для карт, теперь cmbCards
         {
            string ind;
 
@@ -247,7 +215,9 @@ namespace MajPAbGr_project
             btn_update.Enabled = true;
         }
 
-        //buttons
+        /****************************************************************************************
+        * Buttons' and label5's click's handlers
+        ******************************************************************************************/
         private void btn_submit_Click(object sender, EventArgs e) // btn_insert
         {
             string name, description, technology, query, ind;
@@ -292,9 +262,9 @@ namespace MajPAbGr_project
             ind = tb.Count(query); // проверка
             MessageBox.Show($"{ind} of recorded card");
             tb.setCatalog();
-            catalog.Clear();
-            catalog = Class1.FillCombo(tb.getCatalog(), ref cmbData);
-            lblTest.Text = $"count {catalog.Count}";
+            cards.Clear();
+            cards = Class1.FillCombo(tb.getCatalog(), ref cmbData);
+            lblTest.Text = $"count {cards.Count}";
 
             tb.Selected = int.Parse(ind);
             ChangeSelectedIndex(tb.Selected);
@@ -346,15 +316,17 @@ namespace MajPAbGr_project
             frm.richTextBox1.Text += FillCards(2);           
         }
 
+        
+
         private void btn_remove_Click(object sender, EventArgs e)
         {
-
+            if (cmbCards.Items.Count == 0) return;
             if (id_cards < 1) { return; }
             tb.RemoveItem();
             tb.setCatalog();
-            catalog.Clear();
-            catalog = Class1.FillCombo(tb.getCatalog(), ref cmbData);
-            lblTest.Text = $"count {catalog.Count}";
+            cards.Clear();
+            cards = Class1.FillCombo(tb.getCatalog(), ref cmbData);
+            lblTest.Text = $"count {cards.Count}";
         }
 
         private void btn_update_Click(object sender, EventArgs e)

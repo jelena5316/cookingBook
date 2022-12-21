@@ -92,8 +92,8 @@ namespace MajPAbGr_project
 
         private void toolStripLabel2_Click(object sender, EventArgs e)
         {
-            TechnologyCards frm = new TechnologyCards(controller.tbTechController.Selected);
-            frm.Cards = controller.tbCardsController.Selected;
+            TechnologyCards frm = new TechnologyCards(controller.tbCardsController.Selected);
+            //frm.Cards = controller.tbCardsController.Selected;
             frm.Show();            
         }
 

@@ -85,12 +85,12 @@ namespace MajPAbGr_project
             this.textBox2.Location = new System.Drawing.Point(24, 95);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(310, 81);
+            this.textBox2.Size = new System.Drawing.Size(237, 81);
             this.textBox2.TabIndex = 17;
             // 
             // btn_insert
             // 
-            this.btn_insert.Location = new System.Drawing.Point(105, 426);
+            this.btn_insert.Location = new System.Drawing.Point(24, 426);
             this.btn_insert.Name = "btn_insert";
             this.btn_insert.Size = new System.Drawing.Size(75, 23);
             this.btn_insert.TabIndex = 16;
@@ -103,7 +103,7 @@ namespace MajPAbGr_project
             this.textBox3.Location = new System.Drawing.Point(24, 205);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(310, 215);
+            this.textBox3.Size = new System.Drawing.Size(237, 215);
             this.textBox3.TabIndex = 21;
             // 
             // label3
@@ -124,7 +124,7 @@ namespace MajPAbGr_project
             this.groupBox1.Controls.Add(this.btn_add);
             this.groupBox1.Controls.Add(this.lblInfo);
             this.groupBox1.Controls.Add(this.cmbData);
-            this.groupBox1.Location = new System.Drawing.Point(372, 267);
+            this.groupBox1.Location = new System.Drawing.Point(284, 267);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(258, 153);
             this.groupBox1.TabIndex = 23;
@@ -189,7 +189,7 @@ namespace MajPAbGr_project
             // 
             // btn_remove
             // 
-            this.btn_remove.Location = new System.Drawing.Point(267, 426);
+            this.btn_remove.Location = new System.Drawing.Point(194, 50);
             this.btn_remove.Name = "btn_remove";
             this.btn_remove.Size = new System.Drawing.Size(67, 23);
             this.btn_remove.TabIndex = 18;
@@ -200,7 +200,7 @@ namespace MajPAbGr_project
             // lblCardsOfTech
             // 
             this.lblCardsOfTech.AutoSize = true;
-            this.lblCardsOfTech.Location = new System.Drawing.Point(369, 50);
+            this.lblCardsOfTech.Location = new System.Drawing.Point(281, 60);
             this.lblCardsOfTech.Name = "lblCardsOfTech";
             this.lblCardsOfTech.Size = new System.Drawing.Size(111, 13);
             this.lblCardsOfTech.TabIndex = 25;
@@ -208,7 +208,7 @@ namespace MajPAbGr_project
             // 
             // btn_update
             // 
-            this.btn_update.Location = new System.Drawing.Point(186, 426);
+            this.btn_update.Location = new System.Drawing.Point(105, 426);
             this.btn_update.Name = "btn_update";
             this.btn_update.Size = new System.Drawing.Size(75, 23);
             this.btn_update.TabIndex = 26;
@@ -218,7 +218,7 @@ namespace MajPAbGr_project
             // 
             // btn_new
             // 
-            this.btn_new.Location = new System.Drawing.Point(24, 426);
+            this.btn_new.Location = new System.Drawing.Point(186, 426);
             this.btn_new.Name = "btn_new";
             this.btn_new.Size = new System.Drawing.Size(75, 23);
             this.btn_new.TabIndex = 27;
@@ -229,7 +229,7 @@ namespace MajPAbGr_project
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(285, 462);
+            this.label5.Location = new System.Drawing.Point(212, 462);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(49, 13);
             this.label5.TabIndex = 28;
@@ -241,14 +241,15 @@ namespace MajPAbGr_project
             this.cmbCards.FormattingEnabled = true;
             this.cmbCards.Location = new System.Drawing.Point(24, 50);
             this.cmbCards.Name = "cmbCards";
-            this.cmbCards.Size = new System.Drawing.Size(310, 21);
+            this.cmbCards.Size = new System.Drawing.Size(156, 21);
             this.cmbCards.TabIndex = 29;
+            this.cmbCards.SelectedIndexChanged += new System.EventHandler(this.cmbCards_SelectedIndexChanged);
             // 
             // TechnologyCards
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(653, 494);
+            this.ClientSize = new System.Drawing.Size(554, 494);
             this.Controls.Add(this.cmbCards);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btn_new);
@@ -263,6 +264,7 @@ namespace MajPAbGr_project
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.btn_insert);
             this.Name = "TechnologyCards";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Technology Cards: create, delete and add to technology";
             this.Load += new System.EventHandler(this.TechnologyCards_Load);
             this.groupBox1.ResumeLayout(false);
