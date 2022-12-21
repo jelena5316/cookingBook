@@ -22,9 +22,18 @@ namespace MajPAbGr_project
 			tb.Selected = card;
 		}
 
+		public List<Item> Cards
+        {
+            get { return cards; }
+        }
 		public tbTechnologyCardsController getTbController()
 		{
 			return tb;
 		}
+
+		public int Submit()
+        {
+			return 0;
+        }
 	}
 }

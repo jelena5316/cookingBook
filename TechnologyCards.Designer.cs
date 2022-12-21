@@ -49,6 +49,8 @@ namespace MajPAbGr_project
             this.btn_new = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.cmbCards = new System.Windows.Forms.ComboBox();
+            this.txbCards = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,7 +67,7 @@ namespace MajPAbGr_project
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(29, 79);
+            this.label2.Location = new System.Drawing.Point(29, 146);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(88, 13);
             this.label2.TabIndex = 19;
@@ -82,10 +84,10 @@ namespace MajPAbGr_project
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(24, 95);
+            this.textBox2.Location = new System.Drawing.Point(24, 162);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(237, 81);
+            this.textBox2.Size = new System.Drawing.Size(237, 56);
             this.textBox2.TabIndex = 17;
             // 
             // btn_insert
@@ -100,16 +102,16 @@ namespace MajPAbGr_project
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(24, 205);
+            this.textBox3.Location = new System.Drawing.Point(24, 240);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(237, 215);
+            this.textBox3.Size = new System.Drawing.Size(237, 180);
             this.textBox3.TabIndex = 21;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(29, 189);
+            this.label3.Location = new System.Drawing.Point(29, 224);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(98, 13);
             this.label3.TabIndex = 22;
@@ -245,11 +247,29 @@ namespace MajPAbGr_project
             this.cmbCards.TabIndex = 29;
             this.cmbCards.SelectedIndexChanged += new System.EventHandler(this.cmbCards_SelectedIndexChanged);
             // 
+            // txbCards
+            // 
+            this.txbCards.Location = new System.Drawing.Point(24, 123);
+            this.txbCards.Name = "txbCards";
+            this.txbCards.Size = new System.Drawing.Size(237, 20);
+            this.txbCards.TabIndex = 30;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(29, 107);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(35, 13);
+            this.label6.TabIndex = 31;
+            this.label6.Text = "Name";
+            // 
             // TechnologyCards
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(554, 494);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.txbCards);
             this.Controls.Add(this.cmbCards);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btn_new);
@@ -296,5 +316,7 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cmbCards;
+        private System.Windows.Forms.TextBox txbCards;
+        private System.Windows.Forms.Label label6;
     }
 }

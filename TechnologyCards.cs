@@ -14,7 +14,7 @@ namespace MajPAbGr_project
     {
         int id_technology=0, id_cards = 0, cards_count = 0, output_cards_id = 0;
     
-        // * id_technology -- идентификатор технологии.
+        // * id_technology -- идентификатор технологии
         // По ошибке использовала как идентификатор карты!
         //* output_cards_id нужен для правки записи в базе данных, запоминает идентификатор
         //выбранного элемента списка из текстового поля, обнуляется при очистке поля ("clear")
@@ -30,10 +30,8 @@ namespace MajPAbGr_project
 
             controller = new TechnologyCardsController(card);
             this.tb = controller.getTbController();
-            tb.setCatalog();
-            cards = Class1.FillCombo(tb.getCatalog(), ref cmbCards);
-            tb.Selected = card; // не раньше! иначе изменится при записи в поле (строка выше)
-            //не та таблица!
+            cards = controller.Cards;
+            id_cards = tb.Selected;
         }
 
         public TechnologyCards() // for quick accesing
@@ -58,60 +56,59 @@ namespace MajPAbGr_project
 
         private void TechnologyCards_Load(object sender, EventArgs e)
         {
-            //set field `cards` (from setCards()) ???
-            if (id_technology > 0)
-            {
-                string var = tb.cardsCountInChain(id_technology);
-                //string var = tb.Count("select count(*) from Technology_chain where id = {id_technology}");
 
-                if (int.TryParse(var, out cards_count))
-                {
-                    cards_count = int.Parse(var);
-                }
-                else cards_count = 0;
-            }
-            else
-            {
-                cards_count = 0;
-            }
+            ////set field `cards` (from setCards()) ???
+            //if (id_technology > 0)
+            //{
+            //    string var = tb.cardsCountInChain(id_technology);
+            //    //string var = tb.Count("select count(*) from Technology_chain where id = {id_technology}");
 
-            //set text of form one and buttons (from setTextAndButtons())
-            string t;
-            tbTechnologyController tbTechn = new tbTechnologyController("Technology");
-            if (id_technology > 0)
-            {
-                t = tbTechn.getById("name", id_technology);
-                //t = tb.dbReader($"select name from Technology where id = {id_technology};")[0];                
-                this.Text += $" \"{t}\"";
-            }
-            else
-            {
-                btn_add.Enabled = false;
-                t = this.Text.Substring(0, 37);
-                this.Text = $"{t}edit";
-            }
-            lblTest.Text = $"count {cards.Count}";
-            btn_remove.Enabled = false;
-            btn_insert.Text = "insert";
+            //    if (int.TryParse(var, out cards_count))
+            //    {
+            //        cards_count = int.Parse(var);
+            //    }
+            //    else cards_count = 0;
+            //}
+            //else
+            //{
+            //    cards_count = 0;
+            //}
 
-            int index = ChangeSelectedIndex(tb.Selected);
+            ////set text of form one and buttons (from setTextAndButtons())
+            //string t;
+            //tbTechnologyController tbTechn = new tbTechnologyController("Technology");
+            //if (id_technology > 0)
+            //{
+            //    t = tbTechn.getById("name", id_technology);
+            //    //t = tb.dbReader($"select name from Technology where id = {id_technology};")[0];                
+            //    this.Text += $" \"{t}\"";
+            //}
+            //else
+            //{
+            //    btn_add.Enabled = false;
+            //    t = this.Text.Substring(0, 37);
+            //    this.Text = $"{t}edit";
+            //}
+            //lblTest.Text = $"count {cards.Count}";
+            //btn_remove.Enabled = false;
+            //btn_insert.Text = "insert";
 
-            // заполняем поля
-            tb.setFields();           
-
-            //вывод в поля данных карты (из полей объекта)            
-            string ind = tb.cardsCount(id_cards);
-            cmbCards.SelectedIndex = index;
-            if (ind != "0")
-                textBox2.Text = tb.Description;
-            textBox3.Text = tb.Card;
-
-            //автозаполнения для поля "Наименование"
+            // вывод в комбо-поле списка карт, установка в него выбранной карты
+            // и возврат значения выбранной карты
+            int temp = tb.Selected;
+            Class1.FillCombo(cards, ref cmbCards);            
+            cmbCards.SelectedIndex = ChangeSelectedIndex(temp);  
+   
+            //автозаполнения
             AutoCompleteStringCollection source = new AutoCompleteStringCollection();
             foreach (Item i in cards) source.Add(i.name);
             cmbCards.AutoCompleteCustomSource = source;
             cmbCards.AutoCompleteMode = AutoCompleteMode.Suggest;
-            cmbCards.AutoCompleteSource = AutoCompleteSource.CustomSource;            
+            cmbCards.AutoCompleteSource = AutoCompleteSource.CustomSource;           
+
+            txbCards.AutoCompleteCustomSource = source;
+            txbCards.AutoCompleteMode = AutoCompleteMode.Suggest;
+            txbCards.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
 
         public int Cards
@@ -119,7 +116,7 @@ namespace MajPAbGr_project
             set
             { 
                 id_cards = value;
-                ChangeSelectedIndex(id_cards);
+                cmbCards.SelectedIndex = ChangeSelectedIndex(id_cards);
             }
         } // for quick accessing
 
@@ -134,42 +131,26 @@ namespace MajPAbGr_project
         {
             tb.setSelected(cmbCards.SelectedIndex);
             id_cards = tb.Selected;
+
             tb.setFields(); //заполняем поля
-       
-            string ind = tb.cardsCount(id_cards);
-            if (ind != "0")
-                textBox2.Text = tb.Description;
-            textBox3.Text = tb.Card;
-            //вывод в поля данных карты (из полей объекта)  
+            string[] arr = tb.getFields(); // читаем из полей
+            txbCards.Text = arr[0];
+            textBox2.Text = arr[1];
+            textBox3.Text = arr[2];
         }
 
-        private int ChangeSelectedIndex(int selected)
+        private int ChangeSelectedIndex(int test)
         {
-            int index;
+            int index, num=0;
             for (index = 0; index < cards.Count; index++)
             {
-                if (selected == cards[index].id)
+                if (test == cards[index].id)
                 {
-                    cmbCards.SelectedIndex = index;
+                    num = index;
                     break;
                 }
             }
-            return index;
-        }
-
-        private string FillCards(int id_tech) // ярлык с прочими картами
-        {
-           string text = "";           
-           if(id_tech > 1)
-           {
-            List<string> chain = tb.SeeOtherCards(id_tech);
-                foreach (string card in chain)
-                {
-                    text += $"{card} \n";               
-                }
-            }
-            //lblCardsOfTech.Text += $"\n{text}";
-            return text;
+            return num;
         }
 
         private void cmbData_SelectedIndexChanged(object sender, EventArgs e) //для карт, теперь cmbCards
@@ -223,7 +204,8 @@ namespace MajPAbGr_project
             string name, description, technology, query, ind;
 
             //cmbCards textBox3
-            if (string.IsNullOrEmpty(cmbCards.Text)) return;
+            if (string.IsNullOrEmpty(txbCards.Text)) return;
+            if (string.IsNullOrEmpty(textBox3.Text)) return;
 
             //query = $"select count(*) from Technology_card where name = '{cmbCards.Text}';";
             //ind = tb.Count(query); 
@@ -232,13 +214,12 @@ namespace MajPAbGr_project
             ind = tb.cardsCount(cmbCards.Text);
             if (ind != "0")
             {
-                cmbCards.Text = "";
+                txbCards.Text = "";
                 textBox2.Text = "";
                 textBox3.Text = "";
                 return; // temporery                   
             }
 
-            if (string.IsNullOrEmpty(textBox3.Text)) return;
             if (cmbCards.Text.Length > 20) // проверка длины
             {
                 //string t = cmbCards.Text;
@@ -267,16 +248,15 @@ namespace MajPAbGr_project
             lblTest.Text = $"count {cards.Count}";
 
             tb.Selected = int.Parse(ind);
-            ChangeSelectedIndex(tb.Selected);
+            cmbCards.SelectedIndex = ChangeSelectedIndex(tb.Selected);
         }
 
         private void btn_new_Click(object sender, EventArgs e) // clear
         {
-            output_cards_id = 0;
-            //cmbCards.Clear();
+            txbCards.Clear();
             textBox2.Clear();
             textBox3.Clear();
-            btn_update.Enabled = false;
+            id_cards = 0;
         }
 
         private void label5_Click(object sender, EventArgs e) // out to form2
@@ -316,7 +296,20 @@ namespace MajPAbGr_project
             frm.richTextBox1.Text += FillCards(2);           
         }
 
-        
+        private string FillCards(int id_tech) // ярлык с прочими картами
+        {
+            string text = "";
+            if (id_tech > 1)
+            {
+                List<string> chain = tb.SeeOtherCards(id_tech);
+                foreach (string card in chain)
+                {
+                    text += $"{card} \n";
+                }
+            }
+            //lblCardsOfTech.Text += $"\n{text}";
+            return text;
+        }
 
         private void btn_remove_Click(object sender, EventArgs e)
         {
