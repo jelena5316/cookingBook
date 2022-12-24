@@ -97,8 +97,9 @@ namespace MajPAbGr_project
             // вывод в комбо-поле списка карт, установка в него выбранной карты
             // и возврат значения выбранной карты
             int temp = tb.Selected;
-            Class1.FillCombo(cards, ref cmbCards);            
-            cmbCards.SelectedIndex = ChangeSelectedIndex(temp);          
+            Class1.FillCombo(cards, ref cmbCards);
+            //cmbCards.SelectedIndex = ChangeSelectedIndex(temp);
+            cmbCards.SelectedIndex = Class1.ChangeIndex(cards, temp);
 
             //автозаполнения
             AutoCompleteStringCollection source = new AutoCompleteStringCollection();

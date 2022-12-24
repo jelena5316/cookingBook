@@ -147,5 +147,25 @@ namespace MajPAbGr_project
             }
             return arr;
         }
+
+        static public int ChangeIndex(List<Item> items, int test)
+        {
+            int index = -1, temp_id = test;
+            if (items.Count != 0)            {
+                
+                if (temp_id > 0)
+                {
+                    for (index = 0; index < items.Count; index++)
+                    {
+                        if (items[index].id == temp_id)   
+                        {                    
+                            break;
+                        }
+                    }
+                }
+                return index;
+            }
+            else return index;          
+        }
     }
 }
