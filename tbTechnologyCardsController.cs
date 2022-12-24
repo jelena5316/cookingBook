@@ -65,8 +65,12 @@ namespace MajPAbGr_project
 
         public string insertCards(string name, string description, string technology)
         {
-            return $"insert into Technology_card (name, description, technology)" +
+            if(description != null)
+                return $"insert into Technology_card (name, description, technology)" +
                     $" values ('{name}', '{description}', '{technology}'); select last_insert_rowid()";
+            else
+                return $"insert into Technology_card (name, technology)" +
+                    $" values ('{name}', '{technology}'); select last_insert_rowid()";
         }
 
         public string cardsCount (int id) // see SelectedCount in FormMain
