@@ -37,15 +37,12 @@ namespace MajPAbGr_project
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.lblTest = new System.Windows.Forms.Label();
             this.lblInfo = new System.Windows.Forms.Label();
             this.cmbData = new System.Windows.Forms.ComboBox();
             this.btn_remove = new System.Windows.Forms.Button();
             this.lblCardsOfTech = new System.Windows.Forms.Label();
-            this.btn_update = new System.Windows.Forms.Button();
             this.btn_new = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.cmbCards = new System.Windows.Forms.ComboBox();
@@ -119,8 +116,6 @@ namespace MajPAbGr_project
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button4);
-            this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.lblTest);
             this.groupBox1.Controls.Add(this.btn_add);
@@ -132,24 +127,6 @@ namespace MajPAbGr_project
             this.groupBox1.TabIndex = 23;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chain`s editor";
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(158, 113);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(60, 23);
-            this.button4.TabIndex = 24;
-            this.button4.Text = "Delete";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(92, 113);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(60, 23);
-            this.button2.TabIndex = 23;
-            this.button2.Text = "Remove";
-            this.button2.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -208,19 +185,9 @@ namespace MajPAbGr_project
             this.lblCardsOfTech.TabIndex = 25;
             this.lblCardsOfTech.Text = "Technology comtains:";
             // 
-            // btn_update
-            // 
-            this.btn_update.Location = new System.Drawing.Point(105, 426);
-            this.btn_update.Name = "btn_update";
-            this.btn_update.Size = new System.Drawing.Size(75, 23);
-            this.btn_update.TabIndex = 26;
-            this.btn_update.Text = "Update";
-            this.btn_update.UseVisualStyleBackColor = true;
-            this.btn_update.Click += new System.EventHandler(this.btn_update_Click);
-            // 
             // btn_new
             // 
-            this.btn_new.Location = new System.Drawing.Point(186, 426);
+            this.btn_new.Location = new System.Drawing.Point(105, 426);
             this.btn_new.Name = "btn_new";
             this.btn_new.Size = new System.Drawing.Size(75, 23);
             this.btn_new.TabIndex = 27;
@@ -231,7 +198,7 @@ namespace MajPAbGr_project
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(212, 462);
+            this.label5.Location = new System.Drawing.Point(191, 436);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(49, 13);
             this.label5.TabIndex = 28;
@@ -273,7 +240,6 @@ namespace MajPAbGr_project
             this.Controls.Add(this.cmbCards);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.btn_new);
-            this.Controls.Add(this.btn_update);
             this.Controls.Add(this.lblCardsOfTech);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
@@ -310,10 +276,7 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Button btn_remove;
         private System.Windows.Forms.ComboBox cmbData;
         private System.Windows.Forms.Label lblCardsOfTech;
-        private System.Windows.Forms.Button btn_update;
         private System.Windows.Forms.Button btn_new;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cmbCards;
         private System.Windows.Forms.TextBox txbCards;

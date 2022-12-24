@@ -149,7 +149,7 @@ namespace MajPAbGr_project
 		private void button1_Click(object sender, EventArgs e) // submit inserting or updating (editing)
 		{
 			int id_temp = id_technology;
-			string name, description, technology, report = "";
+			string name, description, count, report = "";
 
 			if (string.IsNullOrEmpty(textBox1.Text)) return;
 			if (string.IsNullOrEmpty(textBox3.Text)) return;
@@ -157,8 +157,8 @@ namespace MajPAbGr_project
 			name = textBox1.Text;
 			description = textBox3.Text;
 
-			technology = tb.technologiesCount(name); //select count(*) from Technology where name = '{name}';	
-            if (id_temp == 0 && technology != "0")
+			count = tb.technologiesCount(name); //select count(*) from Technology where name = '{name}';	
+            if (id_temp == 0 && count != "0")
             {
                 DialogResult rezult = MessageBox.Show
 					("Data base has {technology} technologies with this name. Want you it update?\n" +

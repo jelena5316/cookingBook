@@ -13,6 +13,7 @@ namespace MajPAbGr_project
     public partial class TechnologyCards : Form
     {
         int id_technology=0, id_cards = 0, cards_count = 0, output_cards_id = 0;
+        int counter = 0;
     
         // * id_technology -- идентификатор технологии
         // По ошибке использовала как идентификатор карты!
@@ -97,8 +98,8 @@ namespace MajPAbGr_project
             // и возврат значения выбранной карты
             int temp = tb.Selected;
             Class1.FillCombo(cards, ref cmbCards);            
-            cmbCards.SelectedIndex = ChangeSelectedIndex(temp);  
-   
+            cmbCards.SelectedIndex = ChangeSelectedIndex(temp);          
+
             //автозаполнения
             AutoCompleteStringCollection source = new AutoCompleteStringCollection();
             foreach (Item i in cards) source.Add(i.name);
@@ -127,16 +128,22 @@ namespace MajPAbGr_project
             btn_add.Enabled = true;
         }
 
-        private void cmbCards_SelectedIndexChanged(object sender, EventArgs e)
+        private string OutTechnology()
         {
-            tb.setSelected(cmbCards.SelectedIndex);
-            id_cards = tb.Selected;
-
             tb.setFields(); //заполняем поля
             string[] arr = tb.getFields(); // читаем из полей
             txbCards.Text = arr[0];
             textBox2.Text = arr[1];
             textBox3.Text = arr[2];
+            counter++;
+            return arr[0] + ": " + arr[1] + "/n " + arr[2];
+        }
+
+        private void cmbCards_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            tb.setSelected(cmbCards.SelectedIndex);
+            id_cards = tb.Selected;
+            OutTechnology();
         }
 
         private int ChangeSelectedIndex(int test)
@@ -193,7 +200,7 @@ namespace MajPAbGr_project
             output_cards_id = id_cards;
             
             btn_remove.Enabled = true;
-            btn_update.Enabled = true;
+            //btn_update.Enabled = true;
         }
 
         /****************************************************************************************
@@ -201,54 +208,90 @@ namespace MajPAbGr_project
         ******************************************************************************************/
         private void btn_submit_Click(object sender, EventArgs e) // btn_insert
         {
-            string name, description, technology, query, ind;
+            int id_temp = id_cards; //??
+            string name, description, technology, query, count, report;
 
             //cmbCards textBox3
             if (string.IsNullOrEmpty(txbCards.Text)) return;
             if (string.IsNullOrEmpty(textBox3.Text)) return;
 
-            //query = $"select count(*) from Technology_card where name = '{cmbCards.Text}';";
-            //ind = tb.Count(query); 
-            
-            // не писать с одинаковым названием
-            ind = tb.cardsCount(cmbCards.Text);
-            if (ind != "0")
-            {
-                txbCards.Text = "";
-                textBox2.Text = "";
-                textBox3.Text = "";
-                return; // temporery                   
-            }
-
-            if (cmbCards.Text.Length > 20) // проверка длины
-            {
-                //string t = cmbCards.Text;
-                //t = t.Substring(0, 20);
-                //cmbCards.Text = t;
-            }
-
-            name = cmbCards.Text;
+            name = txbCards.Text;
             technology = textBox3.Text;
+            description = textBox2.Text;
 
-            //textBox2
-            if (!string.IsNullOrEmpty(textBox2.Text))
+            name = LengthTest(name, 20); // проверка длины
+
+            count = tb.cardsCount(name);
+            if (id_temp == 0 && count != "0")
             {
-                description = textBox2.Text;
-                query = tb.insertCards(name, description, technology);                    
+                //Form2 frm = new Form2();
+                //string [] t = tb.dbReader($"select name from {tb.getTable()} where name = '{name}';").ToArray();
+                //frm.Show();
+                //frm.richTextBox1.Lines = t;
+
+                DialogResult rezult = MessageBox.Show
+                    ("Data base has {technology} technology cards with this name. Want you it update?\n" +
+                    "If you want update, than press 'Yes' and choose a technology card what you want update from list!\n" +
+                    "then press 'Submit'!\n" +
+                    "If you don't want, than press 'No' and type new name, then press 'submit'",
+                    "Quation",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question,
+                    MessageBoxDefaultButton.Button2);
+                if (rezult == DialogResult.No)
+                {
+                    txbCards.Focus();
+                    return;
+                }
+                else
+                {
+                    if (cmbCards.Items.Count > 0)
+                        cmbCards.SelectedIndex = 0;
+                    return;
+                }
             }
+            report = controller.Submit(name, description, technology, id_temp);
+            MessageBox.Show(report);
+
+            id_temp = tb.Selected;
+            tb.setCatalog();           
+            cards = Class1.FillCombo(tb.getCatalog(), ref cmbCards);
+            tb.Selected = id_temp;
+            cmbCards.SelectedIndex = ChangeIndex(cards, tb.Selected);
+            //cmbCards.SelectedIndex = ChangeSelectedIndex(tb.Selected);
+            
+            //OutTechnology();    
+            lblTest.Text = $"count {cards.Count}";        
+        }
+
+        private string LengthTest(string text, int length)
+        {
+            if (text.Length > length)
+                return text.Substring(0, length);
             else
-            {
-                query = tb.insertCards(name, technology);
-            }
-            ind = tb.Count(query); // проверка
-            MessageBox.Show($"{ind} of recorded card");
-            tb.setCatalog();
-            cards.Clear();
-            cards = Class1.FillCombo(tb.getCatalog(), ref cmbData);
-            lblTest.Text = $"count {cards.Count}";
+                return text;
+        }
 
-            tb.Selected = int.Parse(ind);
-            cmbCards.SelectedIndex = ChangeSelectedIndex(tb.Selected);
+        private int ChangeIndex(List<Item> items, int test)  // 'load', 'submit', 'delete'        
+        {
+            int index = -1, temp_id = test;
+            if (items.Count != 0)
+            {
+                //comboBox2.SelectedIndex = 0;
+                if (temp_id > 0)
+                {
+                    for (index = 0; index < items.Count; index++)
+                    {
+                        if (items[index].id == temp_id)
+                        {
+                            //comboBox2.SelectedIndex = index;                          
+                            break;
+                        }
+                    }
+                }
+                return index;
+            }
+            else return index;
         }
 
         private void btn_new_Click(object sender, EventArgs e) // clear
@@ -320,19 +363,7 @@ namespace MajPAbGr_project
             cards.Clear();
             cards = Class1.FillCombo(tb.getCatalog(), ref cmbData);
             lblTest.Text = $"count {cards.Count}";
-        }
-
-        private void btn_update_Click(object sender, EventArgs e)
-        {
-            if (output_cards_id > 0)
-            {
-                int ind = 0;
-                ind += tb.UpdateReceptureOrCards("name", cmbCards.Text, output_cards_id);
-                ind += tb.UpdateReceptureOrCards("description", textBox2.Text, output_cards_id);
-                ind += tb.UpdateReceptureOrCards("technology", textBox3.Text, output_cards_id);
-                output_cards_id = 0;
-            } 
-        }
+        }  
 
         private void btn_add_Click(object sender, EventArgs e)
         {

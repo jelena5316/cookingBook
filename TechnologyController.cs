@@ -90,13 +90,13 @@ namespace MajPAbGr_project
 		public string Submit(string name, string description, int techn_id)
         {
             int ind = 0, num, id = techn_id;
-            string technology = "", query, report = "";
+            string count = "", query, report = "";
 
             if (techn_id == 0) // insert
             {
 				query = tb.insertTechnology(name, description);
-				technology = tb.Count(query);
-				num = int.Parse(technology);
+				count = tb.Count(query);
+				num = int.Parse(count);
 				if (num > 0)
 					tb.Selected = num;
 				techn_id = num;

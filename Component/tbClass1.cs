@@ -298,7 +298,10 @@ namespace MajPAbGr_project
         public int UpdateReceptureOrCards(string column, string value, int id_recepture)
         {
             int ind = 0;
-            query = $"update {table} set {column} = '{value}' where id = {id_recepture};";
+            if (value != null)
+                query = $"update {table} set {column} = '{value}' where id = {id_recepture};";
+            else
+                query = $"update {table} set {column} = null where id = {id_recepture};";
             ind = Edit(query);
             return ind;
         }
