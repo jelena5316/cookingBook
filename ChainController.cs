@@ -104,7 +104,6 @@ namespace MajPAbGr_project
             id_technology = tbTech.Selected;
             ind = tbChain.RemoveCardFromChain(id_technology.ToString(), id_card.ToString());
             return ind;
-        }        
-
+        }
     }
 }

@@ -92,6 +92,16 @@ namespace MajPAbGr_project
                 return "0";
         }
 
+        public List<string> getByIdAll(string column, int id)
+        {
+            query = $"select {column} from {table} where id = " + id + ";";
+            List<string> id_list = dbReader(query);
+            if (id_list.Count > 0)
+                return id_list;
+            else
+                return null;
+        }
+
         public virtual void setUsed() {}
 
         public virtual string getUsed() { return ""; }

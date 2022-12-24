@@ -305,7 +305,15 @@ namespace MajPAbGr_project
 
         private void label5_Click(object sender, EventArgs e) // out to form2
         {
-            PrintInfo();
+            string [] arr = controller.getFullInfo();
+            PrintInfo(arr);
+        }
+
+        private void PrintInfo(string [] arr)
+        {
+            Form2 frm = new Form2();
+            frm.Show();
+            frm.richTextBox1.Lines = arr;
         }
 
         private void PrintInfo()

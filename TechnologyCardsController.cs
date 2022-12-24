@@ -63,5 +63,53 @@ namespace MajPAbGr_project
 			report = ind > 0 ? "updated" : report;
 			return $"Technology card {name} (id {tb.Selected}) is {report}";
         }
+
+		public string [] getFullInfo()
+        {
+			List<string> list = new List<string>();
+
+			list.Add(tb.Selected.ToString());
+			list.AddRange(tb.getFields());
+
+			tbTechnologyController tbTech = new tbTechnologyController("Technology");
+			tbChainController tbChain = new tbChainController("Technology_chain");
+
+			List<string> tech_list = tbChain.TechnologiesWithSelectedCard(tb.Selected);
+			if (tech_list != null)
+            {
+				list.Add("Technologies:");
+				int k, q;
+				for (k = 0; k < tech_list.Count; k++)
+				{
+					string name = tbTech.getById("name", int.Parse(tech_list[k]));
+					list.Add($"{k} {name}");
+					//$" ({tbChain.dbReader($"select id from {tbChain.getTable()} where id_card = {tb.Selected} and id_technology = {tech_list[k]};")[0]})");
+				}
+				
+				list.Add("Receptures:");
+				for (k = 0; k < tech_list.Count; k++)				
+				{
+					tbTech.Selected = int.Parse(tech_list[k]);
+					List<Item> receptures = tbTech.setSubCatalog("Recepture", "id_technology");
+					if (receptures != null)
+					{
+						for(q = 0; q < receptures.Count; q++)
+                        {
+							list.Add($" {k}.{q} {receptures[q].name}");
+                        }
+					}
+					else
+					{
+						list.Add("no recepture");
+					}
+				}
+			}
+            else
+            {
+				list.Add("no technology");
+            }			
+			return list.ToArray();
+			//return new string[1] {"Info about a technologies step" };
+        }
 	}
 }
