@@ -172,7 +172,5 @@ namespace MajPAbGr_project
             ind = controller.RemoveFromChain();
             MessageBox.Show($"Is deleted {ind} records");
         }
-
-       
     }
 }

@@ -186,7 +186,7 @@ namespace MajPAbGr_project
             this.cmbHasCards.Location = new System.Drawing.Point(361, 36);
             this.cmbHasCards.Name = "cmbHasCards";
             this.cmbHasCards.Size = new System.Drawing.Size(165, 21);
-            this.cmbHasCards.TabIndex = 32;
+            this.cmbHasCards.TabIndex = 32;            
             // 
             // lblCards
             // 

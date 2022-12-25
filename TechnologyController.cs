@@ -142,5 +142,49 @@ namespace MajPAbGr_project
             }
 				
         }
-    }
+
+		public string[] getFullInfo()
+		{
+			List<string> list = new List<string>();			
+
+			list.Add(tb.Selected.ToString());
+			list.AddRange(OutTechnology(tb.Selected));
+
+			List<string> chain;
+			tbTechnologyCardsController tbCards;
+
+			//выведет название рецепта
+			if (tbRec.Selected > 0 || receptures.Count > 0)
+            {
+                list.Add("Receptures:");
+                int id_rec = tbRec.Selected;
+                //list.Add( $"Technology is used in {receptures.Count.ToString()} receptures:");               
+                for (int k = 0; k < receptures.Count; k++)
+                {
+                    string category = SeeRecepturesCategory(k);
+                    string rec = receptures[k].name;
+                    list.Add($"{k + 1}. name: {rec}, id {tbRec.Selected}, {category}");
+                }
+                tbRec.Selected = id_rec;
+            }
+            else
+            {
+               list.Add("no recepture");
+            }
+            list.Add("Cards:");
+
+			//выведет на печать технологию с цепочкой карт
+			tbCards = new tbTechnologyCardsController("Technology_card");
+			chain = tbCards.SeeOtherCards(tb.Selected);
+			list.AddRange(chain);
+
+			//if (tb.Selected > 0)
+   //         {
+   //             tbCards = new tbTechnologyCardsController("Technology_card");
+   //             chain = tbCards.SeeOtherCards(tb.Selected);
+   //             list.AddRange(chain);               
+   //         }
+            return list.ToArray();			
+		}
+	}
 }

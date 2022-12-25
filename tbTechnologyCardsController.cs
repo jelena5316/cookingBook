@@ -107,7 +107,7 @@ namespace MajPAbGr_project
             //id_technology здесь индефикатор технологии, а не карты
             
             List<string> list;
-            query = "select technology from Technology_card where id in " +
+            query = "select name from Technology_card where id in " +
                 $" (select id_card from Technology_chain where id_technology = {id_technology});";
             list = dbReader(query);
             return list;
