@@ -47,7 +47,14 @@ namespace MajPAbGr_project
                     }
                 }
             }
-   
+            ReceptureController tbRec = new ReceptureController("Recepture");
+            string idStr = tbRec.dbReader($"select id_technology from {tbRec.getTable()} where id = {controller.Recepture};")[0];
+            if (int.TryParse(idStr, out id) && id > 0)            {
+               
+                 cmbTechn.SelectedIndex = Class1.ChangeIndex(items, id); 
+            }
+            id = 0;
+       
             items = cards.getCatalog();
             Class1.FillCombo(items, ref cmbData);
             id = controller.Card;
