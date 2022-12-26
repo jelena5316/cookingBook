@@ -35,6 +35,16 @@ namespace MajPAbGr_project
             this.ingredient = ingredient;
         }
 
+        public void setFields (string [] fields)
+        {
+            this.name = fields[0];
+            this.category = fields[1];
+            this.source = fields[2];
+            this.author = fields[3];
+            this.technology = fields[4];
+            this.ingredient = fields[5];
+        }
+
         public string [] getFields()
         {
             string[] arr = new string[] { name, category, source, author, technology, ingredient };
@@ -50,12 +60,16 @@ namespace MajPAbGr_project
         {
             return name;
         }
+
+        public string getCategory()
+        {
+            return category;
+        }
     };
 
     public class CategoriesController
     {
-        string name, category;
-        List<ReceptureStruct> @struct;
+        List<ReceptureStruct> rec_struct;
         tbCategoriesController tbMain;
         TechnologyController tbTech;
         
@@ -63,65 +77,73 @@ namespace MajPAbGr_project
         {
             tbMain = new tbCategoriesController();
             tbTech = new TechnologyController(1);
-            @struct = new List<ReceptureStruct>();
+            rec_struct = new List<ReceptureStruct>();
+            setFields();
         }
 
         public List<ReceptureStruct> Receptures
         {
-            get { return @struct; }
+            get { return rec_struct; }
         }
-        
-        public void setListView(ref ListView lv)
+
+        public void setFields()
         {
             int id;
             string query, source;
-            List<Item> receptures = tbMain.Receptures;
-            ListViewItem items;
+            List<Item> receptures = tbMain.Receptures;           
             ReceptureStruct rec;
 
             string getInfo()
             {
                 source = "unknown";
                 if (tbMain.TbMain.dbReader(query).Count > 0)
-                        source = tbMain.TbMain.dbReader(query)[0] == "" ? source: tbMain.TbMain.dbReader(query)[0];
+                    source = tbMain.TbMain.dbReader(query)[0] == "" ? source : tbMain.TbMain.dbReader(query)[0];
                 return source;
             }
 
-            lv.Columns.Add("Name");
-            lv.Columns.Add("Category");
-            lv.Columns.Add("Source");
-            lv.Columns.Add("Author");
-            lv.Columns.Add("Technology");
-            lv.Columns.Add("Main_ingredient");
-            
+            tbTech.Receptures = tbMain.Receptures;
+            for (int k = 0; k < receptures.Count; k++)
+            {
+                id = receptures[k].id;
+                rec = new ReceptureStruct(id);
+                string[] arr = new string[6];
+
+                arr[0] = receptures[k].name;
+                arr[1] = tbTech.SeeRecepturesCategory(k);
+                query = $"select source from Recepture where id = {id};";
+                arr[2] = getInfo();
+                query = $"select author from Recepture where id = {id}";
+                arr[3] = getInfo();
+                query = $"select name from Technology where id = (select id_technology from Recepture where id = {id});";
+                arr[4] = getInfo();
+                query = $"select name from Ingredients where id = (select id_main from Recepture where id = {id});";
+                arr[5] = getInfo();               
+
+                rec.setFields(arr);
+                rec_struct.Add(rec);
+            }
+        }
+        
+        public void setListView(ref ListView lv)
+        {
+            int id;           
+            List<Item> receptures = tbMain.Receptures;
+            ListViewItem items;
+     
             tbTech.Receptures = tbMain.Receptures;           
             for (int k = 0; k < receptures.Count; k++)
             {
                 id = receptures[k].id;
                 items = new ListViewItem(receptures[k].name);
-                items.Tag = receptures[k].id;
-                rec = new ReceptureStruct(id);
-                string[] arr = new string[6];                                
+                items.Tag = receptures[k].id;                                            
 
-                items.SubItems.Add(tbTech.SeeRecepturesCategory(k));                
-                query = $"select source from Recepture where id = {id};";
-                items.SubItems.Add(getInfo());                
-                query = $"select author from Recepture where id = {id}";
-                items.SubItems.Add(getInfo());               
-                query = $"select name from Technology where id = (select id_technology from Recepture where id = {id});";
-                items.SubItems.Add(getInfo());
-                query = $"select name from Ingredients where id = (select id_main from Recepture where id = {id});";
-                items.SubItems.Add(getInfo());
+                items.SubItems.Add(rec_struct[k].getFields()[1]);        
+                items.SubItems.Add(rec_struct[k].getFields()[2]);          
+                items.SubItems.Add(rec_struct[k].getFields()[3]);
+                items.SubItems.Add(rec_struct[k].getFields()[4]);                
+                items.SubItems.Add(rec_struct[k].getFields()[5]);
                 lv.Items.Add(items);
-
-                for (int q = 0; q < items.SubItems.Count; q++)
-                {
-                    arr[q] = items.SubItems[q].Text;
-                }
-                rec.setFields(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5]);
-                @struct.Add(rec);               
             }
         }
-
     }
 }

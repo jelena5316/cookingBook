@@ -49,7 +49,7 @@ namespace MajPAbGr_project
         }
 
 
-        public void SelectedRecepture(int id)
+        public void SelectedByCategoryRecepture(int id)
         {
             string query;
             query = $"select id, name from Recepture where id_category = {id};";            
