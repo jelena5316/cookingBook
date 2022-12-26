@@ -16,11 +16,13 @@ namespace MajPAbGr_project
         { 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMain());
+            //Application.Run(new FormMain());
 
             /*
              * test mode
              */
+            Application.Run(new Categories());
+
             //FormMainController tb = new FormMainController("Recepture");
             //tb.Selected = 8;
             //tb.Selected = 28;

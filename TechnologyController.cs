@@ -68,6 +68,7 @@ namespace MajPAbGr_project
 
 		public List <Item> Receptures
         {
+			set { receptures = value; }
 			get { return receptures; }
         }
 
