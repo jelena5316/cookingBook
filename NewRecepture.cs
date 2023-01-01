@@ -45,7 +45,7 @@ namespace MajPAbGr_project
             this.tb = controller;
             id_recepture = tb.getId();
             this.category = tb.getCategory();
-            this.technology = tb.getTechnology();
+            this.technology = tb.getTechnology();            
             tbCat = new tbClass1("Categories");
 
             List<string> data = tb.getData();
@@ -67,12 +67,15 @@ namespace MajPAbGr_project
             FillCatalog(tbCat.getCatalog());
 
             tbTechnologyController tbTech = new tbTechnologyController("Technology");
-            tbTech.setCatalog();
-            List<Item> technologies = tbTech.getCatalog();
+            int temp = technology;
+            tbTech.setCatalog();            
+            List<Item> technologies = tbTech.getCatalog();            
             Class1.FillCombo(technologies, ref cmbTech);
+            technology = temp;
             if(technology > 0)
             {
-                cmbTech.Text = "the used technology";
+                cmbTech.SelectedIndex = Class1.ChangeIndex(technologies, technology);
+                //cmbTech.Text = "the used technology";
                 //TechnologyController controller = new TechnologyController(technology);
             }
             else

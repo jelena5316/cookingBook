@@ -89,12 +89,45 @@ namespace MajPAbGr_project
 			cmb_categories.Text = "all";
 		}
 
-        private void lv_recepture_SelectedIndexChanged(object sender, EventArgs e)
-        {
-			//
-        }
+		private void lv_recepture_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			int id = 0; //id_recepture
+			int category = 0;
+			int technology = 0;
+			//id = tbMain.Receptures[lv_recepture.SelectedItems[0].Index].id;
+			//category = tbMain.Categories[lv_recepture.SelectedItems[0].Index].id;
+			//technology = int.Parse(controller.Receptures[0].getFields()[5]);
+		}
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+		private void lv_recepture_DoubleClick(object sender, EventArgs e)
+		{
+			string table = "Recepture", t;
+			int id = 0; //id_recepture
+			int category = 0;
+			int technology = 0;
+
+			id = tbMain.Receptures[lv_recepture.SelectedItems[0].Index].id;
+			
+			//category
+			t = tbMain.TbMain.dbReader($"select id_category from Recepture where id = {id};")[0];
+			if (int.TryParse(t, out category))
+				category = int.Parse(t);			
+			else
+				category = 0;		
+
+			//technology
+			t = tbMain.TbMain.dbReader($"select id_technology from Recepture where id = {id};")[0];
+			if (int.TryParse(t, out technology))
+				technology = int.Parse(t);
+			else
+				technology = 0;
+
+			ReceptureController cntrl = new ReceptureController(table, id, category, technology);
+			NewRecepture frm = new NewRecepture(cntrl);
+			frm.Show();
+		}
+
+		private void textBox1_TextChanged(object sender, EventArgs e)
         {
 			if (textBox1.Text == "") return;
 
@@ -117,6 +150,12 @@ namespace MajPAbGr_project
 			}
 		}
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+			FormMain frm = new FormMain();			
+			frm.Show();			
+        }
 
-	}
+        
+    }
 }
