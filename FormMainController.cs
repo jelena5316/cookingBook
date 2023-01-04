@@ -9,9 +9,21 @@ namespace MajPAbGr_project
     public class FormMainController : tbClass1
     {
 
+        int id_technology;
+
         public FormMainController(string table): base(table)
         {
             this.table = table;
+        }
+
+        public string getCategory()
+        {
+           return dbReader($"select id_category from {table} where id = {selected};")[0];
+        }
+
+        public string getTechnology()
+        {
+            return dbReader($"select id_technology from Recepture where id = {selected};")[0];
         }
 
         public new List<Element> readElement(int opt) // for Form1.cs
@@ -51,5 +63,7 @@ namespace MajPAbGr_project
                 query += ";";
             return int.Parse(Count(query));
         }
+
+
     }
 }

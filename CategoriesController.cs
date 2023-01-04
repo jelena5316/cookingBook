@@ -7,78 +7,39 @@ using System.Windows.Forms;
 
 namespace MajPAbGr_project
 {
-
-    public struct ReceptureStruct
+    class CategoriesController
     {
-        int id;
-        string name, category, source, author, technology, ingredient;
-        public ReceptureStruct(int id)
-        {
-            this.id = id;
-            name = "unknown";
-            category = "unknown";
-            source = "unknown";
-            author = "unknown";
-            technology = "unknown";
-            ingredient = "unknown";
-        }
-
-        public void setFields
-            (string name, string category, string source,
-            string author, string technology, string ingredient )
-        {
-            this.name = name;
-            this.category = category;
-            this.source = source;
-            this.author = author;
-            this.technology = technology;
-            this.ingredient = ingredient;
-        }
-
-        public void setFields (string [] fields)
-        {
-            this.name = fields[0];
-            this.category = fields[1];
-            this.source = fields[2];
-            this.author = fields[3];
-            this.technology = fields[4];
-            this.ingredient = fields[5];
-        }
-
-        public string [] getFields()
-        {
-            string[] arr = new string[] { name, category, source, author, technology, ingredient };
-            return arr;
-        }
-
-        public int getId()
-        {
-            return id;
-        }
-
-        public string getName()
-        {
-            return name;
-        }
-
-        public string getCategory()
-        {
-            return category;
-        }
-    };
-
-    public class CategoriesController
-    {
-        List<ReceptureStruct> rec_struct;
-        tbCategoriesController tbMain;
-        TechnologyController tbTech;        
+        int category, recepture;
+        List<int> receptures_id;
+        List<Item> categories, receptures;
+        List<ReceptureStruct> rec_struct;  
         
-        public CategoriesController()
+        
+        FormMainController tb;
+        IngredientsController tbCat;   
+        TechnologyController tbTech;
+
+        public CategoriesController()        
         {
-            tbMain = new tbCategoriesController();
-            tbTech = new TechnologyController(1);            
+            tbCat = new IngredientsController(2);
+            tbCat.setCatalog();            
+            categories = tbCat.getCatalog();
+            category = 0;
+
+            tb = new FormMainController("Recepture");
+            tb.setCatalog();
+            receptures = tb.getCatalog();
+            
+            receptures_id = new List<int>();
+            for (int k = 0; k < receptures.Count; k++)
+            {
+                receptures_id.Add(receptures[k].id);
+            }
+            recepture = 0;
+            
+            tbTech = new TechnologyController(1);
             rec_struct = new List<ReceptureStruct>();
-            //setFields();
+            setFields();
         }
 
         public List<ReceptureStruct> RecepturesStruct
@@ -86,22 +47,51 @@ namespace MajPAbGr_project
             get { return rec_struct; }
         }
 
+        public List<Item> Categories
+        {
+            get { return categories; }
+        }
+
+        public List<Item> Receptures
+        {
+            get { return receptures; }
+        }
+
+        public FormMainController TbMain
+        {
+            get { return tb; }
+        }
+
+
+        public void SelectedByCategoryRecepture(int id)
+        {
+            string query;
+            query = $"select id, name from Recepture where id_category = {id};";            
+            receptures = tb.Catalog(query);
+        }
+
+        public void setReceptures()
+        {           
+            tb.setCatalog();
+            receptures = tb.getCatalog();
+        }
+
         public void setFields()
         {
             int id;
             string query, source;
-            List<Item> receptures = tbMain.Receptures;           
+            List<Item> receptures = this.receptures;
             ReceptureStruct rec;
 
             string getInfo()
             {
                 source = "unknown";
-                if (tbMain.TbMain.dbReader(query).Count > 0)
-                    source = tbMain.TbMain.dbReader(query)[0] == "" ? source : tbMain.TbMain.dbReader(query)[0];
+                if (tb.dbReader(query).Count > 0)
+                    source = tb.dbReader(query)[0] == "" ? source : tb.dbReader(query)[0];
                 return source;
             }
 
-            tbTech.Receptures = tbMain.Receptures;
+            tbTech.Receptures = receptures;
             for (int k = 0; k < receptures.Count; k++)
             {
                 id = receptures[k].id;
@@ -117,30 +107,30 @@ namespace MajPAbGr_project
                 query = $"select name from Technology where id = (select id_technology from Recepture where id = {id});";
                 arr[4] = getInfo();
                 query = $"select name from Ingredients where id = (select id_main from Recepture where id = {id});";
-                arr[5] = getInfo();               
+                arr[5] = getInfo();
 
                 rec.setFields(arr);
                 rec_struct.Add(rec);
             }
         }
-        
+
         public void setListView(ref ListView lv)
         {
-            int id;           
-            List<Item> receptures = tbMain.Receptures;
+            int id;
+            List<Item> receptures = this.Receptures;
             ListViewItem items;
-     
-            tbTech.Receptures = tbMain.Receptures;           
+
+            tbTech.Receptures = this.Receptures;
             for (int k = 0; k < receptures.Count; k++)
             {
                 id = receptures[k].id;
                 items = new ListViewItem(receptures[k].name);
-                items.Tag = receptures[k].id;                                            
+                items.Tag = receptures[k].id;
 
-                items.SubItems.Add(rec_struct[k].getFields()[1]);        
-                items.SubItems.Add(rec_struct[k].getFields()[2]);          
+                items.SubItems.Add(rec_struct[k].getFields()[1]);
+                items.SubItems.Add(rec_struct[k].getFields()[2]);
                 items.SubItems.Add(rec_struct[k].getFields()[3]);
-                items.SubItems.Add(rec_struct[k].getFields()[4]);                
+                items.SubItems.Add(rec_struct[k].getFields()[4]);
                 items.SubItems.Add(rec_struct[k].getFields()[5]);
                 lv.Items.Add(items);
             }

@@ -77,7 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmountsController.cs" />
-    <Compile Include="CategoriesController.cs" />
+    <Compile Include="ReceptureStruct.cs" />
     <Compile Include="Component\CalcFunction.cs" />
     <Compile Include="Categories.cs">
       <SubType>Form</SubType>
@@ -85,7 +85,7 @@
     <Compile Include="Categories.Designer.cs">
       <DependentUpon>Categories.cs</DependentUpon>
     </Compile>
-    <Compile Include="tbCategoriesController.cs" />
+    <Compile Include="CategoriesController.cs" />
     <Compile Include="Chains.cs">
       <SubType>Form</SubType>
     </Compile>
