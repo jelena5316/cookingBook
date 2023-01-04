@@ -14,14 +14,14 @@ namespace MajPAbGr_project
 	{
 		int pragma;		
 		List<string> list;
-		CategoriesController controller;
-		tbCategoriesController tbMain;
+		//CategoriesController controller; // включает в себя tbCategoriesController
+		tbCategoriesController tbMain; // включает в себя FormMainController
 		
 		public Categories()
 		{
 			InitializeComponent();
 			tbMain = new tbCategoriesController();
-			controller = new CategoriesController();
+			//controller = new CategoriesController();
 			list = new List<string>();
 			for (int k = 0; k < tbMain.Receptures.Count; k++)			
 				list.Add(tbMain.Receptures[k].name);			
@@ -39,7 +39,7 @@ namespace MajPAbGr_project
 
 			Class1.setBox(tbMain.Categories, ref cmb_categories);
 			//Class1.FillListView(categoriesController.Receptures, ref lv_recepture);
-			controller.setListView(ref lv_recepture);			
+			tbMain.setListView(ref lv_recepture);			
 			cmb_categories.Text = "all";
 			pragma = 1;
 						
@@ -59,7 +59,7 @@ namespace MajPAbGr_project
 			//tbMain.SelectedByCategoryRecepture(id);
 			//Class1.FillListView(tbMain.Receptures, ref lv_recepture);
 
-			List<ReceptureStruct> full = controller.Receptures;
+			List<ReceptureStruct> full = tbMain.RecepturesStruct;
 			List<ReceptureStruct> selected
 				= full.FindAll(p => p.getCategory() == ("category: " +tbMain.Categories[index].name));
 			lv_recepture.Items.Clear();
@@ -85,7 +85,7 @@ namespace MajPAbGr_project
 			tbMain.setReceptures();
 			lv_recepture.Items.Clear();
 			//controller.setFields();
-			controller.setListView(ref lv_recepture);
+			tbMain.setListView(ref lv_recepture);
 			cmb_categories.Text = "all";
 		}
 
@@ -131,7 +131,7 @@ namespace MajPAbGr_project
         {
 			if (textBox1.Text == "") return;
 
-			List<ReceptureStruct> full = controller.Receptures;
+			List<ReceptureStruct> full = tbMain.RecepturesStruct;
 			List<ReceptureStruct> selected = full.FindAll(p => p.getName().Contains(textBox1.Text));
 			lv_recepture.Items.Clear();
 

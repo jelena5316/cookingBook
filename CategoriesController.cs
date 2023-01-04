@@ -71,17 +71,17 @@ namespace MajPAbGr_project
     {
         List<ReceptureStruct> rec_struct;
         tbCategoriesController tbMain;
-        TechnologyController tbTech;
+        TechnologyController tbTech;        
         
         public CategoriesController()
         {
             tbMain = new tbCategoriesController();
-            tbTech = new TechnologyController(1);
+            tbTech = new TechnologyController(1);            
             rec_struct = new List<ReceptureStruct>();
-            setFields();
+            //setFields();
         }
 
-        public List<ReceptureStruct> Receptures
+        public List<ReceptureStruct> RecepturesStruct
         {
             get { return rec_struct; }
         }
