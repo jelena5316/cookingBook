@@ -116,7 +116,6 @@
     </Compile>
     <Compile Include="tbFormMainController.cs" />
     <Compile Include="IngredientsController.cs" />
-    <Compile Include="tbReceptureController.cs" />
     <Compile Include="Recipe.cs">
       <SubType>Form</SubType>
     </Compile>
