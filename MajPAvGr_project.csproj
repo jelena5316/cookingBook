@@ -114,9 +114,9 @@
     <Compile Include="Form2.designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormMainController.cs" />
+    <Compile Include="tbFormMainController.cs" />
     <Compile Include="IngredientsController.cs" />
-    <Compile Include="ReceptureController.cs" />
+    <Compile Include="tbReceptureController.cs" />
     <Compile Include="Recipe.cs">
       <SubType>Form</SubType>
     </Compile>

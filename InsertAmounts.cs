@@ -35,7 +35,7 @@ namespace MajPAbGr_project
         {
             InitializeComponent();            
             tbAmounts = new AmountsController("Amounts");
-            tbAmounts.TbRec = new FormMainController("Recepture");
+            tbAmounts.TbRec = new tbFormMainController("Recepture");
             tbAmounts.tbRecSelected(id);  // определяем номер рецептуры в базе данных              
             tbAmounts.RefreshElements(); // elements, elements_count
             tbAmounts.Id_recepture = id;

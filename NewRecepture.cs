@@ -16,7 +16,7 @@ namespace MajPAbGr_project
         bool indicator; // choose mode
         string name, recepture, source, author, URL, description;
 
-        ReceptureController tb;
+        tbFormMainController tb;
         tbClass1 tbCat;
 
         //public NewRecepture()
@@ -39,7 +39,7 @@ namespace MajPAbGr_project
         //    SetForm();
         //}
 
-        public NewRecepture (ReceptureController controller)
+        public NewRecepture (tbFormMainController controller)
         {
             InitializeComponent();
             this.tb = controller;

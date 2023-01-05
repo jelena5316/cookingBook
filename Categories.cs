@@ -16,7 +16,7 @@ namespace MajPAbGr_project
 		int pragma; 	
 		List<string> list;		
 		CategoriesController controller; // включает в себя FormMainController
-		FormMainController tbMain; // указатель на controller.TbMain
+		tbFormMainController tbMain; // указатель на controller.TbMain
 		
 		public Categories()
 		{
@@ -122,21 +122,25 @@ namespace MajPAbGr_project
 
 
 			//category			
-			t = tbMain.getCategory();
+			t = tbMain.readCategory();
 			if (int.TryParse(t, out category))
 				category = int.Parse(t);			
 			else
 				category = 0;
 
 			//technology			
-			t = tbMain.getTechnology();
+			t = tbMain.readTechnology();
 			if (int.TryParse(t, out technology))
 				technology = int.Parse(t);
 			else
 				technology = 0;
 
-			ReceptureController cntrl = new ReceptureController(table, id, category, technology);
-			NewRecepture frm = new NewRecepture(cntrl);
+			//tbFormMainController cntrl = new tbFormMainController(table, id, category, technology);
+			//NewRecepture frm = new NewRecepture(cntrl);
+			tbMain.Category = category;
+			tbMain.Technology = technology;
+			NewRecepture frm = new NewRecepture(tbMain);
+
 			frm.Show();
 		}
 

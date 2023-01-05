@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
-    public class ReceptureController: tbClass1
+    public class tbReceptureController: tbClass1
     {
         private int id_recepture, category, technology=0;   
         private bool indicator; // choose mode
         string[,] Info = new string[2, 6];       
 
-        public ReceptureController(string table) // add new recepture
+        public tbReceptureController(string table) // add new recepture
         {
             base.table = table;
             id_recepture = 0;
@@ -28,7 +28,7 @@ namespace MajPAbGr_project
             setData();
         }
 
-        public ReceptureController (string table, int id, int category) // edit recepture
+        public tbReceptureController (string table, int id, int category) // edit recepture
             : base()
         {
             base.table = table;
@@ -49,7 +49,7 @@ namespace MajPAbGr_project
             setData();
         }
 
-        public ReceptureController(string table, int id, int category, int technology) // edit recepture
+        public tbReceptureController(string table, int id, int category, int technology) // edit recepture
             : base()
         {
             base.table = table;
@@ -107,7 +107,7 @@ namespace MajPAbGr_project
         public void WriteIntoDataBase(string name, int category)
         {
             bool recordIs = IfRecordIs(name);
-            InsertNewRecord (name, category);           
+            InsertNewRecord(name, category);
         }
 
         public bool IfRecordIs (string name)

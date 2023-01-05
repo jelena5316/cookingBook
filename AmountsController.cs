@@ -11,7 +11,7 @@ namespace MajPAbGr_project
         private int amount_id_count, elements_count, selected_element, id_recepture;
         private List<string> amounts_id;
         private List<Element> elements; // id and name, for amounts      
-        private FormMainController tbRec;
+        private tbFormMainController tbRec;
 
         enum Columns
         {
@@ -22,7 +22,7 @@ namespace MajPAbGr_project
 
         public AmountsController(string table) : base(table) { } // New Recepture; create mode
 
-        public AmountsController(string table, ref FormMainController tb) : base(table) // for edit mode
+        public AmountsController(string table, ref tbFormMainController tb) : base(table) // for edit mode
         {
             id_recepture = tb.Selected;
             amounts_id = setAmountsIdList(id_recepture);
@@ -34,7 +34,7 @@ namespace MajPAbGr_project
             elements_count = elements.Count;
         }
 
-        public FormMainController TbRec
+        public tbFormMainController TbRec
         {
             set { tbRec = value; }
             get { return tbRec; }

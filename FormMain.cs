@@ -14,7 +14,7 @@ namespace MajPAbGr_project
         double coefficient;
         public List<Element> recipes;
         public List <Element> elements;
-        FormMainController tb;
+        tbFormMainController tb;
         CalcFunction calc;
 
         ComboBox combo;
@@ -27,7 +27,7 @@ namespace MajPAbGr_project
         public FormMain()
         {
             InitializeComponent();            
-            tb = new FormMainController("Recepture");
+            tb = new tbFormMainController("Recepture");
             calc = new CalcFunction();
             recipes = new List<Element>();
 
@@ -389,8 +389,8 @@ namespace MajPAbGr_project
 
         private void addNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ReceptureController cntrl = new ReceptureController("Recepture");
-            NewRecepture frm = new NewRecepture(cntrl);
+            //tbReceptureController cntrl = new tbReceptureController("Recepture");
+            NewRecepture frm = new NewRecepture(tb);
             frm.ShowDialog();
         }
 
@@ -399,10 +399,11 @@ namespace MajPAbGr_project
             if (tb.getSelected() == 0) return;
             if (listView1.Items.Count < 1) return;
             int selected = tb.getSelected();
-
-            //NewRecepture frm = new NewRecepture(selected, category);
-            ReceptureController cntrl = new ReceptureController("Recepture", selected, category);
-            NewRecepture frm = new NewRecepture(cntrl);
+            
+            //tbFormMainController cntrl = new tbFormMainController("Recepture", selected, category);
+            //NewRecepture frm = new NewRecepture(cntrl);
+            tb.Category = category;            
+            NewRecepture frm = new NewRecepture(tb);
             frm.ShowDialog();
            
             /*

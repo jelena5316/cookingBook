@@ -69,12 +69,12 @@ namespace MajPAbGr_project
 
         private void label2_Click(object sender, EventArgs e)
         {
-            int category = int.Parse(tb.getById("id_category", recepture_id));
-            int selected = tb.getSelected();            
-            ReceptureController cntrl = new ReceptureController("Recepture", recepture_id, category);
-            NewRecepture frm = new NewRecepture(cntrl);
-            frm.ShowDialog();
-            setLabels();
+            //int category = int.Parse(tb.getById("id_category", recepture_id));
+            //int selected = tb.getSelected();            
+            //tbReceptureController cntrl = new tbReceptureController("Recepture", recepture_id, category);
+            //NewRecepture frm = new NewRecepture(cntrl);
+            //frm.ShowDialog();
+            //setLabels();
         }
 
         private void btn_remove_Click(object sender, EventArgs e)

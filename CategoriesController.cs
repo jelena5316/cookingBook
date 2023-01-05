@@ -15,7 +15,7 @@ namespace MajPAbGr_project
         List<ReceptureStruct> rec_struct;  
         
         
-        FormMainController tb;
+        tbFormMainController tb;
         IngredientsController tbCat;   
         TechnologyController tbTech;
 
@@ -26,7 +26,7 @@ namespace MajPAbGr_project
             categories = tbCat.getCatalog();
             category = 0;
 
-            tb = new FormMainController("Recepture");
+            tb = new tbFormMainController("Recepture");
             tb.setCatalog();
             receptures = tb.getCatalog();
             
@@ -57,7 +57,7 @@ namespace MajPAbGr_project
             get { return receptures; }
         }
 
-        public FormMainController TbMain
+        public tbFormMainController TbMain
         {
             get { return tb; }
         }
