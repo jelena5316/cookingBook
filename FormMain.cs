@@ -389,8 +389,8 @@ namespace MajPAbGr_project
 
         private void addNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //tbReceptureController cntrl = new tbReceptureController("Recepture");
-            NewRecepture frm = new NewRecepture(tb);
+            tbFormMainController cntrl = new tbFormMainController("Recepture");
+            NewRecepture frm = new NewRecepture(cntrl);
             frm.ShowDialog();
         }
 
@@ -399,11 +399,9 @@ namespace MajPAbGr_project
             if (tb.getSelected() == 0) return;
             if (listView1.Items.Count < 1) return;
             int selected = tb.getSelected();
-            
-            //tbFormMainController cntrl = new tbFormMainController("Recepture", selected, category);
-            //NewRecepture frm = new NewRecepture(cntrl);
-            tb.Category = category;            
-            NewRecepture frm = new NewRecepture(tb);
+
+            tbFormMainController cntrl = new tbFormMainController("Recepture", selected, category);
+            NewRecepture frm = new NewRecepture(cntrl);
             frm.ShowDialog();
            
             /*

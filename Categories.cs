@@ -135,13 +135,9 @@ namespace MajPAbGr_project
 			else
 				technology = 0;
 
-			//tbFormMainController cntrl = new tbFormMainController(table, id, category, technology);
-			//NewRecepture frm = new NewRecepture(cntrl);
-			tbMain.Category = category;
-			tbMain.Technology = technology;
-			NewRecepture frm = new NewRecepture(tbMain);
-
-			frm.Show();
+            tbFormMainController cntrl = new tbFormMainController(table, id, category, technology);
+            NewRecepture frm = new NewRecepture(cntrl);
+            frm.Show();
 		}
 
 		private void textBox1_TextChanged(object sender, EventArgs e)
