@@ -102,19 +102,20 @@ namespace MajPAbGr_project
                 return arr;
             }
         }
-
-        static public double calculateCoefficient(double old_amount, double new_amount)
-            => (old_amount / new_amount);
-
-        public double InvertCoefficient(double koeff) => (double)(Math.Pow((double)koeff, -1.0));
-
-        public double [] ReCalc(double koeff, double[] list)
+        public double[] ReCalc(double koeff, double[] list)
         {
             if (koeff == 1 || koeff == 0) return list;
             for (int k = 0; k < list.Length; k++)
                 list[k] *= koeff;
             return list;
         }
+
+        static public double calculateCoefficient(double old_amount, double new_amount)
+            => (old_amount / new_amount);
+
+        public double InvertCoefficient(double koeff) => (double)(Math.Pow((double)koeff, -1.0));
+
+        
 
         public double Summa(double[] values)
         {
@@ -143,8 +144,8 @@ namespace MajPAbGr_project
 
         public List<string> FormatAmounts()
         {
-            int k;           
             double[] arr = ReCalc();
+            int k;
             string t = "";
             List<string> texts = new List<string>();
 

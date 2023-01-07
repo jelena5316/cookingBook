@@ -14,6 +14,7 @@ namespace MajPAbGr_project
         double coefficient;
         public List<Element> recipes;
         public List <Element> elements;
+        FormMainController controller;
         tbFormMainController tb;
         CalcFunction calc;
 
@@ -21,14 +22,12 @@ namespace MajPAbGr_project
         ComboBox recipe;
         ListView list;
 
-        NumberFormatInfo nfi;
-        string decimal_separator;
+        CultureInfo current;       
 
         public FormMain()
         {
-            InitializeComponent();            
-            tb = new tbFormMainController("Recepture");
-            calc = new CalcFunction();
+            InitializeComponent();
+            controller = new FormMainController();            
             recipes = new List<Element>();
 
             combo = comboBox1;
@@ -45,57 +44,45 @@ namespace MajPAbGr_project
             txb_new_recipe.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            tb.setCatalog();           
-            Class1.setBox(tb.getCatalog(), ref combo);
-            tb.setSubCatalog("Recipe", "id_recepture"); // table Recipe, id_recepture
+        private void Form1_Load(object sender, EventArgs e) 
+        {          
+            Class1.setBox(controller.getCatalog(), ref combo);            
             fillSubCatalog(); // table Recipe
-            AutocompleteRecipeName(); // table Recipe
+            //AutocompleteRecipeName(); // table Recipe            
+
+            current = controller.Current();            
+            this.Text += " " + controller.InfoLocal();
+            
             checkBox1.Checked = false;
             checkBox1.Enabled = false;
             btn_insert.Enabled = false;
-
-            CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
-            nfi = CultureInfo.CurrentCulture.NumberFormat;
-            decimal_separator = nfi.NumberDecimalSeparator;
-            this.Text += " " + CultureInfo.CurrentCulture +
-                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";           
         }
 
-        
         /*
          * Lokalizacija
          */
 
+        private void changeLocale(string locale)
+        {
+            controller.setNFI(locale);
+            current = controller.Current();
+            this.Text = "Recepture " + controller.InfoLocal();
+            localizacijaToolStripMenuItem.Text = controller.CurrentName();            
+        }
+
         private void uSToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CultureInfo.CurrentCulture = new CultureInfo("us-US");
-            nfi = CultureInfo.CurrentCulture.NumberFormat;
-            decimal_separator = nfi.NumberDecimalSeparator;
-            this.Text = "Receptures " + CultureInfo.CurrentCulture +
-                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
-            localizacijaToolStripMenuItem.Text = "US";
+            changeLocale("us-US");            
         }
 
         private void lVToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CultureInfo.CurrentCulture = new CultureInfo("lv-LV");
-            nfi = CultureInfo.CurrentCulture.NumberFormat;
-            decimal_separator = nfi.NumberDecimalSeparator;
-            this.Text = "Receptures " + CultureInfo.CurrentCulture +
-                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
-            localizacijaToolStripMenuItem.Text = "LV";
+            changeLocale("lv-LV");
         }
 
         private void rUToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
-            nfi = CultureInfo.CurrentCulture.NumberFormat;
-            decimal_separator = nfi.NumberDecimalSeparator;
-            this.Text = "Receptures " + CultureInfo.CurrentCulture +
-                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
-            localizacijaToolStripMenuItem.Text = "RU";
+            changeLocale("ru_RU");            
         }
 
         /*
@@ -107,7 +94,7 @@ namespace MajPAbGr_project
         {
             //бывшая функция setRecipes()
             if (recipes.Count > 0) recipes.Clear();
-            recipes = tb.readElement(2); //читает полностью, все три поля
+            recipes = controller.Recipes;
 
             if (recipe.Items.Count > 0) recipe.Items.Clear();
             if (recipes.Count > 0)
@@ -125,7 +112,7 @@ namespace MajPAbGr_project
             else
             {
                 recipe.Text = "add recepture (g)";
-                lbl_koef.Text = calc.Coefficient.ToString();
+                lbl_koef.Text = controller.Calc.Coefficient.ToString();
             }
             return recipes.Count;
         }
@@ -133,37 +120,39 @@ namespace MajPAbGr_project
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = combo.SelectedIndex;
-            int selected = tb.setSelected(index);
-            string info;
-            tb.setSubCatalog("Recipe", "id_recepture");
-            int count = fillSubCatalog();
-            AutocompleteRecipeName(); // table Recipe
+            controller.setSubcatalog(index);
+            int selected = controller.Selected;                      
+            int count = fillSubCatalog(); // fill the combobox2
+            AutocompleteRecipeName(); // table Recipe      
 
-            category = int.Parse(tb.getById("id_category", selected));            
+            //used more one time in `InsertAmounts`, mode:edit           
+            elements = controller.Amounts; // amounts            
+            controller.Calc.setAmounts(elements); // сохраняет и cуммирует величины
 
-            // Info about recepture
-            info = $"  {tb.getName(index)}: id {tb.getSelected()}, category ({category})\n";
-            if (recipes.Count > 0)
+            //InputRecepture(elements);            
+            List<string> amounts = controller.Calc.FormatAmounts
+                (controller.Calc.getAmounts(), controller.Calc.getTotal());
+            Class1.FillListView(elements, amounts, ref listView1);
+
+            if (count == 0)
             {
-                info += $"recipes\n";
-                for (int k = 0; k < recipes.Count; k++)
-                {
-                    info += $"{recipes[k].Name} ({recipes[k].Amounts}) \n";
-                }
-            }
-            lbl_info.Text = info;
-
-            if(count == 0)
-            {
-                calc.Coefficient = 1;
+                controller.Calc.Coefficient = 1;
                 lbl_koef.Text = "1";
             }
 
-            //used more one time in `InsertAmounts`, mode:edit           
-            elements = tb.readElement(1);// amounts            
-            calc.setAmounts(elements); // сохраняет и cуммирует величины
-            //InputRecepture(elements);  
-            Class1.FillListView(elements, calc.FormatAmounts(), ref listView1);
+            //  category = int.Parse(tb.getById("id_category", selected));
+            // //Info about recepture
+            //string info;  
+            //info = $"  {tb.getName(index)}: id {tb.getSelected()}, category ({category})\n";
+            // if (recipes.Count > 0)
+            // {
+            //     info += $"recipes\n";
+            //     for (int k = 0; k < recipes.Count; k++)
+            //     {
+            //         info += $"{recipes[k].Name} ({recipes[k].Amounts}) \n";
+            //     }
+            // }
+            // lbl_info.Text = info;
         }
 
         private void InputRecepture(List<Element> ingr)
@@ -194,37 +183,36 @@ namespace MajPAbGr_project
         {
             if (comboBox2.SelectedIndex < 0) 
             {
-                //lbl_koef.Text = calc.Coefficient.ToString();
+                lbl_koef.Text = "1";
                 return;
             }
             else
             {
-                calc.Coefficient = recipes[comboBox2.SelectedIndex].Amounts;
-                lbl_koef.Text = calc.Coefficient.ToString();
+                controller.Calc.Coefficient = recipes[comboBox2.SelectedIndex].Amounts;
+                lbl_koef.Text = controller.Calc.Coefficient.ToString();
             }
-            
-
         }
 
         private void button1_Click(object sender, EventArgs e) // recalc recepture
         {
             if (recipes.Count < 1) return;
-            double coeff = calc.Coefficient;
+            double coeff = controller.Calc.Coefficient;
             if (coeff == 1) return;
 
-            int index;
-            List<string> t = calc.FormatAmounts();
+            int index;                     
+            List<string> t = controller.Calc.FormatAmounts(); //посчитали и придали вид
             for (index = 0; index < t.Count; index++)
             {
                 list.Items[index].SubItems[1].Text = t[index];
             }
-
-            calc.setAmounts(calc.ReCalc());           
-            for (index = 0; index < calc.getAmounts().Length; index++)
-            {
-                elements[index].Amounts = calc.getAmounts()[index];
-            }
             columnHeader2.Text = "Amounts (g)";
+            //записали в списковид
+
+            //for (index = 0; index < controller.Calc.getAmounts().Length; index++)
+            //{
+            //    elements[index].Amounts = controller.Calc.getAmounts()[index];
+            //}
+
         }
 
         /*****************************************************************************
@@ -234,87 +222,15 @@ namespace MajPAbGr_project
          {
              if (string.IsNullOrEmpty(txb_coeff.Text)) return;            
 
-             int index = 0;
-             double summa = 0, amount;       
-             double [] amounts = calc.getAmounts();
-             string indikator = cmb_option.Text;
-             string temp, t;
-
-            //if (nfi.NumberDecimalSeparator == ".")
-            //    txb_coeff.Text = calc.ColonToPoint(txb_coeff.Text);
-            // или
-            if (CultureInfo.CurrentCulture.Name == "us-US")
-                txb_coeff.Text = calc.ColonToPoint(txb_coeff.Text);
-            // потому что при английской локализации (".")
-            // число с запятой парсируется, но не верно;
-
-            if (double.TryParse(txb_coeff.Text, out amount))
-             {
-                 amount = double.Parse(txb_coeff.Text);//us_Us: from '0,x' get a 'x'
-             }
-            else // при латышской или русской локализации
-            {
-                //MessageBox.Show("String was not in correct format");
-                //point to colon -- улавливает ошибку неверного формата строки и исрпавляет её
-                
-                t = txb_coeff.Text;
-                temp = "";
-                if (t.Contains('.'))
-                {
-                    int k;
-                    for (k = 0; k < t.Length; k++)
-                    {
-                        if (t[k] != '.')
-                            temp += t[k];
-                        else
-                            temp += ',';
-                    }
-                    t = temp;
-                    txb_coeff.Text = temp;
-                }
-
-                if (double.TryParse(t, out amount))
-                {
-                    amount = double.Parse(t);
-                }
-                else
-                {
-                    amount = 1;
-                    txb_coeff.Text = "not number";
-                    return;
-                }
-            }
-
-            // вынести в CalcFunction.cs (?)
-            switch (indikator)
-             {
-                 case "total":
-                     summa = calc.Summa();
-                     coefficient = amount / summa;
-                     //calc.Coefficient =  calc.calculateCoefficient(amount, calc.Summa());
-                     break;
-
-                 case "main":
-                     coefficient = amount / amounts[0];
-                     //calc.Coefficient = calc.calculateCoefficient(amount, amounts[0]);
-
-                     break;
-
-                 case "coefficient":                   
-                     coefficient = amount;
-                     //calc.Coefficient = amount;
-                     break;
-                 default: coefficient = amount / amounts[0]; ; break;                  
-             }
-             calc.Coefficient = coefficient;
-
-             amounts = calc.ReCalc();
+            int index = 0;
+            string indikator = cmb_option.Text;
+            double [] amounts = controller.button1_onClick(txb_coeff.Text, indikator);
 
              for (index = 0; index < amounts.Length; index++)
              {
                  list.Items[index].SubItems[1].Text = amounts[index].ToString();
              }
-             list.Items[index].SubItems[1].Text = calc.Summa(amounts).ToString();
+             list.Items[index].SubItems[1].Text = controller.Calc.Summa(amounts).ToString();
             btn_insert.Enabled = true;
          }
 

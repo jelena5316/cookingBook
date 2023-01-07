@@ -278,6 +278,7 @@ namespace MajPAbGr_project
             this.txb_new_recipe.Name = "txb_new_recipe";
             this.txb_new_recipe.Size = new System.Drawing.Size(143, 20);
             this.txb_new_recipe.TabIndex = 15;
+            this.txb_new_recipe.Text = "new recipe name";
             // 
             // btn_insert
             // 
