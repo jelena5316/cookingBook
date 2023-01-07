@@ -522,8 +522,6 @@ namespace MajPAbGr_project
             button2.Enabled = true;
         }
 
-        
-
         private void openDbEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             EditDB frm = new EditDB();
@@ -552,6 +550,7 @@ namespace MajPAbGr_project
             frm = new Chains(ref controller);
             frm.Show();
 
+            { 
             //Technology frm;
             //int selected, id_technology, count;// id of recepture and of technology;
 
@@ -570,6 +569,7 @@ namespace MajPAbGr_project
             //    frm = new Technology(selected);
             //    frm.Show();
             //}
+            }
 
         }
 

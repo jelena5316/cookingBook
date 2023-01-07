@@ -10,7 +10,7 @@ namespace MajPAbGr_project
     {
         int id;
         string name;        
-        double amounts;   
+        double amounts;        
 
         public Element()
         {

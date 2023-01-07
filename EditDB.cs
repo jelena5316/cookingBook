@@ -84,7 +84,7 @@ namespace MajPAbGr_project
         dbController db;
         //ReadWriteAmount db;
         string query;
-        //List<Amounts> amounts;
+        //List<Amounts> amounts;       
         
         public EditDB()
         {
@@ -92,6 +92,12 @@ namespace MajPAbGr_project
             db = new dbController();
             // db = new ReadWriteAmount();
             //amounts = db.getAmounts;
+
+
+            ReceptureStruct rec = new ReceptureStruct(28);
+            rec.setFields();
+            textBox1.Lines = rec.getFields();
+            // проверка метода у структуры
         }
 
         private void button1_Click(object sender, EventArgs e) 
@@ -115,7 +121,6 @@ namespace MajPAbGr_project
             //FormMain frm = new FormMain();
             //frm.Show();
         }
-
 
     }
 }
