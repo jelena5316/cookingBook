@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
-    public class AmountsController : tbClass1
+    public class tbAmountsController : tbClass1
     {
         private int amount_id_count, elements_count, selected_element, id_recepture;
         private List<string> amounts_id;
         private List<Element> elements; // id and name, for amounts      
-        private tbFormMainController tbRec;
+        private tbReceptureController tbRec;
 
         enum Columns
         {
@@ -20,9 +20,9 @@ namespace MajPAbGr_project
             id_recepture
         }
 
-        public AmountsController(string table) : base(table) { } // New Recepture; create mode
+        public tbAmountsController(string table) : base(table) { } // New Recepture; create mode
 
-        public AmountsController(string table, ref tbFormMainController tb) : base(table) // for edit mode
+        public tbAmountsController(string table, ref tbReceptureController tb) : base(table) // for edit mode
         {
             id_recepture = tb.Selected;
             amounts_id = setAmountsIdList(id_recepture);
@@ -34,7 +34,7 @@ namespace MajPAbGr_project
             elements_count = elements.Count;
         }
 
-        public tbFormMainController TbRec
+        public tbReceptureController TbRec
         {
             set { tbRec = value; }
             get { return tbRec; }

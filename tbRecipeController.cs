@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
-    public class RecipeController : tbClass1
+    public class tbRecipeController : tbClass1
     {
         int recepture;
 
-        public RecipeController(string table) : base(table) { }        
+        public tbRecipeController(string table) : base(table) { }        
 
-        public RecipeController (string table, int index, int recepture) : base (table)
+        public tbRecipeController (string table, int index, int recepture) : base (table)
         {
             this.recepture = recepture;
             catalog = setSubCatalog();

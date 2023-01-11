@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
-    public class tbFormMainController : tbClass1
+    public class tbReceptureController : tbClass1
     {
         private int id_recepture, category, technology = 0;
         private bool indicator; // choose mode
@@ -15,7 +15,7 @@ namespace MajPAbGr_project
 
         ReceptureStruct info;
 
-        public tbFormMainController(string table): base(table)
+        public tbReceptureController(string table): base(table)
         {
             this.table = table;
         }
@@ -25,7 +25,7 @@ namespace MajPAbGr_project
         // FormMain.cs: new NewRecepture(..)
         // Categories.cs: lv_recepture_DoubleClick(..)
         // Recipes.cs: new Recepture(..) (now is a comment)
-        public tbFormMainController(string table, bool indicator) // add new recepture
+        public tbReceptureController(string table, bool indicator) // add new recepture
         {
             base.table = table;
             id_recepture = 0;
@@ -41,7 +41,7 @@ namespace MajPAbGr_project
             setData();
         }
 
-        public tbFormMainController(string table, int id, int category) // edit recepture
+        public tbReceptureController(string table, int id, int category) // edit recepture
            : base()
         {
             base.table = table;
@@ -62,7 +62,7 @@ namespace MajPAbGr_project
             setData();
         }
 
-        public tbFormMainController(string table, int id, int category, int technology) // edit recepture
+        public tbReceptureController(string table, int id, int category, int technology) // edit recepture
             : base()
         {
             base.table = table;
@@ -218,7 +218,5 @@ namespace MajPAbGr_project
         {
             set { technology = value; }
         }
-
-
     }
 }

@@ -118,6 +118,18 @@ namespace MajPAbGr_project
             //return texts;
         }
 
+        static public void FillListView(List<Element> elements, ref ComboBox combo)
+        {
+            if (combo.Items.Count > 0) combo.Items.Clear();
+            if (elements.Count > 0)
+            {
+                for (int k = 0; k < elements.Count; k++)
+                {
+                    combo.Items.Add(elements[k].Name);
+                }
+            }
+        }
+
         static public void FillListView(List<Item> ingr, ref ListView list)
         {
             /*запись в списочное представления*/

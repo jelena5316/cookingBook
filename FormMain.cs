@@ -15,7 +15,7 @@ namespace MajPAbGr_project
         public List<Element> recipes;
         public List <Element> elements;
         FormMainController controller;
-        tbFormMainController tb;
+        tbReceptureController tb;
         CalcFunction calc;
 
         ComboBox combo;
@@ -54,7 +54,7 @@ namespace MajPAbGr_project
             this.Text += " " + controller.InfoLocal();
             
             checkBox1.Checked = false;
-            checkBox1.Enabled = false;
+            //checkBox1.Enabled = false;
             btn_insert.Enabled = false;
         }
 
@@ -96,15 +96,8 @@ namespace MajPAbGr_project
             if (recipes.Count > 0) recipes.Clear();
             recipes = controller.Recipes;
 
-            if (recipe.Items.Count > 0) recipe.Items.Clear();
-            if (recipes.Count > 0)
-            {
-                for (int k = 0; k < recipes.Count; k++)
-                {
-                    recipe.Items.Add(recipes[k].Name);
-                }
-            }
-
+            Class1.FillListView(recipes, ref recipe);
+            
             if (recipe.Items.Count > 0)
             {
                 recipe.SelectedIndex = 0;
@@ -239,8 +232,8 @@ namespace MajPAbGr_project
             string str_coeff;
             string count;
 
-            RecipeController recipe = new RecipeController
-                ("Recipe", comboBox2.SelectedIndex, tb.Selected);
+            tbRecipeController recipe = new tbRecipeController
+                ("Recipe", comboBox2.SelectedIndex, controller.TbMain().Selected);
             count = recipe.Count
                ($"Select count (name) from Recipe where name = '{txb_new_recipe.Text}';");
 
@@ -305,7 +298,7 @@ namespace MajPAbGr_project
 
         private void addNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            tbFormMainController cntrl = new tbFormMainController("Recepture");
+            tbReceptureController cntrl = new tbReceptureController("Recepture");
             NewRecepture frm = new NewRecepture(cntrl);
             frm.ShowDialog();
         }
@@ -316,7 +309,7 @@ namespace MajPAbGr_project
             if (listView1.Items.Count < 1) return;
             int selected = tb.getSelected();
 
-            tbFormMainController cntrl = new tbFormMainController("Recepture", selected, category);
+            tbReceptureController cntrl = new tbReceptureController("Recepture", selected, category);
             NewRecepture frm = new NewRecepture(cntrl);
             frm.ShowDialog();
            
@@ -335,7 +328,7 @@ namespace MajPAbGr_project
         private void AmountsTable()
         {
             if (tb.getSelected() == 0) return;
-            AmountsController cntrl = new AmountsController("Amounts", ref tb);
+            tbAmountsController cntrl = new tbAmountsController("Amounts", ref tb);
             InsertAmounts frm = new InsertAmounts(ref cntrl);
             frm.ShowDialog();
             calc.Coefficient = frm.Calc.Coefficient;
@@ -427,9 +420,9 @@ namespace MajPAbGr_project
             txb_new_recipe.Text = "";
             txb_coeff.Text = "";
             checkBox1.Enabled = true;
-            checkBox1.Checked = true;            
-                    
-            Recipe frm = new Recipe(this, tb, calc, comboBox1.SelectedIndex);        
+            checkBox1.Checked = true;
+            
+            Recipe frm = new Recipe(this, controller.TbMain(), calc, comboBox1.SelectedIndex);        
             frm.ShowDialog();
 
             this.lbl_info.Location = new Point(318, lbl_info_y);

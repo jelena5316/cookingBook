@@ -76,7 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AmountsController.cs" />
+    <Compile Include="tbAmountsController.cs" />
     <Compile Include="ReceptureStruct.cs" />
     <Compile Include="Component\CalcFunction.cs" />
     <Compile Include="Categories.cs">
@@ -114,7 +114,7 @@
     <Compile Include="Form2.designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
-    <Compile Include="tbFormMainController.cs" />
+    <Compile Include="tbReceptureController.cs" />
     <Compile Include="IngredientsController.cs" />
     <Compile Include="Recipe.cs">
       <SubType>Form</SubType>
@@ -122,7 +122,7 @@
     <Compile Include="Recipe.designer.cs">
       <DependentUpon>Recipe.cs</DependentUpon>
     </Compile>
-    <Compile Include="RecipeController.cs" />
+    <Compile Include="tbRecipeController.cs" />
     <Compile Include="tbChainController.cs" />
     <Compile Include="TechnologyCards.cs">
       <SubType>Form</SubType>

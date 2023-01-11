@@ -22,7 +22,7 @@ namespace MajPAbGr_project
         List<Item> ingredients;     
 
         IngredientsController tbIngred;
-        AmountsController tbAmounts;        
+        tbAmountsController tbAmounts;        
         CalcFunction calc;
    
         NumberFormatInfo nfi;
@@ -34,8 +34,8 @@ namespace MajPAbGr_project
                                      // задача: чтобы старый selected не мешал
         {
             InitializeComponent();            
-            tbAmounts = new AmountsController("Amounts");
-            tbAmounts.TbRec = new tbFormMainController("Recepture");
+            tbAmounts = new tbAmountsController("Amounts");
+            tbAmounts.TbRec = new tbReceptureController("Recepture");
             tbAmounts.tbRecSelected(id);  // определяем номер рецептуры в базе данных              
             tbAmounts.RefreshElements(); // elements, elements_count
             tbAmounts.Id_recepture = id;
@@ -56,7 +56,7 @@ namespace MajPAbGr_project
             name = tbAmounts.dbReader($"select name from Recepture where id = {id_recepture}")[0];
         }
 
-        public InsertAmounts(ref AmountsController Amounts)
+        public InsertAmounts(ref tbAmountsController Amounts)
         {
             InitializeComponent();
             this.tbAmounts = Amounts; // содержит tbRec, selected (tbRec), elements (= tb.readElement(1));
@@ -613,7 +613,7 @@ namespace MajPAbGr_project
         {
             int ind;
             double coefficient = calc.Coefficient;
-            RecipeController tb = new RecipeController("Recipe");
+            tbRecipeController tb = new tbRecipeController("Recipe");
             tb.Selected = id_recepture;
 
             if (string.IsNullOrEmpty(txbRecipe.Text)) return;

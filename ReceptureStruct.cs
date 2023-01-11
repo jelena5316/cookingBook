@@ -13,9 +13,10 @@ namespace MajPAbGr_project
     {
         int id;
         string name, category, source, author, technology, ingredient;
-        //Item recepture /* id, name*/, cat, techn, ingred;
+        //Item recepture, cat, techn, ingred;
         //Item?!
 
+    
         public ReceptureStruct(int id)
         {
             this.id = id;
@@ -24,7 +25,7 @@ namespace MajPAbGr_project
             source = "unknown";
             author = "unknown";
             technology = "unknown";
-            ingredient = "unknown";            
+            ingredient = "unknown";
         }
 
         public void setFields()
@@ -114,7 +115,7 @@ namespace MajPAbGr_project
         private List<Item> receptures, subcatalog;
         private List<Element> recipes; // рецепты
         private List<Element> elements; // сырье
-        tbFormMainController tb; // контроллер таблицы Рецептуры
+        tbReceptureController tb; // контроллер таблицы Рецептуры
         CalcFunction calc; // Вычисления
 
         CultureInfo current;
@@ -124,7 +125,7 @@ namespace MajPAbGr_project
 
         public FormMainController()
         {
-            tb = new tbFormMainController("Recepture");
+            tb = new tbReceptureController("Recepture");
             calc = new CalcFunction();
             tb.setCatalog();
             receptures = tb.getCatalog();            
@@ -134,6 +135,8 @@ namespace MajPAbGr_project
 
             setNFI("ru_RU");            
         }
+
+        public tbReceptureController TbMain() => this.tb;
 
         public List<Item> getCatalog() => this.receptures;  
         

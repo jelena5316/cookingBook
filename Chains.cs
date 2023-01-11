@@ -47,7 +47,7 @@ namespace MajPAbGr_project
                     }
                 }
             }
-            tbFormMainController tbRec = new tbFormMainController("Recepture");
+            tbReceptureController tbRec = new tbReceptureController("Recepture");
             string idStr = tbRec.dbReader($"select id_technology from {tbRec.getTable()} where id = {controller.Recepture};")[0];
             if (int.TryParse(idStr, out id) && id > 0)            {
                

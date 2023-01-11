@@ -42,7 +42,7 @@ namespace MajPAbGr_project
 
          private void setLabels()
         {
-            RecipeController rec = new RecipeController("Recipe");
+            tbRecipeController rec = new tbRecipeController("Recipe");
             rec.Recepture = tb.Selected;
             string info = rec.ReceptureInfo();
             if (info == "" || info == "\n\n\n\n\n") info = "none description";
@@ -71,7 +71,7 @@ namespace MajPAbGr_project
         {
             int category = int.Parse(tb.getById("id_category", recepture_id));
             int selected = tb.getSelected();
-            tbFormMainController cntrl = new tbFormMainController("Recepture", recepture_id, category);
+            tbReceptureController cntrl = new tbReceptureController("Recepture", recepture_id, category);
             NewRecepture frm = new NewRecepture(cntrl);
             frm.ShowDialog();
             setLabels();
@@ -89,7 +89,7 @@ namespace MajPAbGr_project
             if (result == DialogResult.OK)
             {
                 int id = 0, indicator = 0;
-                RecipeController recipe = new RecipeController
+                tbRecipeController recipe = new tbRecipeController
                     ("Recipe", frm.comboBox2.SelectedIndex, tb.Selected);
                 id = recipe.Selected;
                 indicator = recipe.RemoveItem();               

@@ -214,7 +214,7 @@ namespace MajPAbGr_project
         //    }
         //}
 
-        // Form1.cs, InsertAmounts.cs, RecipeController
+        // Form1.cs, InsertAmounts.cs, tbRecipeController
         //public int insertNewRecipe(string name, string coeff)
         //{
         //    string query = $"insert into Recipe" +
