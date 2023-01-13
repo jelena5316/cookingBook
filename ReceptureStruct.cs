@@ -16,7 +16,6 @@ namespace MajPAbGr_project
         //Item recepture, cat, techn, ingred;
         //Item?!
 
-    
         public ReceptureStruct(int id)
         {
             this.id = id;
@@ -123,12 +122,14 @@ namespace MajPAbGr_project
         string decimal_separator /*разделитель */;
         
 
-        public FormMainController()
+        public FormMainController(int id)
         {
             tb = new tbReceptureController("Recepture");
             calc = new CalcFunction();
             tb.setCatalog();
-            receptures = tb.getCatalog();            
+            receptures = tb.getCatalog();
+            tb.Selected = id;
+            selected = id;
             subcatalog = tb.setSubCatalog("Recipe", "id_recepture"); // table Recipe, id_recepture
             recipes = tb.readElement(2); //читает полностью, все три поля
             elements = tb.readElement(1); //читает полностью, все три поля     
@@ -139,7 +140,7 @@ namespace MajPAbGr_project
         public tbReceptureController TbMain() => this.tb;
 
         public List<Item> getCatalog() => this.receptures;  
-        
+
         public List<Element> Recipes
         {
             get { return recipes; }
@@ -276,10 +277,6 @@ namespace MajPAbGr_project
             calc.Coefficient = coefficient;           
             return calc.ReCalc();
         }
-
-
-
-
     }
 
 }

@@ -24,11 +24,14 @@ namespace MajPAbGr_project
 
         CultureInfo current;       
 
-        public FormMain()
+        public FormMain(int id)
         {
             InitializeComponent();
-            controller = new FormMainController();            
+            controller = new FormMainController(id);            
             recipes = new List<Element>();
+
+            tb = controller.TbMain();            
+            calc = controller.Calc;
 
             combo = comboBox1;
             recipe = comboBox2;
@@ -45,9 +48,11 @@ namespace MajPAbGr_project
         }
 
         private void Form1_Load(object sender, EventArgs e) 
-        {          
-            Class1.setBox(controller.getCatalog(), ref combo);            
-            fillSubCatalog(); // table Recipe
+        {
+            int temp_id = tb.Selected;
+            Class1.setBox(controller.getCatalog(), ref combo);
+            combo.SelectedIndex = Class1.ChangeIndex(controller.getCatalog(), temp_id);           
+            //fillSubCatalog(); // table Recipe;
             //AutocompleteRecipeName(); // table Recipe            
 
             current = controller.Current();            
@@ -89,23 +94,18 @@ namespace MajPAbGr_project
          * Konec lokalizaciji
          */
 
-        
         public int fillSubCatalog()  // recipes of recepture, combobox
         {
-            //бывшая функция setRecipes()
-            if (recipes.Count > 0) recipes.Clear();
             recipes = controller.Recipes;
-
-            Class1.FillListView(recipes, ref recipe);
-            
+            Class1.FillCombo(recipes, ref recipe);            
             if (recipe.Items.Count > 0)
             {
-                recipe.SelectedIndex = 0;
+                recipe.SelectedIndex = 0;                
             }
             else
             {
                 recipe.Text = "add recepture (g)";
-                lbl_koef.Text = controller.Calc.Coefficient.ToString();
+                lbl_koef.Text = calc.Coefficient.ToString();
             }
             return recipes.Count;
         }
@@ -114,38 +114,38 @@ namespace MajPAbGr_project
         {
             int index = combo.SelectedIndex;
             controller.setSubcatalog(index);
-            int selected = controller.Selected;                      
+            int selected = tb.Selected;                      
             int count = fillSubCatalog(); // fill the combobox2
             AutocompleteRecipeName(); // table Recipe      
 
             //used more one time in `InsertAmounts`, mode:edit           
             elements = controller.Amounts; // amounts            
-            controller.Calc.setAmounts(elements); // сохраняет и cуммирует величины
+            calc.setAmounts(elements); // сохраняет и cуммирует величины
 
             //InputRecepture(elements);            
-            List<string> amounts = controller.Calc.FormatAmounts
-                (controller.Calc.getAmounts(), controller.Calc.getTotal());
+            List<string> amounts = calc.FormatAmounts
+                (calc.getAmounts(), calc.getTotal());
             Class1.FillListView(elements, amounts, ref listView1);
 
             if (count == 0)
             {
-                controller.Calc.Coefficient = 1;
+                calc.Coefficient = 1;
                 lbl_koef.Text = "1";
             }
 
-            //  category = int.Parse(tb.getById("id_category", selected));
-            // //Info about recepture
-            //string info;  
-            //info = $"  {tb.getName(index)}: id {tb.getSelected()}, category ({category})\n";
-            // if (recipes.Count > 0)
-            // {
-            //     info += $"recipes\n";
-            //     for (int k = 0; k < recipes.Count; k++)
-            //     {
-            //         info += $"{recipes[k].Name} ({recipes[k].Amounts}) \n";
-            //     }
-            // }
-            // lbl_info.Text = info;
+            //Info about recepture
+            category = int.Parse(tb.getById("id_category", selected));            
+            string info;
+            info = $"  {tb.getName(index)}: id {tb.getSelected()}, category ({category})\n";
+            if (recipes.Count > 0)
+            {
+                info += $"recipes\n";
+                for (int k = 0; k < recipes.Count; k++)
+                {
+                    info += $"{recipes[k].Name} ({recipes[k].Amounts}) \n";
+                }
+            }
+            lbl_info.Text = info;
         }
 
         private void InputRecepture(List<Element> ingr)
@@ -231,6 +231,8 @@ namespace MajPAbGr_project
          {
             string str_coeff;
             string count;
+
+            calc = controller.Calc;
 
             tbRecipeController recipe = new tbRecipeController
                 ("Recipe", comboBox2.SelectedIndex, controller.TbMain().Selected);

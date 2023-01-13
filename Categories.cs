@@ -165,7 +165,7 @@ namespace MajPAbGr_project
 
         private void button1_Click(object sender, EventArgs e)
         {
-			FormMain frm = new FormMain();			
+			FormMain frm = new FormMain(tbMain.Selected);			
 			frm.Show();			
         }
 
