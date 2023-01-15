@@ -340,7 +340,6 @@ namespace MajPAbGr_project
             // а до него -- форматирования числа, которое использует внутри себя метод ReCalc()
             // с "неверным" коэфициентом,
             // причина -- в неверно выбранном объекте для вызова методов класса CalcFunction.
-
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)

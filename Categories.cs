@@ -37,6 +37,7 @@ namespace MajPAbGr_project
 			lv_recepture.Columns.Add("Author");
 			lv_recepture.Columns.Add("Technology");
 			lv_recepture.Columns.Add("Main_ingredient");
+			lv_recepture.Columns.Add("Description");
 
 			Class1.setBox(controller.Categories, ref cmb_categories);			
 			controller.setListView(ref lv_recepture);			
@@ -103,28 +104,27 @@ namespace MajPAbGr_project
 			}
 		}
 
-		private void lv_recepture_DoubleClick(object sender, EventArgs e)
-		{
+		private void openReceptureEditor()
+        {
 			string table = "Recepture", t;
 			int id = 0; //id_recepture
 			int category = 0;
 			int technology = 0;
 
 			if (selected_rec)
-            {
+			{
 				id = tbMain.Selected; //id = tbMain.Receptures[lv_recepture.SelectedItems[0].Index].id; //получаем id рецептуры
-            }			
-            else
-            {
-				MessageBox.Show("Please, select any recepture from list");
-				return;				
 			}
-
+			else
+			{
+				MessageBox.Show("Please, select any recepture from list");
+				return;
+			}
 
 			//category			
 			t = tbMain.readCategory();
 			if (int.TryParse(t, out category))
-				category = int.Parse(t);			
+				category = int.Parse(t);
 			else
 				category = 0;
 
@@ -135,9 +135,14 @@ namespace MajPAbGr_project
 			else
 				technology = 0;
 
-            tbReceptureController cntrl = new tbReceptureController(table, id, category, technology);
-            NewRecepture frm = new NewRecepture(cntrl);
-            frm.Show();
+			tbReceptureController cntrl = new tbReceptureController(table, id, category, technology);
+			NewRecepture frm = new NewRecepture(cntrl);
+			frm.Show();
+		}
+
+		private void lv_recepture_DoubleClick(object sender, EventArgs e)
+		{
+			openReceptureEditor();
 		}
 
 		private void textBox1_TextChanged(object sender, EventArgs e)
@@ -163,12 +168,140 @@ namespace MajPAbGr_project
 			}
 		}
 
+		/*
+		 * Others controls: buttons, menu strip items
+		 */
         private void button1_Click(object sender, EventArgs e)
         {
+			if (tbMain.Selected == 0)
+				tbMain.Selected = int.Parse(tbMain.dbReader("select min(id) from Recepture;")[0]);
+			if (lv_recepture.SelectedItems == null)
+				lv_recepture.Items[0].Selected = true;
+			
 			FormMain frm = new FormMain(tbMain.Selected);			
 			frm.Show();			
         }
 
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void openDbEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			EditDB frm = new EditDB();
+			frm.Show();
+		}
+
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			Reload();
+		}
+
+		private void Reload()
+        {
+			list.Clear();
+			controller.setReceptures();
+			for (int k = 0; k < controller.Receptures.Count; k++)
+				list.Add(controller.Receptures[k].name);
+			pragma = 0;
+
+			IngredientsController tbCat = controller.TbCat;
+			tbCat.resetCatalog();
+			controller.Categories = tbCat.getCatalog();
+			Class1.setBox(controller.Categories, ref cmb_categories);
+			controller.setListView(ref lv_recepture);
+			cmb_categories.Text = "all";
+			pragma = 1;
+
+			AutoCompleteStringCollection source = new AutoCompleteStringCollection();
+			foreach (Item item in controller.Receptures)
+				source.Add(item.name);
+			textBox1.AutoCompleteCustomSource = source;
+			textBox1.AutoCompleteMode = AutoCompleteMode.Suggest;
+			textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
+		}
+
+		// categories and ingredients
+		private void SimpleTable(int opt)
+		{
+			IngredientsController cntrl = new IngredientsController(opt);
+			Ingredients frm = new Ingredients(cntrl);
+			frm.Show();
+		}
+
+		private void toolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			SimpleTable(2);
+		}
+
+		private void ingredientsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			SimpleTable(1);
+		}
+
+		private void amountsEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void addNewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			tbReceptureController cntrl = new tbReceptureController("Recepture");
+			NewRecepture frm = new NewRecepture(cntrl);
+			frm.ShowDialog();
+		}
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			openReceptureEditor();
+		}
+        private void tecnologyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			if (tbMain.Selected == 0)
+				tbMain.Selected = int.Parse(tbMain.dbReader("select min(id) from Recepture;")[0]);
+			if (lv_recepture.SelectedItems == null)
+				lv_recepture.Items[0].Selected = true;
+
+			Chains frm;
+			ChainController controller;
+			int selected, id_technology, count;// id of recepture and of technology;
+											   // проверить выбранный в списке                   
+			selected = tbMain.getSelected();
+
+			controller = new ChainController();
+			controller.Recepture = selected;
+
+			//id_technology
+			count = tbMain.SelectedCount("Recepture", "id_technology", selected); // dos recepture contain any technology
+			if (count == 1)
+			{
+				id_technology = int.Parse(tbMain.getById("id_technology", selected));
+				controller.Technology = id_technology;
+			}
+
+			frm = new Chains(ref controller);
+			frm.Show();
+		}
+
+		/*
+		 * Context menu
+		 */
+		private void printToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+			if (lv_recepture.SelectedItems.Count < 1) return;
+				
+			int index = lv_recepture.SelectedItems[0].Index;			
+			Form2 frm = new Form2();
+			frm.Show();
+			frm.richTextBox1.Lines = controller.PrintInfo(index);
+        }
+
+		private void editToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			openReceptureEditor();
+		}
+
         
-    }
+	}
 }

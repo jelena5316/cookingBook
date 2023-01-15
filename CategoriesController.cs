@@ -49,6 +49,7 @@ namespace MajPAbGr_project
 
         public List<Item> Categories
         {
+            set { categories = value; }
             get { return categories; }
         }
 
@@ -62,6 +63,10 @@ namespace MajPAbGr_project
             get { return tb; }
         }
 
+        public IngredientsController TbCat
+        {
+            get { return tbCat; }
+        }
 
         public void SelectedByCategoryRecepture(int id)
         {
@@ -96,7 +101,8 @@ namespace MajPAbGr_project
             {
                 id = receptures[k].id;
                 rec = new ReceptureStruct(id);
-                string[] arr = new string[6];
+                //rec.setFields();
+                string[] arr = new string[7];
 
                 arr[0] = receptures[k].name;
                 arr[1] = tbTech.SeeRecepturesCategory(k);
@@ -108,6 +114,8 @@ namespace MajPAbGr_project
                 arr[4] = getInfo();
                 query = $"select name from Ingredients where id = (select id_main from Recepture where id = {id});";
                 arr[5] = getInfo();
+                query = $"select description from Recepture where id = {id}";
+                arr[6] = getInfo();
 
                 rec.setFields(arr);
                 rec_struct.Add(rec);
@@ -132,8 +140,27 @@ namespace MajPAbGr_project
                 items.SubItems.Add(rec_struct[k].getFields()[3]);
                 items.SubItems.Add(rec_struct[k].getFields()[4]);
                 items.SubItems.Add(rec_struct[k].getFields()[5]);
+                items.SubItems.Add(rec_struct[k].getFields()[6]);             
+
                 lv.Items.Add(items);
             }
+        }
+
+        public string[] PrintInfo(int index)
+        {
+            string[] arr = new string[]
+            {
+                $"Recepture: {rec_struct[index].getFields()[1]}\n",
+                $"Category: {rec_struct[index].getFields()[1]}\n",
+                $"Source: {rec_struct[index].getFields()[2]}\n",
+                $"Author: {rec_struct[index].getFields()[3]}\n",
+                $"Technology (name): {rec_struct[index].getFields()[4]}\n",
+                $"Main_ingredient: {rec_struct[index].getFields()[5]}\n",
+                $"Description: {rec_struct[index].getFields()[6]}"
+
+                //name, category, source, author, technology, ingredient, description
+            };
+            return arr;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace MajPAbGr_project
     public struct ReceptureStruct
     {
         int id;
-        string name, category, source, author, technology, ingredient;
+        string name, category, source, author, technology, ingredient, description;
         //Item recepture, cat, techn, ingred;
         //Item?!
 
@@ -25,6 +25,7 @@ namespace MajPAbGr_project
             author = "unknown";
             technology = "unknown";
             ingredient = "unknown";
+            description = "unknown";
         }
 
         public void setFields()
@@ -42,7 +43,8 @@ namespace MajPAbGr_project
                 "id_technology", // 2
                 "id_main", // 3
                 "source", // 4
-                "author" // 5
+                "author", // 5
+                "description" // 6
             };
 
             int id = this.id;
@@ -52,14 +54,18 @@ namespace MajPAbGr_project
                 => $"select {column_names[column]} from {tables[0]} where id = {id}";          
 
             string Query(int table, string subquery)
-                => $"select {column_names[0]} from {tables[table]} where id = ({subquery});";           
+                => $"select {column_names[0]} from {tables[table]} where id = ({subquery});";
 
+            string ChequeData(List<string> data)
+                => data.Count < 1 ? "no data" : data[0];
+          
             name = db.dbReader(SubQuery(0))[0];          
-            category = db.dbReader(Query(1, SubQuery(1)))[0];               
-            source = db.dbReader(SubQuery(4))[0];                  
-            author = db.dbReader(SubQuery(5))[0];      
-            technology = db.dbReader(Query(2, SubQuery(2)))[0];           
-            ingredient = db.dbReader(Query(3, SubQuery(3)))[0];            
+            category = ChequeData(db.dbReader(Query(1, SubQuery(1))));
+            source = ChequeData(db.dbReader(SubQuery(4)));
+            author = ChequeData(db.dbReader(SubQuery(5)));    
+            technology = ChequeData(db.dbReader(Query(2, SubQuery(2))));
+            ingredient = ChequeData(db.dbReader(Query(3, SubQuery(3))));
+            description = ChequeData(db.dbReader(SubQuery(6)));
         }
 
         public void setFields
@@ -82,11 +88,12 @@ namespace MajPAbGr_project
             this.author = fields[3];
             this.technology = fields[4];
             this.ingredient = fields[5];
+            this.description = fields[6];
         }
 
         public string [] getFields()
         {
-            string[] arr = new string[] { name, category, source, author, technology, ingredient };
+            string[] arr = new string[] { name, category, source, author, technology, ingredient, description };
             return arr;
         }
 
@@ -103,6 +110,11 @@ namespace MajPAbGr_project
         public string getCategory()
         {
             return category;
+        }
+
+        public string getDescription()
+        {
+            return description;
         }
     }
 

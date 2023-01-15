@@ -94,7 +94,7 @@ namespace MajPAbGr_project
             //amounts = db.getAmounts;
 
 
-            ReceptureStruct rec = new ReceptureStruct(28);
+            ReceptureStruct rec = new ReceptureStruct(34);
             rec.setFields();
             textBox1.Lines = rec.getFields();
             // проверка метода у структуры
