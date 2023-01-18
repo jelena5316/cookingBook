@@ -35,6 +35,7 @@ namespace MajPAbGr_project
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.amountsOfIngredientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
@@ -84,23 +85,31 @@ namespace MajPAbGr_project
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editToolStripMenuItem1,
-            this.printToolStripMenuItem1});
+            this.printToolStripMenuItem1,
+            this.amountsOfIngredientsToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(124, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(145, 70);
             // 
             // editToolStripMenuItem1
             // 
             this.editToolStripMenuItem1.Name = "editToolStripMenuItem1";
-            this.editToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
+            this.editToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.editToolStripMenuItem1.Text = "edit info";
             this.editToolStripMenuItem1.Click += new System.EventHandler(this.editToolStripMenuItem1_Click);
             // 
             // printToolStripMenuItem1
             // 
             this.printToolStripMenuItem1.Name = "printToolStripMenuItem1";
-            this.printToolStripMenuItem1.Size = new System.Drawing.Size(123, 22);
+            this.printToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.printToolStripMenuItem1.Text = "print info";
             this.printToolStripMenuItem1.Click += new System.EventHandler(this.printToolStripMenuItem1_Click);
+            // 
+            // amountsOfIngredientsToolStripMenuItem
+            // 
+            this.amountsOfIngredientsToolStripMenuItem.Name = "amountsOfIngredientsToolStripMenuItem";
+            this.amountsOfIngredientsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.amountsOfIngredientsToolStripMenuItem.Text = "edit amounts";
+            this.amountsOfIngredientsToolStripMenuItem.Click += new System.EventHandler(this.amountsOfIngredientsToolStripMenuItem_Click);
             // 
             // label1
             // 
@@ -186,8 +195,9 @@ namespace MajPAbGr_project
             // amountsEditorToolStripMenuItem
             // 
             this.amountsEditorToolStripMenuItem.Name = "amountsEditorToolStripMenuItem";
-            this.amountsEditorToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.amountsEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.amountsEditorToolStripMenuItem.Text = "Amounts editor";
+            this.amountsEditorToolStripMenuItem.Click += new System.EventHandler(this.amountsEditorToolStripMenuItem_Click);
             // 
             // receptureToolStripMenuItem
             // 
@@ -297,5 +307,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolStripMenuItem amountsOfIngredientsToolStripMenuItem;
     }
 }

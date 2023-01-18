@@ -240,10 +240,7 @@ namespace MajPAbGr_project
 			SimpleTable(1);
 		}
 
-		private void amountsEditorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
+		
 
         private void addNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -302,6 +299,31 @@ namespace MajPAbGr_project
 			openReceptureEditor();
 		}
 
-        
-	}
+		private void AmountsTable()
+        {
+			if (tbMain.getSelected() == 0) return;
+			tbAmountsController cntrl = new tbAmountsController("Amounts", ref tbMain);
+			InsertAmounts frm = new InsertAmounts(ref cntrl);
+			frm.ShowDialog();			
+			Reload();
+			// проследить, чтобы передался новый (верный) коэфициент!
+			// при смене элемента комбинированого поля вызывается метод заполнения списочного представлеяни,
+			// а до него -- форматирования числа, которое использует внутри себя метод ReCalc()
+			// с "неверным" коэфициентом,
+			// причина -- в неверно выбранном объекте для вызова методов класса CalcFunction.
+		}
+
+		private void amountsOfIngredientsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			if (lv_recepture.SelectedItems.Count < 1) return;
+			if (tbMain.Selected < 1) tbMain.setSelected(lv_recepture.SelectedItems[0].Index);
+			AmountsTable();
+        }
+
+        private void amountsEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			if (lv_recepture.SelectedItems.Count < 1) return;			
+			AmountsTable();
+		}
+    }
 }
