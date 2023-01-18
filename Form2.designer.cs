@@ -34,6 +34,9 @@ namespace MajPAbGr_project
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.lbl_chooseFile = new System.Windows.Forms.Label();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -77,14 +80,29 @@ namespace MajPAbGr_project
             // 
             this.textBox1.Location = new System.Drawing.Point(76, 12);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(366, 20);
+            this.textBox1.Size = new System.Drawing.Size(279, 20);
             this.textBox1.TabIndex = 5;
+            // 
+            // lbl_chooseFile
+            // 
+            this.lbl_chooseFile.AutoSize = true;
+            this.lbl_chooseFile.Location = new System.Drawing.Point(376, 15);
+            this.lbl_chooseFile.Name = "lbl_chooseFile";
+            this.lbl_chooseFile.Size = new System.Drawing.Size(41, 13);
+            this.lbl_chooseFile.TabIndex = 6;
+            this.lbl_chooseFile.Text = "browse";
+            this.lbl_chooseFile.Click += new System.EventHandler(this.lbl_chooseFile_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(448, 526);
+            this.Controls.Add(this.lbl_chooseFile);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
@@ -104,5 +122,8 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
         public System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Label lbl_chooseFile;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }

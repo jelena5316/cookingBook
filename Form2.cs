@@ -33,10 +33,18 @@ namespace MajPAbGr_project
         {
             const string PATH = "C:\\Users\\user\\Documents\\2_diplom\\Receptures\\";
             string path;
-           
             file = $"{file}.txt";
-            //file = $"{file}.csv"; // for lists to be able to be opened with Exel
-            path = PATH + file;
+            
+            if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+            {
+                //file = $"{file}.csv"; // for lists to be able to be opened with Exel
+                path = PATH + file;
+            }
+            else
+            {
+                path = saveFileDialog1.FileName;
+            }
+  
             using (StreamWriter stream = new StreamWriter(path, true))
             {
                 if (!File.Exists(path))
@@ -110,14 +118,59 @@ namespace MajPAbGr_project
             richTextBox1.ReadOnly = true;
             richTextBox1.Text = "";
 
+            PrintToBox();
+        }
+
+        private bool PrintToBox()
+        {
             if (strings != null)
             {
                 foreach (string str in strings)
                 {
                     richTextBox1.Text += str + "\n";
                 }
+                return true;
             }
-            
+            else
+                return false;
+        }
+
+        private void lbl_chooseFile_Click(object sender, EventArgs e)
+        {
+            openFile();
+        }
+
+        private void openFile()
+        {
+            string input, path;           
+
+            if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+
+            // получаем выбранный файл
+            path = openFileDialog1.FileName;
+            // читаем файл в строку
+            string fileText = System.IO.File.ReadAllText(path);
+            MessageBox.Show("Файл открыт");
+
+            strings.Clear();
+            strings.Add(path);
+            string[] arr = fileText.Split('\n');
+            strings.AddRange(arr);            
+            PrintToBox();        
+
+            //читаем файл построчно
+            using (StreamReader reader = new StreamReader(path))
+            {
+                input = reader.ReadLine();
+                while (input != null)
+                {
+                    strings.Add(input);
+                    input = reader.ReadLine();
+                }
+                reader.Close();
+            }            
+            PrintToBox();
         }
     }
 }

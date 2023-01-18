@@ -30,8 +30,6 @@ namespace MajPAbGr_project
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Names");
             this.cmb_categories = new System.Windows.Forms.ComboBox();
             this.lv_recepture = new System.Windows.Forms.ListView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -73,9 +71,6 @@ namespace MajPAbGr_project
             this.lv_recepture.ContextMenuStrip = this.contextMenuStrip1;
             this.lv_recepture.GridLines = true;
             this.lv_recepture.HideSelection = false;
-            this.lv_recepture.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2});
             this.lv_recepture.Location = new System.Drawing.Point(12, 115);
             this.lv_recepture.Name = "lv_recepture";
             this.lv_recepture.Size = new System.Drawing.Size(601, 200);
