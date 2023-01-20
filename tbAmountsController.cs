@@ -86,7 +86,7 @@ namespace MajPAbGr_project
 
         public List<string> setAmountsIdList(int recepture)
         {
-            string query = $"select id  from Amounts where id_recepture = {recepture}";
+            string query = $"select id from Amounts where id_recepture = {recepture}";
             amounts_id = dbReader(query);
             return amounts_id;
         }
