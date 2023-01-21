@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
-    class AmountController
+    public class AmountsController
     {
         int selected_rec;
         double summa;
@@ -16,7 +16,7 @@ namespace MajPAbGr_project
         List<Element> elements, old_elements, formated;
         CalcFunction calc;
 
-        public AmountController(ref tbReceptureController tb)
+        public AmountsController(ref tbReceptureController tb)
         {
             summa = 0;
             tbAmount = new tbAmountsController("Amounts", ref tb);
@@ -37,7 +37,14 @@ namespace MajPAbGr_project
         {
             get { return tbAmount; }
         }
-
+        public IngredientsController TbIngred
+        {
+            get { return tbIngred; }
+        }
+        public CalcFunction Calc
+        {
+            get { return calc; }
+        }
         public double Summa { get { return summa; }  }
 
         public List<Element> Elements { get { return elements; } }

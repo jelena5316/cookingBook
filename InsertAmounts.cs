@@ -12,40 +12,51 @@ namespace MajPAbGr_project
     public partial class InsertAmounts : Form
     {
         readonly int id_recepture;
-        private int pragma; // for create mode
+        private int pragma = 0; // for create mode
         double summa;
         double[] amounts;         
         Mode mode; //create new or edit old
         string name; // name of recepture
         
         List<Element> elements; // id and name, for amounts
-        List<Item> ingredients;     
+        List<Item> ingredients;
 
+        AmountsController controller;
         IngredientsController tbIngred;
-        tbAmountsController tbAmounts;        
+        tbAmountsController tbAmount;        
         CalcFunction calc;
    
         NumberFormatInfo nfi;
         string decimal_separator;
-
         Form2 frm = new Form2();
 
+        public InsertAmounts(AmountsController controller)
+        {
+            InitializeComponent();
+            this.controller = controller;          
+            tbIngred = controller.TbIngred;
+            tbAmount = controller.TbAmount;
+            calc = controller.Calc;
+            elements = controller.Elements;
+            ingredients = controller.Ingredients;
+        }
+        
         public InsertAmounts(int id) // а если и сюда передовать котроллер главной формы?
                                      // задача: чтобы старый selected не мешал
         {
             InitializeComponent();            
-            tbAmounts = new tbAmountsController("Amounts");
-            tbAmounts.TbRec = new tbReceptureController("Recepture");
-            tbAmounts.tbRecSelected(id);  // определяем номер рецептуры в базе данных              
-            tbAmounts.RefreshElements(); // elements, elements_count
-            tbAmounts.Id_recepture = id;
+            tbAmount = new tbAmountsController("Amounts");
+            tbAmount.TbRec = new tbReceptureController("Recepture");
+            tbAmount.tbRecSelected(id);  // определяем номер рецептуры в базе данных              
+            tbAmount.RefreshElements(); // elements, elements_count
+            tbAmount.Id_recepture = id;
             
             id_recepture = id;                      
-            elements = tbAmounts.getElements();
+            elements = tbAmount.getElements();
 
             // в обработчике private void listView1_SelectedIndexChanged(object sender, EventArgs e)
             //tbAmounts.setSelected(0);
-            tbAmounts.Selected = tbAmounts.getElementByIndex(0).Id;
+            tbAmount.Selected = tbAmount.getElementByIndex(0).Id;
             // определяем выбранный элемент из списка; разобраться с обработчиком!     
 
             calc = new CalcFunction();
@@ -53,23 +64,23 @@ namespace MajPAbGr_project
             this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1; // mode autodetector
             pragma = (mode == 0) ? 0 : 1;
 
-            name = tbAmounts.dbReader($"select name from Recepture where id = {id_recepture}")[0];
+            name = tbAmount.dbReader($"select name from Recepture where id = {id_recepture}")[0];
         }
 
         public InsertAmounts(ref tbAmountsController Amounts)
         {
             InitializeComponent();
-            this.tbAmounts = Amounts; // содержит tbRec, selected (tbRec), elements (= tb.readElement(1));
+            this.tbAmount = Amounts; // содержит tbRec, selected (tbRec), elements (= tb.readElement(1));
             
-            id_recepture = tbAmounts.Id_recepture; // tbRec.selected               
-            elements = tbAmounts.getElements(); // elements (= tb.readElement(1))
+            id_recepture = tbAmount.Id_recepture; // tbRec.selected               
+            elements = tbAmount.getElements(); // elements (= tb.readElement(1))
 
             calc = new CalcFunction();           
             
             this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1;
             pragma = 0;
 
-            name = tbAmounts.dbReader($"select name from Recepture where id = {id_recepture}")[0];
+            name = tbAmount.dbReader($"select name from Recepture where id = {id_recepture}")[0];
         }
 
         public CalcFunction Calc
@@ -80,9 +91,9 @@ namespace MajPAbGr_project
 
         private void InsertAmounts_Load(object sender, EventArgs e)
         {
-            tbIngred = new IngredientsController(1);
-            tbIngred.setCatalog();
-            ingredients = tbIngred.getCatalog();
+            //tbIngred = new IngredientsController(1);
+            //tbIngred.setCatalog();
+            //ingredients = tbIngred.getCatalog();
 
             FillAmountsView(); // listview
             if (mode == (Mode)1) // for edit mode
@@ -124,7 +135,7 @@ namespace MajPAbGr_project
             cmbIngr.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
             txbRecipe.AutoCompleteCustomSource = AutoCompleteNames
-                (tbAmounts.dbReader($"select name from Recipe;"));
+                (tbAmount.dbReader($"select name from Recipe;"));
             txbRecipe.AutoCompleteMode = AutoCompleteMode.Suggest;
             txbRecipe.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
@@ -140,9 +151,9 @@ namespace MajPAbGr_project
             frm.richTextBox1.Text = "On Load: \n";
             frm.richTextBox1.Text += this.Text + " ";
             frm.richTextBox1.Text += this.mode == Mode.Create ? "crete mode" : "edit mode";
-            frm.richTextBox1.Text += "\nelements count: " + tbAmounts.Elements_count;
-            frm.richTextBox1.Text += "\nid count: " + tbAmounts.Amount_id_count + "\n";
-            frm.richTextBox1.Text += tbAmounts.Amount_id_count >= tbAmounts.Elements_count;
+            frm.richTextBox1.Text += "\nelements count: " + tbAmount.Elements_count;
+            frm.richTextBox1.Text += "\nid count: " + tbAmount.Amount_id_count + "\n";
+            frm.richTextBox1.Text += tbAmount.Amount_id_count >= tbAmount.Elements_count;
             frm.richTextBox1.Text += "\nAmounts from array \'amounts\': \n";
             
             if (mode == Mode.Edit)
@@ -328,9 +339,9 @@ namespace MajPAbGr_project
             frm.richTextBox1.Text += "On btn_edit click, new item added\n";
             frm.richTextBox1.Text += "records in list view count: " + (listView1.Items.Count - 1).ToString();
             frm.richTextBox1.Text += "\nrecords in \'elements\' count: " + this.elements.Count;
-            frm.richTextBox1.Text += "\nrecords in controller \'elements\' count: " + tbAmounts.Elements_count;
-            frm.richTextBox1.Text += "\nid count: " + tbAmounts.Amount_id_count + "\n";
-            frm.richTextBox1.Text += tbAmounts.Amount_id_count >= tbAmounts.Elements_count;
+            frm.richTextBox1.Text += "\nrecords in controller \'elements\' count: " + tbAmount.Elements_count;
+            frm.richTextBox1.Text += "\nid count: " + tbAmount.Amount_id_count + "\n";
+            frm.richTextBox1.Text += tbAmount.Amount_id_count >= tbAmount.Elements_count;
             frm.richTextBox1.Text += "\n***\n";
         }
 
@@ -441,9 +452,9 @@ namespace MajPAbGr_project
             frm.richTextBox1.Text += "On btn_remove click, an item deleted\n";
             frm.richTextBox1.Text += "records in list view count: " + (listView1.Items.Count - 1).ToString();
             frm.richTextBox1.Text += "\nrecords in \'elements\' count: " + this.elements.Count;
-            frm.richTextBox1.Text += "\nrecords in controller \'elements\' count: " + tbAmounts.Elements_count;
-            frm.richTextBox1.Text += "\nid count: " + tbAmounts.Amount_id_count + "\n";
-            frm.richTextBox1.Text += tbAmounts.Amount_id_count >= tbAmounts.Elements_count;
+            frm.richTextBox1.Text += "\nrecords in controller \'elements\' count: " + tbAmount.Elements_count;
+            frm.richTextBox1.Text += "\nid count: " + tbAmount.Amount_id_count + "\n";
+            frm.richTextBox1.Text += tbAmount.Amount_id_count >= tbAmount.Elements_count;
             frm.richTextBox1.Text += "\n***\n";
         }
 
@@ -587,12 +598,12 @@ namespace MajPAbGr_project
   
             if (mode == Mode.Edit)
             {
-                ind = tbAmounts.updateRecords(ref frm);
+                ind = tbAmount.updateRecords(ref frm);
                 MessageBox.Show("Updated"+ind.ToString());
             }
             else
             {
-                ind = tbAmounts.updateRecords(ref frm);
+                ind = tbAmount.updateRecords(ref frm);
                 if (ind == 0) MessageBox.Show("All amounts are inserted");
                 else MessageBox.Show($"{ind} from {listView1.Items.Count} are inserted");
                 btn_recipe.Enabled = true;                
@@ -665,9 +676,9 @@ namespace MajPAbGr_project
                 try
                 {
                     int id; // номер выбранного элемента
-                    Element el = tbAmounts.getElementByIndex(index);
-                    tbAmounts.Selected = el.Id;
-                    id = tbAmounts.Selected;
+                    Element el = tbAmount.getElementByIndex(index);
+                    tbAmount.Selected = el.Id;
+                    id = tbAmount.Selected;
                     frm.richTextBox1.Text += ">>> Selected element\n";
                     int k;
                     for (k = 0; k < ingredients.Count; k++)

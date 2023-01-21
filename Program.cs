@@ -21,13 +21,16 @@ namespace MajPAbGr_project
             /*
              * test mode
              */
-            Application.Run(new Categories());
+            //Application.Run(new Categories());
 
-            //FormMainController tb = new FormMainController("Recepture");
-            //tb.Selected = 8;
+            tbReceptureController tb = new tbReceptureController("Recepture");
+            tb.Selected = 5;
             //tb.Selected = 28;
             //tbAmountsController cntrl = new tbAmountsController("Amounts", ref tb);           
             //Application.Run(new InsertAmounts(ref cntrl));
+
+            AmountsController cntrl = new AmountsController(ref tb);
+            Application.Run(new InsertAmounts(cntrl));
 
             //Application.Run(new Categories());
 
