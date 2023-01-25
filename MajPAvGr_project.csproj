@@ -78,7 +78,7 @@
   <ItemGroup>
     <Compile Include="AmountsController.cs" />
     <Compile Include="tbAmountsController.cs" />
-    <Compile Include="ReceptureStruct.cs" />
+    <Compile Include="FormMainController.cs" />
     <Compile Include="Component\CalcFunction.cs" />
     <Compile Include="Categories.cs">
       <SubType>Form</SubType>

@@ -6,23 +6,7 @@ using Microsoft.Data.Sqlite;
 
 namespace MajPAbGr_project
 { 
-    public struct Item
-    {
-        public int id;
-        public string name;
-
-        public void createItem (int id, string name)
-        {
-            this.id = id;
-            this.name = name;
-        }
-        public override string ToString()
-        {
-            return name;
-        }
-    }
-
-    public class dbController /*chitaem recepty iz bd */
+        public class dbController /*chitaem recepty iz bd */
     {
         private string connectionString;
         private SqliteConnection connection;

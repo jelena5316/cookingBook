@@ -12,8 +12,9 @@ namespace MajPAbGr_project
 {
 	public partial class Categories : Form
 	{
-		bool selected_rec = false;
-		int pragma; 	
+		bool exist_selected = false;
+		int selected_recepture = 0;
+		int pragma;
 		List<string> list;		
 		CategoriesController controller; // включает в себя FormMainController
 		tbReceptureController tbMain; // указатель на controller.TbMain
@@ -68,7 +69,7 @@ namespace MajPAbGr_project
 			ListViewItem items;
 			for (int k = 0; k < selected.Count; k++)
 			{
-				string[] arr = selected[k].getFields();
+				string[] arr = selected[k].getData();
 				items = new ListViewItem(arr[0]);
 				items.Tag = selected[k].getId();
 
@@ -96,22 +97,25 @@ namespace MajPAbGr_project
 			if (lv_recepture.SelectedItems.Count > 0)
             {
 				tbMain.setSelected(lv_recepture.SelectedItems[0].Index);
-				selected_rec = true;
+				selected_recepture = lv_recepture.SelectedItems[0].Index;
+				exist_selected = true;
             }
             else
             {
-				selected_rec = false;
+				selected_recepture = 0;
+				exist_selected = false;
 			}
 		}
 
 		private void openReceptureEditor()
         {
-			string table = "Recepture", t;
+			string table = "Recepture";
 			int id = 0; //id_recepture
+			int[] ids;
 			int category = 0;
 			int technology = 0;
 
-			if (selected_rec)
+			if (exist_selected)
 			{
 				id = tbMain.Selected; //id = tbMain.Receptures[lv_recepture.SelectedItems[0].Index].id; //получаем id рецептуры
 			}
@@ -120,21 +124,14 @@ namespace MajPAbGr_project
 				MessageBox.Show("Please, select any recepture from list");
 				return;
 			}
+			ids = controller.RecepturesStruct[selected_recepture].getIds();
 
 			//category			
-			t = tbMain.readCategory();
-			if (int.TryParse(t, out category))
-				category = int.Parse(t);
-			else
-				category = 0;
+			category = ids[0];
 
-			//technology			
-			t = tbMain.readTechnology();
-			if (int.TryParse(t, out technology))
-				technology = int.Parse(t);
-			else
-				technology = 0;
-
+			//technology
+			technology = ids[1];		
+	
 			tbReceptureController cntrl = new tbReceptureController(table, id, category, technology);
 			NewRecepture frm = new NewRecepture(cntrl);
 			frm.Show();
@@ -156,7 +153,7 @@ namespace MajPAbGr_project
 			ListViewItem items;
 			for (int k = 0; k < selected.Count; k++)
 			{
-				string[] arr = selected[k].getFields();
+				string[] arr = selected[k].getData();
 				items = new ListViewItem(arr[0]);
 				items.Tag = selected[k].getId();
 

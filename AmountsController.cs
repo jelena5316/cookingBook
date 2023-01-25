@@ -16,7 +16,7 @@ namespace MajPAbGr_project
         List<Element> elements, old_elements, formated;
         CalcFunction calc;
 
-        public AmountsController(ref tbReceptureController tb)
+        public AmountsController(tbReceptureController tb)
         {
             summa = 0;
             tbAmount = new tbAmountsController("Amounts", ref tb);

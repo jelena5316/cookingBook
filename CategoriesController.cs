@@ -83,41 +83,16 @@ namespace MajPAbGr_project
 
         public void setFields()
         {
-            int id;
-            string query, source;
+            int id;            
             List<Item> receptures = this.receptures;
             ReceptureStruct rec;
-
-            string getInfo()
-            {
-                source = "unknown";
-                if (tb.dbReader(query).Count > 0)
-                    source = tb.dbReader(query)[0] == "" ? source : tb.dbReader(query)[0];
-                return source;
-            }
 
             tbTech.Receptures = receptures;
             for (int k = 0; k < receptures.Count; k++)
             {
                 id = receptures[k].id;
                 rec = new ReceptureStruct(id);
-                //rec.setFields();
-                string[] arr = new string[7];
-
-                arr[0] = receptures[k].name;
-                arr[1] = tbTech.SeeRecepturesCategory(k);
-                query = $"select source from Recepture where id = {id};";
-                arr[2] = getInfo();
-                query = $"select author from Recepture where id = {id}";
-                arr[3] = getInfo();
-                query = $"select name from Technology where id = (select id_technology from Recepture where id = {id});";
-                arr[4] = getInfo();
-                query = $"select name from Ingredients where id = (select id_main from Recepture where id = {id});";
-                arr[5] = getInfo();
-                query = $"select description from Recepture where id = {id}";
-                arr[6] = getInfo();
-
-                rec.setFields(arr);
+                rec.setData();               
                 rec_struct.Add(rec);
             }
         }
@@ -135,12 +110,12 @@ namespace MajPAbGr_project
                 items = new ListViewItem(receptures[k].name);
                 items.Tag = receptures[k].id;
 
-                items.SubItems.Add(rec_struct[k].getFields()[1]);
-                items.SubItems.Add(rec_struct[k].getFields()[2]);
-                items.SubItems.Add(rec_struct[k].getFields()[3]);
-                items.SubItems.Add(rec_struct[k].getFields()[4]);
-                items.SubItems.Add(rec_struct[k].getFields()[5]);
-                items.SubItems.Add(rec_struct[k].getFields()[6]);             
+                items.SubItems.Add(rec_struct[k].getData()[1]);
+                items.SubItems.Add(rec_struct[k].getData()[2]);
+                items.SubItems.Add(rec_struct[k].getData()[3]);
+                items.SubItems.Add(rec_struct[k].getData()[4]);
+                items.SubItems.Add(rec_struct[k].getData()[5]);
+                items.SubItems.Add(rec_struct[k].getData()[6]);             
 
                 lv.Items.Add(items);
             }
@@ -150,13 +125,13 @@ namespace MajPAbGr_project
         {
             string[] arr = new string[]
             {
-                $"Recepture: {rec_struct[index].getFields()[1]}\n",
-                $"Category: {rec_struct[index].getFields()[1]}\n",
-                $"Source: {rec_struct[index].getFields()[2]}\n",
-                $"Author: {rec_struct[index].getFields()[3]}\n",
-                $"Technology (name): {rec_struct[index].getFields()[4]}\n",
-                $"Main_ingredient: {rec_struct[index].getFields()[5]}\n",
-                $"Description: {rec_struct[index].getFields()[6]}"
+                $"Recepture: {rec_struct[index].getData()[1]}\n",
+                $"Category: {rec_struct[index].getData()[1]}\n",
+                $"Source: {rec_struct[index].getData()[2]}\n",
+                $"Author: {rec_struct[index].getData()[3]}\n",
+                $"Technology (name): {rec_struct[index].getData()[4]}\n",
+                $"Main_ingredient: {rec_struct[index].getData()[5]}\n",
+                $"Description: {rec_struct[index].getData()[6]}"
 
                 //name, category, source, author, technology, ingredient, description
             };

@@ -95,8 +95,8 @@ namespace MajPAbGr_project
 
 
             ReceptureStruct rec = new ReceptureStruct(34);
-            rec.setFields();
-            textBox1.Lines = rec.getFields();
+            rec.setData();
+            textBox1.Lines = rec.getData();
             // проверка метода у структуры
         }
 
