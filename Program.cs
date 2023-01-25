@@ -16,7 +16,7 @@ namespace MajPAbGr_project
         { 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new FormMain());
+            //Application.Run(new FormMain(5));
 
             /*
              * test mode
@@ -32,7 +32,7 @@ namespace MajPAbGr_project
             //tbAmountsController cntrl = new tbAmountsController("Amounts", ref tb);           
             //Application.Run(new InsertAmounts(ref cntrl));
 
-            
+
 
             //Application.Run(new Categories());
 

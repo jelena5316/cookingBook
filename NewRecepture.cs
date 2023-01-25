@@ -131,14 +131,6 @@ namespace MajPAbGr_project
             }
         }
 
-        private void label1_Click_1(object sender, EventArgs e) // ввод рецепта
-        {
-            if (id_recepture == 0) return;
-            InsertAmounts frm = new InsertAmounts(id_recepture);
-            frm.ShowDialog();
-            //this.Dispose();
-        }
-
         private void cmbTech_SelectedIndexChanged(object sender, EventArgs e)
         {
             tbTechnologyController tbTech = new tbTechnologyController("Technology");
@@ -183,11 +175,7 @@ namespace MajPAbGr_project
                 //пресекаем попытку ввести новую запись с занятым названием
                 tb.InsertNewRecord(name, category);
                 // пишем в базу данных название и категория нового рецепта, получаем номер
-                id_recepture = tb.getId();
-                if (id_recepture > 0)
-                {                    
-                    label1.Enabled = true;
-                }
+                id_recepture = tb.getId();                
                 //add new recepture and get it's id
             }
             else // редактируем существуещую запись

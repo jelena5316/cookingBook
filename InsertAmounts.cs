@@ -11,12 +11,12 @@ namespace MajPAbGr_project
 {
     public partial class InsertAmounts : Form
     {
-        readonly int id_recepture;
+        readonly int id_recepture; //для ввода рецепта (коэфициента) к расчитанной из него рецептуре
         private int pragma = 0; // for create mode
         double summa;
         double[] amounts;         
         Mode mode; //create new or edit old
-        string name; // name of recepture
+        string name; // name of recepture, for assigning this.Text when form is loading
         
         List<Element> elements; // id and name, for amounts
         List<Item> ingredients;
@@ -30,7 +30,7 @@ namespace MajPAbGr_project
         string decimal_separator;
         Form2 frm = new Form2();
 
-        public InsertAmounts(AmountsController controller)
+        public InsertAmounts(AmountsController controller) // this is main and it have to be one
         {
             InitializeComponent();
             this.controller = controller;          
@@ -39,48 +39,15 @@ namespace MajPAbGr_project
             calc = controller.Calc;
             elements = controller.Elements;
             ingredients = controller.Ingredients;
-        }
-        
-        public InsertAmounts(int id) // а если и сюда передовать котроллер главной формы?
-                                     // задача: чтобы старый selected не мешал
-        {
-            InitializeComponent();            
-            tbAmount = new tbAmountsController("Amounts");
-            tbAmount.TbRec = new tbReceptureController("Recepture");
-            tbAmount.tbRecSelected(id);  // определяем номер рецептуры в базе данных              
-            tbAmount.RefreshElements(); // elements, elements_count
-            tbAmount.Id_recepture = id;
-            
-            id_recepture = id;                      
-            elements = tbAmount.getElements();
 
-            // в обработчике private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-            //tbAmounts.setSelected(0);
-            tbAmount.Selected = tbAmount.getElementByIndex(0).Id;
-            // определяем выбранный элемент из списка; разобраться с обработчиком!     
+            id_recepture = tbAmount.Id_recepture;
+            name = tbAmount.dbReader($"select name from Recepture where id = {id_recepture}")[0]; // for this.Text            
 
-            calc = new CalcFunction();
-
-            this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1; // mode autodetector
+           this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1; // mode autodetector
             pragma = (mode == 0) ? 0 : 1;
-
-            name = tbAmount.dbReader($"select name from Recepture where id = {id_recepture}")[0];
-        }
-
-        public InsertAmounts(ref tbAmountsController Amounts)
-        {
-            InitializeComponent();
-            this.tbAmount = Amounts; // содержит tbRec, selected (tbRec), elements (= tb.readElement(1));
             
-            id_recepture = tbAmount.Id_recepture; // tbRec.selected               
-            elements = tbAmount.getElements(); // elements (= tb.readElement(1))
-
-            calc = new CalcFunction();           
-            
-            this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1;
-            pragma = 0;
-
-            name = tbAmount.dbReader($"select name from Recepture where id = {id_recepture}")[0];
+            //tbAmount.Selected = tbAmount.getElementByIndex(0).Id;
+            // определяем выбранный элемент из списка; разобраться с обработчиком!
         }
 
         public CalcFunction Calc
@@ -583,8 +550,7 @@ namespace MajPAbGr_project
                 }
             }
             btn_submit.Enabled = true;
-
-            AmountsFromArrayToElementsList(arr);
+            AmountsFromArrayToElementsList(arr);            
         }
 
         /*************************************************************************
@@ -608,13 +574,8 @@ namespace MajPAbGr_project
                 else MessageBox.Show($"{ind} from {listView1.Items.Count} are inserted");
                 btn_recipe.Enabled = true;                
                 mode = Mode.Edit;
-            }
-                //tbAmounts.RefreshElements();
-                //elements = tbAmounts.getElements();
-                //fillAmounts();
-                //FillAmountsView(); // listview
-                //showOldAmounts(); // for edit mode                
-                btn_submit.Enabled = false;
+            }            
+            // забираю в обработчик Обновления (полоса меню)
         }
 
         /********************************************************************************
@@ -701,6 +662,17 @@ namespace MajPAbGr_project
                 }
             }
 
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tbAmount.RefreshElements();
+            elements = tbAmount.getElements();
+            fillAmounts();
+            FillAmountsView(); // listview
+            showOldAmounts(); // for edit mode
+                              
+            btn_submit.Enabled = false;
         }
     }
 }

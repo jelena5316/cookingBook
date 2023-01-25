@@ -329,17 +329,12 @@ namespace MajPAbGr_project
 
         private void AmountsTable()
         {
-            if (tb.getSelected() == 0) return;
-            tbAmountsController cntrl = new tbAmountsController("Amounts", ref tb);
-            InsertAmounts frm = new InsertAmounts(ref cntrl);
+            if (tb.getSelected() == 0) return;            
+            AmountsController cntrl = new AmountsController(tb);
+            InsertAmounts frm = new InsertAmounts(cntrl);
             frm.ShowDialog();
             calc.Coefficient = frm.Calc.Coefficient;
             Reload();
-            // проследить, чтобы передался новый (верный) коэфициент!
-            // при смене эелемента комбинированого поля вызывается метод заполнения списочного представлеяни,
-            // а до него -- форматирования числа, которое использует внутри себя метод ReCalc()
-            // с "неверным" коэфициентом,
-            // причина -- в неверно выбранном объекте для вызова методов класса CalcFunction.
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)

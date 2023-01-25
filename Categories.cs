@@ -299,10 +299,11 @@ namespace MajPAbGr_project
 		private void AmountsTable()
         {
 			if (tbMain.getSelected() == 0) return;
-			tbAmountsController cntrl = new tbAmountsController("Amounts", ref tbMain);
-			InsertAmounts frm = new InsertAmounts(ref cntrl);
+			AmountsController cntrl = new AmountsController(tbMain);
+			InsertAmounts frm = new InsertAmounts(cntrl);
 			frm.ShowDialog();			
 			Reload();
+
 			// проследить, чтобы передался новый (верный) коэфициент!
 			// при смене элемента комбинированого поля вызывается метод заполнения списочного представлеяни,
 			// а до него -- форматирования числа, которое использует внутри себя метод ReCalc()

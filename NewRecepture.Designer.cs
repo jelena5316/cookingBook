@@ -36,7 +36,6 @@ namespace MajPAbGr_project
             this.txbAuthor = new System.Windows.Forms.TextBox();
             this.txbURL = new System.Windows.Forms.TextBox();
             this.txbDescription = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.cmbTech = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
@@ -102,17 +101,6 @@ namespace MajPAbGr_project
             this.txbDescription.TabIndex = 31;
             this.txbDescription.Text = "Description";
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Enabled = false;
-            this.label1.Location = new System.Drawing.Point(427, 29);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(102, 13);
-            this.label1.TabIndex = 32;
-            this.label1.Text = "Insert ingredients >>";
-            this.label1.Click += new System.EventHandler(this.label1_Click_1);
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(367, 370);
@@ -140,7 +128,6 @@ namespace MajPAbGr_project
             this.ClientSize = new System.Drawing.Size(536, 419);
             this.Controls.Add(this.cmbTech);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.txbDescription);
             this.Controls.Add(this.txbURL);
             this.Controls.Add(this.txbAuthor);
@@ -165,7 +152,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.TextBox txbAuthor;
         private System.Windows.Forms.TextBox txbURL;
         private System.Windows.Forms.TextBox txbDescription;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox cmbTech;
     }
