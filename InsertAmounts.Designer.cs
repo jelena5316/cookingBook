@@ -30,7 +30,6 @@ namespace MajPAbGr_project
         private void InitializeComponent()
         {
             this.btn_submit = new System.Windows.Forms.Button();
-            this.btn_recipe = new System.Windows.Forms.Button();
             this.txbRecipe = new System.Windows.Forms.TextBox();
             this.txbAmounts = new System.Windows.Forms.TextBox();
             this.btn_calc = new System.Windows.Forms.Button();
@@ -43,8 +42,6 @@ namespace MajPAbGr_project
             this.btn_select = new System.Windows.Forms.Button();
             this.btn_edit = new System.Windows.Forms.Button();
             this.cmbIngr = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -56,6 +53,7 @@ namespace MajPAbGr_project
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -63,7 +61,7 @@ namespace MajPAbGr_project
             // 
             // btn_submit
             // 
-            this.btn_submit.Location = new System.Drawing.Point(202, 93);
+            this.btn_submit.Location = new System.Drawing.Point(535, 310);
             this.btn_submit.Name = "btn_submit";
             this.btn_submit.Size = new System.Drawing.Size(79, 31);
             this.btn_submit.TabIndex = 2;
@@ -71,23 +69,13 @@ namespace MajPAbGr_project
             this.btn_submit.UseVisualStyleBackColor = true;
             this.btn_submit.Click += new System.EventHandler(this.button4_Click);
             // 
-            // btn_recipe
-            // 
-            this.btn_recipe.Location = new System.Drawing.Point(552, 219);
-            this.btn_recipe.Name = "btn_recipe";
-            this.btn_recipe.Size = new System.Drawing.Size(62, 20);
-            this.btn_recipe.TabIndex = 1;
-            this.btn_recipe.Text = "Insert";
-            this.btn_recipe.UseVisualStyleBackColor = true;
-            this.btn_recipe.Click += new System.EventHandler(this.button1_Click);
-            // 
             // txbRecipe
             // 
-            this.txbRecipe.Location = new System.Drawing.Point(350, 219);
+            this.txbRecipe.Location = new System.Drawing.Point(350, 240);
             this.txbRecipe.Name = "txbRecipe";
-            this.txbRecipe.Size = new System.Drawing.Size(190, 20);
+            this.txbRecipe.Size = new System.Drawing.Size(177, 20);
             this.txbRecipe.TabIndex = 0;
-            this.txbRecipe.Text = "Save as recipe too";
+            this.txbRecipe.Text = "Recipe name";
             // 
             // txbAmounts
             // 
@@ -99,11 +87,11 @@ namespace MajPAbGr_project
             // 
             // btn_calc
             // 
-            this.btn_calc.Location = new System.Drawing.Point(158, 93);
+            this.btn_calc.Location = new System.Drawing.Point(196, 102);
             this.btn_calc.Name = "btn_calc";
-            this.btn_calc.Size = new System.Drawing.Size(38, 31);
+            this.btn_calc.Size = new System.Drawing.Size(85, 31);
             this.btn_calc.TabIndex = 5;
-            this.btn_calc.Text = "Calc";
+            this.btn_calc.Text = "Calculate";
             this.btn_calc.UseVisualStyleBackColor = true;
             this.btn_calc.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -153,7 +141,6 @@ namespace MajPAbGr_project
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.btn_select);
-            this.groupBox1.Controls.Add(this.btn_submit);
             this.groupBox1.Controls.Add(this.txbAmounts);
             this.groupBox1.Controls.Add(this.btn_remove);
             this.groupBox1.Controls.Add(this.btn_edit);
@@ -195,24 +182,6 @@ namespace MajPAbGr_project
             this.cmbIngr.TabIndex = 0;
             this.cmbIngr.Text = "pick an ingredients";
             this.cmbIngr.SelectedIndexChanged += new System.EventHandler(this.cmbIngr_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(347, 321);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(37, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Total: ";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(383, 321);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "label2";
             // 
             // statusStrip1
             // 
@@ -303,16 +272,26 @@ namespace MajPAbGr_project
             this.refreshToolStripMenuItem.Text = "Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(350, 217);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(83, 17);
+            this.checkBox1.TabIndex = 6;
+            this.checkBox1.Text = "Save recipe";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // InsertAmounts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(649, 399);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.btn_submit);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.btn_recipe);
             this.Controls.Add(this.txbRecipe);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.groupBox1);
@@ -336,7 +315,6 @@ namespace MajPAbGr_project
         #endregion
 
         private System.Windows.Forms.Button btn_submit;
-        private System.Windows.Forms.Button btn_recipe;
         private System.Windows.Forms.TextBox txbRecipe;
         private System.Windows.Forms.TextBox txbAmounts;
         private System.Windows.Forms.Button btn_calc;
@@ -349,8 +327,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Button btn_edit;
         private System.Windows.Forms.ComboBox cmbIngr;
         private System.Windows.Forms.Button btn_select;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
@@ -362,5 +338,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

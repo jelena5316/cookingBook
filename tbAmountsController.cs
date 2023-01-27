@@ -109,6 +109,7 @@ namespace MajPAbGr_project
 
             string UpdateAmountQuery(Columns column, string value, string id_recepture)=>
              $"update {table} set {column.ToString()} = '{value}' where id = {id_recepture};";
+
             if (amount_id_count >= elements_count)//amount_count >= element_count
             {
                 frm.richTextBox1.Text += "\n***\nUpdating db\n";
