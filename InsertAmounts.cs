@@ -657,5 +657,19 @@ namespace MajPAbGr_project
                 txbRecipe.Enabled = true;
             }
         }
+
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<string[]> lv = new List<string[]>();
+            foreach (ListViewItem item in listView1.Items)
+            {
+                string[] arr = new string[3];
+                for (int k = 0; k < 3; k++)
+                    arr[k] = item.SubItems[k].Text;
+                lv.Add(arr);
+            }
+            frm.richTextBox1.Clear();           
+            frm.richTextBox1.Lines = controller.PrintAmount(lv);
+        }
     }
 }

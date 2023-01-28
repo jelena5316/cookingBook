@@ -299,7 +299,9 @@ namespace MajPAbGr_project
 		private void AmountsTable()
         {
 			if (tbMain.getSelected() == 0) return;
+			int index = lv_recepture.SelectedItems[0].Index;
 			AmountsController cntrl = new AmountsController(tbMain);
+			cntrl.Info = controller.RecepturesStruct[index];
 			InsertAmounts frm = new InsertAmounts(cntrl);
 			frm.ShowDialog();			
 			Reload();

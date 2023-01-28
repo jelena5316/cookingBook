@@ -8,7 +8,7 @@ namespace MajPAbGr_project
 {
     public class tbAmountsController : tbClass1
     {
-        private int amount_id_count, elements_count, selected_element, id_recepture;
+        private int amount_id_count, elements_count, selected_element, id_recepture;        
         private List<string> amounts_id;
         private List<Element> elements; // id and name, for amounts      
         private tbReceptureController tbRec;
@@ -22,7 +22,7 @@ namespace MajPAbGr_project
 
         public tbAmountsController(string table) : base(table) { } // New Recepture; create mode
 
-        public tbAmountsController(string table, ref tbReceptureController tb) : base(table) // for edit mode
+        public tbAmountsController(string table, tbReceptureController tb) : base(table) // for edit mode
         {
             id_recepture = tb.Selected;
             amounts_id = setAmountsIdList(id_recepture);
@@ -32,6 +32,7 @@ namespace MajPAbGr_project
             // for data updating
             amount_id_count = amounts_id.Count;
             elements_count = elements.Count;
+
         }
 
         public tbReceptureController TbRec
