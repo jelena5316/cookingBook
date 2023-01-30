@@ -18,26 +18,7 @@ namespace MajPAbGr_project
 
         tbReceptureController tb;
         tbClass1 tbCat;
-
-        //public NewRecepture()
-        //{
-        //    InitializeComponent();
-        //    id_recepture = 0;
-        //    SetForm();
-        //}
-
-        //public NewRecepture(int id, int category)
-        //{
-        //    InitializeComponent();
-        //    id_recepture = id;
-        //    this.category = category;
-
-        //    /* this.controller = controller;
-        //        id_recepture = controller.getIdRec();
-        //        this.category = controller.getCategory();*/
-
-        //    SetForm();
-        //}
+        
 
         public NewRecepture (tbReceptureController controller)
         {

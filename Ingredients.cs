@@ -12,7 +12,7 @@ namespace MajPAbGr_project
         List<string> output;
         Form2 frm;
 
-        IngredientsController tb;
+        tbIngredientsController tb;
 
         public Ingredients(int opt)
         {
@@ -27,7 +27,7 @@ namespace MajPAbGr_project
             //fillCatalog(tb.getCatalog());            
         }
 
-        public Ingredients (IngredientsController controller)
+        public Ingredients (tbIngredientsController controller)
         {
             InitializeComponent();
             tb = controller;

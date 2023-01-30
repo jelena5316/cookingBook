@@ -22,7 +22,7 @@ namespace MajPAbGr_project
         List<Item> ingredients;
 
         AmountsController controller;
-        IngredientsController tbIngred;
+        tbIngredientsController tbIngred;
         tbAmountsController tbAmount;        
         CalcFunction calc;
    

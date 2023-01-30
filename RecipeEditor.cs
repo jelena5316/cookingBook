@@ -10,22 +10,22 @@ using System.Windows.Forms;
 
 namespace MajPAbGr_project
 {
-    public partial class Recipe : Form
+    public partial class RecipeEditor : Form
     {
 
         int old_box_x, old_box_y, recepture_id;       
             
-        FormMain frm;
+        Recipes frm;
         tbClass1 tb;
         CalcFunction calc;
         Button btn_remove;
 
-        public Recipe()
+        public RecipeEditor()
         {
             InitializeComponent();
         }
 
-        public Recipe(FormMain frm, tbClass1 tb, CalcFunction calc, int index)
+        public RecipeEditor(Recipes frm, tbClass1 tb, CalcFunction calc, int index)
         {
             InitializeComponent();
             this.frm = frm;

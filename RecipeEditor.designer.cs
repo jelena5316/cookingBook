@@ -1,7 +1,7 @@
 ﻿
 namespace MajPAbGr_project
 {
-    partial class Recipe
+    partial class RecipeEditor
     {
         /// <summary>
         /// Required designer variable.

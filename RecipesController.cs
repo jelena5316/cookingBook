@@ -8,7 +8,7 @@ using System.Globalization;
 
 namespace MajPAbGr_project
 {
-    public class FormMainController
+    public class RecipesController
     {
         int category, technology, selected; // выбранной из списка рецепторe, номера записей в базе данных
         double coefficient; // выбранного из списка рецепта либо вычисленный
@@ -24,7 +24,7 @@ namespace MajPAbGr_project
         string decimal_separator /*разделитель */;
         
 
-        public FormMainController(int id)
+        public RecipesController(int id)
         {
             tb = new tbReceptureController("Recepture");
             calc = new CalcFunction();

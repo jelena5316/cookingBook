@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
-    public class IngredientsController : tbClass1
+    public class tbIngredientsController : tbClass1
     {
         int opt;
         string used = "0";
 
-        public IngredientsController() { }
-        public IngredientsController(int opt) : base ()
+        public tbIngredientsController() { }
+        public tbIngredientsController(int opt) : base ()
         {
             this.opt = opt;
             base.table = opt == 1 ? "Ingredients" : "Categories";

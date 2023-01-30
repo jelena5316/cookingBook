@@ -175,7 +175,7 @@ namespace MajPAbGr_project
 			if (lv_recepture.SelectedItems == null)
 				lv_recepture.Items[0].Selected = true;
 			
-			FormMain frm = new FormMain(tbMain.Selected);			
+			Recipes frm = new Recipes(tbMain.Selected);			
 			frm.Show();			
         }
 
@@ -203,7 +203,7 @@ namespace MajPAbGr_project
 				list.Add(controller.Receptures[k].name);
 			pragma = 0;
 
-			IngredientsController tbCat = controller.TbCat;
+			tbIngredientsController tbCat = controller.TbCat;
 			tbCat.resetCatalog();
 			controller.Categories = tbCat.getCatalog();
 			Class1.setBox(controller.Categories, ref cmb_categories);
@@ -222,7 +222,7 @@ namespace MajPAbGr_project
 		// categories and ingredients
 		private void SimpleTable(int opt)
 		{
-			IngredientsController cntrl = new IngredientsController(opt);
+			tbIngredientsController cntrl = new tbIngredientsController(opt);
 			Ingredients frm = new Ingredients(cntrl);
 			frm.Show();
 		}

@@ -16,12 +16,12 @@ namespace MajPAbGr_project
         
         
         tbReceptureController tb;
-        IngredientsController tbCat;   
+        tbIngredientsController tbCat;   
         TechnologyController tbTech;
 
         public CategoriesController()        
         {
-            tbCat = new IngredientsController(2);
+            tbCat = new tbIngredientsController(2);
             tbCat.setCatalog();            
             categories = tbCat.getCatalog();
             category = 0;
@@ -63,7 +63,7 @@ namespace MajPAbGr_project
             get { return tb; }
         }
 
-        public IngredientsController TbCat
+        public tbIngredientsController TbCat
         {
             get { return tbCat; }
         }

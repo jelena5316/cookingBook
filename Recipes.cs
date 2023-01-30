@@ -8,13 +8,13 @@ using System.Globalization;
 
 namespace MajPAbGr_project
 {
-    public partial class FormMain : Form
+    public partial class Recipes : Form
     {
         int category;
         double coefficient;
         public List<Element> recipes;
         public List <Element> elements;
-        FormMainController controller;
+        RecipesController controller;
         tbReceptureController tb;
         CalcFunction calc;
 
@@ -24,10 +24,10 @@ namespace MajPAbGr_project
 
         CultureInfo current;       
 
-        public FormMain(int id)
+        public Recipes(int id)
         {
             InitializeComponent();
-            controller = new FormMainController(id);            
+            controller = new RecipesController(id);            
             recipes = new List<Element>();
 
             tb = controller.TbMain();            
@@ -349,7 +349,7 @@ namespace MajPAbGr_project
 
         private void SimpleTable(int opt)
         {
-            IngredientsController cntrl = new IngredientsController(opt);
+            tbIngredientsController cntrl = new tbIngredientsController(opt);
             Ingredients frm = new Ingredients(cntrl);
             frm.Show();
         }
@@ -418,7 +418,7 @@ namespace MajPAbGr_project
             checkBox1.Enabled = true;
             checkBox1.Checked = true;
             
-            Recipe frm = new Recipe(this, controller.TbMain(), calc, comboBox1.SelectedIndex);        
+            RecipeEditor frm = new RecipeEditor(this, controller.TbMain(), calc, comboBox1.SelectedIndex);        
             frm.ShowDialog();
 
             this.lbl_info.Location = new Point(318, lbl_info_y);

@@ -11,7 +11,7 @@ namespace MajPAbGr_project
         int selected_rec;
         double summa;
         tbAmountsController tbAmount;
-        IngredientsController tbIngred;
+        tbIngredientsController tbIngred;
         List<Item> ingredients;
         List<Element> elements, old_elements, formated;
         CalcFunction calc;
@@ -29,7 +29,7 @@ namespace MajPAbGr_project
             calc.setAmounts(elements);
             summa = calc.getTotal();
 
-            tbIngred = new IngredientsController(1);
+            tbIngred = new tbIngredientsController(1);
             tbIngred.setCatalog();
             ingredients = tbIngred.getCatalog();            
         }
@@ -43,7 +43,7 @@ namespace MajPAbGr_project
         {
             get { return tbAmount; }
         }
-        public IngredientsController TbIngred
+        public tbIngredientsController TbIngred
         {
             get { return tbIngred; }
         }
