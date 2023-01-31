@@ -16,13 +16,11 @@ namespace MajPAbGr_project
         { 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new FormMain(5));
+            Application.Run(new Categories());
 
             /*
              * test mode
-             */
-            Application.Run(new Categories());
-
+             */          
             //tbReceptureController tb = new tbReceptureController("Recepture");
             //tb.Selected = 5;
             //AmountsController cntrl = new AmountsController(tb);
@@ -31,7 +29,6 @@ namespace MajPAbGr_project
             //tb.Selected = 28;
             //tbAmountsController cntrl = new tbAmountsController("Amounts", ref tb);           
             //Application.Run(new InsertAmounts(ref cntrl));
-
 
 
             //Application.Run(new Categories());

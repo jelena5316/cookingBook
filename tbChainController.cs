@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace MajPAbGr_project
 {
     
-    public class tbChainController: tbClass1
+    public class tbChainController: tbController
     {
         int technology, card;
         string name;

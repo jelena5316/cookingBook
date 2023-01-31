@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
-    public class tbReceptureController : tbClass1
+    public class tbReceptureController : tbController
     {
         private int id_recepture, category, technology = 0;
         private bool indicator; // choose mode

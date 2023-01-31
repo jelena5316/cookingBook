@@ -4,7 +4,7 @@
 
 namespace MajPAbGr_project
 {
-    public class tbClass1 : dbController
+    public class tbController : dbController
     {
         protected string table;
         protected string query;
@@ -14,12 +14,12 @@ namespace MajPAbGr_project
         int count;
 
 
-        public tbClass1() : base()
+        public tbController() : base()
         {
             selected = 0;
             //db = new dbController();
         }
-        public tbClass1(string table)
+        public tbController(string table)
         {
             selected = 0;
             this.table = table;

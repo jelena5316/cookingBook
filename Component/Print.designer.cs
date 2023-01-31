@@ -1,7 +1,7 @@
 ﻿
 namespace MajPAbGr_project
 {
-    partial class Form2
+    partial class Print
     {
         /// <summary>
         /// Required designer variable.

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
-    public class tbRecipeController : tbClass1
+    public class tbRecipeController : tbController
     {
         int recepture;
 

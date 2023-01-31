@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
-    public class tbTechnologyController: tbClass1
+    public class tbTechnologyController: tbController
     {
         string used="0";
         

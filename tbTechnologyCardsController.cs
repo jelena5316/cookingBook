@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
-    public class tbTechnologyCardsController: tbClass1
+    public class tbTechnologyCardsController: tbController
     {
 
         private string name, description, card;

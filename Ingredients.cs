@@ -10,7 +10,7 @@ namespace MajPAbGr_project
         string used;
 
         List<string> output;
-        Form2 frm;
+        Print frm;
 
         tbIngredientsController tb;
 
@@ -39,7 +39,7 @@ namespace MajPAbGr_project
         private void Ingredients_Load(object sender, EventArgs e)
         {
             string table;            
-            frm = new Form2();
+            frm = new Print();
             
             // Elements()
             table = tb.getTable();

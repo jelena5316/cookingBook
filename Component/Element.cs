@@ -113,7 +113,7 @@ namespace MajPAbGr_project
                 if (list.Count > 0)
                 {
                     item = list[0];
-                    field = item.name + " " + item.id.ToString();
+                    field = item.name + " ";// + item.id.ToString();
                     number = item.id;
                 }
             }

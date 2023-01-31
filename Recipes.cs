@@ -362,7 +362,7 @@ namespace MajPAbGr_project
                 file = comboBox1.SelectedItem.ToString();
             else file = "recipe";
             List<string> strings = PrepareOutput();            
-            Form2 frm = new Form2(strings, file); // method PrintToFile is a Form2 method
+            Print frm = new Print(strings, file); // method PrintToFile is a Form2 method
             frm.Show();
         }        
         private List<string> PrepareOutput()

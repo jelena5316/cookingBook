@@ -68,12 +68,16 @@ namespace MajPAbGr_project
             get { return tbCat; }
         }
 
-        public void SelectedByCategoryRecepture(int id)
-        {
-            string query;
-            query = $"select id, name from Recepture where id_category = {id};";            
-            receptures = tb.Catalog(query);
-        }
+        public int getMinIdOfReceptures()
+            => int.Parse(tb.dbReader("select min(id) from Recepture;")[0]);
+        
+
+        //public void SelectedByCategoryRecepture(int id)
+        //{
+        //    string query;
+        //    query = $"select id, name from Recepture where id_category = {id};";            
+        //    receptures = tb.Catalog(query);
+        //}
 
         public void setReceptures()
         {           
@@ -97,7 +101,7 @@ namespace MajPAbGr_project
             }
         }
 
-        public void setListView(ref ListView lv)
+        public void setListView(ListView lv)
         {
             int id;
             List<Item> receptures = this.Receptures;

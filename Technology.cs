@@ -16,7 +16,7 @@ namespace MajPAbGr_project
 		List<Item> technologies, receptures;
 		tbTechnologyController tb;
 		TechnologyController controller;
-		tbClass1 tbRec;
+		tbController tbRec;
 
 		/*		 
 		 * id_technology -- переданный номер, для редактора; меняется и при правке, и при записи нового
@@ -240,7 +240,7 @@ namespace MajPAbGr_project
 
 		private void PrintInfo(string[] arr)
 		{
-			Form2 frm = new Form2();
+			Print frm = new Print();
 			frm.Show();
 			frm.richTextBox1.Lines = arr;
 		}

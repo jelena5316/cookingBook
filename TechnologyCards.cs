@@ -311,7 +311,7 @@ namespace MajPAbGr_project
 
         private void PrintInfo(string [] arr)
         {
-            Form2 frm = new Form2();
+            Print frm = new Print();
             frm.Show();
             frm.richTextBox1.Lines = arr;
         }
@@ -320,7 +320,7 @@ namespace MajPAbGr_project
         {
             // вывод в консоль
             string ind;
-            Form2 frm = new Form2();
+            Print frm = new Print();
             frm.Show();
             frm.richTextBox1.Text = $"Id of technology is {id_technology} \n";
 

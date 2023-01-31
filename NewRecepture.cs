@@ -17,7 +17,7 @@ namespace MajPAbGr_project
         string name, recepture, source, author, URL, description;
 
         tbReceptureController tb;
-        tbClass1 tbCat;
+        tbController tbCat;
         
 
         public NewRecepture (tbReceptureController controller)
@@ -27,7 +27,7 @@ namespace MajPAbGr_project
             id_recepture = tb.getId();
             this.category = tb.getCategory();
             this.technology = tb.getTechnology();            
-            tbCat = new tbClass1("Categories");
+            tbCat = new tbController("Categories");
 
             List<string> data = tb.getData();
             if (data!=null)

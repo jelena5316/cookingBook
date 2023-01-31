@@ -28,7 +28,7 @@ namespace MajPAbGr_project
    
         NumberFormatInfo nfi;
         string decimal_separator;
-        Form2 frm = new Form2();
+        Print frm = new Print();
 
         public InsertAmounts(AmountsController controller) // this is main and it have to be one
         {

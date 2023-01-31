@@ -11,17 +11,17 @@ using System.IO;
 
 namespace MajPAbGr_project
 {
-    public partial class Form2 : Form
+    public partial class Print : Form
     {
         List<string> strings;
         string file;
         
-        public Form2()
+        public Print()
         {
             InitializeComponent();
         }
 
-        public Form2(List <string> strings, string file)
+        public Print(List <string> strings, string file)
         {
             InitializeComponent();
             this.strings = strings;

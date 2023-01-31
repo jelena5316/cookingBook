@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
-    public class tbAmountsController : tbClass1
+    public class tbAmountsController : tbController
     {
         private int amount_id_count, elements_count, selected_element, id_recepture;        
         private List<string> amounts_id;
@@ -92,7 +92,7 @@ namespace MajPAbGr_project
             return amounts_id;
         }
 
-        public int updateRecords(ref Form2 frm)
+        public int updateRecords(ref Print frm)
         {
             int k, ind = 0;
             string query, amount;           
@@ -101,7 +101,7 @@ namespace MajPAbGr_project
             //writting main ingredient id into table Recepture
             if (elements.Count > 0 && id_recepture > 0)
             {
-                tbClass1 tb = new tbClass1("Recepture");
+                tbController tb = new tbController("Recepture");
                 ind = tb.UpdateReceptureOrCards("id_main", elements[0].Id.ToString(), id_recepture); // Recepture
                 if (ind == 0) return -1;
                 else ind = 0;

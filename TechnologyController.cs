@@ -11,7 +11,7 @@ namespace MajPAbGr_project
         int id_technology, id_recepture, id, selected_tech/*, selected_rec*/;
         List<Item> technologies, receptures;
         tbTechnologyController tb;
-        tbClass1 tbRec;
+        tbController tbRec;
 
 		/*		 
 		 * id_technology -- переданный номер, выставляет с поле имя из списка в поле технологий;  номер исправленной технологии (теперь и новой);
@@ -26,7 +26,7 @@ namespace MajPAbGr_project
 		public TechnologyController (int technology)
 		{
 			tb = new tbTechnologyController("Technology");
-			tbRec = new tbClass1("Recepture");
+			tbRec = new tbController("Recepture");
 			id_recepture = 0;
 
 			if (technology < 0) technology = 0;
@@ -44,7 +44,7 @@ namespace MajPAbGr_project
 			return tb;
         }
 
-		public tbClass1 getRecTbController()
+		public tbController getRecTbController()
 		{
 			return tbRec;
 		}

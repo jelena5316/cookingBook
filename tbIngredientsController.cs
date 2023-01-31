@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
-    public class tbIngredientsController : tbClass1
+    public class tbIngredientsController : tbController
     {
         int opt;
         string used = "0";

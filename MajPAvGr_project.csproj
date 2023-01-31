@@ -98,7 +98,7 @@
     <Compile Include="Component\Element.cs" />
     <Compile Include="Component\Enum.cs" />
     <Compile Include="Component\FormFunction.cs" />
-    <Compile Include="Component\tbClass1.cs" />
+    <Compile Include="Component\tbController.cs" />
     <Compile Include="EditDB.cs" />
     <Compile Include="EditDB.designer.cs">
       <DependentUpon>EditDB.cs</DependentUpon>
@@ -109,11 +109,11 @@
     <Compile Include="Recipes.Designer.cs">
       <DependentUpon>Recipes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form2.cs">
+    <Compile Include="Component\Print.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2.designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <Compile Include="Component\Print.designer.cs">
+      <DependentUpon>Print.cs</DependentUpon>
     </Compile>
     <Compile Include="tbReceptureController.cs" />
     <Compile Include="tbIngredientsController.cs" />
@@ -173,8 +173,8 @@
     <EmbeddedResource Include="Recipes.resx">
       <DependentUpon>Recipes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form2.resx">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <EmbeddedResource Include="Component\Print.resx">
+      <DependentUpon>Print.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ingredients.resx">
       <DependentUpon>Ingredients.cs</DependentUpon>
