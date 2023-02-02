@@ -18,27 +18,39 @@ namespace MajPAbGr_project
 
         tbReceptureController tb;
         tbController tbCat;
-        
+        tbTechnologyController tbTech;
+        NewReceptureController controller;
 
-        public NewRecepture (tbReceptureController controller)
+
+        public NewRecepture(tbReceptureController controller)
         {
             InitializeComponent();
             this.tb = controller;
             id_recepture = tb.getId();
             this.category = tb.getCategory();
-            this.technology = tb.getTechnology();            
+            this.technology = tb.getTechnology();
             tbCat = new tbController("Categories");
+            tbTech = new tbTechnologyController("Technology");
+            tbTech.setCatalog();
 
             List<string> data = tb.getData();
-            if (data!=null)
+            if (data != null)
             {
                 indicator = true;
                 name = data[0];
                 source = data[1];
                 author = data[2];
                 URL = data[3];
-                description = data[4];              
+                description = data[4];
             }
+
+            this.controller = new NewReceptureController();
+        }
+
+        public NewRecepture()
+        {
+            InitializeComponent();
+            controller = new NewReceptureController();
         }
 
         private void SetForm()
@@ -49,11 +61,11 @@ namespace MajPAbGr_project
 
             tbTechnologyController tbTech = new tbTechnologyController("Technology");
             int temp = technology;
-            tbTech.setCatalog();            
-            List<Item> technologies = tbTech.getCatalog();            
+            tbTech.setCatalog();
+            List<Item> technologies = tbTech.getCatalog();
             Class1.FillCombo(technologies, ref cmbTech);
             technology = temp;
-            if(technology > 0)
+            if (technology > 0)
             {
                 cmbTech.SelectedIndex = Class1.ChangeIndex(technologies, technology);
                 //cmbTech.Text = "the used technology";
@@ -63,7 +75,7 @@ namespace MajPAbGr_project
             {
                 cmbTech.Text = "choose any technology";
             }
-            
+
             if (indicator)
             {
                 txbRecepture.Text = name;
@@ -114,12 +126,27 @@ namespace MajPAbGr_project
 
         private void cmbTech_SelectedIndexChanged(object sender, EventArgs e)
         {
-            tbTechnologyController tbTech = new tbTechnologyController("Technology");
-            tbTech.setCatalog();
-            //List<Item> technologies = tbTech.getCatalog();
-            //string name = technologies[cmbTech.SelectedIndex].name;
-            int selected = tbTech.setSelected(cmbTech.SelectedIndex);            
-            technology = tbTech.Selected;
+            technology = tbTech.setSelected(cmbTech.SelectedIndex);
+        }
+        private void cmbCat_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            tbCat.setSelected(cmbCat.SelectedIndex);
+        }
+
+        private void chBox_technology_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chBox_technology.Checked)
+            {
+                cmbTech.Enabled = false;
+                technology = 0;
+            }
+            else
+            {
+                tbTechnologyController tbTech = new tbTechnologyController("Technology");
+                tbTech.setCatalog();
+                cmbTech.Enabled = true;
+                technology = tbTech.setSelected(0);
+            }
         }
 
         private void button1_Click(object sender, EventArgs e) //remove
@@ -131,19 +158,22 @@ namespace MajPAbGr_project
                 this.Dispose();
                 this.Close();
                 return;
-            }               
+            }
             int count = tb.RemoveItem();
             MessageBox.Show($"Is removed {count} records");
-        }
-         
-        private void cmbCat_SelectedIndexChanged(object sender, EventArgs e)
-        {
-           tbCat.setSelected(cmbCat.SelectedIndex);
         }
 
         private void button2_Click(object sender, EventArgs e) // set / write into db (Recepture)
         {
-            int num = 0;                     
+            //if (technology == 0 || chBox_technology.Checked)
+            //{
+            //    MessageBox.Show("Technology is equel null");
+            //    return;
+            //}
+            //this.Text = "!!!";
+            //return;
+
+            int num = 0;
             if (!indicator) // вводим новый рецепт
             {
                 if (string.IsNullOrEmpty(txbRecepture.Text)) return;
@@ -151,37 +181,40 @@ namespace MajPAbGr_project
 
                 name = txbRecepture.Text;
                 category = tbCat.getSelected();
-                if (category == 0) category = 1;              
+                if (category == 0) category = 1;
                 if (tb.IfRecordIs(name)) return;
                 //пресекаем попытку ввести новую запись с занятым названием
                 tb.InsertNewRecord(name, category);
                 // пишем в базу данных название и категория нового рецепта, получаем номер
-                id_recepture = tb.getId();                
+                id_recepture = tb.getId();
                 //add new recepture and get it's id
             }
-            else // редактируем существуещую запись
+            else // редактируем существующую запись
             {
                 if (string.IsNullOrEmpty(txbRecepture.Text)) return;
 
                 name = txbRecepture.Text;
                 category = tbCat.getSelected();
-              
+
                 num = tb.UpdateReceptureOrCards("name", name, id_recepture);
                 num = tb.UpdateReceptureOrCards("id_category", category.ToString(), id_recepture);
-                num = tb.UpdateReceptureOrCards("id_technology", technology.ToString(), id_recepture);                
-                //num = tb.Edit($"update Recepture set id_technology = {technology} where id = {id_recepture};");
+                if (technology == 0 || chBox_technology.Checked)
+                {
+                    num = tb.UpdateReceptureOrCards("id_technology", technology.ToString(), id_recepture);
+                    //num = tb.Edit($"update Recepture set id_technology = {technology} where id = {id_recepture};");
+                }
             }
 
             if (string.IsNullOrEmpty(txbAuthor.Text)) return;
             if (string.IsNullOrEmpty(txbSource.Text)) return;
-            
+
             if (string.IsNullOrEmpty(txbDescription.Text)) return;
 
             source = txbSource.Text;
             author = txbAuthor.Text;
             URL = txbURL.Text;
             description = txbDescription.Text;
-                    
+
             num = tb.UpdateReceptureOrCards("source", source, id_recepture);
             num = tb.UpdateReceptureOrCards("author", author, id_recepture);
             Report(num, "author");
@@ -191,79 +224,70 @@ namespace MajPAbGr_project
             if (string.IsNullOrEmpty(txbURL.Text)) return;
             num = tb.UpdateReceptureOrCards("URL", URL, id_recepture);
             Report(num, "URL");
-            //returns only then fields is not nullable!     
+            //returns only then fields is not nullable!
+            
+            // сделать перезагрузку изменных данных в котроллер формы!
         }
-  
-        private void Report (int num, string variable) //developer mode
+
+        private void Report(int num, string variable) //developer mode
         {
             if (num == 0) this.Text += $" {variable} not writted";
             else this.Text += $" {variable} is writted";
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-            //if (id_recepture == 0) return;
-            //InsertAmounts frm = new InsertAmounts(id_recepture);
-            //frm.ShowDialog();
-        }
-
         private void NewRecepture_Load(object sender, EventArgs e)
         {
             int ind;
-            AutoCompleteStringCollection source; // recepture in commented code
-            dbController db = new dbController();
-
-            source = new AutoCompleteStringCollection();
-            ind = TextBoxAutocomplet(db, "name", source, ref txbRecepture);
-            source.Clear();
-            ind = TextBoxAutocomplet(db, "source", source, ref txbSource);
-            source.Clear();
-            ind = TextBoxAutocomplet(db, "URL", source, ref txbURL);
-            source.Clear();
-            ind = TextBoxAutocomplet(db, "author", source, ref txbAuthor);
-            source.Clear();
-            SetForm();
-
-            //int length;       
-            //length = int.Parse(db.Count("select count (name) from Recepture;"));
-            //if (length != 0)
-            //{
-            //    string [] receptures = new string[length];          
-            //    receptures = db.dbReader("select name from Recepture;").ToArray();
-            //    recepture = new AutoCompleteStringCollection();
-            //    recepture.AddRange(receptures);            
-            //    txbRecepture.AutoCompleteCustomSource = recepture;
-            //    txbRecepture.AutoCompleteMode = AutoCompleteMode.Suggest;
-            //    txbRecepture.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            //}
-
+            ind = TextBoxAutocomplet("name", txbRecepture);
+            ind = TextBoxAutocomplet("source", txbSource);
+            ind = TextBoxAutocomplet("author", txbAuthor);
+            ind = TextBoxAutocomplet("URL", txbURL);
+            SetForm();            
         }
 
-        private int TextBoxAutocomplet(dbController db, string column, AutoCompleteStringCollection source, ref TextBox box )
+        private int TextBoxAutocomplet(string column, TextBox box)
         {
-            int length;
-            if ((length = int.Parse(db.Count("select count (name) from Recepture;"))) == 0)
-            {   
-                //оставить здесь, в конроллер вынести проверку
-                source = new AutoCompleteStringCollection();
-                source.Add("empty");
-                return 0;
-            }
-            else
+            int length = 0;
+            AutoCompleteStringCollection source = new AutoCompleteStringCollection();
+           
+            if (tb.IfRecordIs())
             {
-                //можно вынести в контроллер
-                string[] receptures = new string[length];
-                receptures = db.dbReader($"select {column} from Recepture;").ToArray();
-
-                //оставить здесь
-                source = new AutoCompleteStringCollection();
-                source.AddRange(receptures);
+                source.AddRange(controller.getNames(column));
                 box.AutoCompleteCustomSource = source;
                 box.AutoCompleteMode = AutoCompleteMode.Suggest;
                 box.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                return length;
             }
-           
+            else
+            {
+                source.Add("empty");
+            }
+            return length;
+    } 
+}
+
+    public class NewReceptureController
+    {
+        int id_recepture, category, technology;
+        List<Item> categories, technologies;
+
+        tbReceptureController tb;
+        tbController tbCat;
+        tbTechnologyController tbTech;
+
+        public NewReceptureController()
+        {
+            tb = new tbReceptureController("Recepture");
+            tbCat = new tbController("Categories");
+            tbTech = new tbTechnologyController("Technology");
+            tbCat.setCatalog();
+            categories = tbCat.getCatalog();
+            tbTech.setCatalog();
+            technologies = tbTech.getCatalog();
+        }
+
+        public string [] getNames(string column)
+        {
+            return tb.dbReader($"select {column} from Recepture;").ToArray();
         }
     }
 }

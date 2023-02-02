@@ -117,6 +117,11 @@ namespace MajPAbGr_project
 
         public int getTechnology() { return technology; }
 
+        public bool IfRecordIs()
+        {
+            return Count("select count (name) from Recepture;") == "0" ? false : true;
+        }
+
         public bool IfRecordIs(string name)
         {
             query = $"select count(*) from Recepture where name ='{name}';";

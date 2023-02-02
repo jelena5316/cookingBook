@@ -38,6 +38,7 @@ namespace MajPAbGr_project
             this.txbDescription = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.cmbTech = new System.Windows.Forms.ComboBox();
+            this.chBox_technology = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // txbRecepture
@@ -121,11 +122,23 @@ namespace MajPAbGr_project
             this.cmbTech.Text = "choose technology";
             this.cmbTech.SelectedIndexChanged += new System.EventHandler(this.cmbTech_SelectedIndexChanged);
             // 
+            // chBox_technology
+            // 
+            this.chBox_technology.AutoSize = true;
+            this.chBox_technology.Location = new System.Drawing.Point(186, 111);
+            this.chBox_technology.Name = "chBox_technology";
+            this.chBox_technology.Size = new System.Drawing.Size(51, 17);
+            this.chBox_technology.TabIndex = 35;
+            this.chBox_technology.Text = "isNull";
+            this.chBox_technology.UseVisualStyleBackColor = true;
+            this.chBox_technology.CheckedChanged += new System.EventHandler(this.chBox_technology_CheckedChanged);
+            // 
             // NewRecepture
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(536, 419);
+            this.Controls.Add(this.chBox_technology);
             this.Controls.Add(this.cmbTech);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.txbDescription);
@@ -154,5 +167,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.TextBox txbDescription;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox cmbTech;
+        private System.Windows.Forms.CheckBox chBox_technology;
     }
 }
