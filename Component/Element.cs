@@ -55,7 +55,7 @@ namespace MajPAbGr_project
     public class ReceptureStruct
     {
         int id;
-        string name, category, source, author, technology, ingredient, description;
+        string name, category, source, author, technology, ingredient, description, url;
         string[] data;
         int[] data_id; // 0 - category, 1 - technology, 2 - ingredient
         //Item recepture, cat, techn, ingred;
@@ -82,7 +82,8 @@ namespace MajPAbGr_project
                 "id_main", // 3
                 "source", // 4
                 "author", // 5
-                "description" // 6
+                "description", // 6
+                "URL" // 7
             };
 
             int id = this.id;
@@ -96,7 +97,7 @@ namespace MajPAbGr_project
             string Query(int table, string subquery)
                 => $"select id, {column_names[0]} from {tables[table]} where id = ({subquery});";
  
-            string ChequeData(List<string> data)
+            string CheckData(List<string> data)
             {
                 if (data.Count < 1)
                     return "no data";
@@ -120,11 +121,12 @@ namespace MajPAbGr_project
  
             name = db.dbReader(SubQuery(0))[0];
             getItemData(Query(1, SubQuery(1)), out category, out data_id[0]);
-            source = ChequeData(db.dbReader(SubQuery(4)));
-            author = ChequeData(db.dbReader(SubQuery(5)));
+            source = CheckData(db.dbReader(SubQuery(4)));
+            author = CheckData(db.dbReader(SubQuery(5)));
             getItemData(Query(2, SubQuery(2)), out technology, out data_id[1]);
             getItemData(Query(3, SubQuery(3)), out ingredient, out data_id[2]);                
-            description = ChequeData(db.dbReader(SubQuery(6)));
+            description = CheckData(db.dbReader(SubQuery(6)));
+            url = CheckData(db.dbReader(SubQuery(7)));
         }
 
         public string[] getData()
@@ -132,6 +134,8 @@ namespace MajPAbGr_project
             string[] arr = new string[] { name, category, source, author, technology, ingredient, description };
             return arr;
         }
+
+        public string[] EditorData => new string[] { name, source, author, url, description };
 
         public int getId()
         {

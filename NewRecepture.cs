@@ -19,7 +19,7 @@ namespace MajPAbGr_project
         tbReceptureController tb;
         tbController tbCat;
         tbTechnologyController tbTech;
-        NewReceptureController controller;
+        NewReceptureController controller = new NewReceptureController();
 
 
         public NewRecepture(tbReceptureController controller)
@@ -27,9 +27,10 @@ namespace MajPAbGr_project
             InitializeComponent();
             this.tb = controller;
             id_recepture = tb.getId();
-            this.category = tb.getCategory();
-            this.technology = tb.getTechnology();
+            this.category = tb.Category;
+            this.technology = tb.Technology;
             tbCat = new tbController("Categories");
+            tbCat.setCatalog();
             tbTech = new tbTechnologyController("Technology");
             tbTech.setCatalog();
 
@@ -43,33 +44,40 @@ namespace MajPAbGr_project
                 URL = data[3];
                 description = data[4];
             }
-
-            this.controller = new NewReceptureController();
         }
 
-        public NewRecepture()
+        public NewRecepture(NewReceptureController controller)
         {
             InitializeComponent();
-            controller = new NewReceptureController();
+            this.controller = controller;
+            tb = controller.TbMain();
+            tbCat = controller.TbCat();
+            tbTech = controller.TbTech();
+
+            id_recepture = tb.Id;
+            category = tb.Category;
+            technology = tb.Technology;
+            indicator = controller.Indicator; // choose mode
         }
 
         private void SetForm()
         {
-            //tbCat = new tbClass1("Categories");
-            tbCat.setCatalog(); // we can check catalog on null
-            FillCatalog(tbCat.getCatalog());
+            int temp;
+            List<Item> items;          
 
-            tbTechnologyController tbTech = new tbTechnologyController("Technology");
-            int temp = technology;
-            tbTech.setCatalog();
-            List<Item> technologies = tbTech.getCatalog();
-            Class1.FillCombo(technologies, ref cmbTech);
+            temp = category;
+            items = tbCat.getCatalog();
+            Class1.FillCombo(items, ref cmbCat);
+            category = temp;
+            cmbCat.SelectedIndex = Class1.ChangeIndex(items, category);            
+
+            temp = technology;            
+            items = tbTech.getCatalog();
+            Class1.FillCombo(items, ref cmbTech);
             technology = temp;
             if (technology > 0)
             {
-                cmbTech.SelectedIndex = Class1.ChangeIndex(technologies, technology);
-                //cmbTech.Text = "the used technology";
-                //TechnologyController controller = new TechnologyController(technology);
+                cmbTech.SelectedIndex = Class1.ChangeIndex(items, technology);                
             }
             else
             {
@@ -267,8 +275,11 @@ namespace MajPAbGr_project
 
     public class NewReceptureController
     {
+        bool indicator = false;
         int id_recepture, category, technology;
+        string name, recepture, source, author, URL, description;
         List<Item> categories, technologies;
+        ReceptureStruct info;
 
         tbReceptureController tb;
         tbController tbCat;
@@ -284,6 +295,38 @@ namespace MajPAbGr_project
             tbTech.setCatalog();
             technologies = tbTech.getCatalog();
         }
+
+        public NewReceptureController (tbReceptureController tb)
+        {
+            this.tb = tb;
+            tbCat = new tbController("Categories");
+            tbTech = new tbTechnologyController("Technology");
+            tbCat.setCatalog();
+            categories = tbCat.getCatalog();
+            tbTech.setCatalog();
+            technologies = tbTech.getCatalog();
+
+            List<string> data = tb.getData();
+            if (data != null)
+            {
+                indicator = true;
+                name = data[0];
+                source = data[1];
+                author = data[2];
+                URL = data[3];
+                description = data[4];
+            }
+        }
+
+        public bool Indicator => indicator;
+        
+        public tbReceptureController TbMain() => tb;
+        public tbController TbCat() => tbCat;
+        public tbTechnologyController TbTech() => tbTech;
+
+        public List<Item> Categories() => categories;
+
+        public List<Item> Technologies() => technologies;
 
         public string [] getNames(string column)
         {

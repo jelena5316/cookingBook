@@ -112,8 +112,42 @@ namespace MajPAbGr_project
             else return null;
         }
 
+        public ReceptureStruct ReceptureInfo
+        {
+            set {
+                info = value;
+                string[] arr = info.EditorData;
+                int[] ids = info.getIds();
+                for (int k = 0; k < 5; k++)
+                    Info[1, k] = arr[k];
+                category = ids[0];
+                technology = ids[1];  
+            }
+            get { return info; }
+        }
+
+        public int Id
+        {
+            set
+            {
+                id_recepture = value;
+                if (id_recepture > 0) indicator = true;
+                else indicator = false;
+            }
+            get => id_recepture;
+        }
         public int getId() { return id_recepture; }
-        public int getCategory() { return category; }
+        public int Category
+        {
+            set { category = value;}
+            get { return category; }
+        }
+
+        public int Technology
+        {
+            set { technology = value; }
+            get { return technology; }
+        }
 
         public int getTechnology() { return technology; }
 
@@ -211,17 +245,6 @@ namespace MajPAbGr_project
             else
                 query += ";";
             return int.Parse(Count(query));
-        }
-
-        //new methods (5.01)
-        public int Category
-        {
-            set { category = value; }
-        }
-
-        public int Technology
-        {
-            set { technology = value; }
         }
     }
 }

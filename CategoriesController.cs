@@ -42,7 +42,7 @@ namespace MajPAbGr_project
             setFields();
         }
 
-        public List<ReceptureStruct> RecepturesStruct
+        public List<ReceptureStruct> ReceptureStruct
         {
             get { return rec_struct; }
         }

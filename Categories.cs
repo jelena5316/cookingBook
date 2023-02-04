@@ -58,12 +58,7 @@ namespace MajPAbGr_project
 		 */		
 		private void openReceptureEditor()
 		{
-			string table = "Recepture";
 			int id = 0; //id_recepture
-			int[] ids;
-			int category = 0;
-			int technology = 0;
-
 			if (exist_selected)
 			{
 				id = tbMain.Selected; //id = tbMain.Receptures[lv_recepture.SelectedItems[0].Index].id; //получаем id рецептуры
@@ -73,20 +68,14 @@ namespace MajPAbGr_project
 				MessageBox.Show("Please, select any recepture from list");
 				return;
 			}
-			ids = controller.RecepturesStruct[selected_recepture].getIds();
-
-			//category			
-			category = ids[0];
-
-			//technology
-			technology = ids[1];
-
-			tbReceptureController cntrl = new tbReceptureController(table, id, category, technology);
-			NewRecepture frm = new NewRecepture(cntrl);
+			tbMain.Id = id;			
+			//tbMain.setCatalog();	
+			tbMain.ReceptureInfo = controller.ReceptureStruct[selected_recepture];					
+			NewRecepture frm = new NewRecepture(tbMain);
 			frm.Show();
 		}
 
-		private int ChequeTbMainSelected(int min)
+		private int CheckTbMainSelected(int min)
 		{ 
 			if (tbMain.Selected == 0)
 				tbMain.Selected = min;
@@ -97,7 +86,7 @@ namespace MajPAbGr_project
 		
 		private void openRecipesEditor()
 		{
-			Recipes frm = new Recipes(ChequeTbMainSelected(controller.getMinIdOfReceptures()));
+			Recipes frm = new Recipes(CheckTbMainSelected(controller.getMinIdOfReceptures()));
 			frm.Show();			
 		}
 
@@ -105,11 +94,11 @@ namespace MajPAbGr_project
 		{
 			int selected, id_technology, count;// id of recepture and of technology;
 											   // проверить выбранный в списке  
-			selected = ChequeTbMainSelected(controller.getMinIdOfReceptures());
+			selected = CheckTbMainSelected(controller.getMinIdOfReceptures());
 			Chains frm;
-			ChainController cntrl;
+			ChainsController cntrl;
 
-			cntrl = new ChainController();
+			cntrl = new ChainsController();
 			cntrl.Recepture = selected;
 
 			//id_technology
@@ -126,8 +115,8 @@ namespace MajPAbGr_project
 
 		private void addNew()
 		{
-			tbReceptureController cntrl = new tbReceptureController("Recepture");
-			NewRecepture frm = new NewRecepture(cntrl);
+			//tbReceptureController cntrl = new tbReceptureController("Recepture");
+			NewRecepture frm = new NewRecepture(tbMain);
 			frm.ShowDialog();
 		}
 
@@ -185,7 +174,7 @@ namespace MajPAbGr_project
 			int index = cmb_categories.SelectedIndex;            
 			int id = controller.Categories[index].id;
 
-			List<ReceptureStruct> full = controller.RecepturesStruct;
+			List<ReceptureStruct> full = controller.ReceptureStruct;
 			List<ReceptureStruct> selected
 				= full.FindAll(p => p.getCategory() == ("category: " +controller.Categories[index].name));
 			lv_recepture.Items.Clear();
@@ -225,7 +214,7 @@ namespace MajPAbGr_project
         {
 			if (textBox1.Text == "") return;
 
-			List<ReceptureStruct> full = controller.RecepturesStruct;
+			List<ReceptureStruct> full = controller.ReceptureStruct;
 			List<ReceptureStruct> selected = full.FindAll(p => p.getName().Contains(textBox1.Text));
 			lv_recepture.Items.Clear();
 
@@ -322,7 +311,7 @@ namespace MajPAbGr_project
 			if (tbMain.getSelected() == 0) return;
 			int index = lv_recepture.SelectedItems[0].Index;
 			AmountsController cntrl = new AmountsController(tbMain);
-			cntrl.Info = controller.RecepturesStruct[index];
+			cntrl.Info = controller.ReceptureStruct[index];
 			InsertAmounts frm = new InsertAmounts(cntrl);
 			frm.ShowDialog();			
 			Reload();

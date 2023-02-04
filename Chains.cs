@@ -12,15 +12,15 @@ namespace MajPAbGr_project
 {
     public partial class Chains : Form
     {
-        ChainController controller;
+        ChainsController controller;
         
         public Chains()
         {
             InitializeComponent();
-            controller = new ChainController();
+            controller = new ChainsController();
         }
 
-        public Chains (ref ChainController controller)
+        public Chains (ref ChainsController controller)
         {
             InitializeComponent();
             this.controller = controller;

@@ -300,20 +300,20 @@ namespace MajPAbGr_project
 
         private void addNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            tbReceptureController cntrl = new tbReceptureController("Recepture");
-            NewRecepture frm = new NewRecepture(cntrl);
-            frm.ShowDialog();
+            //tbReceptureController cntrl = new tbReceptureController("Recepture");
+            //NewRecepture frm = new NewRecepture(cntrl);
+            //frm.ShowDialog();
         }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e) // edit recepture
         {
-            if (tb.getSelected() == 0) return;
-            if (listView1.Items.Count < 1) return;
-            int selected = tb.getSelected();
+            //if (tb.getSelected() == 0) return;
+            //if (listView1.Items.Count < 1) return;
+            //int selected = tb.getSelected();
 
-            tbReceptureController cntrl = new tbReceptureController("Recepture", selected, category);
-            NewRecepture frm = new NewRecepture(cntrl);
-            frm.ShowDialog();
+            //tbReceptureController cntrl = new tbReceptureController("Recepture", selected, category);
+            //NewRecepture frm = new NewRecepture(cntrl);
+            //frm.ShowDialog();
            
             /*
             Код вставки обработчика (копия из дизайнера):
@@ -436,12 +436,12 @@ namespace MajPAbGr_project
         private void technologyToolStripMenuItem_Click(object sender, EventArgs e) // open chains` of technology cards editor
         {
             Chains frm;
-            ChainController controller;
+            ChainsController controller;
             int selected, id_technology, count;// id of recepture and of technology;
             // проверить выбранный в списке                   
             selected = tb.getSelected();
 
-            controller = new ChainController();
+            controller = new ChainsController();
             controller.Recepture = selected;
 
             //id_technology

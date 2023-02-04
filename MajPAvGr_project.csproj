@@ -93,7 +93,7 @@
     <Compile Include="Chains.Designer.cs">
       <DependentUpon>Chains.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChainController.cs" />
+    <Compile Include="ChainsController.cs" />
     <Compile Include="Component\dbController.cs" />
     <Compile Include="Component\Element.cs" />
     <Compile Include="Component\Enum.cs" />
