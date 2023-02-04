@@ -58,6 +58,16 @@ namespace MajPAbGr_project
             category = tb.Category;
             technology = tb.Technology;
             indicator = controller.Indicator; // choose mode
+
+            if (indicator)
+            {
+                indicator = true;
+                name = controller.Data[0];
+                source = controller.Data[1];
+                author = controller.Data[2];
+                URL = controller.Data[3];
+                description = controller.Data[4];
+            }
         }
 
         private void SetForm()
@@ -92,43 +102,6 @@ namespace MajPAbGr_project
                 txbURL.Text = URL;
                 txbDescription.Text = description;
                 //if var = "", then textbox name get unknown! Do must add labels for boxes!
-            }
-        }
-        private void FillCatalog(List<Item> cat)
-        {
-            //fill catalog
-            if (cat.Count != 0)
-            {
-                if (cmbCat.Items.Count > 0)
-                {
-                    cmbCat.Items.Clear();
-                }
-                for (int index = 0; index < cat.Count; index++)
-                {
-                    cmbCat.Items.Add(cat[index].name);
-                }
-            }
-            if (cmbCat.Items.Count > 0)
-            {
-                cmbCat.SelectedIndex = 0;
-                cmbCat.Text = cmbCat.SelectedItem.ToString();
-                //cmbCat.Text = cmbCat.Items[0].ToString();
-            }
-
-            //index, name (edit mode)
-            if (indicator)
-            {
-                int index;
-                Item item = new Item();
-
-                item = cat.Find(it => it.id == category);
-                index = cat.FindIndex(it => it.id == category);
-
-                cmbCat.Text = item.name;
-                cmbCat.SelectedIndex = index; // setSelected(int) внутри
-
-                //test
-                this.Text += " " + index + " " + tbCat.getSelected();
             }
         }
 
@@ -318,15 +291,13 @@ namespace MajPAbGr_project
             }
         }
 
+        public string[] Data => new string[] {name, source, author, URL, description };
+
         public bool Indicator => indicator;
         
         public tbReceptureController TbMain() => tb;
         public tbController TbCat() => tbCat;
         public tbTechnologyController TbTech() => tbTech;
-
-        public List<Item> Categories() => categories;
-
-        public List<Item> Technologies() => technologies;
 
         public string [] getNames(string column)
         {

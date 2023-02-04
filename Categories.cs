@@ -68,10 +68,15 @@ namespace MajPAbGr_project
 				MessageBox.Show("Please, select any recepture from list");
 				return;
 			}
-			tbMain.Id = id;			
-			//tbMain.setCatalog();	
-			tbMain.ReceptureInfo = controller.ReceptureStruct[selected_recepture];					
-			NewRecepture frm = new NewRecepture(tbMain);
+			//tbMain.Id = id;
+			//tbMain.ReceptureInfo = controller.ReceptureStruct[selected_recepture];					
+			//NewRecepture frm = new NewRecepture(tbMain);
+			//frm.Show();
+
+			tbMain.Id = id;
+			tbMain.ReceptureInfo = controller.ReceptureStruct[selected_recepture];
+			NewReceptureController rec = new NewReceptureController(tbMain);
+			NewRecepture frm = new NewRecepture(rec);
 			frm.Show();
 		}
 
