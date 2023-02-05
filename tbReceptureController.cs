@@ -25,71 +25,81 @@ namespace MajPAbGr_project
         // FormMain.cs: new NewRecepture(..)
         // Categories.cs: lv_recepture_DoubleClick(..)
         // Recipes.cs: new Recepture(..) (now is a comment)
-        public tbReceptureController(string table, bool indicator) // add new recepture
+        //public tbReceptureController(string table, bool indicator) // add new recepture
+        //{
+        //    base.table = table;
+        //    id_recepture = 0;
+        //    category = 0;
+        //    this.indicator = indicator;
+
+        //    Info[0, 0] = "name";
+        //    Info[0, 1] = "source";
+        //    Info[0, 2] = "author";
+        //    Info[0, 3] = "URL";
+        //    Info[0, 4] = "description";
+
+        //    setData();
+        //}
+
+        //public tbReceptureController(string table, int id, int category) // edit recepture
+        //   : base()
+        //{
+        //    base.table = table;
+        //    id_recepture = id;
+        //    selected = id;
+        //    this.category = category;
+
+        //    Info[0, 0] = "name";
+        //    Info[0, 1] = "source";
+        //    Info[0, 2] = "author";
+        //    Info[0, 3] = "URL";
+        //    Info[0, 4] = "description";
+
+        //    //from method setIndicator (): void
+        //    if (id_recepture > 0) indicator = true;
+        //    else indicator = false;
+
+        //    setData();
+        //}
+
+        //public tbReceptureController(string table, int id, int category, int technology) // edit recepture
+        //    : base()
+        //{
+        //    base.table = table;
+        //    id_recepture = id;
+        //    selected = id;
+        //    this.category = category;
+        //    this.technology = technology;
+
+        //    Info[0, 0] = "name";
+        //    Info[0, 1] = "source";
+        //    Info[0, 2] = "author";
+        //    Info[0, 3] = "URL";
+        //    Info[0, 4] = "description";
+
+        //    //from method setIndicator (): void
+        //    if (id_recepture > 0) indicator = true;
+        //    else indicator = false;
+
+        //    setCatalog();
+        //    setData();
+        //}
+
+        private bool Indicator(int id)
         {
-            base.table = table;
-            id_recepture = 0;
-            category = 0;
-            this.indicator = indicator;
-
-            Info[0, 0] = "name";
-            Info[0, 1] = "source";
-            Info[0, 2] = "author";
-            Info[0, 3] = "URL";
-            Info[0, 4] = "description";
-
-            setData();
-        }
-
-        public tbReceptureController(string table, int id, int category) // edit recepture
-           : base()
-        {
-            base.table = table;
-            id_recepture = id;
-            selected = id;
-            this.category = category;
-
-            Info[0, 0] = "name";
-            Info[0, 1] = "source";
-            Info[0, 2] = "author";
-            Info[0, 3] = "URL";
-            Info[0, 4] = "description";
-
-            //from method setIndicator (): void
-            if (id_recepture > 0) indicator = true;
-            else indicator = false;
-
-            setData();
-        }
-
-        public tbReceptureController(string table, int id, int category, int technology) // edit recepture
-            : base()
-        {
-            base.table = table;
-            id_recepture = id;
-            selected = id;
-            this.category = category;
-            this.technology = technology;
-
-            Info[0, 0] = "name";
-            Info[0, 1] = "source";
-            Info[0, 2] = "author";
-            Info[0, 3] = "URL";
-            Info[0, 4] = "description";
-
-            //from method setIndicator (): void
-            if (id_recepture > 0) indicator = true;
-            else indicator = false;
-
-            setData();
+            return id > 0 ? true : false;
         }
 
         private void setData()// in place SetForm
         {
-            setCatalog();
-            if (indicator)
-            {
+            Info[0, 0] = "name";
+            Info[0, 1] = "source";
+            Info[0, 2] = "author";
+            Info[0, 3] = "URL";
+            Info[0, 4] = "description";
 
+            if (Indicator(id_recepture))
+            {
                 for (int k = 0; k < 5; k++)
                 {
                     query = $"select {Info[0, k]} from Recepture where id = {id_recepture};";
@@ -100,6 +110,7 @@ namespace MajPAbGr_project
 
         public List<string> getData()
         {
+            setData();
             if (indicator)
             {
                 List<string> data = new List<string>();

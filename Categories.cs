@@ -61,21 +61,20 @@ namespace MajPAbGr_project
 			int id = 0; //id_recepture
 			if (exist_selected)
 			{
-				id = tbMain.Selected; //id = tbMain.Receptures[lv_recepture.SelectedItems[0].Index].id; //получаем id рецептуры
+				id = controller.ReceptureStruct[lv_recepture.SelectedItems[0].Index].getId();
+				if (tbMain.Selected != id)
+                {
+					tbMain.Selected = id;
+                }
 			}
 			else
 			{
 				MessageBox.Show("Please, select any recepture from list");
 				return;
 			}
-			//tbMain.Id = id;
-			//tbMain.ReceptureInfo = controller.ReceptureStruct[selected_recepture];					
-			//NewRecepture frm = new NewRecepture(tbMain);
-			//frm.Show();
-
-			tbMain.Id = id;
-			tbMain.ReceptureInfo = controller.ReceptureStruct[selected_recepture];
+			tbMain.Id = id;			
 			NewReceptureController rec = new NewReceptureController(tbMain);
+			rec.ReceptureInfo = controller.ReceptureStruct[selected_recepture];
 			NewRecepture frm = new NewRecepture(rec);
 			frm.Show();
 		}
@@ -120,9 +119,11 @@ namespace MajPAbGr_project
 
 		private void addNew()
 		{
-			//tbReceptureController cntrl = new tbReceptureController("Recepture");
-			NewRecepture frm = new NewRecepture(tbMain);
-			frm.ShowDialog();
+			NewReceptureController rec = new NewReceptureController();
+			ReceptureStruct info = new ReceptureStruct(0);
+			rec.ReceptureInfo = info;
+			NewRecepture frm = new NewRecepture(tbMain, rec);
+			frm.ShowDialog();			
 		}
 
 		private void SimpleTable(int opt)
