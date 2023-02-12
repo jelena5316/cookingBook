@@ -65,6 +65,7 @@ namespace MajPAbGr_project
             label1.Location = new Point
                 ((frm.groupBox1.Location.X + frm.groupBox1.Width + 20), frm.groupBox1.Location.X);
             setLabels();
+            frm.groupBox1.Text = "Recipe editor is opened";
         }
 
         private void label2_Click(object sender, EventArgs e)

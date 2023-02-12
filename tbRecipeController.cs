@@ -24,7 +24,7 @@ namespace MajPAbGr_project
             }  
         }
 
-        public new List<Item> setSubCatalog()
+        public List<Item> setSubCatalog()
         {
             query = $"select id, name from Recipe where id_recepture = "
                 + recepture + ";";

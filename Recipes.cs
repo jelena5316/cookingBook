@@ -59,8 +59,9 @@ namespace MajPAbGr_project
             this.Text += " " + controller.InfoLocal();
             
             checkBox1.Checked = false;
-            //checkBox1.Enabled = false;
+            checkBox1.Enabled = false;
             btn_insert.Enabled = false;
+            txb_new_recipe.Enabled = false;
         }
 
         /*
@@ -224,7 +225,7 @@ namespace MajPAbGr_project
                  list.Items[index].SubItems[1].Text = amounts[index].ToString();
              }
              list.Items[index].SubItems[1].Text = controller.Calc.Summa(amounts).ToString();
-            btn_insert.Enabled = true;
+            //btn_insert.Enabled = true;
          }
 
         private void btn_insert_Click(object sender, EventArgs e)
@@ -514,8 +515,10 @@ namespace MajPAbGr_project
             txb_new_recipe.Text = "";
         }
 
-
-
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+            
+        }
 
         //private void executeViewToolStripMenuItem_Click(object sender, EventArgs e)
         //{

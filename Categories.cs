@@ -335,7 +335,5 @@ namespace MajPAbGr_project
 			if (lv_recepture.SelectedItems.Count < 1) return;			
 			AmountsTable();
 		}
-
-       
     }
 }
