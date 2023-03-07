@@ -41,17 +41,17 @@ namespace MajPAbGr_project
             this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.goToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ingredientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recipeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.amountsEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tecnologyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ingredientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.amountsEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripCmbPrint = new System.Windows.Forms.ToolStripComboBox();
             this.seeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutReceptureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.toolStripCmbPrint = new System.Windows.Forms.ToolStripComboBox();
-            this.aboutReceptureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -162,40 +162,40 @@ namespace MajPAbGr_project
             this.goToToolStripMenuItem.Size = new System.Drawing.Size(49, 23);
             this.goToToolStripMenuItem.Text = "Go To";
             // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(157, 22);
-            this.toolStripMenuItem1.Text = "Categorires";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
-            // 
-            // ingredientsToolStripMenuItem
-            // 
-            this.ingredientsToolStripMenuItem.Name = "ingredientsToolStripMenuItem";
-            this.ingredientsToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.ingredientsToolStripMenuItem.Text = "Ingredients";
-            this.ingredientsToolStripMenuItem.Click += new System.EventHandler(this.ingredientsToolStripMenuItem_Click);
-            // 
             // recipeToolStripMenuItem
             // 
             this.recipeToolStripMenuItem.Name = "recipeToolStripMenuItem";
-            this.recipeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.recipeToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.recipeToolStripMenuItem.Text = "Recipes";
             this.recipeToolStripMenuItem.Click += new System.EventHandler(this.recipeToolStripMenuItem_Click);
-            // 
-            // amountsEditorToolStripMenuItem
-            // 
-            this.amountsEditorToolStripMenuItem.Name = "amountsEditorToolStripMenuItem";
-            this.amountsEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.amountsEditorToolStripMenuItem.Text = "Amounts";
-            this.amountsEditorToolStripMenuItem.Click += new System.EventHandler(this.amountsEditorToolStripMenuItem_Click);
             // 
             // tecnologyToolStripMenuItem
             // 
             this.tecnologyToolStripMenuItem.Name = "tecnologyToolStripMenuItem";
-            this.tecnologyToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.tecnologyToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.tecnologyToolStripMenuItem.Text = "Technology";
             this.tecnologyToolStripMenuItem.Click += new System.EventHandler(this.tecnologyToolStripMenuItem_Click);
+            // 
+            // ingredientsToolStripMenuItem
+            // 
+            this.ingredientsToolStripMenuItem.Name = "ingredientsToolStripMenuItem";
+            this.ingredientsToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.ingredientsToolStripMenuItem.Text = "Ingredients";
+            this.ingredientsToolStripMenuItem.Click += new System.EventHandler(this.ingredientsToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
+            this.toolStripMenuItem1.Text = "Categorires";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // amountsEditorToolStripMenuItem
+            // 
+            this.amountsEditorToolStripMenuItem.Name = "amountsEditorToolStripMenuItem";
+            this.amountsEditorToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.amountsEditorToolStripMenuItem.Text = "Amounts";
+            this.amountsEditorToolStripMenuItem.Click += new System.EventHandler(this.amountsEditorToolStripMenuItem_Click);
             // 
             // printToolStripMenuItem
             // 
@@ -203,12 +203,28 @@ namespace MajPAbGr_project
             this.printToolStripMenuItem.Size = new System.Drawing.Size(44, 23);
             this.printToolStripMenuItem.Text = "Print";
             // 
+            // toolStripCmbPrint
+            // 
+            this.toolStripCmbPrint.Items.AddRange(new object[] {
+            "catalog",
+            "receptura",
+            "receptura (vse)"});
+            this.toolStripCmbPrint.Name = "toolStripCmbPrint";
+            this.toolStripCmbPrint.Size = new System.Drawing.Size(121, 23);
+            this.toolStripCmbPrint.Text = "print_option1";            
+            // 
             // seeAllToolStripMenuItem
             // 
             this.seeAllToolStripMenuItem.Name = "seeAllToolStripMenuItem";
             this.seeAllToolStripMenuItem.Size = new System.Drawing.Size(52, 23);
             this.seeAllToolStripMenuItem.Text = "See all";
             this.seeAllToolStripMenuItem.Click += new System.EventHandler(this.seeAllToolStripMenuItem_Click);
+            // 
+            // aboutReceptureToolStripMenuItem
+            // 
+            this.aboutReceptureToolStripMenuItem.Name = "aboutReceptureToolStripMenuItem";
+            this.aboutReceptureToolStripMenuItem.Size = new System.Drawing.Size(108, 23);
+            this.aboutReceptureToolStripMenuItem.Text = "About Recepture";
             // 
             // label2
             // 
@@ -227,18 +243,6 @@ namespace MajPAbGr_project
             this.label3.Size = new System.Drawing.Size(75, 13);
             this.label3.TabIndex = 11;
             this.label3.Text = "Categories` list";
-            // 
-            // toolStripCmbPrint
-            // 
-            this.toolStripCmbPrint.Name = "toolStripCmbPrint";
-            this.toolStripCmbPrint.Size = new System.Drawing.Size(121, 23);
-            this.toolStripCmbPrint.Text = "print_option1";
-            // 
-            // aboutReceptureToolStripMenuItem
-            // 
-            this.aboutReceptureToolStripMenuItem.Name = "aboutReceptureToolStripMenuItem";
-            this.aboutReceptureToolStripMenuItem.Size = new System.Drawing.Size(108, 23);
-            this.aboutReceptureToolStripMenuItem.Text = "About Recepture";
             // 
             // label1
             // 

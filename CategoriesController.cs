@@ -122,6 +122,7 @@ namespace MajPAbGr_project
                 items.SubItems.Add(rec_struct[k].getData()[6]);             
 
                 lv.Items.Add(items);
+                lv.Items[0].Selected = true;
             }
         }
 

@@ -13,7 +13,7 @@ namespace MajPAbGr_project
 	public partial class Categories : Form
 	{
 		bool exist_selected = false;
-		int selected_recepture = 0;
+		int selected_recepture = -1;
 		int pragma;
 		List<string> list;		
 		CategoriesController controller; // включает в себя FormMainController
@@ -34,11 +34,9 @@ namespace MajPAbGr_project
 		{
 			lv_recepture.Columns.Add("Name");
 			lv_recepture.Columns.Add("Category");
-			lv_recepture.Columns.Add("Source");
+			lv_recepture.Columns.Add("Main");
 			lv_recepture.Columns.Add("Author");
-			lv_recepture.Columns.Add("Technology");
-			lv_recepture.Columns.Add("Main_ingredient");
-			lv_recepture.Columns.Add("Description");
+			lv_recepture.Columns.Add("Source");			
 
 			Class1.setBox(controller.Categories, ref cmb_categories);			
 			controller.setListView(lv_recepture);			
@@ -207,25 +205,50 @@ namespace MajPAbGr_project
 
 		private void textBox1_TextChanged(object sender, EventArgs e)
         {
-			if (textBox1.Text == "") return;
-
 			List<ReceptureStruct> full = controller.ReceptureStruct;
-			List<ReceptureStruct> selected = full.FindAll(p => p.getName().Contains(textBox1.Text));
-			lv_recepture.Items.Clear();
-
-			ListViewItem items;
-			for (int k = 0; k < selected.Count; k++)
-			{
-				string[] arr = selected[k].getData();
-				items = new ListViewItem(arr[0]);
-				items.Tag = selected[k].getId();
-
-				for (int q = 1; q < arr.Length; q++)
+			if (textBox1.Text == "")
+            {
+				lv_recepture.Items.Clear();
+				ListViewItem items;
+				for (int k = 0; k < full.Count; k++)
 				{
-					items.SubItems.Add(arr[q]);
+					string[] arr = full[k].getData();
+					items = new ListViewItem(arr[0]);
+					items.Tag = full[k].getId();
+
+					for (int q = 1; q < arr.Length; q++)
+					{
+						items.SubItems.Add(arr[q]);
+					}
+					lv_recepture.Items.Add(items);
 				}
-				lv_recepture.Items.Add(items);
+				lv_recepture.Items[0].Selected = true;				
+            }
+			else
+            {
+				List<ReceptureStruct> selected = full.FindAll(p => p.getName().Contains(textBox1.Text));
+				lv_recepture.Items.Clear();
+
+				ListViewItem items;
+				for (int k = 0; k < selected.Count; k++)
+				{
+					string[] arr = selected[k].getData();
+					items = new ListViewItem(arr[0]);
+					items.Tag = selected[k].getId();
+
+					for (int q = 1; q < arr.Length; q++)
+					{
+						items.SubItems.Add(arr[q]);
+					}
+					lv_recepture.Items.Add(items);
+				}
+				lv_recepture.Items[0].Selected = true;
 			}
+		}
+
+		private void searchByName(string text)
+        {
+			
 		}
 
 		/*
