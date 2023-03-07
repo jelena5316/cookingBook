@@ -131,7 +131,7 @@ namespace MajPAbGr_project
 
         public string[] getData()
         {
-            string[] arr = new string[] { name, category, source, author, technology, ingredient, description };
+            string[] arr = new string[] { name, category,ingredient, author, source, technology, description };
             return arr;
         }
 

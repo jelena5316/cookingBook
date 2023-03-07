@@ -211,7 +211,7 @@ namespace MajPAbGr_project
             "receptura (vse)"});
             this.toolStripCmbPrint.Name = "toolStripCmbPrint";
             this.toolStripCmbPrint.Size = new System.Drawing.Size(121, 23);
-            this.toolStripCmbPrint.Text = "print_option1";            
+            this.toolStripCmbPrint.Text = "print_option1";
             // 
             // seeAllToolStripMenuItem
             // 
@@ -225,6 +225,7 @@ namespace MajPAbGr_project
             this.aboutReceptureToolStripMenuItem.Name = "aboutReceptureToolStripMenuItem";
             this.aboutReceptureToolStripMenuItem.Size = new System.Drawing.Size(108, 23);
             this.aboutReceptureToolStripMenuItem.Text = "About Recepture";
+            this.aboutReceptureToolStripMenuItem.Click += new System.EventHandler(this.aboutReceptureToolStripMenuItem_Click);
             // 
             // label2
             // 

@@ -53,7 +53,7 @@ namespace MajPAbGr_project
             int[] ids = rec.getIds();
             id_recepture = rec.getId();
             category = ids[0];
-            technology = ids[0];
+            technology = ids[1];
             indicator = controller.Indicator; // choose mode
 
             if (indicator)
@@ -146,7 +146,12 @@ namespace MajPAbGr_project
 
         private void button2_Click(object sender, EventArgs e) // set / write into db (Recepture)
         {
-            WriteIntoDataBase(); 
+            WriteIntoDataBase();
+            if (!indicator)
+            {
+                this.Dispose();
+                this.Close();
+            }
         }
 
         private int WriteIntoDataBase()

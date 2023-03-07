@@ -15,7 +15,8 @@ namespace MajPAbGr_project
 		bool exist_selected = false;
 		int selected_recepture = -1;
 		int pragma;
-		List<string> list;		
+		List<string> list;
+		List<ReceptureStruct> full;
 		CategoriesController controller; // включает в себя FormMainController
 		tbReceptureController tbMain; // указатель на controller.TbMain
 		
@@ -38,8 +39,10 @@ namespace MajPAbGr_project
 			lv_recepture.Columns.Add("Author");
 			lv_recepture.Columns.Add("Source");			
 
-			Class1.setBox(controller.Categories, ref cmb_categories);			
-			controller.setListView(lv_recepture);			
+			Class1.setBox(controller.Categories, ref cmb_categories);
+			resetRecepturesList(controller.ReceptureStruct);
+			if (lv_recepture.Items.Count > 0)
+				lv_recepture.Items[0].Selected = true;
 			cmb_categories.Text = "all";
 			pragma = 1;
 						
@@ -54,28 +57,7 @@ namespace MajPAbGr_project
 		/*
 		 *  Методы для обработчиков событий
 		 */		
-		private void openReceptureEditor()
-		{
-			int id = 0; //id_recepture
-			if (exist_selected)
-			{
-				id = controller.ReceptureStruct[lv_recepture.SelectedItems[0].Index].getId();
-				if (tbMain.Selected != id)
-                {
-					tbMain.Selected = id;
-                }
-			}
-			else
-			{
-				MessageBox.Show("Please, select any recepture from list");
-				return;
-			}
-			tbMain.Id = id;			
-			NewReceptureController rec = new NewReceptureController(tbMain);
-			rec.ReceptureInfo = controller.ReceptureStruct[selected_recepture];
-			NewRecepture frm = new NewRecepture(rec);
-			frm.Show();
-		}
+		
 
 		private int CheckTbMainSelected(int min)
 		{ 
@@ -121,7 +103,8 @@ namespace MajPAbGr_project
 			ReceptureStruct info = new ReceptureStruct(0);
 			rec.ReceptureInfo = info;
 			NewRecepture frm = new NewRecepture(tbMain, rec);
-			frm.ShowDialog();			
+			frm.ShowDialog();
+			Reload();
 		}
 
 		private void SimpleTable(int opt)
@@ -133,27 +116,39 @@ namespace MajPAbGr_project
 
 		private void Reload()
 		{
+			//controller = new CategoriesController();
+			//tbMain = controller.TbMain;
+			//list = new List<string>();
+			//for (int k = 0; k < controller.Receptures.Count; k++)
+			//	list.Add(controller.Receptures[k].name);
+			//pragma = 0;
+
 			list.Clear();
-			controller.setReceptures();
 			for (int k = 0; k < controller.Receptures.Count; k++)
-				list.Add(controller.Receptures[k].name);
-			pragma = 0;
+                list.Add(controller.Receptures[k].name);
+            pragma = 0;
 
 			tbIngredientsController tbCat = controller.TbCat;
-			tbCat.resetCatalog();
-			controller.Categories = tbCat.getCatalog();
+            tbCat.resetCatalog();
+            controller.Categories = tbCat.getCatalog();
 			Class1.setBox(controller.Categories, ref cmb_categories);
-			controller.setListView(lv_recepture);
-			cmb_categories.Text = "all";
-			pragma = 1;
 
-			AutoCompleteStringCollection source = new AutoCompleteStringCollection();
-			foreach (Item item in controller.Receptures)
-				source.Add(item.name);
-			textBox1.AutoCompleteCustomSource = source;
-			textBox1.AutoCompleteMode = AutoCompleteMode.Suggest;
-			textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
-		}
+			controller.setReceptures();
+			controller.ReceptureStruct.Clear();
+			controller.setFields();       
+			resetRecepturesList(controller.ReceptureStruct);
+			if (lv_recepture.Items.Count > 0)
+				lv_recepture.Items[0].Selected = true;
+            cmb_categories.Text = "all";
+            pragma = 1;
+
+            AutoCompleteStringCollection source = new AutoCompleteStringCollection();
+            foreach (Item item in controller.Receptures)
+                source.Add(item.name);
+            textBox1.AutoCompleteCustomSource = source;
+            textBox1.AutoCompleteMode = AutoCompleteMode.Suggest;
+            textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        }
 
 		/*
 		 * Обработчики событий
@@ -178,17 +173,24 @@ namespace MajPAbGr_project
 			int index = cmb_categories.SelectedIndex;            
 			int id = controller.Categories[index].id;
 
-			List<ReceptureStruct> full = controller.ReceptureStruct;
-			List<ReceptureStruct> selected
-				= full.FindAll(p => p.getCategory() == ("category: " +controller.Categories[index].name));
-			lv_recepture.Items.Clear();
+			full = controller.ReceptureStruct;
+			List<ReceptureStruct> selected; //= new List<ReceptureStruct>
+			selected = controller.selectByCategory(index);
 
+			resetRecepturesList(selected);
+			if (lv_recepture.Items.Count > 0)
+				lv_recepture.Items[0].Selected = true;
+		}
+
+		private void resetRecepturesList(List<ReceptureStruct> list)
+		{
+			lv_recepture.Items.Clear();
 			ListViewItem items;
-			for (int k = 0; k < selected.Count; k++)
+			for (int k = 0; k < list.Count; k++)
 			{
-				string[] arr = selected[k].getData();
+				string[] arr = list[k].getData();
 				items = new ListViewItem(arr[0]);
-				items.Tag = selected[k].getId();
+				items.Tag = list[k].getId();
 
 				for (int q = 1; q < arr.Length; q++)
 				{
@@ -198,58 +200,43 @@ namespace MajPAbGr_project
 			}
 		}
 
+		private void seeAll()
+		{
+			cmb_categories.SelectedIndex = 0;			
+			resetRecepturesList(full);
+			full = null;
+			cmb_categories.Text = "all";
+			if (lv_recepture.Items.Count > 0)
+				lv_recepture.Items[0].Selected = true;
+			//pragma = 1;
+		}
+
+		private void textBox1_TextChanged(object sender, EventArgs e)
+		{
+
+			if (textBox1.Text == "")
+			{
+				resetRecepturesList(full);				
+				full = null;
+			}
+			else
+			{
+				full = controller.ReceptureStruct;
+				List<ReceptureStruct> selected = full.FindAll(p => p.getName().Contains(textBox1.Text));
+				resetRecepturesList(selected);				
+			}
+			if (lv_recepture.Items.Count > 0)
+				lv_recepture.Items[0].Selected = true;
+		}
+
+		private void searchByName(string text) { }
+
 		private void lv_recepture_DoubleClick(object sender, EventArgs e)
 		{
 			openReceptureEditor();
 		}
 
-		private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-			List<ReceptureStruct> full = controller.ReceptureStruct;
-			if (textBox1.Text == "")
-            {
-				lv_recepture.Items.Clear();
-				ListViewItem items;
-				for (int k = 0; k < full.Count; k++)
-				{
-					string[] arr = full[k].getData();
-					items = new ListViewItem(arr[0]);
-					items.Tag = full[k].getId();
-
-					for (int q = 1; q < arr.Length; q++)
-					{
-						items.SubItems.Add(arr[q]);
-					}
-					lv_recepture.Items.Add(items);
-				}
-				lv_recepture.Items[0].Selected = true;				
-            }
-			else
-            {
-				List<ReceptureStruct> selected = full.FindAll(p => p.getName().Contains(textBox1.Text));
-				lv_recepture.Items.Clear();
-
-				ListViewItem items;
-				for (int k = 0; k < selected.Count; k++)
-				{
-					string[] arr = selected[k].getData();
-					items = new ListViewItem(arr[0]);
-					items.Tag = selected[k].getId();
-
-					for (int q = 1; q < arr.Length; q++)
-					{
-						items.SubItems.Add(arr[q]);
-					}
-					lv_recepture.Items.Add(items);
-				}
-				lv_recepture.Items[0].Selected = true;
-			}
-		}
-
-		private void searchByName(string text)
-        {
-			
-		}
+		
 
 		/*
 		 * Others controls: buttons, menu strip items
@@ -353,15 +340,32 @@ namespace MajPAbGr_project
 			seeAll();
         }
 
-		private void seeAll()
+        private void aboutReceptureToolStripMenuItem_Click(object sender, EventArgs e)
         {
-			cmb_categories.SelectedIndex = 0;
-			controller.setReceptures();
-			lv_recepture.Items.Clear();
-			controller.setFields();
-			controller.setListView(lv_recepture);
-			cmb_categories.Text = "all";
-			lv_recepture.Items[0].Selected = true;
+			openReceptureEditor();
+        }
+
+		private void openReceptureEditor()
+		{
+			int id = 0; //id_recepture
+			if (exist_selected)
+			{
+				id = controller.ReceptureStruct[lv_recepture.SelectedItems[0].Index].getId();
+				if (tbMain.Selected != id)
+				{
+					tbMain.Selected = id;
+				}
+			}
+			else
+			{
+				MessageBox.Show("Please, select any recepture from list");
+				return;
+			}
+			tbMain.Id = id;
+			NewReceptureController rec = new NewReceptureController(tbMain);
+			rec.ReceptureInfo = controller.ReceptureStruct[selected_recepture];
+			NewRecepture frm = new NewRecepture(rec);
+			frm.Show();
 		}
-    }
+	}
 }

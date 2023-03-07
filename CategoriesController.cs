@@ -38,6 +38,7 @@ namespace MajPAbGr_project
             recepture = 0;
             
             tbTech = new TechnologyController(1);
+            tbTech.Receptures = this.receptures;
             rec_struct = new List<ReceptureStruct>();
             setFields();
         }
@@ -88,10 +89,7 @@ namespace MajPAbGr_project
         public void setFields()
         {
             int id;            
-            List<Item> receptures = this.receptures;
             ReceptureStruct rec;
-
-            tbTech.Receptures = receptures;
             for (int k = 0; k < receptures.Count; k++)
             {
                 id = receptures[k].id;
@@ -103,27 +101,20 @@ namespace MajPAbGr_project
 
         public void setListView(ListView lv)
         {
-            int id;
-            List<Item> receptures = this.Receptures;
             ListViewItem items;
-
-            tbTech.Receptures = this.Receptures;
             for (int k = 0; k < receptures.Count; k++)
-            {
-                id = receptures[k].id;
+            {                
                 items = new ListViewItem(receptures[k].name);
-                items.Tag = receptures[k].id;
+                items.Tag = receptures[k].id;                
+                string[] arr = rec_struct[k].getData();
 
-                items.SubItems.Add(rec_struct[k].getData()[1]);
-                items.SubItems.Add(rec_struct[k].getData()[2]);
-                items.SubItems.Add(rec_struct[k].getData()[3]);
-                items.SubItems.Add(rec_struct[k].getData()[4]);
-                items.SubItems.Add(rec_struct[k].getData()[5]);
-                items.SubItems.Add(rec_struct[k].getData()[6]);             
-
-                lv.Items.Add(items);
-                lv.Items[0].Selected = true;
+                for (int q = 1; q < 5; q++)
+                {
+                    items.SubItems.Add(arr[q]);
+                }
+                lv.Items.Add(items);               
             }
+            lv.Items[0].Selected = true;
         }
 
         public string[] PrintInfo(int index)
@@ -142,5 +133,12 @@ namespace MajPAbGr_project
             };
             return arr;
         }
-    }
+    
+         public List<ReceptureStruct> selectByCategory(int index)
+         {
+            List<ReceptureStruct> selected;        
+            selected = rec_struct.FindAll(p => p.getCategory() == categories[index].name);
+            return selected;
+         }
+    }   
 }
