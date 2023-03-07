@@ -200,17 +200,6 @@ namespace MajPAbGr_project
 			}
 		}
 
-		private void label1_Click(object sender, EventArgs e)
-		{
-			cmb_categories.SelectedIndex = 0;
-			controller.setReceptures();
-			lv_recepture.Items.Clear();
-			controller.setFields();
-			controller.setListView(lv_recepture);
-			cmb_categories.Text = "all";
-			lv_recepture.Items[0].Selected = true;
-		}
-
 		private void lv_recepture_DoubleClick(object sender, EventArgs e)
 		{
 			openReceptureEditor();
@@ -334,6 +323,22 @@ namespace MajPAbGr_project
         {
 			if (lv_recepture.SelectedItems.Count < 1) return;			
 			AmountsTable();
+		}
+
+		private void seeAllToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			seeAll();
+        }
+
+		private void seeAll()
+        {
+			cmb_categories.SelectedIndex = 0;
+			controller.setReceptures();
+			lv_recepture.Items.Clear();
+			controller.setFields();
+			controller.setListView(lv_recepture);
+			cmb_categories.Text = "all";
+			lv_recepture.Items[0].Selected = true;
 		}
     }
 }

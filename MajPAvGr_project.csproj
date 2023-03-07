@@ -76,8 +76,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AmountsController.cs" />
-    <Compile Include="tbAmountsController.cs" />
+    <Compile Include="darfts\AmountsController.cs" />
+    <Compile Include="drafts_tb\tbAmountsController.cs" />
     <Compile Include="RecipesController.cs" />
     <Compile Include="Component\CalcFunction.cs" />
     <Compile Include="Categories.cs">
@@ -87,20 +87,20 @@
       <DependentUpon>Categories.cs</DependentUpon>
     </Compile>
     <Compile Include="CategoriesController.cs" />
-    <Compile Include="Chains.cs">
+    <Compile Include="darfts\Chains.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Chains.Designer.cs">
+    <Compile Include="darfts\Chains.Designer.cs">
       <DependentUpon>Chains.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChainsController.cs" />
+    <Compile Include="darfts\ChainsController.cs" />
     <Compile Include="Component\dbController.cs" />
     <Compile Include="Component\Element.cs" />
     <Compile Include="Component\Enum.cs" />
     <Compile Include="Component\FormFunction.cs" />
     <Compile Include="Component\tbController.cs" />
-    <Compile Include="EditDB.cs" />
-    <Compile Include="EditDB.designer.cs">
+    <Compile Include="darfts\EditDB.cs" />
+    <Compile Include="darfts\EditDB.designer.cs">
       <DependentUpon>EditDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Recipes.cs">
@@ -115,20 +115,20 @@
     <Compile Include="Component\Print.designer.cs">
       <DependentUpon>Print.cs</DependentUpon>
     </Compile>
-    <Compile Include="tbReceptureController.cs" />
-    <Compile Include="tbIngredientsController.cs" />
-    <Compile Include="RecipeEditor.cs">
+    <Compile Include="drafts_tb\tbReceptureController.cs" />
+    <Compile Include="drafts_tb\tbIngredientsController.cs" />
+    <Compile Include="darfts\RecipeEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RecipeEditor.designer.cs">
+    <Compile Include="darfts\RecipeEditor.designer.cs">
       <DependentUpon>RecipeEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="tbRecipeController.cs" />
-    <Compile Include="tbChainController.cs" />
-    <Compile Include="TechnologyCards.cs">
+    <Compile Include="drafts_tb\tbRecipeController.cs" />
+    <Compile Include="drafts_tb\tbChainController.cs" />
+    <Compile Include="darfts\TechnologyCards.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TechnologyCards.Designer.cs">
+    <Compile Include="darfts\TechnologyCards.Designer.cs">
       <DependentUpon>TechnologyCards.cs</DependentUpon>
     </Compile>
     <Compile Include="Ingredients.cs">
@@ -137,10 +137,10 @@
     <Compile Include="Ingredients.Designer.cs">
       <DependentUpon>Ingredients.cs</DependentUpon>
     </Compile>
-    <Compile Include="Amounts.cs">
+    <Compile Include="darfts\Amounts.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Amounts.Designer.cs">
+    <Compile Include="darfts\Amounts.Designer.cs">
       <DependentUpon>Amounts.cs</DependentUpon>
     </Compile>
     <Compile Include="NewRecepture.cs">
@@ -151,23 +151,23 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Technology.cs">
+    <Compile Include="darfts\Technology.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Technology.designer.cs">
+    <Compile Include="darfts\Technology.designer.cs">
       <DependentUpon>Technology.cs</DependentUpon>
     </Compile>
-    <Compile Include="tbTechnologyCardsController.cs" />
-    <Compile Include="tbTechnologyController.cs" />
-    <Compile Include="TechnologyCardsController.cs" />
-    <Compile Include="TechnologyController.cs" />
+    <Compile Include="drafts_tb\tbTechnologyCardsController.cs" />
+    <Compile Include="drafts_tb\tbTechnologyController.cs" />
+    <Compile Include="darfts\TechnologyCardsController.cs" />
+    <Compile Include="darfts\TechnologyController.cs" />
     <EmbeddedResource Include="Categories.resx">
       <DependentUpon>Categories.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Chains.resx">
+    <EmbeddedResource Include="darfts\Chains.resx">
       <DependentUpon>Chains.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditDB.resx">
+    <EmbeddedResource Include="darfts\EditDB.resx">
       <DependentUpon>EditDB.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Recipes.resx">
@@ -179,7 +179,7 @@
     <EmbeddedResource Include="Ingredients.resx">
       <DependentUpon>Ingredients.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Amounts.resx">
+    <EmbeddedResource Include="darfts\Amounts.resx">
       <DependentUpon>Amounts.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewRecepture.resx">
@@ -194,13 +194,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="RecipeEditor.resx">
+    <EmbeddedResource Include="darfts\RecipeEditor.resx">
       <DependentUpon>RecipeEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Technology.resx">
+    <EmbeddedResource Include="darfts\Technology.resx">
       <DependentUpon>Technology.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TechnologyCards.resx">
+    <EmbeddedResource Include="darfts\TechnologyCards.resx">
       <DependentUpon>TechnologyCards.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />

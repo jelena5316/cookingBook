@@ -37,23 +37,22 @@ namespace MajPAbGr_project
             this.editToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.amountsOfIngredientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.goToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ingredientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recipeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.amountsEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.receptureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tecnologyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openDbEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.seeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.toolStripCmbPrint = new System.Windows.Forms.ToolStripComboBox();
+            this.aboutReceptureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label1 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -61,9 +60,9 @@ namespace MajPAbGr_project
             // cmb_categories
             // 
             this.cmb_categories.FormattingEnabled = true;
-            this.cmb_categories.Location = new System.Drawing.Point(12, 88);
+            this.cmb_categories.Location = new System.Drawing.Point(208, 74);
             this.cmb_categories.Name = "cmb_categories";
-            this.cmb_categories.Size = new System.Drawing.Size(111, 21);
+            this.cmb_categories.Size = new System.Drawing.Size(182, 21);
             this.cmb_categories.TabIndex = 0;
             this.cmb_categories.SelectedIndexChanged += new System.EventHandler(this.cmb_categories_SelectedIndexChanged);
             // 
@@ -72,9 +71,9 @@ namespace MajPAbGr_project
             this.lv_recepture.ContextMenuStrip = this.contextMenuStrip1;
             this.lv_recepture.GridLines = true;
             this.lv_recepture.HideSelection = false;
-            this.lv_recepture.Location = new System.Drawing.Point(12, 115);
+            this.lv_recepture.Location = new System.Drawing.Point(12, 125);
             this.lv_recepture.Name = "lv_recepture";
-            this.lv_recepture.Size = new System.Drawing.Size(601, 200);
+            this.lv_recepture.Size = new System.Drawing.Size(601, 224);
             this.lv_recepture.TabIndex = 5;
             this.lv_recepture.UseCompatibleStateImageBehavior = false;
             this.lv_recepture.View = System.Windows.Forms.View.Details;
@@ -119,78 +118,61 @@ namespace MajPAbGr_project
             this.amountsOfIngredientsToolStripMenuItem.Text = "edit amounts";
             this.amountsOfIngredientsToolStripMenuItem.Click += new System.EventHandler(this.amountsOfIngredientsToolStripMenuItem_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(142, 96);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(37, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "see all";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 62);
+            this.textBox1.Location = new System.Drawing.Point(12, 74);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(111, 20);
+            this.textBox1.Size = new System.Drawing.Size(168, 20);
             this.textBox1.TabIndex = 7;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(538, 39);
+            this.button1.Location = new System.Drawing.Point(467, 69);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(146, 29);
             this.button1.TabIndex = 8;
-            this.button1.Text = "add new recipe";
+            this.button1.Text = "Add new recipe";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
             this.goToToolStripMenuItem,
-            this.reloadToolStripMenuItem,
-            this.openDbEditorToolStripMenuItem,
-            this.printToolStripMenuItem});
+            this.printToolStripMenuItem,
+            this.toolStripCmbPrint,
+            this.seeAllToolStripMenuItem,
+            this.aboutReceptureToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(625, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(625, 27);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
             // 
             // goToToolStripMenuItem
             // 
             this.goToToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.ingredientsToolStripMenuItem,
             this.recipeToolStripMenuItem,
-            this.amountsEditorToolStripMenuItem,
-            this.receptureToolStripMenuItem,
-            this.tecnologyToolStripMenuItem});
+            this.tecnologyToolStripMenuItem,
+            this.ingredientsToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.amountsEditorToolStripMenuItem});
             this.goToToolStripMenuItem.Name = "goToToolStripMenuItem";
-            this.goToToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
+            this.goToToolStripMenuItem.Size = new System.Drawing.Size(49, 23);
             this.goToToolStripMenuItem.Text = "Go To";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(157, 22);
             this.toolStripMenuItem1.Text = "Categorires";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // ingredientsToolStripMenuItem
             // 
             this.ingredientsToolStripMenuItem.Name = "ingredientsToolStripMenuItem";
-            this.ingredientsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ingredientsToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.ingredientsToolStripMenuItem.Text = "Ingredients";
             this.ingredientsToolStripMenuItem.Click += new System.EventHandler(this.ingredientsToolStripMenuItem_Click);
             // 
@@ -198,75 +180,86 @@ namespace MajPAbGr_project
             // 
             this.recipeToolStripMenuItem.Name = "recipeToolStripMenuItem";
             this.recipeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.recipeToolStripMenuItem.Text = "Recipe catalog";
+            this.recipeToolStripMenuItem.Text = "Recipes";
             this.recipeToolStripMenuItem.Click += new System.EventHandler(this.recipeToolStripMenuItem_Click);
             // 
             // amountsEditorToolStripMenuItem
             // 
             this.amountsEditorToolStripMenuItem.Name = "amountsEditorToolStripMenuItem";
             this.amountsEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.amountsEditorToolStripMenuItem.Text = "Amounts editor";
+            this.amountsEditorToolStripMenuItem.Text = "Amounts";
             this.amountsEditorToolStripMenuItem.Click += new System.EventHandler(this.amountsEditorToolStripMenuItem_Click);
-            // 
-            // receptureToolStripMenuItem
-            // 
-            this.receptureToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addNewToolStripMenuItem,
-            this.editToolStripMenuItem});
-            this.receptureToolStripMenuItem.Name = "receptureToolStripMenuItem";
-            this.receptureToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.receptureToolStripMenuItem.Text = "Receptures";
-            // 
-            // addNewToolStripMenuItem
-            // 
-            this.addNewToolStripMenuItem.Name = "addNewToolStripMenuItem";
-            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.addNewToolStripMenuItem.Text = "Add New";
-            this.addNewToolStripMenuItem.Click += new System.EventHandler(this.addNewToolStripMenuItem_Click);
-            // 
-            // editToolStripMenuItem
-            // 
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.editToolStripMenuItem.Text = "Edit";
-            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // tecnologyToolStripMenuItem
             // 
             this.tecnologyToolStripMenuItem.Name = "tecnologyToolStripMenuItem";
-            this.tecnologyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tecnologyToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.tecnologyToolStripMenuItem.Text = "Technology";
             this.tecnologyToolStripMenuItem.Click += new System.EventHandler(this.tecnologyToolStripMenuItem_Click);
-            // 
-            // reloadToolStripMenuItem
-            // 
-            this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
-            this.reloadToolStripMenuItem.Text = "Reload";
-            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
-            // 
-            // openDbEditorToolStripMenuItem
-            // 
-            this.openDbEditorToolStripMenuItem.Name = "openDbEditorToolStripMenuItem";
-            this.openDbEditorToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
-            this.openDbEditorToolStripMenuItem.Text = "Open db editor";
-            this.openDbEditorToolStripMenuItem.Click += new System.EventHandler(this.openDbEditorToolStripMenuItem_Click);
             // 
             // printToolStripMenuItem
             // 
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(44, 23);
             this.printToolStripMenuItem.Text = "Print";
+            // 
+            // seeAllToolStripMenuItem
+            // 
+            this.seeAllToolStripMenuItem.Name = "seeAllToolStripMenuItem";
+            this.seeAllToolStripMenuItem.Size = new System.Drawing.Size(52, 23);
+            this.seeAllToolStripMenuItem.Text = "See all";
+            this.seeAllToolStripMenuItem.Click += new System.EventHandler(this.seeAllToolStripMenuItem_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(23, 58);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(84, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Search by name";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(220, 58);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(75, 13);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Categories` list";
+            // 
+            // toolStripCmbPrint
+            // 
+            this.toolStripCmbPrint.Name = "toolStripCmbPrint";
+            this.toolStripCmbPrint.Size = new System.Drawing.Size(121, 23);
+            this.toolStripCmbPrint.Text = "print_option1";
+            // 
+            // aboutReceptureToolStripMenuItem
+            // 
+            this.aboutReceptureToolStripMenuItem.Name = "aboutReceptureToolStripMenuItem";
+            this.aboutReceptureToolStripMenuItem.Size = new System.Drawing.Size(108, 23);
+            this.aboutReceptureToolStripMenuItem.Text = "About Recepture";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(23, 109);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(62, 13);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Receptures";
             // 
             // Categories
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(625, 375);
+            this.ClientSize = new System.Drawing.Size(625, 361);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.lv_recepture);
             this.Controls.Add(this.cmb_categories);
             this.Name = "Categories";
@@ -284,27 +277,26 @@ namespace MajPAbGr_project
 
         private System.Windows.Forms.ComboBox cmb_categories;
         private System.Windows.Forms.ListView lv_recepture;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem goToToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem ingredientsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem recipeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem amountsEditorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem receptureToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addNewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tecnologyToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openDbEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem amountsOfIngredientsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem recipesEditorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem seeAllToolStripMenuItem;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ToolStripComboBox toolStripCmbPrint;
+        private System.Windows.Forms.ToolStripMenuItem aboutReceptureToolStripMenuItem;
+        private System.Windows.Forms.Label label1;
     }
 }
