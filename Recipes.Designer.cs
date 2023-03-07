@@ -270,9 +270,9 @@ namespace MajPAbGr_project
             // 
             // btn_insert
             // 
-            this.btn_insert.Location = new System.Drawing.Point(151, 199);
+            this.btn_insert.Location = new System.Drawing.Point(472, 326);
             this.btn_insert.Name = "btn_insert";
-            this.btn_insert.Size = new System.Drawing.Size(75, 23);
+            this.btn_insert.Size = new System.Drawing.Size(75, 32);
             this.btn_insert.TabIndex = 16;
             this.btn_insert.Text = "btn_insert";
             this.btn_insert.UseVisualStyleBackColor = true;
@@ -300,7 +300,7 @@ namespace MajPAbGr_project
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(151, 170);
+            this.button2.Location = new System.Drawing.Point(140, 201);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 17;
@@ -315,7 +315,6 @@ namespace MajPAbGr_project
             this.groupBox1.Controls.Add(this.checkBox1);
             this.groupBox1.Controls.Add(this.cmb_option);
             this.groupBox1.Controls.Add(this.lbl_koef);
-            this.groupBox1.Controls.Add(this.btn_insert);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.txb_new_recipe);
@@ -398,6 +397,7 @@ namespace MajPAbGr_project
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.btn_insert);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Recipes";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

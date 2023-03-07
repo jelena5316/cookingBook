@@ -203,7 +203,12 @@ namespace MajPAbGr_project
 			id_technology = 0;
 		}
 
-		private void button4_Click(object sender, EventArgs e) //delete technology from data base
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e) //delete technology from data base
 		{
 			if (comboBox2.SelectedIndex == -1) return;
 

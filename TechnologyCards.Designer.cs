@@ -48,6 +48,7 @@ namespace MajPAbGr_project
             this.cmbCards = new System.Windows.Forms.ComboBox();
             this.txbCards = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -164,6 +165,7 @@ namespace MajPAbGr_project
             this.cmbData.Name = "cmbData";
             this.cmbData.Size = new System.Drawing.Size(198, 21);
             this.cmbData.TabIndex = 16;
+            this.cmbData.Text = "Удалить";
             this.cmbData.SelectedIndexChanged += new System.EventHandler(this.cmbData_SelectedIndexChanged);
             // 
             // btn_remove
@@ -230,11 +232,21 @@ namespace MajPAbGr_project
             this.label6.TabIndex = 31;
             this.label6.Text = "Name";
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(339, 76);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 32;
+            this.comboBox1.Text = "Technologies";
+            // 
             // TechnologyCards
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(554, 494);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.txbCards);
             this.Controls.Add(this.cmbCards);
@@ -281,5 +293,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.ComboBox cmbCards;
         private System.Windows.Forms.TextBox txbCards;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }

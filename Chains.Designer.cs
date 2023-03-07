@@ -49,13 +49,14 @@ namespace MajPAbGr_project
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.label3 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_remove
             // 
-            this.btn_remove.Location = new System.Drawing.Point(466, 157);
+            this.btn_remove.Location = new System.Drawing.Point(56, 157);
             this.btn_remove.Name = "btn_remove";
             this.btn_remove.Size = new System.Drawing.Size(60, 23);
             this.btn_remove.TabIndex = 23;
@@ -83,7 +84,7 @@ namespace MajPAbGr_project
             // 
             // btn_add
             // 
-            this.btn_add.Location = new System.Drawing.Point(383, 157);
+            this.btn_add.Location = new System.Drawing.Point(122, 157);
             this.btn_add.Name = "btn_add";
             this.btn_add.Size = new System.Drawing.Size(77, 23);
             this.btn_add.TabIndex = 20;
@@ -231,11 +232,21 @@ namespace MajPAbGr_project
             this.toolStripLabel2.Text = "Cards";
             this.toolStripLabel2.Click += new System.EventHandler(this.toolStripLabel2_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(418, 72);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(68, 13);
+            this.label3.TabIndex = 36;
+            this.label3.Text = "Убрать оба!";
+            // 
             // Chains
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(543, 274);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.lblTechn);
             this.Controls.Add(this.lblCards);
@@ -286,5 +297,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.Label label3;
     }
 }

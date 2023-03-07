@@ -49,6 +49,8 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.txbRec = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.goToChainsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -164,7 +166,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuToolStripMenuItem,
-            this.printToolStripMenuItem});
+            this.printToolStripMenuItem,
+            this.goToChainsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(535, 24);
@@ -245,11 +248,27 @@
             this.label5.TabIndex = 21;
             this.label5.Text = "label5";
             // 
+            // goToChainsToolStripMenuItem
+            // 
+            this.goToChainsToolStripMenuItem.Name = "goToChainsToolStripMenuItem";
+            this.goToChainsToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
+            this.goToChainsToolStripMenuItem.Text = "Go To Chains";
+            // 
+            // comboBox3
+            // 
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Location = new System.Drawing.Point(304, 194);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(121, 21);
+            this.comboBox3.TabIndex = 22;
+            this.comboBox3.Text = "карты";
+            // 
             // Technology
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(535, 448);
+            this.Controls.Add(this.comboBox3);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txbRec);
             this.Controls.Add(this.button4);
@@ -298,5 +317,7 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.TextBox txbRec;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ToolStripMenuItem goToChainsToolStripMenuItem;
+        private System.Windows.Forms.ComboBox comboBox3;
     }
 }
