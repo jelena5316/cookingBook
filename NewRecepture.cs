@@ -140,17 +140,41 @@ namespace MajPAbGr_project
             }
             int count = tb.RemoveItem();
             MessageBox.Show($"Is removed {count} records");
+            this.Dispose();
+            this.Close();
         }
 
        
 
         private void button2_Click(object sender, EventArgs e) // set / write into db (Recepture)
         {
-            WriteIntoDataBase();
-            if (!indicator)
+            int result = WriteIntoDataBase(); // -1: no data, -2: name not unieqe 
+            string message = "Recepture is updated (inserted)";
+
+            if (result > 0)
             {
-                this.Dispose();
-                this.Close();
+                message = "Recepture is updated (inserted)";
+                MessageBox.Show(message);
+                if (!indicator)
+                    {
+                     this.Dispose();
+                     this.Close();                      
+                    }       
+            }
+            else
+            {
+                if (result == -1)
+                {
+                    message = "Please, check name and category be inputed and then try again!";
+                    MessageBox.Show(message);
+                    return;
+                }                
+                if (result == -2)
+                {
+                    message = "Recepture with such name already exists. Please, type new name and try again";
+                    MessageBox.Show(message);
+                    return;
+                }
             }
         }
 
@@ -165,7 +189,7 @@ namespace MajPAbGr_project
                 name = txbRecepture.Text;
                 category = tbCat.getSelected();
                 if (category == 0) category = 1;
-                if (tb.IfRecordIs(name)) return -1;
+                if (tb.IfRecordIs(name)) return -2;
                 //пресекаем попытку ввести новую запись с занятым названием
                 tb.InsertNewRecord(name, category);
                 // пишем в базу данных название и категория нового рецепта, получаем номер
@@ -188,28 +212,28 @@ namespace MajPAbGr_project
                 }
             }
 
-            if (string.IsNullOrEmpty(txbAuthor.Text)) return -1;
-            if (string.IsNullOrEmpty(txbSource.Text)) return -1;
+            if (string.IsNullOrEmpty(txbAuthor.Text)) return 0;
+                author = txbAuthor.Text;
+                num = tb.UpdateReceptureOrCards("author", author, id_recepture);
+                Report(num, "author");
 
-            if (string.IsNullOrEmpty(txbDescription.Text)) return -1;
+            if (string.IsNullOrEmpty(txbSource.Text)) return 0;
+                source = txbSource.Text;
+                num = tb.UpdateReceptureOrCards("source", source, id_recepture);
 
-            source = txbSource.Text;
-            author = txbAuthor.Text;
-            URL = txbURL.Text;
-            description = txbDescription.Text;
+            if (string.IsNullOrEmpty(txbDescription.Text)) return 0;
+                description = txbDescription.Text;
+                num = tb.UpdateReceptureOrCards("description", description, id_recepture);
+                Report(num, "description");
+            
+           
+            if (string.IsNullOrEmpty(txbURL.Text)) return 0;
+                URL = txbURL.Text;
+                num = tb.UpdateReceptureOrCards("URL", URL, id_recepture);
+                Report(num, "URL");
+                //returns only then fields is not nullable!
 
-            num = tb.UpdateReceptureOrCards("source", source, id_recepture);
-            num = tb.UpdateReceptureOrCards("author", author, id_recepture);
-            Report(num, "author");
-            num = tb.UpdateReceptureOrCards("description", description, id_recepture);
-            Report(num, "description");
-
-            if (string.IsNullOrEmpty(txbURL.Text)) return -1;
-            num = tb.UpdateReceptureOrCards("URL", URL, id_recepture);
-            Report(num, "URL");
-            //returns only then fields is not nullable!
-
-            return id_recepture;
+                return id_recepture;
             // сделать перезагрузку изменных данных в котроллер формы!
         }
 

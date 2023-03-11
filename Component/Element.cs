@@ -114,7 +114,7 @@ namespace MajPAbGr_project
                 if (list.Count > 0)
                 {
                     item = list[0];
-                    field = item.name + " ";// + item.id.ToString();
+                    field = item.name; // + " " + item.id.ToString();
                     number = item.id;
                 }
             }
@@ -131,7 +131,7 @@ namespace MajPAbGr_project
 
         public string[] getData()
         {
-            string[] arr = new string[] { name, category,ingredient, author, source, technology, description };
+            string[] arr = new string[] { name, category, ingredient, author, source, technology, description};
             return arr;
         }
 

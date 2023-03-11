@@ -53,6 +53,7 @@ namespace MajPAbGr_project
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -157,7 +158,8 @@ namespace MajPAbGr_project
             this.tecnologyToolStripMenuItem,
             this.ingredientsToolStripMenuItem,
             this.toolStripMenuItem1,
-            this.amountsEditorToolStripMenuItem});
+            this.amountsEditorToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.goToToolStripMenuItem.Name = "goToToolStripMenuItem";
             this.goToToolStripMenuItem.Size = new System.Drawing.Size(49, 23);
             this.goToToolStripMenuItem.Text = "Go To";
@@ -254,6 +256,12 @@ namespace MajPAbGr_project
             this.label1.TabIndex = 12;
             this.label1.Text = "Receptures";
             // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
             // Categories
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -303,5 +311,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.ToolStripComboBox toolStripCmbPrint;
         private System.Windows.Forms.ToolStripMenuItem aboutReceptureToolStripMenuItem;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
     }
 }

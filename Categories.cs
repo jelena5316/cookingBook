@@ -15,7 +15,7 @@ namespace MajPAbGr_project
 		bool exist_selected = false;
 		int selected_recepture = -1;
 		int pragma;
-		List<string> list;
+		List<string> list, list_of_categories;
 		List<ReceptureStruct> full;
 		CategoriesController controller; // включает в себя FormMainController
 		tbReceptureController tbMain; // указатель на controller.TbMain
@@ -27,7 +27,11 @@ namespace MajPAbGr_project
 			tbMain = controller.TbMain;
 			list = new List<string>();
 			for (int k = 0; k < controller.Receptures.Count; k++)			
-				list.Add(controller.Receptures[k].name);			
+				list.Add(controller.Receptures[k].name);
+			list_of_categories = new List<string>();
+			for (int k = 0; k < controller.Receptures.Count; k++)
+				list_of_categories.Add(controller.ReceptureStruct[k].getCategory());
+			
 			pragma = 0;
 		}
 
@@ -37,9 +41,9 @@ namespace MajPAbGr_project
 			lv_recepture.Columns.Add("Category");
 			lv_recepture.Columns.Add("Main");
 			lv_recepture.Columns.Add("Author");
-			lv_recepture.Columns.Add("Source");			
+			lv_recepture.Columns.Add("Source");
 
-			Class1.setBox(controller.Categories, ref cmb_categories);
+			Class1.setBox(controller.Categories, ref cmb_categories);			
 			resetRecepturesList(controller.ReceptureStruct);
 			if (lv_recepture.Items.Count > 0)
 				lv_recepture.Items[0].Selected = true;
@@ -170,11 +174,10 @@ namespace MajPAbGr_project
 		private void cmb_categories_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (pragma == 0) return;
-			int index = cmb_categories.SelectedIndex;            
-			int id = controller.Categories[index].id;
-
-			full = controller.ReceptureStruct;
-			List<ReceptureStruct> selected; //= new List<ReceptureStruct>
+			if (cmb_categories.SelectedIndex == -1) return;
+			int index = cmb_categories.SelectedIndex, id = controller.Categories[index].id;
+			List<ReceptureStruct> selected = new List<ReceptureStruct>();		   
+			
 			selected = controller.selectByCategory(index);
 
 			resetRecepturesList(selected);
@@ -365,7 +368,9 @@ namespace MajPAbGr_project
 			NewReceptureController rec = new NewReceptureController(tbMain);
 			rec.ReceptureInfo = controller.ReceptureStruct[selected_recepture];
 			NewRecepture frm = new NewRecepture(rec);
-			frm.Show();
+			frm.ShowDialog();
+			Reload();
 		}
+
 	}
 }

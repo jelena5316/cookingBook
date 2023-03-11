@@ -108,7 +108,7 @@ namespace MajPAbGr_project
                 items.Tag = receptures[k].id;                
                 string[] arr = rec_struct[k].getData();
 
-                for (int q = 1; q < 5; q++)
+                for (int q = 1; q < 4; q++)
                 {
                     items.SubItems.Add(arr[q]);
                 }
@@ -136,7 +136,27 @@ namespace MajPAbGr_project
     
          public List<ReceptureStruct> selectByCategory(int index)
          {
-            List<ReceptureStruct> selected;        
+            List<ReceptureStruct> selected;
+            //string param, cat;
+            //param = Categories[index].name;
+            //bool signalka = false;
+            //int count = 0, nocount = 0;
+
+            //for (int k = 0; k < ReceptureStruct.Count; k++)
+            //{
+
+            //    cat = ReceptureStruct[k].getCategory();               
+            //    //cat = "pirogi";
+            //    if (param == " ") count++;
+            //    if (param != " ") nocount--;
+            //    if (cat == " ") count++;
+            //    if (cat != " ") nocount--;
+            //    if (param == cat) count++;
+            //    if (param != cat) nocount--;
+            //    if (cat == param) count++;
+            //    if (cat != param) nocount--;
+            //}
+
             selected = rec_struct.FindAll(p => p.getCategory() == categories[index].name);
             return selected;
          }
