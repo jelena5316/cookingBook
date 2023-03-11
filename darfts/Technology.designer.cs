@@ -43,14 +43,15 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.goToChainsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.txbRec = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.goToChainsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.listBox_cards = new System.Windows.Forms.ListBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -187,6 +188,13 @@
             this.printToolStripMenuItem.Text = "Print";
             this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
             // 
+            // goToChainsToolStripMenuItem
+            // 
+            this.goToChainsToolStripMenuItem.Name = "goToChainsToolStripMenuItem";
+            this.goToChainsToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
+            this.goToChainsToolStripMenuItem.Text = "Go To Chains";
+            this.goToChainsToolStripMenuItem.Click += new System.EventHandler(this.goToChainsToolStripMenuItem_Click);
+            // 
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(98, 243);
@@ -248,27 +256,31 @@
             this.label5.TabIndex = 21;
             this.label5.Text = "label5";
             // 
-            // goToChainsToolStripMenuItem
+            // label6
             // 
-            this.goToChainsToolStripMenuItem.Name = "goToChainsToolStripMenuItem";
-            this.goToChainsToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
-            this.goToChainsToolStripMenuItem.Text = "Go To Chains";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(310, 169);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(68, 13);
+            this.label6.TabIndex = 23;
+            this.label6.Text = "Use { } steps";
+            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
-            // comboBox3
+            // listBox_cards
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(304, 194);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(121, 21);
-            this.comboBox3.TabIndex = 22;
-            this.comboBox3.Text = "карты";
+            this.listBox_cards.FormattingEnabled = true;
+            this.listBox_cards.Location = new System.Drawing.Point(304, 185);
+            this.listBox_cards.Name = "listBox_cards";
+            this.listBox_cards.Size = new System.Drawing.Size(170, 147);
+            this.listBox_cards.TabIndex = 24;
             // 
             // Technology
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(535, 448);
-            this.Controls.Add(this.comboBox3);
+            this.Controls.Add(this.listBox_cards);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txbRec);
             this.Controls.Add(this.button4);
@@ -318,6 +330,7 @@
         private System.Windows.Forms.TextBox txbRec;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ToolStripMenuItem goToChainsToolStripMenuItem;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ListBox listBox_cards;
     }
 }

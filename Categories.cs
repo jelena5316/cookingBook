@@ -80,26 +80,31 @@ namespace MajPAbGr_project
 
 		private void openTechnology()
 		{
-			int selected, id_technology, count;// id of recepture and of technology;
-											   // проверить выбранный в списке  
-			selected = CheckTbMainSelected(controller.getMinIdOfReceptures());
-			Chains frm;
-			ChainsController cntrl;
-
-			cntrl = new ChainsController();
-			cntrl.Recepture = selected;
+            int selected, id_technology, count;// id of recepture and of technology;
+            // проверить выбранный в списке  
+            selected = CheckTbMainSelected(controller.getMinIdOfReceptures());
+			Technology frm;
 
 			//id_technology
-			count = tbMain.SelectedCount("Recepture", "id_technology", selected); // dos recepture contain any technology
-			if (count == 1)
-			{
-				id_technology = int.Parse(tbMain.getById("id_technology", selected));
-				cntrl.Technology = id_technology;
-			}
+			int index = selected_recepture == -1 ? 0 : selected_recepture ;
+			id_technology = controller.ReceptureStruct[index].getIds()[1];
+			id_technology = id_technology < 0 ? 0 : id_technology;
 
-			frm = new Chains(ref cntrl);
-			frm.Show();
-		}
+			frm = new Technology(id_technology);
+			frm.Show();			
+
+    //        count = tbMain.SelectedCount("Recepture", "id_technology", selected); // dos recepture contain any technology
+    //        if (count == 1)
+    //        {
+    //            id_technology = int.Parse(tbMain.getById("id_technology", selected));				
+    //        }
+    //        else
+    //        {
+				//id_technology = 0;
+    //        }
+
+			
+        }
 
 		private void addNew()
 		{

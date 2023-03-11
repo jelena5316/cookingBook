@@ -144,11 +144,9 @@ namespace MajPAbGr_project
             this.Close();
         }
 
-       
-
         private void button2_Click(object sender, EventArgs e) // set / write into db (Recepture)
         {
-            int result = WriteIntoDataBase(); // -1: no data, -2: name not unieqe 
+            int result = WriteIntoDataBase(); // -1: no data, -2: name not unique 
             string message = "Recepture is updated (inserted)";
 
             if (result > 0)
@@ -212,36 +210,41 @@ namespace MajPAbGr_project
                 }
             }
 
-            if (string.IsNullOrEmpty(txbAuthor.Text)) return 0;
+            if (!string.IsNullOrEmpty(txbAuthor.Text))
+            {
                 author = txbAuthor.Text;
                 num = tb.UpdateReceptureOrCards("author", author, id_recepture);
-                Report(num, "author");
+                //Report(num, "author");
+            }
 
-            if (string.IsNullOrEmpty(txbSource.Text)) return 0;
+            if (!string.IsNullOrEmpty(txbSource.Text))
+            { 
                 source = txbSource.Text;
-                num = tb.UpdateReceptureOrCards("source", source, id_recepture);
-
-            if (string.IsNullOrEmpty(txbDescription.Text)) return 0;
+                num = tb.UpdateReceptureOrCards("source", source, id_recepture);            
+            }
+                
+            if (!string.IsNullOrEmpty(txbDescription.Text))
+            {
                 description = txbDescription.Text;
                 num = tb.UpdateReceptureOrCards("description", description, id_recepture);
-                Report(num, "description");
-            
-           
-            if (string.IsNullOrEmpty(txbURL.Text)) return 0;
+                //Report(num, "description");
+            }             
+
+            if (!string.IsNullOrEmpty(txbURL.Text))
+            {
                 URL = txbURL.Text;
                 num = tb.UpdateReceptureOrCards("URL", URL, id_recepture);
-                Report(num, "URL");
-                //returns only then fields is not nullable!
+                //Report(num, "URL");
+            }
 
-                return id_recepture;
-            // сделать перезагрузку изменных данных в котроллер формы!
+             return id_recepture;           
         }
 
-        private void Report(int num, string variable) //developer mode
-        {
-            if (num == 0) this.Text += $" {variable} not writted";
-            else this.Text += $" {variable} is writted";
-        }
+        //private void Report(int num, string variable) //developer mode
+        //{
+        //    if (num == 0) this.Text += $" {variable} not writted";
+        //    else this.Text += $" {variable} is writted";
+        //}
 
         private void NewRecepture_Load(object sender, EventArgs e)
         {

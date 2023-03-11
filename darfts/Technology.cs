@@ -131,8 +131,9 @@ namespace MajPAbGr_project
 
 		private void comboBox2_SelectedIndexChanged(object sender, EventArgs e) // tech
 		{
-			{
-				int index = comboBox2.SelectedIndex;
+			if (comboBox2.SelectedIndex > -1)
+                {
+				int index = comboBox2.SelectedIndex;				
 				int selected = tb.setSelected(index);
 				selected_tech = selected;
 				id_technology = selected;
@@ -143,7 +144,64 @@ namespace MajPAbGr_project
 
 				//output receptures				
 				fillCatalogRec();
-			}
+				
+				//output cards, if ones exists
+				if (listBox_cards.Items.Count > 0)
+                    {
+						listBox_cards.Items.Clear();
+                    }
+				
+				List<string> cards_id = new tbChainController("Technology_chain").CardsInTechnology(selected);			
+				List <string> Names (List<string> ids)
+				{
+					int k;
+					string range = "";
+					for (k = 0; k < cards_id.Count - 1; k++)
+						range += $"{cards_id[k]}, ";
+					range += cards_id[k];
+					return tb.dbReader($"select name from Technology_card where id in ({range})");
+				}
+               
+                if (cards_id.Count > 0)
+                {
+					List<string> names = Names(cards_id);
+					for (int k =0; k < cards_id.Count; k++)
+                    {
+						listBox_cards.Items.Add(names[k]);
+                    }
+                }
+
+				//int index = cmbTechn.SelectedIndex, selected_techn = 0;
+				//string description;
+				//List<string> cards_id, names;
+				//tbTechnologyCardsController cards = controller.tbCardsController;
+				//tbTechnologyController techn = controller.tbTechController;
+				//tbChainController chains = controller.tbChainController;
+
+				//techn.setSelected(index);
+				//selected_techn = techn.Selected;
+
+				//cmbHasCards.Items.Clear();
+				//cards_id = chains.CardsInTechnology(selected_techn);
+				//for (int k = 0; k < cards_id.Count; k++)
+				//{
+				//	names = cards.dbReader($"select name from {cards.getTable()} where id = {cards_id[k]};");
+				//	cmbHasCards.Items.Add(names[0]); // а есть ли проверка на уникальность имени?
+				//}
+				//if (cmbHasCards.Items.Count != 0) cmbHasCards.SelectedIndex = 0;
+				//else cmbHasCards.Text = "";
+
+				//description = techn.dbReader($"select description from {techn.getTable()} where id = {selected_techn}")[0];
+				//if (description.Length > 50)
+				//{
+				//	string t = description.Substring(0, 50);
+				//	description = t;
+				//}
+
+
+			}		
+						
+			
 		}
 
 		private void button1_Click(object sender, EventArgs e) // submit inserting or updating (editing)
@@ -203,7 +261,32 @@ namespace MajPAbGr_project
 			id_technology = 0;
 		}
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void goToChainsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+			//int selected, id_technology, count;// id of recepture and of technology;
+			//								   // проверить выбранный в списке  
+			//selected = CheckTbMainSelected(controller.getMinIdOfReceptures());
+			//Chains frm;
+			//ChainsController cntrl;
+
+			//cntrl = new ChainsController();
+			//cntrl.Recepture = selected;
+
+			////id_technology
+			//count = tbMain.SelectedCount("Recepture", "id_technology", selected); // dos recepture contain any technology
+			//if (count == 1)
+			//{
+			//	id_technology = int.Parse(tbMain.getById("id_technology", selected));
+			//	cntrl.Technology = id_technology;
+			//}
+
+			//frm = new Chains(ref cntrl);
+			//frm.Show();
+		}
+
+
+        private void label6_Click(object sender, EventArgs e)
         {
 
         }
