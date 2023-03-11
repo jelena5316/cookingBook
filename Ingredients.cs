@@ -63,7 +63,7 @@ namespace MajPAbGr_project
         {
             int index;
             List<int> id;
-            output = Class1.FillComboString(tb.getCatalog(), ref cmbData, out id);
+            output = Class1.FillComboString(tb.getCatalog(), cmbData, out id);
             frm.richTextBox1.Text = "";            
             
             for (index = 0; index < output.Count; index++)

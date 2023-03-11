@@ -42,7 +42,7 @@ namespace MajPAbGr_project
             tb = new tbTechnologyCardsController("Technology_card");
             //db = new dbController();
             tb.setCatalog();
-            cards = Class1.FillCombo(tb.getCatalog(), ref cmbData);
+            cards = Class1.FillCombo(tb.getCatalog(), cmbData);
 
             cards_count = 0;
 
@@ -97,7 +97,7 @@ namespace MajPAbGr_project
             // вывод в комбо-поле списка карт, установка в него выбранной карты
             // и возврат значения выбранной карты
             int temp = tb.Selected;
-            Class1.FillCombo(cards, ref cmbCards);
+            Class1.FillCombo(cards, cmbCards);
             //cmbCards.SelectedIndex = ChangeSelectedIndex(temp);
             cmbCards.SelectedIndex = Class1.ChangeIndex(cards, temp);
 
@@ -256,7 +256,7 @@ namespace MajPAbGr_project
 
             id_temp = tb.Selected;
             tb.setCatalog();           
-            cards = Class1.FillCombo(tb.getCatalog(), ref cmbCards);
+            cards = Class1.FillCombo(tb.getCatalog(), cmbCards);
             tb.Selected = id_temp;
             cmbCards.SelectedIndex = ChangeIndex(cards, tb.Selected);
             //cmbCards.SelectedIndex = ChangeSelectedIndex(tb.Selected);
@@ -370,7 +370,7 @@ namespace MajPAbGr_project
             tb.RemoveItem();
             tb.setCatalog();
             cards.Clear();
-            cards = Class1.FillCombo(tb.getCatalog(), ref cmbData);
+            cards = Class1.FillCombo(tb.getCatalog(), cmbData);
             lblTest.Text = $"count {cards.Count}";
         }  
 

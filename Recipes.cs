@@ -98,7 +98,7 @@ namespace MajPAbGr_project
         public int fillSubCatalog()  // recipes of recepture, combobox
         {
             recipes = controller.Recipes;
-            Class1.FillCombo(recipes, ref recipe);            
+            Class1.FillCombo(recipes, recipe);            
             if (recipe.Items.Count > 0)
             {
                 recipe.SelectedIndex = 0;                
@@ -126,7 +126,7 @@ namespace MajPAbGr_project
             //InputRecepture(elements);            
             List<string> amounts = calc.FormatAmounts
                 (calc.getAmounts(), calc.getTotal());
-            Class1.FillListView(elements, amounts, ref listView1);
+            Class1.FillListView(elements, amounts, listView1);
 
             if (count == 0)
             {
@@ -453,7 +453,7 @@ namespace MajPAbGr_project
                 controller.Technology = id_technology;                 
             }  
             
-            frm = new Chains(ref controller);
+            frm = new Chains(controller);
             frm.Show();
 
             { 

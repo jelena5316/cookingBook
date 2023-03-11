@@ -33,7 +33,7 @@ namespace MajPAbGr_project
             return list;
         }
 
-        static public List<Item> FillCombo(List<Item> items, ref ComboBox combo)
+        static public List<Item> FillCombo(List<Item> items, ComboBox combo)
         {
             if (items.Count != 0)
             {
@@ -50,7 +50,7 @@ namespace MajPAbGr_project
             return items;
         }
 
-        static public List <string> FillComboString(List <Item> items, ref ComboBox combo,
+        static public List <string> FillComboString(List <Item> items, ComboBox combo,
            out List <int> id)
         {
             id = new List<int>();
@@ -96,7 +96,7 @@ namespace MajPAbGr_project
         }
 
 
-    static public void FillListView(List <Element> ingr, List<string> texts, ref ListView list)
+    static public void FillListView(List <Element> ingr, List<string> texts, ListView list)
         {
             /*запись в списочное представления*/
             int k = 0;           
@@ -118,7 +118,7 @@ namespace MajPAbGr_project
             //return texts;
         }
 
-        static public void FillCombo(List<Element> elements, ref ComboBox combo)
+        static public void FillCombo(List<Element> elements, ComboBox combo)
         {
             if (combo.Items.Count > 0) combo.Items.Clear();
             if (elements.Count > 0)
@@ -130,7 +130,7 @@ namespace MajPAbGr_project
             }
         }
 
-        static public void FillListView(List<Item> ingr, ref ListView list)
+        static public void FillListView(List<Item> ingr, ListView list)
         {
             /*запись в списочное представления*/
             int k = 0;
@@ -144,7 +144,7 @@ namespace MajPAbGr_project
             }            
         }
 
-        static public double[] AmountsFromListToArray(ref ListView lv, byte num)
+        static public double[] AmountsFromListToArray(ListView lv, byte num)
         {
             double[] arr = new double[lv.Items.Count];
             string t;

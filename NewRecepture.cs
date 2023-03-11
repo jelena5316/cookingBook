@@ -73,7 +73,7 @@ namespace MajPAbGr_project
 
             temp = category;
             items = tbCat.getCatalog();
-            Class1.FillCombo(items, ref cmbCat);
+            Class1.FillCombo(items, cmbCat);
             category = temp;
             if (category > 0)
                 cmbCat.SelectedIndex = Class1.ChangeIndex(items, category);
@@ -82,7 +82,7 @@ namespace MajPAbGr_project
 
             temp = technology;            
             items = tbTech.getCatalog();
-            Class1.FillCombo(items, ref cmbTech);
+            Class1.FillCombo(items, cmbTech);
             technology = temp;
             if (technology > 0)
             {

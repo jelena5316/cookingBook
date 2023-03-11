@@ -46,12 +46,11 @@
             this.goToChainsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.txbRec = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lbl_rec = new System.Windows.Forms.Label();
+            this.lbl_steps = new System.Windows.Forms.Label();
             this.listBox_cards = new System.Windows.Forms.ListBox();
+            this.listBox_rec = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -114,7 +113,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(37, 36);
+            this.label4.Location = new System.Drawing.Point(43, 36);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(71, 13);
             this.label4.TabIndex = 9;
@@ -220,77 +219,67 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Editor";
             // 
-            // label3
+            // lbl_rec
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(301, 36);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(62, 13);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Receptures";
+            this.lbl_rec.AutoSize = true;
+            this.lbl_rec.Location = new System.Drawing.Point(310, 45);
+            this.lbl_rec.Name = "lbl_rec";
+            this.lbl_rec.Size = new System.Drawing.Size(103, 13);
+            this.lbl_rec.TabIndex = 7;
+            this.lbl_rec.Text = "Is used in { } recipes";
             // 
-            // comboBox1
+            // lbl_steps
             // 
-            this.comboBox1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.comboBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(304, 93);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(170, 21);
-            this.comboBox1.TabIndex = 4;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
-            // txbRec
-            // 
-            this.txbRec.Location = new System.Drawing.Point(304, 52);
-            this.txbRec.Name = "txbRec";
-            this.txbRec.Size = new System.Drawing.Size(170, 20);
-            this.txbRec.TabIndex = 20;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(301, 139);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(35, 13);
-            this.label5.TabIndex = 21;
-            this.label5.Text = "label5";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(310, 169);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(68, 13);
-            this.label6.TabIndex = 23;
-            this.label6.Text = "Use { } steps";
-            this.label6.Click += new System.EventHandler(this.label6_Click);
+            this.lbl_steps.AutoSize = true;
+            this.lbl_steps.Location = new System.Drawing.Point(310, 196);
+            this.lbl_steps.Name = "lbl_steps";
+            this.lbl_steps.Size = new System.Drawing.Size(68, 13);
+            this.lbl_steps.TabIndex = 23;
+            this.lbl_steps.Text = "Use { } steps";
             // 
             // listBox_cards
             // 
             this.listBox_cards.FormattingEnabled = true;
-            this.listBox_cards.Location = new System.Drawing.Point(304, 185);
+            this.listBox_cards.Location = new System.Drawing.Point(304, 212);
             this.listBox_cards.Name = "listBox_cards";
-            this.listBox_cards.Size = new System.Drawing.Size(170, 147);
+            this.listBox_cards.Size = new System.Drawing.Size(170, 108);
             this.listBox_cards.TabIndex = 24;
+            // 
+            // listBox_rec
+            // 
+            this.listBox_rec.FormattingEnabled = true;
+            this.listBox_rec.Location = new System.Drawing.Point(304, 64);
+            this.listBox_rec.Name = "listBox_rec";
+            this.listBox_rec.Size = new System.Drawing.Size(170, 108);
+            this.listBox_rec.TabIndex = 25;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(301, 356);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(150, 13);
+            this.label3.TabIndex = 26;
+            this.label3.Text = "Apply or remove step to  chain";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // Technology
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(535, 448);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.listBox_rec);
             this.Controls.Add(this.listBox_cards);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.txbRec);
+            this.Controls.Add(this.lbl_steps);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.lbl_rec);
             this.Name = "Technology";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Technology";
@@ -325,12 +314,11 @@
         private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox txbRec;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lbl_rec;
         private System.Windows.Forms.ToolStripMenuItem goToChainsToolStripMenuItem;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lbl_steps;
         private System.Windows.Forms.ListBox listBox_cards;
+        private System.Windows.Forms.ListBox listBox_rec;
+        private System.Windows.Forms.Label label3;
     }
 }

@@ -58,7 +58,7 @@ namespace MajPAbGr_project
 		private void Technology_Load(object sender, EventArgs e)
 		{
 			int index = ChangeIndex(technologies, tb.Selected);
-			Class1.FillCombo(technologies, ref comboBox2);
+			Class1.FillCombo(technologies, comboBox2);
 			comboBox2.SelectedIndex = index;
 			//ChangeIndex(technologies);
 			OutTechnology();
@@ -101,40 +101,23 @@ namespace MajPAbGr_project
 		private void fillCatalogRec() // recepture
 		{
 			receptures = controller.setReceptures();
-			Class1.FillCombo(receptures, ref comboBox1);
-			if (receptures.Count > 0)
-			{
-				tbRec.Selected = receptures[0].id;//// вывод на печать
-				id_recepture = tbRec.Selected;
-			}
-			else
-			{
-				tbRec.Selected = 0; // вывод на печать
-				label5.Text = "no category";
-				txbRec.Text = "empty";
-
-				comboBox1.Items.Clear();
-				comboBox1.Text = "";
-				//посмотреть, как в FormFunktion отвязать от подаваемого списка! 
-			}
-		}
-
-		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) // rec
-		{
-			int index = comboBox1.SelectedIndex;
-			txbRec.Text = comboBox1.Items[index].ToString();
-			label5.Text = controller.SeeRecepturesCategory(index);
-
-			id_recepture = tbRec.Selected;
-			toolStripStatusLabel2.Text = $"Selected: recepture {tbRec.Selected} technology {selected_tech}";
-		}
+			if (listBox_rec.Items.Count > 0)
+				listBox_rec.Items.Clear();
+			if(receptures.Count > 0)
+            {
+				for (int k = 0; k < receptures.Count; k++)
+					listBox_rec.Items.Add(receptures[k]);
+            }
+		}		
 
 		private void comboBox2_SelectedIndexChanged(object sender, EventArgs e) // tech
 		{
 			if (comboBox2.SelectedIndex > -1)
                 {
-				int index = comboBox2.SelectedIndex;				
-				int selected = tb.setSelected(index);
+				int count = 0, index = comboBox2.SelectedIndex, selected = tb.setSelected(index);
+				List<string> cards_id;
+				tbChainController chains;
+
 				selected_tech = selected;
 				id_technology = selected;
 				toolStripStatusLabel2.Text = $"Selected: Recepture {id_recepture} technology {selected_tech}";
@@ -144,14 +127,18 @@ namespace MajPAbGr_project
 
 				//output receptures				
 				fillCatalogRec();
+				lbl_rec.Text = $"Is used in {receptures.Count} recipes";
 				
-				//output cards, if ones exists
+				//output cards, if ones exists				
+				chains = new tbChainController("Technology_chain");
+				count = chains.CardsInTechnologyCount(selected);
+				cards_id = chains.CardsInTechnology(selected);				
+				
 				if (listBox_cards.Items.Count > 0)
                     {
 						listBox_cards.Items.Clear();
                     }
-				
-				List<string> cards_id = new tbChainController("Technology_chain").CardsInTechnology(selected);			
+
 				List <string> Names (List<string> ids)
 				{
 					int k;
@@ -170,38 +157,8 @@ namespace MajPAbGr_project
 						listBox_cards.Items.Add(names[k]);
                     }
                 }
-
-				//int index = cmbTechn.SelectedIndex, selected_techn = 0;
-				//string description;
-				//List<string> cards_id, names;
-				//tbTechnologyCardsController cards = controller.tbCardsController;
-				//tbTechnologyController techn = controller.tbTechController;
-				//tbChainController chains = controller.tbChainController;
-
-				//techn.setSelected(index);
-				//selected_techn = techn.Selected;
-
-				//cmbHasCards.Items.Clear();
-				//cards_id = chains.CardsInTechnology(selected_techn);
-				//for (int k = 0; k < cards_id.Count; k++)
-				//{
-				//	names = cards.dbReader($"select name from {cards.getTable()} where id = {cards_id[k]};");
-				//	cmbHasCards.Items.Add(names[0]); // а есть ли проверка на уникальность имени?
-				//}
-				//if (cmbHasCards.Items.Count != 0) cmbHasCards.SelectedIndex = 0;
-				//else cmbHasCards.Text = "";
-
-				//description = techn.dbReader($"select description from {techn.getTable()} where id = {selected_techn}")[0];
-				//if (description.Length > 50)
-				//{
-				//	string t = description.Substring(0, 50);
-				//	description = t;
-				//}
-
-
-			}		
-						
-			
+				lbl_steps.Text = $"Use {count} steps";				
+			}			
 		}
 
 		private void button1_Click(object sender, EventArgs e) // submit inserting or updating (editing)
@@ -234,9 +191,9 @@ namespace MajPAbGr_project
 				}
 				else
 				{
-					if (comboBox1.Items.Count > 0)
-						comboBox1.SelectedIndex = 0;
-					return;
+					//if (comboBox1.Items.Count > 0)
+					//	comboBox1.SelectedIndex = 0;
+					//return;
 				}
 			}
 			report = controller.Submit(name, description, id_temp);
@@ -245,7 +202,7 @@ namespace MajPAbGr_project
 			//Class1.FillCombo(.., ..) меняет tb.Selected, selected_tech, меняет в setSelected(int index),
 			//где index = 0;
 			id_temp = tb.Selected;
-			technologies = Class1.FillCombo(tb.getCatalog(), ref comboBox2);
+			technologies = Class1.FillCombo(tb.getCatalog(), comboBox2);
 			tb.Selected = id_temp;
 			comboBox2.SelectedIndex = ChangeIndex(technologies, tb.Selected);
 
@@ -285,13 +242,46 @@ namespace MajPAbGr_project
 			//frm.Show();
 		}
 
-
-        private void label6_Click(object sender, EventArgs e)
+        private void label3_Click(object sender, EventArgs e)
         {
 
+			openChainEditor();
+			//int selected, id_technology, count;// id of recepture and of technology;
+			//								   // проверить выбранный в списке  
+			//selected = CheckTbMainSelected(controller.getMinIdOfReceptures());
+			//Chains frm;
+			//ChainsController cntrl;
+
+			//cntrl = new ChainsController();
+			//cntrl.Recepture = selected;
+
+			////id_technology
+			//count = tbMain.SelectedCount("Recepture", "id_technology", selected); // dos recepture contain any technology
+			//if (count == 1)
+			//{
+			//	id_technology = int.Parse(tbMain.getById("id_technology", selected));
+			//	cntrl.Technology = id_technology;
+			//}
+
+			//frm = new Chains(ref cntrl);
+			//frm.Show();
+		}
+        
+		private void openChainEditor()
+        {
+            Chains frm;
+            ChainsController cntrl;  
+			cntrl = new ChainsController();
+			if (receptures.Count > 0)
+				cntrl.Recepture = receptures[0].id;
+			else
+				cntrl.Recepture = 0;			
+			cntrl.Technology = tb.Selected;
+            frm = new Chains(cntrl);
+            frm.Show();
         }
 
-        private void button4_Click(object sender, EventArgs e) //delete technology from data base
+		private void button4_Click(object sender, EventArgs e) //delete technology from data base
 		{
 			if (comboBox2.SelectedIndex == -1) return;
 
@@ -308,7 +298,7 @@ namespace MajPAbGr_project
 				if (ind && index > -1)
 				{
 					//обновляем форму
-					technologies = Class1.FillCombo(tb.getCatalog(), ref comboBox2);
+					technologies = Class1.FillCombo(tb.getCatalog(), comboBox2);
 					comboBox2.SelectedIndex = index;
 					textBox1.Focus();
 					toolStripStatusLabel2.Text =

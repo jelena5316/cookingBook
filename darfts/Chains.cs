@@ -20,7 +20,7 @@ namespace MajPAbGr_project
             controller = new ChainsController();
         }
 
-        public Chains (ref ChainsController controller)
+        public Chains (ChainsController controller)
         {
             InitializeComponent();
             this.controller = controller;
@@ -34,7 +34,7 @@ namespace MajPAbGr_project
             tbTechnologyController techn = controller.tbTechController;
 
             items = techn.getCatalog();
-            Class1.FillCombo(items, ref cmbTechn);
+            Class1.FillCombo(items, cmbTechn);
 
             if (controller.Technology > 0)
             {
@@ -56,7 +56,7 @@ namespace MajPAbGr_project
             id = 0;
        
             items = cards.getCatalog();
-            Class1.FillCombo(items, ref cmbData);
+            Class1.FillCombo(items, cmbData);
             id = controller.Card;
             if (id != 0)
             {
