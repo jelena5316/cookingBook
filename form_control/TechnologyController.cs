@@ -115,14 +115,12 @@ namespace MajPAbGr_project
         }
 
 		public string IsUsed()
-		{
-			string used = "";
-			tb.setUsed();
-			used = tb.getUsed();
+		{			
+			string used = tb.getUsed();
 			if (used == "0")
 				return "";
 			else
-				return $"The technology is used in {used} Receptures. \nPlease, remove it before deleting";
+				return $"The technology is used in {used} Receptures.\nPlease, remove it before deleting";
         }
 
 		public bool Remove(int index, out int new_index)

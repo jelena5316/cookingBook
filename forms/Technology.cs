@@ -64,8 +64,8 @@ namespace MajPAbGr_project
 			OutTechnology();
 			fillCatalogRec();
 
-			toolStripStatusLabel1.Text = $"Recepture {id_recepture}, technology {id_technology}";
-			toolStripStatusLabel2.Text = $"Selected: recepture {id_recepture} technology {selected_tech}";
+			//toolStripStatusLabel1.Text = $"Recepture {id_recepture}, technology {id_technology}";
+			//toolStripStatusLabel2.Text = $"Selected: recepture {id_recepture} technology {selected_tech}";
 			setStatusLabel3(id_recepture);
 
 			// автодополнение
@@ -120,13 +120,14 @@ namespace MajPAbGr_project
 
 				selected_tech = selected;
 				id_technology = selected;
-				toolStripStatusLabel2.Text = $"Selected: Recepture {id_recepture} technology {selected_tech}";
+				//toolStripStatusLabel2.Text = $"Selected: Recepture {id_recepture} technology {selected_tech}";
 
 				// output in textbox				
 				OutTechnology();
 
 				//output receptures				
 				fillCatalogRec();
+				tb.setUsed();
 				lbl_rec.Text = $"Is used in {receptures.Count} recipes";
 				
 				//output cards, if ones exists				
@@ -177,8 +178,7 @@ namespace MajPAbGr_project
 			{
 				DialogResult rezult = MessageBox.Show
 					("Data base has {technology} technologies with this name. Want you it update?\n" +
-					"If you want update, than press 'Yes' and choose a technology what you want update from list!\n" +
-					"then press 'Submit'!\n" +
+					"If you want update, than press 'Yes' then press 'Submit'!\n" +
 					"If you don't want, than press 'No' and type new name, then press 'submit'",
 					"Quation",
 					MessageBoxButtons.YesNo,
@@ -191,9 +191,7 @@ namespace MajPAbGr_project
 				}
 				else
 				{
-					//if (comboBox1.Items.Count > 0)
-					//	comboBox1.SelectedIndex = 0;
-					//return;
+					id_temp = tb.getTechnologiesIdsByName(name)[0].id;				
 				}
 			}
 			report = controller.Submit(name, description, id_temp);
@@ -207,7 +205,7 @@ namespace MajPAbGr_project
 			comboBox2.SelectedIndex = ChangeIndex(technologies, tb.Selected);
 
 			OutTechnology();
-			toolStripStatusLabel2.Text = $"Selected: recepture {id_recepture} technology {selected_tech}";
+			//toolStripStatusLabel2.Text = $"Selected: recepture {id_recepture} technology {selected_tech}";
 		}
 
 		private void button3_Click(object sender, EventArgs e) // clear
@@ -281,16 +279,16 @@ namespace MajPAbGr_project
             frm.Show();
         }
 
-		private void button4_Click(object sender, EventArgs e) //delete technology from data base
+        private void button4_Click(object sender, EventArgs e) //delete technology from data base
 		{
 			if (comboBox2.SelectedIndex == -1) return;
 
 			int index = 0;
 			bool ind;
+			string name = textBox1.Text;
 
-			string message = controller.IsUsed();//проверка, используется ли
-			message += "\nPlease, remove it before deleting";
-			if (message == "")
+			string used = tb.getUsed();
+			if (used == "0")
 			{
 				//удаляем
 				ind = controller.Remove(comboBox2.SelectedIndex, out index);
@@ -301,8 +299,7 @@ namespace MajPAbGr_project
 					technologies = Class1.FillCombo(tb.getCatalog(), comboBox2);
 					comboBox2.SelectedIndex = index;
 					textBox1.Focus();
-					toolStripStatusLabel2.Text =
-						$"Selected: recepture {id_recepture} technology {tb.Selected}";
+					MessageBox.Show($"{name} is deleted");
 				}
 				else
 				{
@@ -312,9 +309,13 @@ namespace MajPAbGr_project
 						MessageBox.Show("All technologies are deleted");
 				}
 			}
-			else
+            else
+            {
+				string message = $"The technology is used in {used} Receptures.\nPlease, remove it before deleting";
 				MessageBox.Show(message);
+            }				
 		}
+		
 
 		private void PrintInfo(string[] arr)
 		{
@@ -323,10 +324,15 @@ namespace MajPAbGr_project
 			frm.richTextBox1.Lines = arr;
 		}
 
-		private void printToolStripMenuItem_Click(object sender, EventArgs e) //print
-		{
+		public void PrintTechnology()
+        {
 			string[] arr = controller.getFullInfo();
 			PrintInfo(arr);
+        }
+
+		private void printToolStripMenuItem_Click(object sender, EventArgs e) //print
+		{
+			
 
 			//int id_rec, id_tech;
 			//string rec, tech, category;
@@ -417,9 +423,9 @@ namespace MajPAbGr_project
 				{
 					name = data;
 				}
-				toolStripStatusLabel3.Text = $"R {id_recepture} contains a T {name}";
+				//toolStripStatusLabel3.Text = $"R {id_recepture} contains a T {name}";
 			}
-			else toolStripStatusLabel3.Text = $"R {id_recepture} contains {name} T";
+			//else toolStripStatusLabel3.Text = $"R {id_recepture} contains {name} T";
 		}
 			
 	}

@@ -181,8 +181,9 @@ namespace MajPAbGr_project
 			if (pragma == 0) return;
 			if (cmb_categories.SelectedIndex == -1) return;
 			int index = cmb_categories.SelectedIndex, id = controller.Categories[index].id;
-			List<ReceptureStruct> selected = new List<ReceptureStruct>();		   
-			
+			List<ReceptureStruct> selected = new List<ReceptureStruct>();
+
+			full = controller.ReceptureStruct;
 			selected = controller.selectByCategory(index);
 
 			resetRecepturesList(selected);
