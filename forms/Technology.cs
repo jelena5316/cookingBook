@@ -57,11 +57,11 @@ namespace MajPAbGr_project
 
 		private void Technology_Load(object sender, EventArgs e)
 		{
-			int index = ChangeIndex(technologies, tb.Selected);
+			int index = Class1.ChangeIndex(technologies, tb.Selected);
 			Class1.FillCombo(technologies, comboBox2);
 			comboBox2.SelectedIndex = index;
 			//ChangeIndex(technologies);
-			OutTechnology();
+			//OutTechnology();
 			fillCatalogRec();
 
 			//toolStripStatusLabel1.Text = $"Recepture {id_recepture}, technology {id_technology}";
@@ -76,27 +76,27 @@ namespace MajPAbGr_project
 			textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
 		}
 
-		private int ChangeIndex(List<Item> items, int test)  // 'load', 'submit', 'delete'        
-		{
-			int index = -1, temp_id = test;
-			if (items.Count != 0)
-			{
-				//comboBox2.SelectedIndex = 0;
-				if (temp_id > 0)
-				{
-					for (index = 0; index < items.Count; index++)
-					{
-						if (items[index].id == temp_id)
-						{
-							//comboBox2.SelectedIndex = index;                          
-							break;
-						}
-					}
-				}
-				return index;
-			}
-			else return index;
-		}
+		//private int ChangeIndex(List<Item> items, int test)  // 'load', 'submit', 'delete'        
+		//{
+		//	int index = 0, temp_id = test;
+		//	if (items.Count != 0)
+		//	{
+		//		//comboBox2.SelectedIndex = 0;
+		//		if (temp_id > 0)
+		//		{
+		//			for (index = 0; index < items.Count; index++)
+		//			{
+		//				if (items[index].id == temp_id)
+		//				{
+		//					//comboBox2.SelectedIndex = index;                          
+		//					break;
+		//				}
+		//			}
+		//		}
+		//		return index;
+		//	}
+		//	else return index;
+		//}
 
 		private void fillCatalogRec() // recepture
 		{
@@ -202,9 +202,9 @@ namespace MajPAbGr_project
 			id_temp = tb.Selected;
 			technologies = Class1.FillCombo(tb.getCatalog(), comboBox2);
 			tb.Selected = id_temp;
-			comboBox2.SelectedIndex = ChangeIndex(technologies, tb.Selected);
+			comboBox2.SelectedIndex = Class1.ChangeIndex(technologies, tb.Selected);
 
-			OutTechnology();
+			//OutTechnology();
 			//toolStripStatusLabel2.Text = $"Selected: recepture {id_recepture} technology {selected_tech}";
 		}
 

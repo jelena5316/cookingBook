@@ -82,6 +82,23 @@ namespace MajPAbGr_project
             return dbReader(query);
         }
 
+        public List<string> getNames(List<string> ids)
+        {
+            if (ids.Count > 0)
+            {
+                int k;
+                string range = "";
+                    for (k = 0; k < ids.Count - 1; k++)
+                    range += $"{ids[k]}, ";
+                    range += ids[k];
+                    return dbReader($"select name from Technology where id in ({range})");           
+            }
+            else
+            {
+                return null;
+            }        
+        }
+
         public List <string> CardsInTechnology(int id)
         {
             query = $"select id_card from {table} where id_technology = {id};";
