@@ -124,18 +124,10 @@ namespace MajPAbGr_project
                     listBox_tech.Items.Add(technologies[k]); // а есть ли проверка на уникальность имени? 
             }                     
 
-            //technologies = chains.TechnologiesWithSelectedCard(selected_cards);
-            //for (int k = 0; k < technologies.Count; k++)
-            //{
-            //    names = techn.dbReader($"select name from {techn.getTable()} where id = {technologies[k]};");
-            //    listBox_tech.Items.Add(names[0]); // а есть ли проверка на уникальность имени?
-            //}
-
             if (listBox_tech.Items.Count != 0) listBox_tech.SelectedIndex = 0;
             else listBox_tech.Text = "";
 
-            description = cards.getById("description", selected_cards);
-            //description = cards.dbReader($"select description from {cards.getTable()} where id = {selected_cards}")[0];
+            description = cards.getById("description", selected_cards);          
 
             lblInfo.Text = chains.TechnologiesWithSelectedCardCount(selected_cards).ToString();
             lblCards.Text = description;
