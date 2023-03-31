@@ -171,7 +171,8 @@ namespace MajPAbGr_project
         {
             int ind = 0;
             ind = controller.ApplyToChain();
-            MessageBox.Show($"Is inserted {ind} records");
+            string message = (ind == -1) ? "Is inserted no records" : $"Is inserted {ind} records";
+            MessageBox.Show(message);
         }
 
         private void btn_remove_Click(object sender, EventArgs e)

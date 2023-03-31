@@ -37,22 +37,22 @@ namespace MajPAbGr_project
 
         public TechnologyCards() // for quick accesing
         {
-            InitializeComponent();
-            this.id_technology = 0;
-            tb = new tbTechnologyCardsController("Technology_card");
-            //db = new dbController();
-            tb.setCatalog();
-            cards = Class1.FillCombo(tb.getCatalog(), cmbData);
+            //InitializeComponent();
+            //this.id_technology = 0;
+            //tb = new tbTechnologyCardsController("Technology_card");
+            ////db = new dbController();
+            //tb.setCatalog();
+            //cards = Class1.FillCombo(tb.getCatalog(), cmbData);
 
-            cards_count = 0;
+            //cards_count = 0;
 
-            string t;
-            t = this.Text.Substring(0, 37);
-            this.Text = $"{t}edit";
-            lblTest.Text = $"count {cards.Count}";
-            btn_remove.Enabled = false;
-            btn_insert.Text = "insert";
-            btn_add.Enabled = false;
+            //string t;
+            //t = this.Text.Substring(0, 37);
+            //this.Text = $"{t}edit";
+            //lblTest.Text = $"count {cards.Count}";
+            //btn_remove.Enabled = false;
+            //btn_insert.Text = "insert";
+            //btn_add.Enabled = false;
         }
 
         private void TechnologyCards_Load(object sender, EventArgs e)
@@ -126,7 +126,7 @@ namespace MajPAbGr_project
 
         public void activdApplyButton() //for quick accessing
         {
-            btn_add.Enabled = true;
+            //btn_add.Enabled = true;
         }
 
         private string OutTechnology()
@@ -165,24 +165,24 @@ namespace MajPAbGr_project
         {
            string ind;
 
-            if (tb.Selected < 1 && cmbData.Items.Count > 0)
-            {
-                cmbData.SelectedIndex = 1;
-                tb.setSelected(1);
-            }            
+            //if (tb.Selected < 1 && cmbData.Items.Count > 0)
+            //{
+            //    cmbData.SelectedIndex = 1;
+            //    tb.setSelected(1);
+            //}            
             
-            if (cmbData.SelectedIndex < tb.getCatalog().Count)
-            {
-                int temp = cmbData.SelectedIndex;
-                tb.setSelected(temp); // находим по номеру в списке номер карты в таблице
-                id_cards = tb.Selected;
-            }
+            //if (cmbData.SelectedIndex < tb.getCatalog().Count)
+            //{
+            //    int temp = cmbData.SelectedIndex;
+            //    tb.setSelected(temp); // находим по номеру в списке номер карты в таблице
+            //    id_cards = tb.Selected;
+            //}
 
-            if (id_cards < 1)
-            { 
-                cmbData.Text = "no selection";
-                return;
-            }
+            //if (id_cards < 1)
+            //{ 
+            //    cmbData.Text = "no selection";
+            //    return;
+            //}
 
             // заполняем поля
             tb.setFields(); 
@@ -262,7 +262,7 @@ namespace MajPAbGr_project
             //cmbCards.SelectedIndex = ChangeSelectedIndex(tb.Selected);
             
             //OutTechnology();    
-            lblTest.Text = $"count {cards.Count}";        
+            //lblTest.Text = $"count {cards.Count}";        
         }
 
         private string LengthTest(string text, int length)
@@ -324,11 +324,11 @@ namespace MajPAbGr_project
             frm.Show();
             frm.richTextBox1.Text = $"Id of technology is {id_technology} \n";
 
-            if (cmbData.SelectedIndex < tb.getCatalog().Count)
-            {
-                id_cards = tb.Selected;
-                frm.richTextBox1.Text += $"Id of card is {id_cards.ToString()} \n";
-            }
+            //if (cmbData.SelectedIndex < tb.getCatalog().Count)
+            //{
+            //    id_cards = tb.Selected;
+            //    frm.richTextBox1.Text += $"Id of card is {id_cards.ToString()} \n";
+            //}
             if (id_cards > 0)
             {
                 //вывод в поля данных консоли                
@@ -370,8 +370,8 @@ namespace MajPAbGr_project
             tb.RemoveItem();
             tb.setCatalog();
             cards.Clear();
-            cards = Class1.FillCombo(tb.getCatalog(), cmbData);
-            lblTest.Text = $"count {cards.Count}";
+            //cards = Class1.FillCombo(tb.getCatalog(), cmbData);
+            //lblTest.Text = $"count {cards.Count}";
         }  
 
         private void btn_add_Click(object sender, EventArgs e)

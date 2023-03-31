@@ -127,6 +127,5 @@ namespace MajPAbGr_project
             return ind;
         }
 
-
     }
 }
