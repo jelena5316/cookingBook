@@ -58,41 +58,41 @@ namespace MajPAbGr_project
         private void TechnologyCards_Load(object sender, EventArgs e)
         {
 
-            ////set field `cards` (from setCards()) ???
-            //if (id_technology > 0)
-            //{
-            //    string var = tb.cardsCountInChain(id_technology);
-            //    //string var = tb.Count("select count(*) from Technology_chain where id = {id_technology}");
+            //set field `cards` (from setCards()) ???
+            if (id_technology > 0)
+            {
+                string var = tb.cardsCountInChain(id_technology);
+                //string var = tb.Count("select count(*) from Technology_chain where id = {id_technology}");
 
-            //    if (int.TryParse(var, out cards_count))
-            //    {
-            //        cards_count = int.Parse(var);
-            //    }
-            //    else cards_count = 0;
-            //}
-            //else
-            //{
-            //    cards_count = 0;
-            //}
+                if (int.TryParse(var, out cards_count))
+                {
+                    cards_count = int.Parse(var);
+                }
+                else cards_count = 0;
+            }
+            else
+            {
+                cards_count = 0;
+            }
 
-            ////set text of form one and buttons (from setTextAndButtons())
-            //string t;
-            //tbTechnologyController tbTechn = new tbTechnologyController("Technology");
-            //if (id_technology > 0)
-            //{
-            //    t = tbTechn.getById("name", id_technology);
-            //    //t = tb.dbReader($"select name from Technology where id = {id_technology};")[0];                
-            //    this.Text += $" \"{t}\"";
-            //}
-            //else
-            //{
-            //    btn_add.Enabled = false;
-            //    t = this.Text.Substring(0, 37);
-            //    this.Text = $"{t}edit";
-            //}
+            //set text of form one and buttons (from setTextAndButtons())
+            string t;
+            tbTechnologyController tbTechn = new tbTechnologyController("Technology");
+            if (id_technology > 0)
+            {
+                t = tbTechn.getById("name", id_technology);
+                //t = tb.dbReader($"select name from Technology where id = {id_technology};")[0];                
+                this.Text += $" \"{t}\"";
+            }
+            else
+            {
+               // btn_add.Enabled = false;
+                t = this.Text.Substring(0, 37);
+                this.Text = $"{t}edit";
+            }
             //lblTest.Text = $"count {cards.Count}";
             //btn_remove.Enabled = false;
-            //btn_insert.Text = "insert";
+           // btn_insert.Text = "insert";
 
             // вывод в комбо-поле списка карт, установка в него выбранной карты
             // и возврат значения выбранной карты
@@ -163,45 +163,45 @@ namespace MajPAbGr_project
 
         private void cmbData_SelectedIndexChanged(object sender, EventArgs e) //для карт, теперь cmbCards
         {
-           string ind;
+           //string ind;
 
-            //if (tb.Selected < 1 && cmbData.Items.Count > 0)
-            //{
-            //    cmbData.SelectedIndex = 1;
-            //    tb.setSelected(1);
-            //}            
+           // if (tb.Selected < 1 && cmbData.Items.Count > 0)
+           // {
+           //     cmbData.SelectedIndex = 1;
+           //     tb.setSelected(1);
+           // }
+
+           // if (cmbData.SelectedIndex < tb.getCatalog().Count)
+           // {
+           //     int temp = cmbData.SelectedIndex;
+           //     tb.setSelected(temp); // находим по номеру в списке номер карты в таблице
+           //     id_cards = tb.Selected;
+           // }
+
+           // if (id_cards < 1)
+           // {
+           //     cmbData.Text = "no selection";
+           //     return;
+           // }
+
+           // // заполняем поля
+           // tb.setFields();
+
+           // tb.Name = tb.getName(cmbData.SelectedIndex);
+           // tb.Description = tb.getById("description", tb.Selected);
+           // tb.Card = tb.getById("technology", tb.Selected);
+
+           // //вывод в поля данных карты (из полей объекта)            
+           // ind = tb.cardsCount(id_cards);                        
+           // cmbCards.Text = tb.Name;
+           // if (ind != "0")
+           //     textBox2.Text = tb.Description; 
+           // textBox3.Text = tb.Card;
+
+           // output_cards_id = id_cards;
             
-            //if (cmbData.SelectedIndex < tb.getCatalog().Count)
-            //{
-            //    int temp = cmbData.SelectedIndex;
-            //    tb.setSelected(temp); // находим по номеру в списке номер карты в таблице
-            //    id_cards = tb.Selected;
-            //}
-
-            //if (id_cards < 1)
-            //{ 
-            //    cmbData.Text = "no selection";
-            //    return;
-            //}
-
-            // заполняем поля
-            tb.setFields(); 
-
-            //tb.Name = tb.getName(cmbData.SelectedIndex);
-            //tb.Description = tb.getById("description", tb.Selected);
-            //tb.Card = tb.getById("technology", tb.Selected);
-
-            //вывод в поля данных карты (из полей объекта)            
-            ind = tb.cardsCount(id_cards);                        
-            cmbCards.Text = tb.Name;
-            if (ind != "0")
-                textBox2.Text = tb.Description; 
-            textBox3.Text = tb.Card;
-
-            output_cards_id = id_cards;
-            
-            btn_remove.Enabled = true;
-            //btn_update.Enabled = true;
+           // btn_remove.Enabled = true;
+           // //btn_update.Enabled = true;
         }
 
         /****************************************************************************************
@@ -367,11 +367,25 @@ namespace MajPAbGr_project
         {
             if (cmbCards.Items.Count == 0) return;
             if (id_cards < 1) { return; }
-            tb.RemoveItem();
-            tb.setCatalog();
-            cards.Clear();
-            //cards = Class1.FillCombo(tb.getCatalog(), cmbData);
-            //lblTest.Text = $"count {cards.Count}";
+
+            //is used or not
+            tbChainController chains = new tbChainController("Technology_chain");
+            int ind = chains.TechnologiesWithSelectedCardCount(id_cards);
+            if (ind > 0)
+            {
+                string message = $"The technology's card is used in {ind} Receptures.\nPlease, remove it before deleting";
+                MessageBox.Show(message);             
+               
+            }
+            else
+            {
+                tb.RemoveItem();
+                tb.setCatalog();
+                cards.Clear();
+                //cards = Class1.FillCombo(tb.getCatalog(), cmbData);
+                //lblTest.Text = $"count {cards.Count}";
+                MessageBox.Show($"{name} is deleted");
+            }
         }  
 
         private void btn_add_Click(object sender, EventArgs e)

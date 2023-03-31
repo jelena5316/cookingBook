@@ -131,9 +131,9 @@ namespace MajPAbGr_project
             // cmbCards
             // 
             this.cmbCards.FormattingEnabled = true;
-            this.cmbCards.Location = new System.Drawing.Point(33, 50);
+            this.cmbCards.Location = new System.Drawing.Point(38, 50);
             this.cmbCards.Name = "cmbCards";
-            this.cmbCards.Size = new System.Drawing.Size(181, 21);
+            this.cmbCards.Size = new System.Drawing.Size(176, 21);
             this.cmbCards.TabIndex = 29;
             this.cmbCards.SelectedIndexChanged += new System.EventHandler(this.cmbCards_SelectedIndexChanged);
             // 
