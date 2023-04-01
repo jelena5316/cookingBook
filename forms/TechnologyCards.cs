@@ -12,37 +12,33 @@ namespace MajPAbGr_project
 {
     public partial class TechnologyCards : Form
     {
-        int id_technology=0, id_cards = 0, cards_count = 0, output_cards_id = 0;
+        int id_technology=0, id_cards = 0, cards_count = 0, output_cards_id = 0; // id_technology -- id of tehnology, not of card!
         int counter = 0;
+        string name = "";
     
-        // * id_technology -- идентификатор технологии
-        // По ошибке использовала как идентификатор карты!
-        //* output_cards_id нужен для правки записи в базе данных, запоминает идентификатор
-        //выбранного элемента списка из текстового поля, обнуляется при очистке поля ("clear")
 
         List <Item> cards;
         tbTechnologyCardsController tb;
         TechnologyCardsController controller;
 
-
-        public TechnologyCards(int card)
-        {
-            InitializeComponent();
-
-            controller = new TechnologyCardsController(card);
-            this.tb = controller.getTbController();
-            cards = controller.Cards;
-            id_cards = tb.Selected;
-        }
-
-
         public TechnologyCards (TechnologyCardsController cntrl)
         {
+            InitializeComponent();
             controller = cntrl;
             this.tb = cntrl.getTbController();
             cards = cntrl.Cards;
             id_cards = tb.Selected;
         }
+
+        public TechnologyCards(int card)
+                {
+                    InitializeComponent();
+
+                    controller = new TechnologyCardsController(card);
+                    this.tb = controller.getTbController();
+                    cards = controller.Cards;
+                    id_cards = tb.Selected;
+                }
 
         public TechnologyCards() // for quick accesing
         {
@@ -66,48 +62,10 @@ namespace MajPAbGr_project
 
         private void TechnologyCards_Load(object sender, EventArgs e)
         {
-
-            //set field `cards` (from setCards()) ???
-            if (id_technology > 0)
-            {
-                string var = tb.cardsCountInChain(id_technology);
-                //string var = tb.Count("select count(*) from Technology_chain where id = {id_technology}");
-
-                if (int.TryParse(var, out cards_count))
-                {
-                    cards_count = int.Parse(var);
-                }
-                else cards_count = 0;
-            }
-            else
-            {
-                cards_count = 0;
-            }
-
-            //set text of form one and buttons (from setTextAndButtons())
-            string t;
-            tbTechnologyController tbTechn = new tbTechnologyController("Technology");
-            if (id_technology > 0)
-            {
-                t = tbTechn.getById("name", id_technology);
-                //t = tb.dbReader($"select name from Technology where id = {id_technology};")[0];                
-                this.Text += $" \"{t}\"";
-            }
-            else
-            {
-               // btn_add.Enabled = false;
-                t = this.Text.Substring(0, 37);
-                this.Text = $"{t}edit";
-            }
-            //lblTest.Text = $"count {cards.Count}";
-            //btn_remove.Enabled = false;
-           // btn_insert.Text = "insert";
-
             // вывод в комбо-поле списка карт, установка в него выбранной карты
             // и возврат значения выбранной карты
             int temp = tb.Selected;
-            Class1.FillCombo(cards, cmbCards);
-            //cmbCards.SelectedIndex = ChangeSelectedIndex(temp);
+            Class1.FillCombo(cards, cmbCards);           
             cmbCards.SelectedIndex = Class1.ChangeIndex(cards, temp);
 
             //автозаполнения
@@ -142,18 +100,26 @@ namespace MajPAbGr_project
         {
             tb.setFields(); //заполняем поля
             string[] arr = tb.getFields(); // читаем из полей
-            txbCards.Text = arr[0];
+            txbCards.Text = arr[0];            
             textBox2.Text = arr[1];
             textBox3.Text = arr[2];
-            counter++;
+            counter++;            
             return arr[0] + ": " + arr[1] + "/n " + arr[2];
         }
 
         private void cmbCards_SelectedIndexChanged(object sender, EventArgs e)
         {
-            tb.setSelected(cmbCards.SelectedIndex);
-            id_cards = tb.Selected;
-            OutTechnology();
+            if (cmbCards.SelectedIndex > -1)
+            {
+                tb.setSelected(cmbCards.SelectedIndex);
+                id_cards = tb.Selected;
+                OutTechnology();
+            }
+            else
+            {
+                tb.Selected = 0;
+                id_cards = tb.Selected;
+            }   
         }
 
         private int ChangeSelectedIndex(int test)
@@ -216,12 +182,12 @@ namespace MajPAbGr_project
         /****************************************************************************************
         * Buttons' and label5's click's handlers
         ******************************************************************************************/
-        private void btn_submit_Click(object sender, EventArgs e) // btn_insert
+        private void btn_submit_Click(object sender, EventArgs e) // btn_submit
         {
-            int id_temp = id_cards; //??
-            string name, description, technology, query, count, report;
+            int id_temp = id_cards;
+            string name, description, technology, count, report;
 
-            //cmbCards textBox3
+            //cmbCards textBox3           
             if (string.IsNullOrEmpty(txbCards.Text)) return;
             if (string.IsNullOrEmpty(textBox3.Text)) return;
 
@@ -267,7 +233,8 @@ namespace MajPAbGr_project
             tb.setCatalog();           
             cards = Class1.FillCombo(tb.getCatalog(), cmbCards);
             tb.Selected = id_temp;
-            cmbCards.SelectedIndex = ChangeIndex(cards, tb.Selected);
+            cmbCards.SelectedIndex = Class1.ChangeIndex(cards, tb.Selected);
+            name = "";
             //cmbCards.SelectedIndex = ChangeSelectedIndex(tb.Selected);
             
             //OutTechnology();    
@@ -377,25 +344,54 @@ namespace MajPAbGr_project
             if (cmbCards.Items.Count == 0) return;
             if (id_cards < 1) { return; }
 
+           
+            bool rm;
+            int index = 0, removed;
+            string message;
+            name = cmbCards.SelectedItem.ToString();
+
             //is used or not
             tbChainController chains = controller.Chains.tbChainController;
             int ind = chains.TechnologiesWithSelectedCardCount(id_cards);
             if (ind > 0)
             {
-                string message = $"The technology's card is used in {ind} Receptures.\nPlease, remove it before deleting";
-                MessageBox.Show(message);             
+                message = $"The technology's card is used in {ind} Receptures.\nPlease, remove it before deleting";
+                MessageBox.Show(message);            
                
             }
             else
             {
-                tb.RemoveItem();
-                tb.setCatalog();
-                cards.Clear();
-                //cards = Class1.FillCombo(tb.getCatalog(), cmbData);
-                //lblTest.Text = $"count {cards.Count}";
+                removed =  tb.RemoveItem();
+                index = cmbCards.SelectedIndex;
+                if(ind > 0)
+                {
+                    if (index == tb.getCatalog().Count - 1) index--;
+                    if (index == 0) index++;
+                }
+                
+               rm = (removed > 0) ? true : false;
 
-                string name = cmbCards.SelectedItem.ToString();
-                MessageBox.Show($"{name} is deleted");
+                if (rm && index > -1)
+                {
+                    //обновляем форму
+                    tb.setSelected(index);
+                    int id_temp = tb.Selected;
+                    tb.setCatalog();
+                    cards.Clear();
+                    cards = Class1.FillCombo(tb.getCatalog(), cmbCards);
+                    tb.Selected = id_temp;
+                    cmbCards.SelectedIndex = Class1.ChangeIndex(cards, tb.Selected);
+                    
+                    //выводим сообщение                    
+                    MessageBox.Show($"{name} is deleted");
+                }
+                else
+                {
+                    if (!rm)
+                        MessageBox.Show("Nothing is deleted");
+                    else
+                        MessageBox.Show("All technologies are deleted");
+                }                               
             }
         }  
 

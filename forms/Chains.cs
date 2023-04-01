@@ -184,9 +184,10 @@ namespace MajPAbGr_project
         {
             TechnologyCardsController cntrl = new TechnologyCardsController(controller);
             TechnologyCards frm = new TechnologyCards(cntrl);
+            frm.Show();
 
-            List<Item> items = controller.tbCardsController.getCatalog();
-            Class1.FillCombo(items, cmbData);
+            //List<Item> items = controller.tbCardsController.getCatalog();
+            //Class1.FillCombo(items, cmbData);
         }
     }
 }

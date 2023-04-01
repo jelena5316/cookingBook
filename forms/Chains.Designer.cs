@@ -181,11 +181,11 @@ namespace MajPAbGr_project
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(246, 154);
+            this.label3.Location = new System.Drawing.Point(225, 284);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 13);
+            this.label3.Size = new System.Drawing.Size(92, 13);
             this.label3.TabIndex = 39;
-            this.label3.Text = "See cards";
+            this.label3.Text = "To steps editor >>";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // Chains

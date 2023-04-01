@@ -182,7 +182,7 @@ namespace MajPAbGr_project
             this.Controls.Add(this.label1);
             this.Name = "TechnologyCards";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Technology Cards: create, delete and add to technology";
+            this.Text = "Steps";
             this.Load += new System.EventHandler(this.TechnologyCards_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
