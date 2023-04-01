@@ -10,7 +10,8 @@ namespace MajPAbGr_project
     {
 		int id_card;
 		List<Item> cards;
-		tbTechnologyCardsController tb;		
+		tbTechnologyCardsController tb;
+		ChainsController chains;
 
 		public TechnologyCardsController(int card)
         {
@@ -22,9 +23,22 @@ namespace MajPAbGr_project
 			tb.Selected = card;
 		}
 
+		public TechnologyCardsController(ChainsController cntrl)
+        {
+			chains = cntrl;
+			tb = cntrl.tbCardsController;
+			id_card = tb.Selected;
+			cards = tb.getCatalog();
+        }
+
 		public List<Item> Cards
         {
             get { return cards; }
+        }
+
+		public ChainsController Chains
+        {
+			get { return chains;  }
         }
 		public tbTechnologyCardsController getTbController()
 		{

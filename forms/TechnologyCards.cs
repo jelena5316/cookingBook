@@ -35,6 +35,15 @@ namespace MajPAbGr_project
             id_cards = tb.Selected;
         }
 
+
+        public TechnologyCards (TechnologyCardsController cntrl)
+        {
+            controller = cntrl;
+            this.tb = cntrl.getTbController();
+            cards = cntrl.Cards;
+            id_cards = tb.Selected;
+        }
+
         public TechnologyCards() // for quick accesing
         {
             //InitializeComponent();
@@ -369,7 +378,7 @@ namespace MajPAbGr_project
             if (id_cards < 1) { return; }
 
             //is used or not
-            tbChainController chains = new tbChainController("Technology_chain");
+            tbChainController chains = controller.Chains.tbChainController;
             int ind = chains.TechnologiesWithSelectedCardCount(id_cards);
             if (ind > 0)
             {
@@ -384,6 +393,8 @@ namespace MajPAbGr_project
                 cards.Clear();
                 //cards = Class1.FillCombo(tb.getCatalog(), cmbData);
                 //lblTest.Text = $"count {cards.Count}";
+
+                string name = cmbCards.SelectedItem.ToString();
                 MessageBox.Show($"{name} is deleted");
             }
         }  

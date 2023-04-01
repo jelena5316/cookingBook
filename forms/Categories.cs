@@ -354,7 +354,12 @@ namespace MajPAbGr_project
 			openReceptureEditor();
         }
 
-		private void openReceptureEditor()
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			//
+        }
+
+        private void openReceptureEditor()
 		{
 			int id = 0; //id_recepture
 			if (exist_selected)

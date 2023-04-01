@@ -96,14 +96,7 @@ namespace MajPAbGr_project
             //    frm.Show();
             //}
         }
-
-        private void toolStripLabel2_Click(object sender, EventArgs e)
-        {
-            TechnologyCards frm = new TechnologyCards(controller.tbCardsController.Selected);
-            //frm.Cards = controller.tbCardsController.Selected;
-            frm.Show();            
-        }
-
+       
         private void cmbData_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = cmbData.SelectedIndex, selected_cards = 0;
@@ -185,6 +178,15 @@ namespace MajPAbGr_project
         private void lblTest_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+            TechnologyCardsController cntrl = new TechnologyCardsController(controller);
+            TechnologyCards frm = new TechnologyCards(cntrl);
+
+            List<Item> items = controller.tbCardsController.getCatalog();
+            Class1.FillCombo(items, cmbData);
         }
     }
 }

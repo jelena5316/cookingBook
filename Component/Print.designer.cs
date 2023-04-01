@@ -97,7 +97,7 @@ namespace MajPAbGr_project
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // Form2
+            // Print
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -108,7 +108,7 @@ namespace MajPAbGr_project
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.richTextBox1);
-            this.Name = "Form2";
+            this.Name = "Print";
             this.Text = "Print to file";
             this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
