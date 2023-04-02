@@ -112,5 +112,14 @@ namespace MajPAbGr_project
             list = dbReader(query);
             return list;
         }
+
+        public List <string> SeeOtherCardsFull(int id_technology)
+        {
+            List<string> list;
+            query = "select technology from Technology_card where id in " +
+                $" (select id_card from Technology_chain where id_technology = {id_technology});";
+            list = dbReader(query);
+            return list;
+        }
     }
 }

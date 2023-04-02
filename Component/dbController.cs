@@ -20,8 +20,10 @@ namespace MajPAbGr_project
         public dbController ()
         {
             connectionString =
-             "Data Source = C:\\Users\\user\\Documents\\SQLiteStudio\\CookingBook; Mode=ReadWrite";
-             connection = new SqliteConnection(connectionString);
+                "Data Source = C:\\Users\\user\\source\\repos\\MajPavGr_project\\CookingBook; Mode=ReadWrite";
+            // "Data Source = C:\\Users\\user\\Documents\\SQLiteStudio\\CookingBook; Mode=ReadWrite";
+
+            connection = new SqliteConnection(connectionString);
         }
 
         public List<Item> Catalog (string query) //int, string
