@@ -13,8 +13,13 @@ namespace MajPAbGr_project
 {
     public partial class Print : Form
     {
-        List<string> strings;
         string file;
+        List<string> strings,
+            info,
+            ingredients,
+            technology,
+            cards;
+        
         
         public Print()
         {
@@ -28,6 +33,13 @@ namespace MajPAbGr_project
             this.file = file;
             textBox1.Text = file;
         }
+
+        public List<string> Info { set { info = value; } }
+        public List<string> Ingredients { set { ingredients = value; } }
+        public List<string> Technology { set { technology = value; } }
+        public List<string> Cards { set { cards = value; } }
+
+
 
         private void PrintToFile()
         {

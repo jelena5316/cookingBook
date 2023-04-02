@@ -154,7 +154,7 @@ namespace MajPAbGr_project
         {
             string file = "file";
             string[] arr;
-            List<string> output = new List<string>();
+            List<string> output = new List<string>();           
 
             if (index < 0) option = 1;
 
@@ -162,14 +162,13 @@ namespace MajPAbGr_project
             {
                 case 0:
                     file = rec_struct[index].EditorData[0];
-                    output.Add("ABOUT\n");
-                    output.AddRange(PrintInfo(index));
-                    output.Add("\nINGREDIENTS (%)\n");
-                    output.Add(PrintRecepture());
-                    output.Add("\nCOOKING\n");
-                    output.AddRange(PrintTechnology(index));
-                    output.Add("\nBY STEPS\n");
-                    output.AddRange(PrintCards(index));
+                    PrintController print = new PrintController(file);
+                    print.Info = PrintInfo(index).ToList();
+                    print.Ingredients = new List<string>() {PrintRecepture()};
+                    print.Technology = PrintTechnology(index).ToList();
+                    print.Cards = PrintCards(index).ToList();
+                    print.PrepareRecipeToOutput();
+                    print.PrintRecipe();
                     break;
                 case 1:
                     arr = new string[] { "Recipes count ", "Technologies count", "Technologies cards count " };
@@ -182,8 +181,8 @@ namespace MajPAbGr_project
                     file = "about";
                     break;
             }
-            Print frm = new Print(output, file);
-            frm.Show();
+            //Print frm = new Print(output, file);
+            //frm.Show();
         }
 
 

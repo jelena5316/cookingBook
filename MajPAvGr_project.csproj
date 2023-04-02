@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="form_control\AmountsController.cs" />
+    <Compile Include="PrintModul\PrintController.cs" />
     <Compile Include="tb\tbAmountsController.cs" />
     <Compile Include="form_control\RecipesController.cs" />
     <Compile Include="Component\CalcFunction.cs" />
@@ -109,10 +110,10 @@
     <Compile Include="forms\Recipes.Designer.cs">
       <DependentUpon>Recipes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Component\Print.cs">
+    <Compile Include="PrintModul\Print.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Component\Print.designer.cs">
+    <Compile Include="PrintModul\Print.designer.cs">
       <DependentUpon>Print.cs</DependentUpon>
     </Compile>
     <Compile Include="tb\tbReceptureController.cs" />
@@ -173,7 +174,7 @@
     <EmbeddedResource Include="forms\Recipes.resx">
       <DependentUpon>Recipes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Component\Print.resx">
+    <EmbeddedResource Include="PrintModul\Print.resx">
       <DependentUpon>Print.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="forms\Ingredients.resx">
