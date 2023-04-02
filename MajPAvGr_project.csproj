@@ -76,38 +76,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="form_control\AmountsController.cs" />
+    <Compile Include="RecipeModul\AmountsController.cs" />
     <Compile Include="PrintModul\PrintController.cs" />
-    <Compile Include="tb\tbAmountsController.cs" />
+    <Compile Include="RecipeModul\tbAmountsController.cs" />
     <Compile Include="form_control\RecipesController.cs" />
     <Compile Include="Component\CalcFunction.cs" />
-    <Compile Include="forms\Categories.cs">
+    <Compile Include="CatalogueModul\Categories.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="forms\Categories.Designer.cs">
+    <Compile Include="CatalogueModul\Categories.Designer.cs">
       <DependentUpon>Categories.cs</DependentUpon>
     </Compile>
-    <Compile Include="form_control\CategoriesController.cs" />
-    <Compile Include="forms\Chains.cs">
+    <Compile Include="CatalogueModul\CategoriesController.cs" />
+    <Compile Include="TechnologyModul\Chains.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="forms\Chains.Designer.cs">
+    <Compile Include="TechnologyModul\Chains.Designer.cs">
       <DependentUpon>Chains.cs</DependentUpon>
     </Compile>
-    <Compile Include="form_control\ChainsController.cs" />
+    <Compile Include="TechnologyModul\ChainsController.cs" />
     <Compile Include="Component\dbController.cs" />
     <Compile Include="Component\Element.cs" />
     <Compile Include="Component\Enum.cs" />
     <Compile Include="Component\FormFunction.cs" />
     <Compile Include="Component\tbController.cs" />
-    <Compile Include="form_control\EditDB.cs" />
-    <Compile Include="form_control\EditDB.designer.cs">
+    <Compile Include="EditDB.cs" />
+    <Compile Include="EditDB.designer.cs">
       <DependentUpon>EditDB.cs</DependentUpon>
     </Compile>
-    <Compile Include="forms\Recipes.cs">
+    <Compile Include="RecipeModul\Recipes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="forms\Recipes.Designer.cs">
+    <Compile Include="RecipeModul\Recipes.Designer.cs">
       <DependentUpon>Recipes.cs</DependentUpon>
     </Compile>
     <Compile Include="PrintModul\Print.cs">
@@ -117,73 +117,73 @@
       <DependentUpon>Print.cs</DependentUpon>
     </Compile>
     <Compile Include="tb\tbReceptureController.cs" />
-    <Compile Include="tb\tbIngredientsController.cs" />
-    <Compile Include="form_control\RecipeEditor.cs">
+    <Compile Include="IngredientsModul\tbIngredientsController.cs" />
+    <Compile Include="RecipeEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="form_control\RecipeEditor.designer.cs">
+    <Compile Include="RecipeEditor.designer.cs">
       <DependentUpon>RecipeEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="tb\tbRecipeController.cs" />
-    <Compile Include="tb\tbChainController.cs" />
-    <Compile Include="forms\TechnologyCards.cs">
+    <Compile Include="TechnologyModul\tbChainController.cs" />
+    <Compile Include="TechnologyModul\TechnologyCards.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="forms\TechnologyCards.Designer.cs">
+    <Compile Include="TechnologyModul\TechnologyCards.Designer.cs">
       <DependentUpon>TechnologyCards.cs</DependentUpon>
     </Compile>
-    <Compile Include="forms\Ingredients.cs">
+    <Compile Include="IngredientsModul\Ingredients.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="forms\Ingredients.Designer.cs">
+    <Compile Include="IngredientsModul\Ingredients.Designer.cs">
       <DependentUpon>Ingredients.cs</DependentUpon>
     </Compile>
-    <Compile Include="forms\Amounts.cs">
+    <Compile Include="RecipeModul\Amounts.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="forms\Amounts.Designer.cs">
+    <Compile Include="RecipeModul\Amounts.Designer.cs">
       <DependentUpon>Amounts.cs</DependentUpon>
     </Compile>
-    <Compile Include="forms\NewRecepture.cs">
+    <Compile Include="CatalogueModul\NewRecepture.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="forms\NewRecepture.Designer.cs">
+    <Compile Include="CatalogueModul\NewRecepture.Designer.cs">
       <DependentUpon>NewRecepture.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="forms\Technology.cs">
+    <Compile Include="TechnologyModul\Technology.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="forms\Technology.designer.cs">
+    <Compile Include="TechnologyModul\Technology.designer.cs">
       <DependentUpon>Technology.cs</DependentUpon>
     </Compile>
-    <Compile Include="tb\tbTechnologyCardsController.cs" />
-    <Compile Include="tb\tbTechnologyController.cs" />
-    <Compile Include="form_control\TechnologyCardsController.cs" />
-    <Compile Include="form_control\TechnologyController.cs" />
-    <EmbeddedResource Include="forms\Categories.resx">
+    <Compile Include="TechnologyModul\tbTechnologyCardsController.cs" />
+    <Compile Include="TechnologyModul\tbTechnologyController.cs" />
+    <Compile Include="TechnologyModul\TechnologyCardsController.cs" />
+    <Compile Include="TechnologyModul\TechnologyController.cs" />
+    <EmbeddedResource Include="CatalogueModul\Categories.resx">
       <DependentUpon>Categories.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="forms\Chains.resx">
+    <EmbeddedResource Include="TechnologyModul\Chains.resx">
       <DependentUpon>Chains.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="form_control\EditDB.resx">
+    <EmbeddedResource Include="EditDB.resx">
       <DependentUpon>EditDB.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="forms\Recipes.resx">
+    <EmbeddedResource Include="RecipeModul\Recipes.resx">
       <DependentUpon>Recipes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PrintModul\Print.resx">
       <DependentUpon>Print.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="forms\Ingredients.resx">
+    <EmbeddedResource Include="IngredientsModul\Ingredients.resx">
       <DependentUpon>Ingredients.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="forms\Amounts.resx">
+    <EmbeddedResource Include="RecipeModul\Amounts.resx">
       <DependentUpon>Amounts.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="forms\NewRecepture.resx">
+    <EmbeddedResource Include="CatalogueModul\NewRecepture.resx">
       <DependentUpon>NewRecepture.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -195,13 +195,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="form_control\RecipeEditor.resx">
+    <EmbeddedResource Include="RecipeEditor.resx">
       <DependentUpon>RecipeEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="forms\Technology.resx">
+    <EmbeddedResource Include="TechnologyModul\Technology.resx">
       <DependentUpon>Technology.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="forms\TechnologyCards.resx">
+    <EmbeddedResource Include="TechnologyModul\TechnologyCards.resx">
       <DependentUpon>TechnologyCards.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
