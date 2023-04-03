@@ -76,10 +76,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RecipeModul\AmountsController.cs" />
+    <Compile Include="AmountModul\AmountsController.cs" />
     <Compile Include="PrintModul\PrintController.cs" />
-    <Compile Include="RecipeModul\tbAmountsController.cs" />
-    <Compile Include="form_control\RecipesController.cs" />
+    <Compile Include="AmountModul\tbAmountsController.cs" />
+    <Compile Include="RecipeModul\RecipesController.cs" />
     <Compile Include="Component\CalcFunction.cs" />
     <Compile Include="CatalogueModul\Categories.cs">
       <SubType>Form</SubType>
@@ -116,7 +116,7 @@
     <Compile Include="PrintModul\Print.designer.cs">
       <DependentUpon>Print.cs</DependentUpon>
     </Compile>
-    <Compile Include="tb\tbReceptureController.cs" />
+    <Compile Include="CatalogueModul\tbReceptureController.cs" />
     <Compile Include="IngredientsModul\tbIngredientsController.cs" />
     <Compile Include="RecipeEditor.cs">
       <SubType>Form</SubType>
@@ -124,7 +124,7 @@
     <Compile Include="RecipeEditor.designer.cs">
       <DependentUpon>RecipeEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="tb\tbRecipeController.cs" />
+    <Compile Include="RecipeModul\tbRecipeController.cs" />
     <Compile Include="TechnologyModul\tbChainController.cs" />
     <Compile Include="TechnologyModul\TechnologyCards.cs">
       <SubType>Form</SubType>
@@ -138,10 +138,10 @@
     <Compile Include="IngredientsModul\Ingredients.Designer.cs">
       <DependentUpon>Ingredients.cs</DependentUpon>
     </Compile>
-    <Compile Include="RecipeModul\Amounts.cs">
+    <Compile Include="AmountModul\Amounts.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RecipeModul\Amounts.Designer.cs">
+    <Compile Include="AmountModul\Amounts.Designer.cs">
       <DependentUpon>Amounts.cs</DependentUpon>
     </Compile>
     <Compile Include="CatalogueModul\NewRecepture.cs">
@@ -180,7 +180,7 @@
     <EmbeddedResource Include="IngredientsModul\Ingredients.resx">
       <DependentUpon>Ingredients.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RecipeModul\Amounts.resx">
+    <EmbeddedResource Include="AmountModul\Amounts.resx">
       <DependentUpon>Amounts.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CatalogueModul\NewRecepture.resx">
@@ -218,6 +218,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\SQLitePCLRaw.lib.e_sqlite3.2.0.4\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets" Condition="Exists('packages\SQLitePCLRaw.lib.e_sqlite3.2.0.4\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -134,7 +134,7 @@ namespace MajPAbGr_project
                 count = EditItem();
                 btn_add.Text = "add";
                 btn_edit.Text = "edit";
-                btn_edit.Enabled = true;
+                btn_edit.Enabled = true;               
             }
             else count = 0;
 
@@ -168,6 +168,10 @@ namespace MajPAbGr_project
             if (!string.IsNullOrEmpty(txbAdd.Text))
             {
                 btn_add.Enabled = true;
+            }
+            else
+            {
+                btn_add.Enabled = false;
             }
         }        
 
@@ -233,16 +237,27 @@ namespace MajPAbGr_project
 
             if (c.SelectedIndex < tb.getCatalog().Count)
             {
-                int temp = c.SelectedIndex;    
+                int temp = c.SelectedIndex;
+                string name = tb.getCatalog()[temp].name;
 
                 tb.setSelected(temp);
                 tb.setUsed();
                 used = tb.getUsed();
 
-                btn_remove.Enabled = (used == "0") ? true : false;
+                if (tb.Selected == 1 && name == "other")
+                {
+                    btn_remove.Enabled = false;
+                    btn_edit.Enabled = false;
+                }
+                else
+                {
+                    btn_remove.Enabled = (used == "0") ? true : false;
+                    btn_edit.Enabled = true;
+                }
+           
                 btn_edit.Enabled = true;
                 l.Text += $"{used} record(s) >>";
-                lblTest.Text = tb.getSelected().ToString();
+                lblTest.Text = tb.getSelected().ToString();               
 
                 //для  управлением списка рецептов
                 l_used = 1; 

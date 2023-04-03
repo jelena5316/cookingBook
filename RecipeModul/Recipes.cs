@@ -147,6 +147,8 @@ namespace MajPAbGr_project
                 }
             }
             lbl_info.Text = info;
+
+            columnHeader2.Text = "Amounts (%)";
         }
 
         private void InputRecepture(List<Element> ingr)

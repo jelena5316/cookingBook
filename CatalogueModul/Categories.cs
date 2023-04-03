@@ -167,6 +167,9 @@ namespace MajPAbGr_project
 		 */
 		private void lv_recepture_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			if (lv_recepture.Items.Count < 0)
+				exist_selected = false;
+
 			if (lv_recepture.SelectedItems.Count > 0)
 			{
 				tbMain.setSelected(lv_recepture.SelectedItems[0].Index);
@@ -192,6 +195,8 @@ namespace MajPAbGr_project
 			resetRecepturesList(selected);
 			if (lv_recepture.Items.Count > 0)
 				lv_recepture.Items[0].Selected = true;
+			else
+				exist_selected = false;
 		}
 
 		private void resetRecepturesList(List<ReceptureStruct> list)
@@ -369,6 +374,7 @@ namespace MajPAbGr_project
         private void openReceptureEditor()
 		{
 			int id = 0; //id_recepture
+			if (lv_recepture.SelectedItems.Count < 1) return;
 			if (exist_selected)
 			{
 				id = controller.ReceptureStruct[lv_recepture.SelectedItems[0].Index].getId();
