@@ -17,6 +17,7 @@ namespace MajPAbGr_project
         RecipesController controller;
         tbReceptureController tb;
         CalcFunction calc;
+        CalcBase calcBase = 0;
 
         ComboBox combo;
         ComboBox recipe;
@@ -218,16 +219,17 @@ namespace MajPAbGr_project
          {
              if (string.IsNullOrEmpty(txb_coeff.Text)) return;            
 
-            int index = 0;
-            string indikator = cmb_option.Text;
-            double [] amounts = controller.button1_onClick(txb_coeff.Text, indikator);
+            int index = 0;            
+            double [] amounts = controller.button1_onClick(txb_coeff.Text, calcBase);
 
              for (index = 0; index < amounts.Length; index++)
              {
-                 list.Items[index].SubItems[1].Text = amounts[index].ToString();
-             }
-             list.Items[index].SubItems[1].Text = controller.Calc.Summa(amounts).ToString();
-            //btn_insert.Enabled = true;
+                //list.Items[index].SubItems[1].Text = amounts[index].ToString();
+                list.Items[index].SubItems.Add(amounts[index].ToString());
+            }
+            list.Items[index].SubItems.Add(controller.Calc.Summa(amounts).ToString());
+            txb_new_recipe.Enabled = true;
+            btn_insert.Enabled = true;
          }
 
         private void btn_insert_Click(object sender, EventArgs e)
@@ -248,7 +250,8 @@ namespace MajPAbGr_project
                  return;
                 if (count == "0")
                 {
-                     str_coeff = calc.ColonToPoint(coefficient.ToString());
+                    //str_coeff = calc.ColonToPoint(coefficient.ToString());
+                    str_coeff = calc.ColonToPoint(calc.Coefficient.ToString());
                      recipe.insertNewRecipe(txb_new_recipe.Text, str_coeff);
                      fillSubCatalog();
                      btn_insert.Enabled = false;
@@ -481,14 +484,9 @@ namespace MajPAbGr_project
 
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-           //
-        }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-
             if (checkBox1.Checked) // edit mode on
             {
                 btn_insert.Enabled = true;
@@ -509,18 +507,34 @@ namespace MajPAbGr_project
 
         private void label2_Click(object sender, EventArgs e)
         {
-            txb_coeff.Text = "";
+            txb_coeff.Text = "";                     
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-            txb_new_recipe.Text = "";
+            txb_new_recipe.Text = "";   
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+            //
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmb_option_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            calcBase = (CalcBase)cmb_option.SelectedIndex;
+        }
+
 
         //private void executeViewToolStripMenuItem_Click(object sender, EventArgs e)
         //{

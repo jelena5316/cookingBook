@@ -10,5 +10,12 @@ namespace MajPAbGr_project
     {
        Create,
        Edit
-    } 
+    }
+
+    public enum CalcBase
+    {
+        Main,
+        Total,
+        Coefficient
+    }
 }

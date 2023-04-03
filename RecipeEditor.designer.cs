@@ -53,16 +53,16 @@ namespace MajPAbGr_project
             this.label2.Text = "See in editor>>";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
-            // Recipe
+            // RecipeEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(514, 361);
+            this.ClientSize = new System.Drawing.Size(533, 361);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "Recipe";
+            this.Name = "RecipeEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Recepture";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Recipe_FormClosing);

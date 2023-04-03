@@ -104,11 +104,11 @@ namespace MajPAbGr_project
         }
 
 
-        public double[] button1_onClick(string text, string indicator)
+        public double[] button1_onClick(string text, CalcBase calcBase)
         {
             double summa, amount;
             double[] amounts = calc.getAmounts();
-            string indikator = indicator;
+            int indikator = (int)calcBase;
             string temp, t;
 
             //if (nfi.NumberDecimalSeparator == ".")
@@ -158,19 +158,19 @@ namespace MajPAbGr_project
             // вынести в CalcFunction.cs (?) в FormMainController
             switch (indikator)
             {
-                case "total":
+                case 1: // total
                     summa = calc.Summa();
                     coefficient = amount / summa;
                     //calc.Coefficient =  calc.calculateCoefficient(amount, calc.Summa());
                     break;
 
-                case "main":
+                case 0: //main
                     coefficient = amount / amounts[0];
                     //calc.Coefficient = calc.calculateCoefficient(amount, amounts[0]);
 
                     break;
 
-                case "coefficient":
+                case 2: // coefficient
                     coefficient = amount;
                     //calc.Coefficient = amount;
                     break;
