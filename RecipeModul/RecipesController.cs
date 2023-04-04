@@ -103,7 +103,9 @@ namespace MajPAbGr_project
             return name;
         }
 
-
+        /* ************************************************
+         * buttons click handlers
+         **************************************************/
         public double[] button1_onClick(string text, CalcBase calcBase)
         {
             double summa, amount;
@@ -178,6 +180,22 @@ namespace MajPAbGr_project
             }
             calc.Coefficient = coefficient;           
             return calc.ReCalc();
+        }
+    
+    public int btn_edit_onClick(string name, int index)
+        {
+            int ind, id=1;
+            id = subcatalog[index].id;
+            tbRecipeController tbCoef = new tbRecipeController("Recipe");
+            try
+            {
+                ind = tbCoef.UpdateReceptureOrCards("name", name, id);
+            }
+            catch
+            {
+                ind = -1;
+            }                        
+            return ind;
         }
     }
 

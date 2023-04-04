@@ -80,8 +80,8 @@ namespace MajPAbGr_project
 
         private void btn_remove_Click(object sender, EventArgs e)
         {
-            if (frm.comboBox2.Items.Count < 1) return;
-            if (frm.comboBox2.SelectedIndex < 0) return;
+            if (frm.cmbCoeff.Items.Count < 1) return;
+            if (frm.cmbCoeff.SelectedIndex < 0) return;
             
             DialogResult result = MessageBox.Show(
                     "Do delete recipe?", "",
@@ -91,7 +91,7 @@ namespace MajPAbGr_project
             {
                 int id = 0, indicator = 0;
                 tbRecipeController recipe = new tbRecipeController
-                    ("Recipe", frm.comboBox2.SelectedIndex, tb.Selected);
+                    ("Recipe", frm.cmbCoeff.SelectedIndex, tb.Selected);
                 id = recipe.Selected;
                 indicator = recipe.RemoveItem();               
                 MessageBox.Show($"Recipe {id} is deleted");

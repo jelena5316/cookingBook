@@ -35,7 +35,7 @@ namespace MajPAbGr_project
             calc = controller.Calc;
 
             combo = comboBox1;
-            recipe = comboBox2;
+            recipe = cmbCoeff;
             list = listView1;
         }
 
@@ -108,8 +108,8 @@ namespace MajPAbGr_project
             {
                 recipe.Text = "add recepture (g)";
                 lbl_koef.Text = calc.Coefficient.ToString();
-            }
-            return recipes.Count;
+            }            
+            return recipes.Count;            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -178,15 +178,17 @@ namespace MajPAbGr_project
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox2.SelectedIndex < 0) 
+            if (cmbCoeff.SelectedIndex < 0) 
             {
-                lbl_koef.Text = "1";
+                lbl_koef.Text = "not number";
                 return;
             }
             else
             {
-                controller.Calc.Coefficient = recipes[comboBox2.SelectedIndex].Amounts;
+                int index = cmbCoeff.SelectedIndex;
+                controller.Calc.Coefficient = recipes[index].Amounts;                
                 lbl_koef.Text = controller.Calc.Coefficient.ToString();
+                txbRecipe.Text = recipes[index].Name;
             }
         }
 
@@ -240,7 +242,7 @@ namespace MajPAbGr_project
             calc = controller.Calc;
 
             tbRecipeController recipe = new tbRecipeController
-                ("Recipe", comboBox2.SelectedIndex, controller.TbMain().Selected);
+                ("Recipe", cmbCoeff.SelectedIndex, controller.TbMain().Selected);
             count = recipe.Count
                ($"Select count (name) from Recipe where name = '{txb_new_recipe.Text}';");
 
@@ -273,7 +275,7 @@ namespace MajPAbGr_project
                 }                   
                 if (txb_new_recipe.Text == "" || txb_new_recipe.Text == " ")
                 {
-                    txb_new_recipe.Text = comboBox2.SelectedItem.ToString();
+                    txb_new_recipe.Text = cmbCoeff.SelectedItem.ToString();
                 }
                 DialogResult result = MessageBox.Show(
                      $"New name = {txb_new_recipe.Text}, new coefficient = {str_coeff}", "",
@@ -385,7 +387,7 @@ namespace MajPAbGr_project
             else
             {
                 mesuare = "g";
-                name += $" ({mesuare}) {comboBox2.SelectedItem.ToString()}";
+                name += $" ({mesuare}) {cmbCoeff.SelectedItem.ToString()}";
                 info = $"Info:  {tb.getName(comboBox1.SelectedIndex)}: id {tb.getSelected()}, category ({category})\n"; ;
             }
 
@@ -418,7 +420,7 @@ namespace MajPAbGr_project
         private void recipeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int lbl_info_y = lbl_info.Location.Y;
-            this.lbl_info.Location = new Point(318, this.comboBox2.Location.Y);
+            this.lbl_info.Location = new Point(318, this.cmbCoeff.Location.Y);
             txb_new_recipe.Text = "";
             txb_coeff.Text = "";
             checkBox1.Enabled = true;
@@ -520,14 +522,37 @@ namespace MajPAbGr_project
             //
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        // edit name of coefficient
+        private void btn_edit_Click(object sender, EventArgs e) 
         {
-            //
+            int index, ind;
+            string old_name, name, message;
+
+            index = cmbCoeff.SelectedIndex;
+            if (index < 0) return;
+            old_name = cmbCoeff.Text;
+            name = txbRecipe.Text;
+            ind = controller.btn_edit_onClick(name, index);
+             switch (ind)
+             {
+                case 0:
+                    message =$"No change";
+                    break;
+                case -1:
+                    message = "Data base error";
+                    break;
+                default:
+                    message = $"Recipe's name is changed from '{old_name}' to '{name}'";
+                    Reload();
+                    cmbCoeff.SelectedIndex = index;
+                    break;
+             }
+            MessageBox.Show(message);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void cmb_option_SelectedIndexChanged(object sender, EventArgs e)
