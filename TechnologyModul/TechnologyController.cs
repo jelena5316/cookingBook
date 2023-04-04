@@ -130,7 +130,7 @@ namespace MajPAbGr_project
 			if (ind > 0)
 			{
 				if (index == count - 1) index--;
-				if (index == 0) index++;				
+				if (index == 0) index++; // ?!				
 				new_index = index;
 				return true;
 			}

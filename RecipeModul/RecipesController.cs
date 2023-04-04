@@ -86,6 +86,11 @@ namespace MajPAbGr_project
             get { return selected; }
         }
 
+        public void setRecepture(int index)
+        {
+            tbCoeff.Recepture = receptures[index].id;
+        }
+
         public CalcFunction Calc
         {
             get { return calc; }
@@ -194,7 +199,7 @@ namespace MajPAbGr_project
             return calc.ReCalc();
         }
     
-    public int btn_edit_onClick(string name, int index)
+        public int btn_edit_onClick(string name, int index)
         {
             int ind, id=1;
             id = subcatalog[index].id;
@@ -207,6 +212,23 @@ namespace MajPAbGr_project
             {
                 ind = -1;
             }                        
+            return ind;
+        }
+
+        public int btn_remove_onClick(int recipe, int recepture)
+        {
+            // comboboxes index changed handlers
+            int id = 0, ind = 0, index;
+            index = recipe;
+            tbCoeff.setSubCatalog();
+            tbCoeff.setSelected(index);
+            id = tbCoeff.Selected;
+            index = recepture;
+            setRecepture(index);
+
+            // deleting
+            ind = tbCoeff.RemoveItem(); // replace 'override'!
+            tbCoeff.Selected = id;
             return ind;
         }
     }

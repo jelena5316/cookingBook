@@ -561,7 +561,36 @@ namespace MajPAbGr_project
 
         private void button3_Click(object sender, EventArgs e)
         {
-            
+            if (recipe.Items.Count < 1) return;
+            if (recipe.SelectedIndex < 0) return;
+
+            DialogResult result = MessageBox.Show(
+                    "Do delete recipe?", "",
+                    MessageBoxButtons.OKCancel);
+
+            if (result == DialogResult.OK)
+            {
+                int id = 0, ind = 0, index = recipe.SelectedIndex;             
+               
+                ind = controller.btn_remove_onClick(
+                    recipe.SelectedIndex,
+                    combo.SelectedIndex
+                    );
+                if (ind > 0)
+                {
+                    id = tbCoeff.Selected;
+                    MessageBox.Show($"Recipe {id} is deleted");                
+                    Reload();
+                }
+                else
+                {
+                    MessageBox.Show("Nothing is deleted");
+                }                           
+            }
+            else
+            {
+                MessageBox.Show("Ok");
+            }
         }
 
         private void cmb_option_SelectedIndexChanged(object sender, EventArgs e)

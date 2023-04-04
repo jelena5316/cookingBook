@@ -29,6 +29,7 @@ namespace MajPAbGr_project
             query = $"select id, name from Recipe where id_recepture = "
                 + recepture + ";";
             subcatalog = Catalog(query);
+            catalog = subcatalog;
             return subcatalog;
         }
 
