@@ -9,7 +9,7 @@ namespace MajPAbGr_project
 {
     public class Class1
     {
-        static public List <string> setBox (List <Item> items, ref ComboBox combo)
+        static public List <string> setBox (List <Item> items, ComboBox combo)
         {
             List<string> list = new List<string>();
             if (items.Count != 0)

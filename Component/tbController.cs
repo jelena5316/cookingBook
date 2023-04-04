@@ -142,7 +142,7 @@ namespace MajPAbGr_project
         //    return int.Parse(Count(query));
         //}
 
-        public List<Element> readElement(int opt) // for Form1.cs
+        public virtual List<Element> readElement(int opt) // for Form1.cs
         {
             List<Element> el;
             switch (opt)

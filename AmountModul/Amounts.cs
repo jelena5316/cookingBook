@@ -99,7 +99,7 @@ namespace MajPAbGr_project
              * Текстовые поля: ингредиенты и рецепты
              */ 
             cmbIngr.AutoCompleteCustomSource = AutoCompleteNames
-                (Class1.setBox(ingredients, ref cmbIngr));
+                (Class1.setBox(ingredients, cmbIngr));
             cmbIngr.AutoCompleteMode = AutoCompleteMode.Suggest;
             cmbIngr.AutoCompleteSource = AutoCompleteSource.CustomSource;
 

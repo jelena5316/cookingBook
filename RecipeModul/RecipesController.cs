@@ -17,6 +17,7 @@ namespace MajPAbGr_project
         private List<Element> recipes; // рецепты
         private List<Element> elements; // сырье
         tbReceptureController tb; // контроллер таблицы Рецептуры
+        tbRecipeController tbCoeff; //контроллер таблицы Рецептов
         CalcFunction calc; // Вычисления
 
         CultureInfo current;
@@ -27,10 +28,12 @@ namespace MajPAbGr_project
         public RecipesController(int id)
         {
             tb = new tbReceptureController("Recepture");
+            tbCoeff = new tbRecipeController("Recipe");
             calc = new CalcFunction();
             tb.setCatalog();
             receptures = tb.getCatalog();
             tb.Selected = id;
+            tbCoeff.Recepture = id;
             selected = id;
             subcatalog = tb.setSubCatalog("Recipe", "id_recepture"); // table Recipe, id_recepture
             recipes = tb.readElement(2); //читает полностью, все три поля
@@ -40,6 +43,8 @@ namespace MajPAbGr_project
         }
 
         public tbReceptureController TbMain() => this.tb;
+
+        public tbRecipeController TbCoeff() => this.tbCoeff;
 
         public List<Item> getCatalog() => this.receptures;  
 
@@ -51,7 +56,8 @@ namespace MajPAbGr_project
         public List<Element> Amounts
         {
             get 
-            { 
+            {
+                tb.Selected = selected;
                 elements = tb.readElement(1);
                 return elements;
             } 
@@ -59,9 +65,14 @@ namespace MajPAbGr_project
 
         public void setSubcatalog(int index)
         {
-            selected = tb.setSelected(index);
-            subcatalog = tb.setSubCatalog("Recipe", "id_recepture"); // table Recipe, id_recepture
-            recipes = tb.readElement(2);
+            // table Recipe, id_recepture
+            //int temp;            
+            subcatalog = tbCoeff.setSubCatalog();
+            recipes = tbCoeff.readElement(2);
+            //temp = tbCoeff.Selected;
+            //tbCoeff.Selected = receptures[index].id;
+            
+            //tbCoeff.Selected = temp;
         }
 
         public List<Item> SubCatalog
@@ -71,6 +82,7 @@ namespace MajPAbGr_project
 
         public int Selected
         {
+            set { selected = value; }
             get { return selected; }
         }
 

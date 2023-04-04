@@ -12,10 +12,12 @@ namespace MajPAbGr_project
     {
         int category;
         double coefficient;
+        private List<Item> receptures;
         public List<Element> recipes;
         public List <Element> elements;
         RecipesController controller;
         tbReceptureController tb;
+        tbRecipeController tbCoeff;
         CalcFunction calc;
         CalcBase calcBase = 0;
 
@@ -28,11 +30,11 @@ namespace MajPAbGr_project
         public Recipes(int id)
         {
             InitializeComponent();
-            controller = new RecipesController(id);            
-            recipes = new List<Element>();
-
-            tb = controller.TbMain();            
+            controller = new RecipesController(id);
+            tb = controller.TbMain();
+            tbCoeff = controller.TbCoeff();
             calc = controller.Calc;
+            receptures = controller.getCatalog();
 
             combo = comboBox1;
             recipe = cmbCoeff;
@@ -50,15 +52,20 @@ namespace MajPAbGr_project
 
         private void Form1_Load(object sender, EventArgs e) 
         {
-            int temp_id = tb.Selected;
-            Class1.setBox(controller.getCatalog(), ref combo);
-            combo.SelectedIndex = Class1.ChangeIndex(controller.getCatalog(), temp_id);           
-            //fillSubCatalog(); // table Recipe;
-            //AutocompleteRecipeName(); // table Recipe            
+            // list of receptures setting            
+            tbCoeff.Recepture = tb.Selected;
+            int index = Class1.ChangeIndex(controller.getCatalog(), tb.Selected);
+            Class1.setBox(controller.getCatalog(), combo);
+            combo.SelectedIndex = index;
+            
+            fillSubCatalog(); // table Recipe;
+            AutocompleteRecipeName(); // table Recipe            
 
+            //lokalization setting
             current = controller.Current();            
             this.Text += " " + controller.InfoLocal();
             
+            // form elements setting
             checkBox1.Checked = false;
             checkBox1.Enabled = false;
             btn_insert.Enabled = false;
@@ -114,12 +121,16 @@ namespace MajPAbGr_project
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            txbRecipe.Text = "";
+            
             int index = combo.SelectedIndex;
+            int selected = controller.getCatalog()[index].id;            
+            tbCoeff.Recepture = controller.getCatalog()[index].id;
+            controller.Selected = controller.getCatalog()[index].id;
             controller.setSubcatalog(index);
-            int selected = tb.Selected;                      
-            int count = fillSubCatalog(); // fill the combobox2
-            AutocompleteRecipeName(); // table Recipe      
 
+            int count = fillSubCatalog(); // fill the combobox2              
+            
             //used more one time in `InsertAmounts`, mode:edit           
             elements = controller.Amounts; // amounts            
             calc.setAmounts(elements); // сохраняет и cуммирует величины
@@ -134,7 +145,6 @@ namespace MajPAbGr_project
                 calc.Coefficient = 1;
                 lbl_koef.Text = "1";
             }
-
             //Info about recepture
             category = int.Parse(tb.getById("id_category", selected));            
             string info;
@@ -150,6 +160,7 @@ namespace MajPAbGr_project
             lbl_info.Text = info;
 
             columnHeader2.Text = "Amounts (%)";
+            AutocompleteRecipeName(); // table Recipe 
         }
 
         private void InputRecepture(List<Element> ingr)
@@ -185,7 +196,7 @@ namespace MajPAbGr_project
             }
             else
             {
-                int index = cmbCoeff.SelectedIndex;
+                int index = recipe.SelectedIndex;
                 controller.Calc.Coefficient = recipes[index].Amounts;                
                 lbl_koef.Text = controller.Calc.Coefficient.ToString();
                 txbRecipe.Text = recipes[index].Name;
@@ -296,14 +307,12 @@ namespace MajPAbGr_project
         }
         private void Reload()
         {
-            int selected = comboBox1.SelectedIndex;
-
+            int temp = comboBox1.SelectedIndex;
             tb.setCatalog();
-            Class1.setBox(tb.getCatalog(), ref combo);
-
-            columnHeader2.Text = "Amounts (%)";
-            comboBox1.SelectedIndex = selected;
-            comboBox1.Text = comboBox1.SelectedItem.ToString();
+            Class1.setBox(tb.getCatalog(), combo);
+            comboBox1.SelectedIndex = temp;
+            columnHeader2.Text = "Amounts (%)";            
+            //comboBox1.Text = comboBox1.SelectedItem.ToString();
         }
 
         private void addNewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -528,9 +537,9 @@ namespace MajPAbGr_project
             int index, ind;
             string old_name, name, message;
 
-            index = cmbCoeff.SelectedIndex;
+            index = recipe.SelectedIndex;
             if (index < 0) return;
-            old_name = cmbCoeff.Text;
+            old_name = recipe.Text;
             name = txbRecipe.Text;
             ind = controller.btn_edit_onClick(name, index);
              switch (ind)
@@ -544,7 +553,7 @@ namespace MajPAbGr_project
                 default:
                     message = $"Recipe's name is changed from '{old_name}' to '{name}'";
                     Reload();
-                    cmbCoeff.SelectedIndex = index;
+                    recipe.SelectedIndex = index;
                     break;
              }
             MessageBox.Show(message);

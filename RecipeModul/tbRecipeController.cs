@@ -32,9 +32,19 @@ namespace MajPAbGr_project
             return subcatalog;
         }
 
+        public override List<Element> readElement(int opt)
+        {
+            int temp = selected;
+            selected = recepture;
+            List<Element> el = base.readElement(2);
+            selected = temp;
+            return el;
+        }
+
         public int Recepture
         {
             set { recepture = value; }
+            get { return recepture; }
         }
 
         public string ReceptureInfo()
