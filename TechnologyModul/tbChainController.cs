@@ -16,8 +16,7 @@ namespace MajPAbGr_project
         public tbChainController(string table) : base(table)
         {
             cards = new List<Item>();
-        }        
-        
+        }      
 
         /***********************************************************************
          Getters and setters
@@ -109,6 +108,13 @@ namespace MajPAbGr_project
         /*******************************************************************************
          Write and remove data in table
          *******************************************************************************/
+       public int ApplyCardToChain(string techn, string card)
+        {
+            query = $"insert into {table}" +
+                $" (id_technology, id_card) values ({techn}, {card});";
+            return Edit(query);
+        }
+        
         public int RemoveCardFromChain (string techn, string card)
         {
             int ind;

@@ -13,26 +13,24 @@ namespace MajPAbGr_project
     public partial class Chains : Form
     {
         ChainsController controller;
-        
-        public Chains()
-        {
-            InitializeComponent();
-            controller = new ChainsController();
-        }
+        tbTechnologyCardsController cards;
+        tbTechnologyController techn;
+        tbChainController chains;
 
         public Chains (ChainsController controller)
         {
             InitializeComponent();
             this.controller = controller;
+            cards = controller.tbCardsController;
+            techn = controller.tbTechController;
+            chains = controller.tbChainController;
         }
 
         private void Chains_Load(object sender, EventArgs e)
         {
             int id, k;
             List<Item> items;
-            tbTechnologyCardsController cards = controller.tbCardsController;
-            tbTechnologyController techn = controller.tbTechController;
-
+            
             items = techn.getCatalog();
             Class1.FillCombo(items, cmbTechn);
 
@@ -47,13 +45,7 @@ namespace MajPAbGr_project
                     }
                 }
             }
-            tbReceptureController tbRec = new tbReceptureController("Recepture");
-            string idStr = tbRec.dbReader($"select id_technology from {tbRec.getTable()} where id = {controller.Recepture};")[0];
-            if (int.TryParse(idStr, out id) && id > 0)            {
-               
-                 cmbTechn.SelectedIndex = Class1.ChangeIndex(items, id); 
-            }
-            id = 0;
+            cmbTechn.SelectedIndex = Class1.ChangeIndex(items, controller.Technology);           
        
             items = cards.getCatalog();
             Class1.FillCombo(items, cmbData);
@@ -68,43 +60,13 @@ namespace MajPAbGr_project
                     }
                 }
             }
-        }
-
-        private void toolStripLabel1_Click(object sender, EventArgs e)
-        {
-            Technology frm; // разобраться с конструкторами!           
-            int technology = controller.tbTechController.Selected;
-            int recepture = controller.Recepture;
-            frm = new Technology(technology);
-            frm.Show();
-
-            //int selected, id_technology, count;// id of recepture and of technology;
-
-            //// проверить выбранный в списке                   
-            //selected = tb.getSelected();
-            //count = tb.SelectedCount("Recepture", "id_technology", selected);// dos recepture contain any technology
-
-            //if (count == 1)
-            //{
-            //    id_technology = int.Parse(tb.getById("id_technology", selected));
-            //    frm = new Technology(selected, id_technology);
-            //    frm.Show();
-            //}
-            //else
-            //{
-            //    frm = new Technology(selected);
-            //    frm.Show();
-            //}
-        }
+        }        
        
         private void cmbData_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = cmbData.SelectedIndex, selected_cards = 0;
             string description;
             List<string> technologies;
-            tbTechnologyCardsController cards = controller.tbCardsController;
-            tbTechnologyController techn = controller.tbTechController;
-            tbChainController chains = controller.tbChainController;
 
             cards.setSelected(index);
             selected_cards = cards.Selected;
@@ -131,10 +93,7 @@ namespace MajPAbGr_project
         {
             int index = cmbTechn.SelectedIndex, selected_techn = 0;
             string description;
-            List<string> cards_id, names;
-            tbTechnologyCardsController cards = controller.tbCardsController;
-            tbTechnologyController techn = controller.tbTechController;
-            tbChainController chains = controller.tbChainController;
+            List<string> cards_id, names;            
 
             techn.setSelected(index);
             selected_techn = techn.Selected;          
@@ -163,8 +122,9 @@ namespace MajPAbGr_project
         private void btn_add_Click(object sender, EventArgs e)
         {
             int ind = 0;
+            string message = "";
             ind = controller.ApplyToChain();
-            string message = (ind == -1) ? "Is inserted no records" : $"Is inserted {ind} records";
+            message = (ind == -1) ? "Is inserted no records" : $"Is inserted {ind} records";
             MessageBox.Show(message);
         }
 
@@ -175,19 +135,11 @@ namespace MajPAbGr_project
             MessageBox.Show($"Is deleted {ind} records");
         }
 
-        private void lblTest_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void label3_Click(object sender, EventArgs e)
         {
             TechnologyCardsController cntrl = new TechnologyCardsController(controller);
             TechnologyCards frm = new TechnologyCards(cntrl);
             frm.Show();
-
-            //List<Item> items = controller.tbCardsController.getCatalog();
-            //Class1.FillCombo(items, cmbData);
         }
     }
 }

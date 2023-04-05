@@ -72,8 +72,7 @@ namespace MajPAbGr_project
             this.lblTest.Name = "lblTest";
             this.lblTest.Size = new System.Drawing.Size(34, 13);
             this.lblTest.TabIndex = 18;
-            this.lblTest.Text = "Steps";
-            this.lblTest.Click += new System.EventHandler(this.lblTest_Click);
+            this.lblTest.Text = "Steps";            
             // 
             // btn_add
             // 

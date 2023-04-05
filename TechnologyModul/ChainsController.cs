@@ -22,17 +22,6 @@ namespace MajPAbGr_project
             tbChain = new tbChainController("Technology_chain");
         }        
 
-        public ChainsController(int id_tech, int id_cards)
-        {
-            this.id_card = id_cards;
-            this.id_technology = id_tech;
-            tbCards = new tbTechnologyCardsController("Technology_card");
-            tbCards.setCatalog();
-            tbTech = new tbTechnologyController("Technology");
-            tbTech.setCatalog();
-            tbChain = new tbChainController("Technology_chain");
-        }
-
         public int Technology
         {
             set
@@ -90,11 +79,17 @@ namespace MajPAbGr_project
 
         public int ApplyToChain()
         {
-            id_card = tbCards.Selected;
-            id_technology = tbTech.Selected;
-            string query = $"insert into Technology_chain" +
-                $" (id_technology, id_card) values ({id_technology}, {id_card});";
-            return tbCards.Edit(query);
+            int ind = tbChain.ApplyCardToChain(
+                tbTech.Selected.ToString(),
+                tbCards.Selected.ToString()
+                );
+            return ind;
+
+            //id_card = tbCards.Selected;
+            //id_technology = tbTech.Selected;
+            //string query = $"insert into Technology_chain" +
+            //    $" (id_technology, id_card) values ({id_technology}, {id_card});";
+            //return tbCards.Edit(query);
         }
 
         public int RemoveFromChain()
