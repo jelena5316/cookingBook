@@ -117,6 +117,7 @@ namespace MajPAbGr_project
             if (chBox_technology.Checked)
             {
                 cmbTech.Enabled = false;
+                cmbTech.SelectedIndex = 0;
                 technology = 0;
             }
             else
@@ -203,10 +204,17 @@ namespace MajPAbGr_project
 
                 num = tb.UpdateReceptureOrCards("name", name, id_recepture);
                 num = tb.UpdateReceptureOrCards("id_category", category.ToString(), id_recepture);
-                if (technology == 0 || chBox_technology.Checked)
+                if (technology != 0 || !chBox_technology.Checked)
                 {
                     num = tb.UpdateReceptureOrCards("id_technology", technology.ToString(), id_recepture);
                     //num = tb.Edit($"update Recepture set id_technology = {technology} where id = {id_recepture};");
+                }
+                else
+                {
+                    if (chBox_technology.Checked)
+                    {
+                        num = tb.UpdateReceptureOrCards("id_technology", null, id_recepture);
+                    }
                 }
             }
 
