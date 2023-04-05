@@ -28,95 +28,74 @@ namespace MajPAbGr_project
 
         private void Chains_Load(object sender, EventArgs e)
         {
-            int id, k;
+            int id = 0, k;
             List<Item> items;
             
             items = techn.getCatalog();
             Class1.FillCombo(items, cmbTechn);
-
-            if (controller.Technology > 0)
-            {
-                for (k = 0; k < items.Count; k++)
-                {
-                    if (items[k].id == controller.Technology)
-                    {
-                        cmbTechn.SelectedIndex = k;
-                        break;
-                    }
-                }
-            }
-            cmbTechn.SelectedIndex = Class1.ChangeIndex(items, controller.Technology);           
+            if (controller.Technology > 0)            
+                cmbTechn.SelectedIndex = Class1.ChangeIndex(items, controller.Technology);           
        
             items = cards.getCatalog();
             Class1.FillCombo(items, cmbData);
-            id = controller.Card;
-            if (id != 0)
-            {
-                for (k = 0; k < items.Count; k++)
-                {
-                    if (items[k].id == id)
-                    {
-                        cmbData.SelectedIndex = k;
-                    }
-                }
-            }
+            id = controller.Card; 
+            if (id !=0)
+                cmbData.SelectedIndex = Class1.ChangeIndex(items, id);            
         }        
        
         private void cmbData_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int index = cmbData.SelectedIndex;   
+            cards.setSelected(index);
+            setListBoxTechnology();
+        }
+
+        private void setListBoxTechnology()
+        {
             int index = cmbData.SelectedIndex, selected_cards = 0;
             string description;
-            List<string> technologies;
-
-            cards.setSelected(index);
+            List<string> technologies;           
             selected_cards = cards.Selected;
-
             listBox_tech.Items.Clear();
             technologies = chains.getNames(chains.TechnologiesWithSelectedCard(selected_cards));
             if (technologies != null)
             {
-                for (int k = 0; k < technologies.Count; k++)               
+                for (int k = 0; k < technologies.Count; k++)
                     listBox_tech.Items.Add(technologies[k]); // а есть ли проверка на уникальность имени? 
-            }                     
-
+            }
             if (listBox_tech.Items.Count != 0) listBox_tech.SelectedIndex = 0;
             else listBox_tech.Text = "";
-
-            description = cards.getById("description", selected_cards);          
-
+            description = cards.getById("description", selected_cards);
             lblInfo.Text = chains.TechnologiesWithSelectedCardCount(selected_cards).ToString();
-            lblCards.Text = description;
-            //toolStripStatusLabel1.Text = "id_cards " + selected_cards;
+            lblCards.Text = description;           
         }
 
         private void cmbTechn_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int index = cmbTechn.SelectedIndex, selected_techn = 0;
-            string description;
-            List<string> cards_id, names;            
-
+            int index = cmbTechn.SelectedIndex;                   
             techn.setSelected(index);
-            selected_techn = techn.Selected;          
+            setListBoxCards();
+        }
 
-            listBox_cards.Items.Clear();
-            cards_id = chains.CardsInTechnology(selected_techn);
-            for (int k = 0; k < cards_id.Count; k++)
-            {
-                names = cards.dbReader($"select name from {cards.getTable()} where id = {cards_id[k]};");
-                listBox_cards.Items.Add(names[0]); // а есть ли проверка на уникальность имени?
-            }
+        private void setListBoxCards()
+        {
+            string description;
+            List<string> names;            
+            listBox_cards.Items.Clear();            
+            names = controller.Names(chains.CardsInTechnology(techn.Selected));
+            for (int k = 0; k < names.Count; k++)
+                listBox_cards.Items.Add(names[k]); // а есть ли проверка на уникальность имени?           
             if (listBox_cards.Items.Count != 0) listBox_cards.SelectedIndex = 0;
             else listBox_cards.Text = "";
 
-            description = techn.dbReader($"select description from {techn.getTable()} where id = {selected_techn}")[0];
+            description = techn.getDescription();
             if (description.Length > 50)
             {
                 string t = description.Substring(0, 50);
                 description = t;
             }
             lblTechn.Text = description;
-            lblInfo2.Text = chains.CardsInTechnologyCount(selected_techn).ToString();
-            //toolStripStatusLabel2.Text = "id_techns " + selected_techn;
+            lblInfo2.Text = chains.CardsInTechnologyCount(techn.Selected).ToString();
         }
 
         private void btn_add_Click(object sender, EventArgs e)
@@ -126,6 +105,8 @@ namespace MajPAbGr_project
             ind = controller.ApplyToChain();
             message = (ind == -1) ? "Is inserted no records" : $"Is inserted {ind} records";
             MessageBox.Show(message);
+            setListBoxCards();
+            setListBoxTechnology();
         }
 
         private void btn_remove_Click(object sender, EventArgs e)
@@ -133,6 +114,8 @@ namespace MajPAbGr_project
             int ind = 0;
             ind = controller.RemoveFromChain();
             MessageBox.Show($"Is deleted {ind} records");
+            setListBoxCards();
+            setListBoxTechnology();
         }
 
         private void label3_Click(object sender, EventArgs e)

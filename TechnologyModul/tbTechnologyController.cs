@@ -32,6 +32,9 @@ namespace MajPAbGr_project
             return Catalog(query);
         }
 
+        public string getDescription()
+            => dbReader($"select description from {getTable()} where id = {selected}")[0];
+
         public string insertTechnology(string name, string description)
         {
             return "insert into Technology (name, description)" +

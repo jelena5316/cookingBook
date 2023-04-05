@@ -56,6 +56,17 @@ namespace MajPAbGr_project
             }
         }
 
+        public List <string> Names(List<string> ids)
+        {
+            List<string> list = new List<string>();            
+            for (int k = 0; k < ids.Count; k++)
+            {
+                list.Add
+                    (tbCards.dbReader($"select name from {tbCards.getTable()} where id = {ids[k]};")[0]);
+            }
+            return list;
+        }
+
         public int Recepture
         {
             set { id_recepture = value; }
@@ -84,12 +95,6 @@ namespace MajPAbGr_project
                 tbCards.Selected.ToString()
                 );
             return ind;
-
-            //id_card = tbCards.Selected;
-            //id_technology = tbTech.Selected;
-            //string query = $"insert into Technology_chain" +
-            //    $" (id_technology, id_card) values ({id_technology}, {id_card});";
-            //return tbCards.Edit(query);
         }
 
         public int RemoveFromChain()
@@ -98,6 +103,7 @@ namespace MajPAbGr_project
             id_card = tbCards.Selected;
             id_technology = tbTech.Selected;
             ind = tbChain.RemoveCardFromChain(id_technology.ToString(), id_card.ToString());
+
             return ind;
         }
     }
