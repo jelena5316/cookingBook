@@ -97,7 +97,7 @@
     <Compile Include="TechnologyModul\ChainsController.cs" />
     <Compile Include="Component\dbController.cs" />
     <Compile Include="Component\Element.cs" />
-    <Compile Include="Component\Enum.cs" />
+    <Compile Include="AmountModul\Enum.cs" />
     <Compile Include="Component\FormFunction.cs" />
     <Compile Include="Component\tbController.cs" />
     <Compile Include="EditDB.cs" />

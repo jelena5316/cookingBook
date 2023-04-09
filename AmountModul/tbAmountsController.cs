@@ -8,17 +8,13 @@ namespace MajPAbGr_project
 {
     public class tbAmountsController : tbController
     {
-        private int amount_id_count, elements_count, selected_element, id_recepture;        
+        private int amount_id_count, elements_count,
+            selected_element, id_recepture;        
         private List<string> amounts_id;
         private List<Element> elements; // id and name, for amounts      
         private tbReceptureController tbRec;
 
-        enum Columns
-        {
-            id_ingredients,
-            amount,
-            id_recepture
-        }
+        
 
         public tbAmountsController(string table) : base(table) { } // New Recepture; create mode
 
@@ -32,7 +28,6 @@ namespace MajPAbGr_project
             // for data updating
             amount_id_count = amounts_id.Count;
             elements_count = elements.Count;
-
         }
 
         public tbReceptureController TbRec
@@ -87,7 +82,8 @@ namespace MajPAbGr_project
 
         public List<string> setAmountsIdList(int recepture)
         {
-            string query = $"select id from Amounts where id_recepture = {recepture}";
+            string query = $"select id from Amounts" +
+                $" where id_recepture = {recepture}";
             amounts_id = dbReader(query);
             return amounts_id;
         }
