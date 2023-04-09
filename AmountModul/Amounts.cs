@@ -11,11 +11,14 @@ namespace MajPAbGr_project
     public partial class InsertAmounts : Form
     {
         readonly int id_recepture; //для ввода рецепта (коэфициента) к расчитанной из него рецептуре
+         readonly CalcBase calcBase = CalcBase.Main;
+        
         private int pragma = 0; // for create mode
 
         private int main_ingredient_id;
-        readonly CalcBase calcBase = CalcBase.Main;
-        double summa;
+        bool set_main = false,
+            reset_main = false;        
+        double summa = 0;
         double[] amounts;     
         
         Mode mode; //create new or edit old
@@ -235,7 +238,7 @@ namespace MajPAbGr_project
         }
 
         private void btn_edit_Click(object sender, EventArgs e) // add an ingredient
-        {
+        {           
             if (cmbIngr.SelectedIndex == -1) return;
             if (string.IsNullOrEmpty(cmbIngr.Text)) return;
             if (string.IsNullOrEmpty(txbAmounts.Text)) return;
@@ -282,6 +285,10 @@ namespace MajPAbGr_project
                 //выделить новый
                 items = listView1.Items[index+1];
                 items.Selected = true;
+
+                //пересчитать
+                double koef = calc.Coefficient;
+                items.SubItems[2].Text = (el.Amounts * koef).ToString();
             }
             else
             {
@@ -301,12 +308,13 @@ namespace MajPAbGr_project
                 //определить главный вид сырья
                 main_ingredient_id = el.Id;
                 toolStripStatusLabel6.Text = main_ingredient_id.ToString();
-                
+                calc.Coefficient = 100/el.Amounts;
+                listView1.Items[0].SubItems[2].Text = "100";
             }
             txbAmounts.Text = "100" + decimal_separator + "0";
             cmbIngr.Focus();
-            btn_calc.Enabled = true;            
-
+            btn_calc.Enabled = true;
+            
             //вывод в консоль
             frm.richTextBox1.Text += "On btn_edit click, new item added\n";
             frm.richTextBox1.Text += "records in list view count: " + (listView1.Items.Count - 1).ToString();
@@ -396,6 +404,8 @@ namespace MajPAbGr_project
             if (listView1.Items.Count < 1) return; // proverka spiska
             if (listView1.SelectedItems.Count < 1) return;
 
+            reset_main = (listView1.SelectedIndices[0] == 0)
+                ? true : false;
             int index = listView1.SelectedItems[0].Index;            
             int tag = (int)listView1.Items[index].Tag;
 
@@ -423,12 +433,29 @@ namespace MajPAbGr_project
             if (elements.Count > 0)
             {
                 main_ingredient_id = (int)listView1.Items[0].Tag;
+                double main_amounts = tbAmount.getElementByIndex(0).Amounts;
+                calc.Coefficient = 100 / main_amounts;
+                listView1.Items[0].SubItems[2].Text = "100";
                 toolStripStatusLabel6.Text = main_ingredient_id.ToString();
+
+                if (reset_main)
+                {
+                    label1.Text = "reset main ";
+                    for (int k = 1; k < elements.Count; k++)
+                    {
+                        double new_amount = tbAmount.getElementByIndex(k).Amounts * calc.Coefficient;
+                        listView1.Items[k].SubItems[2].Text = new_amount.ToString() +
+                            " " + calc.Coefficient.ToString();
+                        label1.Text += calc.Coefficient.ToString() + " ";
+                    }
+                }
+                else
+                    label1.Text = "main is not reset";
             }
             else
             {
                 if (elements.Count == 0)
-                    toolStripStatusLabel6.Text = "none";
+                    toolStripStatusLabel6.Text = "none";              
             }
                 
       
@@ -549,7 +576,7 @@ namespace MajPAbGr_project
          *************************************************************************/
 
         private void btn_test_Click(object sender, EventArgs e)
-        {
+        {           
             frm.richTextBox1.Text = "";
             if (mode == Mode.Create)
             {
