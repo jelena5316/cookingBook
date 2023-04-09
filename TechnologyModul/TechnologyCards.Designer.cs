@@ -48,34 +48,38 @@ namespace MajPAbGr_project
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 69);
+            this.label2.Location = new System.Drawing.Point(27, 106);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(88, 13);
+            this.label2.Size = new System.Drawing.Size(132, 20);
             this.label2.TabIndex = 19;
             this.label2.Text = "Cards description";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(43, 34);
+            this.label1.Location = new System.Drawing.Point(64, 52);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 13);
+            this.label1.Size = new System.Drawing.Size(51, 20);
             this.label1.TabIndex = 18;
             this.label1.Text = "Cards";
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(13, 86);
+            this.textBox2.Location = new System.Drawing.Point(20, 132);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(237, 56);
+            this.textBox2.Size = new System.Drawing.Size(354, 84);
             this.textBox2.TabIndex = 17;
             // 
             // btn_insert
             // 
-            this.btn_insert.Location = new System.Drawing.Point(13, 345);
+            this.btn_insert.Location = new System.Drawing.Point(20, 531);
+            this.btn_insert.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_insert.Name = "btn_insert";
-            this.btn_insert.Size = new System.Drawing.Size(75, 23);
+            this.btn_insert.Size = new System.Drawing.Size(112, 35);
             this.btn_insert.TabIndex = 16;
             this.btn_insert.Text = "Submit";
             this.btn_insert.UseVisualStyleBackColor = true;
@@ -83,26 +87,29 @@ namespace MajPAbGr_project
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(13, 171);
+            this.textBox3.Location = new System.Drawing.Point(20, 263);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(237, 158);
+            this.textBox3.Size = new System.Drawing.Size(354, 241);
             this.textBox3.TabIndex = 21;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 155);
+            this.label3.Location = new System.Drawing.Point(27, 238);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(98, 13);
+            this.label3.Size = new System.Drawing.Size(143, 20);
             this.label3.TabIndex = 22;
             this.label3.Text = "Technologie`s card";
             // 
             // btn_remove
             // 
-            this.btn_remove.Location = new System.Drawing.Point(220, 50);
+            this.btn_remove.Location = new System.Drawing.Point(330, 77);
+            this.btn_remove.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_remove.Name = "btn_remove";
-            this.btn_remove.Size = new System.Drawing.Size(76, 23);
+            this.btn_remove.Size = new System.Drawing.Size(114, 35);
             this.btn_remove.TabIndex = 18;
             this.btn_remove.Text = "Delete";
             this.btn_remove.UseVisualStyleBackColor = true;
@@ -110,9 +117,10 @@ namespace MajPAbGr_project
             // 
             // btn_new
             // 
-            this.btn_new.Location = new System.Drawing.Point(94, 345);
+            this.btn_new.Location = new System.Drawing.Point(141, 531);
+            this.btn_new.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_new.Name = "btn_new";
-            this.btn_new.Size = new System.Drawing.Size(75, 23);
+            this.btn_new.Size = new System.Drawing.Size(112, 35);
             this.btn_new.TabIndex = 27;
             this.btn_new.Text = "Clear";
             this.btn_new.UseVisualStyleBackColor = true;
@@ -121,9 +129,10 @@ namespace MajPAbGr_project
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(192, 350);
+            this.label5.Location = new System.Drawing.Point(288, 538);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(49, 13);
+            this.label5.Size = new System.Drawing.Size(73, 20);
             this.label5.TabIndex = 28;
             this.label5.Text = "Print Info";
             this.label5.Click += new System.EventHandler(this.label5_Click);
@@ -131,25 +140,28 @@ namespace MajPAbGr_project
             // cmbCards
             // 
             this.cmbCards.FormattingEnabled = true;
-            this.cmbCards.Location = new System.Drawing.Point(38, 50);
+            this.cmbCards.Location = new System.Drawing.Point(57, 77);
+            this.cmbCards.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbCards.Name = "cmbCards";
-            this.cmbCards.Size = new System.Drawing.Size(176, 21);
+            this.cmbCards.Size = new System.Drawing.Size(262, 28);
             this.cmbCards.TabIndex = 29;
             this.cmbCards.SelectedIndexChanged += new System.EventHandler(this.cmbCards_SelectedIndexChanged);
             // 
             // txbCards
             // 
-            this.txbCards.Location = new System.Drawing.Point(13, 42);
+            this.txbCards.Location = new System.Drawing.Point(20, 65);
+            this.txbCards.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txbCards.Name = "txbCards";
-            this.txbCards.Size = new System.Drawing.Size(237, 20);
+            this.txbCards.Size = new System.Drawing.Size(354, 26);
             this.txbCards.TabIndex = 30;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(18, 26);
+            this.label6.Location = new System.Drawing.Point(27, 40);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(35, 13);
+            this.label6.Size = new System.Drawing.Size(51, 20);
             this.label6.TabIndex = 31;
             this.label6.Text = "Name";
             // 
@@ -164,22 +176,26 @@ namespace MajPAbGr_project
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.btn_new);
-            this.groupBox1.Location = new System.Drawing.Point(25, 88);
+            this.groupBox1.Location = new System.Drawing.Point(38, 135);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(285, 384);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox1.Size = new System.Drawing.Size(428, 591);
             this.groupBox1.TabIndex = 32;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Editor";
             // 
             // TechnologyCards
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(349, 501);
+            this.ClientSize = new System.Drawing.Size(524, 749);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cmbCards);
             this.Controls.Add(this.btn_remove);
             this.Controls.Add(this.label1);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "TechnologyCards";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Steps";

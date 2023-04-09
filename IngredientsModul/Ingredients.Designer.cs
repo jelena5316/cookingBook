@@ -51,9 +51,11 @@ namespace MajPAbGr_project
             this.groupBox1.Controls.Add(this.lblInfo);
             this.groupBox1.Controls.Add(this.btn_remove);
             this.groupBox1.Controls.Add(this.cmbData);
-            this.groupBox1.Location = new System.Drawing.Point(12, 26);
+            this.groupBox1.Location = new System.Drawing.Point(18, 40);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(212, 250);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox1.Size = new System.Drawing.Size(318, 385);
             this.groupBox1.TabIndex = 20;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Category";
@@ -61,26 +63,29 @@ namespace MajPAbGr_project
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 66);
+            this.label1.Location = new System.Drawing.Point(8, 102);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
+            this.label1.Size = new System.Drawing.Size(65, 20);
             this.label1.TabIndex = 22;
             this.label1.Text = "used_in";
             // 
             // lblTest
             // 
             this.lblTest.AutoSize = true;
-            this.lblTest.Location = new System.Drawing.Point(165, 27);
+            this.lblTest.Location = new System.Drawing.Point(248, 42);
+            this.lblTest.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTest.Name = "lblTest";
-            this.lblTest.Size = new System.Drawing.Size(15, 13);
+            this.lblTest.Size = new System.Drawing.Size(21, 20);
             this.lblTest.TabIndex = 18;
             this.lblTest.Text = "id";
             // 
             // btn_edit
             // 
-            this.btn_edit.Location = new System.Drawing.Point(123, 181);
+            this.btn_edit.Location = new System.Drawing.Point(184, 278);
+            this.btn_edit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_edit.Name = "btn_edit";
-            this.btn_edit.Size = new System.Drawing.Size(83, 23);
+            this.btn_edit.Size = new System.Drawing.Size(124, 35);
             this.btn_edit.TabIndex = 20;
             this.btn_edit.Text = "edit";
             this.btn_edit.UseVisualStyleBackColor = true;
@@ -89,18 +94,20 @@ namespace MajPAbGr_project
             // lblInfo
             // 
             this.lblInfo.AutoSize = true;
-            this.lblInfo.Location = new System.Drawing.Point(6, 53);
+            this.lblInfo.Location = new System.Drawing.Point(9, 82);
+            this.lblInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(48, 13);
+            this.lblInfo.Size = new System.Drawing.Size(72, 20);
             this.lblInfo.TabIndex = 19;
             this.lblInfo.Text = "record(s)";
             this.lblInfo.Click += new System.EventHandler(this.label1_Click);
             // 
             // btn_remove
             // 
-            this.btn_remove.Location = new System.Drawing.Point(123, 210);
+            this.btn_remove.Location = new System.Drawing.Point(184, 323);
+            this.btn_remove.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_remove.Name = "btn_remove";
-            this.btn_remove.Size = new System.Drawing.Size(83, 23);
+            this.btn_remove.Size = new System.Drawing.Size(124, 35);
             this.btn_remove.TabIndex = 18;
             this.btn_remove.Text = "remove";
             this.btn_remove.UseVisualStyleBackColor = true;
@@ -109,9 +116,10 @@ namespace MajPAbGr_project
             // cmbData
             // 
             this.cmbData.FormattingEnabled = true;
-            this.cmbData.Location = new System.Drawing.Point(8, 19);
+            this.cmbData.Location = new System.Drawing.Point(12, 29);
+            this.cmbData.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbData.Name = "cmbData";
-            this.cmbData.Size = new System.Drawing.Size(151, 21);
+            this.cmbData.Size = new System.Drawing.Size(224, 28);
             this.cmbData.TabIndex = 16;
             this.cmbData.Text = "pick a category";
             this.cmbData.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
@@ -119,17 +127,19 @@ namespace MajPAbGr_project
             // txbAdd
             // 
             this.txbAdd.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.txbAdd.Location = new System.Drawing.Point(6, 19);
+            this.txbAdd.Location = new System.Drawing.Point(9, 29);
+            this.txbAdd.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txbAdd.Name = "txbAdd";
-            this.txbAdd.Size = new System.Drawing.Size(153, 20);
+            this.txbAdd.Size = new System.Drawing.Size(228, 26);
             this.txbAdd.TabIndex = 2;
             this.txbAdd.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // btn_add
             // 
-            this.btn_add.Location = new System.Drawing.Point(97, 49);
+            this.btn_add.Location = new System.Drawing.Point(146, 75);
+            this.btn_add.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_add.Name = "btn_add";
-            this.btn_add.Size = new System.Drawing.Size(62, 21);
+            this.btn_add.Size = new System.Drawing.Size(93, 32);
             this.btn_add.TabIndex = 17;
             this.btn_add.Text = "add";
             this.btn_add.UseVisualStyleBackColor = true;
@@ -139,20 +149,24 @@ namespace MajPAbGr_project
             // 
             this.groupBox2.Controls.Add(this.txbAdd);
             this.groupBox2.Controls.Add(this.btn_add);
-            this.groupBox2.Location = new System.Drawing.Point(236, 27);
+            this.groupBox2.Location = new System.Drawing.Point(354, 42);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(174, 117);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox2.Size = new System.Drawing.Size(261, 180);
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Insert new";
             // 
             // Ingredients
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(422, 288);
+            this.ClientSize = new System.Drawing.Size(633, 443);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Ingredients";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Ingredients";

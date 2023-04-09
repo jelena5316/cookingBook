@@ -62,9 +62,10 @@ namespace MajPAbGr_project
             // 
             // btn_submit
             // 
-            this.btn_submit.Location = new System.Drawing.Point(535, 310);
+            this.btn_submit.Location = new System.Drawing.Point(802, 477);
+            this.btn_submit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_submit.Name = "btn_submit";
-            this.btn_submit.Size = new System.Drawing.Size(79, 31);
+            this.btn_submit.Size = new System.Drawing.Size(118, 48);
             this.btn_submit.TabIndex = 2;
             this.btn_submit.Text = "Refresh DB";
             this.btn_submit.UseVisualStyleBackColor = true;
@@ -72,25 +73,28 @@ namespace MajPAbGr_project
             // 
             // txbRecipe
             // 
-            this.txbRecipe.Location = new System.Drawing.Point(350, 240);
+            this.txbRecipe.Location = new System.Drawing.Point(525, 369);
+            this.txbRecipe.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txbRecipe.Name = "txbRecipe";
-            this.txbRecipe.Size = new System.Drawing.Size(177, 20);
+            this.txbRecipe.Size = new System.Drawing.Size(264, 26);
             this.txbRecipe.TabIndex = 0;
             this.txbRecipe.Text = "Recipe name";
             // 
             // txbAmounts
             // 
-            this.txbAmounts.Location = new System.Drawing.Point(172, 20);
+            this.txbAmounts.Location = new System.Drawing.Point(258, 31);
+            this.txbAmounts.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txbAmounts.Name = "txbAmounts";
-            this.txbAmounts.Size = new System.Drawing.Size(54, 20);
+            this.txbAmounts.Size = new System.Drawing.Size(79, 26);
             this.txbAmounts.TabIndex = 1;
             this.txbAmounts.Text = "100";
             // 
             // btn_calc
             // 
-            this.btn_calc.Location = new System.Drawing.Point(196, 102);
+            this.btn_calc.Location = new System.Drawing.Point(294, 157);
+            this.btn_calc.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_calc.Name = "btn_calc";
-            this.btn_calc.Size = new System.Drawing.Size(85, 31);
+            this.btn_calc.Size = new System.Drawing.Size(128, 48);
             this.btn_calc.TabIndex = 5;
             this.btn_calc.Text = "Calculate";
             this.btn_calc.UseVisualStyleBackColor = true;
@@ -105,9 +109,10 @@ namespace MajPAbGr_project
             this.columnHeader3});
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(12, 47);
+            this.listView1.Location = new System.Drawing.Point(18, 72);
+            this.listView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(316, 285);
+            this.listView1.Size = new System.Drawing.Size(472, 436);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -131,9 +136,10 @@ namespace MajPAbGr_project
             // 
             // btn_remove
             // 
-            this.btn_remove.Location = new System.Drawing.Point(6, 75);
+            this.btn_remove.Location = new System.Drawing.Point(9, 115);
+            this.btn_remove.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_remove.Name = "btn_remove";
-            this.btn_remove.Size = new System.Drawing.Size(62, 23);
+            this.btn_remove.Size = new System.Drawing.Size(93, 35);
             this.btn_remove.TabIndex = 4;
             this.btn_remove.Text = "remove";
             this.btn_remove.UseVisualStyleBackColor = true;
@@ -147,18 +153,21 @@ namespace MajPAbGr_project
             this.groupBox1.Controls.Add(this.btn_edit);
             this.groupBox1.Controls.Add(this.cmbIngr);
             this.groupBox1.Controls.Add(this.btn_calc);
-            this.groupBox1.Location = new System.Drawing.Point(350, 47);
+            this.groupBox1.Location = new System.Drawing.Point(525, 72);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(287, 148);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox1.Size = new System.Drawing.Size(430, 228);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ingredients";
             // 
             // btn_select
             // 
-            this.btn_select.Location = new System.Drawing.Point(6, 46);
+            this.btn_select.Location = new System.Drawing.Point(9, 71);
+            this.btn_select.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_select.Name = "btn_select";
-            this.btn_select.Size = new System.Drawing.Size(62, 23);
+            this.btn_select.Size = new System.Drawing.Size(93, 35);
             this.btn_select.TabIndex = 3;
             this.btn_select.Text = "select";
             this.btn_select.UseVisualStyleBackColor = true;
@@ -166,9 +175,10 @@ namespace MajPAbGr_project
             // 
             // btn_edit
             // 
-            this.btn_edit.Location = new System.Drawing.Point(232, 19);
+            this.btn_edit.Location = new System.Drawing.Point(348, 29);
+            this.btn_edit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_edit.Name = "btn_edit";
-            this.btn_edit.Size = new System.Drawing.Size(50, 24);
+            this.btn_edit.Size = new System.Drawing.Size(75, 37);
             this.btn_edit.TabIndex = 2;
             this.btn_edit.Text = "add";
             this.btn_edit.UseVisualStyleBackColor = true;
@@ -177,9 +187,10 @@ namespace MajPAbGr_project
             // cmbIngr
             // 
             this.cmbIngr.FormattingEnabled = true;
-            this.cmbIngr.Location = new System.Drawing.Point(6, 19);
+            this.cmbIngr.Location = new System.Drawing.Point(9, 29);
+            this.cmbIngr.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbIngr.Name = "cmbIngr";
-            this.cmbIngr.Size = new System.Drawing.Size(160, 21);
+            this.cmbIngr.Size = new System.Drawing.Size(238, 28);
             this.cmbIngr.TabIndex = 0;
             this.cmbIngr.Text = "pick an ingredients";
             this.cmbIngr.SelectedIndexChanged += new System.EventHandler(this.cmbIngr_SelectedIndexChanged);
@@ -191,9 +202,10 @@ namespace MajPAbGr_project
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel3,
             this.toolStripStatusLabel4});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 375);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 590);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(649, 24);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(974, 24);
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -231,7 +243,8 @@ namespace MajPAbGr_project
             this.printToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(649, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
+            this.menuStrip1.Size = new System.Drawing.Size(974, 25);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -243,7 +256,7 @@ namespace MajPAbGr_project
             this.toolStripMenuItem2,
             this.toolStripMenuItem3});
             this.localizacijaToolStripMenuItem.Name = "localizacijaToolStripMenuItem";
-            this.localizacijaToolStripMenuItem.Size = new System.Drawing.Size(34, 20);
+            this.localizacijaToolStripMenuItem.Size = new System.Drawing.Size(34, 19);
             this.localizacijaToolStripMenuItem.Text = "RU";
             // 
             // toolStripMenuItem1
@@ -270,23 +283,24 @@ namespace MajPAbGr_project
             // refreshToolStripMenuItem
             // 
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(58, 19);
             this.refreshToolStripMenuItem.Text = "Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // printToolStripMenuItem
             // 
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(44, 19);
             this.printToolStripMenuItem.Text = "Print";
             this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
             // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(350, 217);
+            this.checkBox1.Location = new System.Drawing.Point(525, 334);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(83, 17);
+            this.checkBox1.Size = new System.Drawing.Size(111, 24);
             this.checkBox1.TabIndex = 6;
             this.checkBox1.Text = "Save recipe";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -294,9 +308,9 @@ namespace MajPAbGr_project
             // 
             // InsertAmounts
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(649, 399);
+            this.ClientSize = new System.Drawing.Size(974, 614);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btn_submit);
@@ -304,8 +318,10 @@ namespace MajPAbGr_project
             this.Controls.Add(this.txbRecipe);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.groupBox1);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "InsertAmounts";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "InsertAmounts";

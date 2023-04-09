@@ -43,20 +43,23 @@ namespace MajPAbGr_project
 
         private void PrintToFile()
         {
-            const string PATH = "C:\\Users\\user\\Documents\\2_diplom\\Receptures\\";
+            const string PATH ="C:\\Users\\user\\Desktop\\"; 
+              //  "C:\\Users\\user\\Documents\\2_diplom\\Receptures\\";
             string path;
             file = $"{file}.txt";
-            
-            if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
-            {
-                //file = $"{file}.csv"; // for lists to be able to be opened with Exel
-                path = PATH + file;
-            }
-            else
-            {
-                path = saveFileDialog1.FileName;
-            }
-  
+
+            //if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+            //{
+            //    //file = $"{file}.csv"; // for lists to be able to be opened with Exel
+            //    path = PATH + file;
+            //}
+            //else
+            //{
+            //    path = saveFileDialog1.FileName;
+            //}
+
+
+            path = PATH + file;
             using (StreamWriter stream = new StreamWriter(path, true))
             {
                 if (!File.Exists(path))

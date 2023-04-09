@@ -50,25 +50,28 @@ namespace MajPAbGr_project
             // 
             // txbRecepture
             // 
-            this.txbRecepture.Location = new System.Drawing.Point(19, 22);
+            this.txbRecepture.Location = new System.Drawing.Point(28, 34);
+            this.txbRecepture.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txbRecepture.Name = "txbRecepture";
-            this.txbRecepture.Size = new System.Drawing.Size(263, 20);
+            this.txbRecepture.Size = new System.Drawing.Size(392, 26);
             this.txbRecepture.TabIndex = 23;
             // 
             // cmbCat
             // 
             this.cmbCat.FormattingEnabled = true;
-            this.cmbCat.Location = new System.Drawing.Point(19, 62);
+            this.cmbCat.Location = new System.Drawing.Point(28, 95);
+            this.cmbCat.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbCat.Name = "cmbCat";
-            this.cmbCat.Size = new System.Drawing.Size(159, 21);
+            this.cmbCat.Size = new System.Drawing.Size(236, 28);
             this.cmbCat.TabIndex = 25;
             this.cmbCat.SelectedIndexChanged += new System.EventHandler(this.cmbCat_SelectedIndexChanged);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(297, 410);
+            this.button2.Location = new System.Drawing.Point(446, 631);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(66, 27);
+            this.button2.Size = new System.Drawing.Size(99, 42);
             this.button2.TabIndex = 25;
             this.button2.Text = "Submit";
             this.button2.UseVisualStyleBackColor = true;
@@ -76,38 +79,43 @@ namespace MajPAbGr_project
             // 
             // txbSource
             // 
-            this.txbSource.Location = new System.Drawing.Point(16, 201);
+            this.txbSource.Location = new System.Drawing.Point(24, 309);
+            this.txbSource.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txbSource.Name = "txbSource";
-            this.txbSource.Size = new System.Drawing.Size(263, 20);
+            this.txbSource.Size = new System.Drawing.Size(392, 26);
             this.txbSource.TabIndex = 28;
             // 
             // txbAuthor
             // 
-            this.txbAuthor.Location = new System.Drawing.Point(19, 166);
+            this.txbAuthor.Location = new System.Drawing.Point(28, 255);
+            this.txbAuthor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txbAuthor.Name = "txbAuthor";
-            this.txbAuthor.Size = new System.Drawing.Size(263, 20);
+            this.txbAuthor.Size = new System.Drawing.Size(392, 26);
             this.txbAuthor.TabIndex = 29;
             // 
             // txbURL
             // 
-            this.txbURL.Location = new System.Drawing.Point(16, 238);
+            this.txbURL.Location = new System.Drawing.Point(24, 366);
+            this.txbURL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txbURL.Name = "txbURL";
-            this.txbURL.Size = new System.Drawing.Size(263, 20);
+            this.txbURL.Size = new System.Drawing.Size(392, 26);
             this.txbURL.TabIndex = 30;
             // 
             // txbDescription
             // 
-            this.txbDescription.Location = new System.Drawing.Point(16, 293);
+            this.txbDescription.Location = new System.Drawing.Point(24, 451);
+            this.txbDescription.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txbDescription.Multiline = true;
             this.txbDescription.Name = "txbDescription";
-            this.txbDescription.Size = new System.Drawing.Size(346, 91);
+            this.txbDescription.Size = new System.Drawing.Size(517, 138);
             this.txbDescription.TabIndex = 31;
             // 
             // buttton1
             // 
-            this.buttton1.Location = new System.Drawing.Point(216, 410);
+            this.buttton1.Location = new System.Drawing.Point(324, 631);
+            this.buttton1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttton1.Name = "buttton1";
-            this.buttton1.Size = new System.Drawing.Size(75, 27);
+            this.buttton1.Size = new System.Drawing.Size(112, 42);
             this.buttton1.TabIndex = 33;
             this.buttton1.Text = "Delete";
             this.buttton1.UseVisualStyleBackColor = true;
@@ -116,18 +124,20 @@ namespace MajPAbGr_project
             // cmbTech
             // 
             this.cmbTech.FormattingEnabled = true;
-            this.cmbTech.Location = new System.Drawing.Point(19, 103);
+            this.cmbTech.Location = new System.Drawing.Point(28, 158);
+            this.cmbTech.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbTech.Name = "cmbTech";
-            this.cmbTech.Size = new System.Drawing.Size(159, 21);
+            this.cmbTech.Size = new System.Drawing.Size(236, 28);
             this.cmbTech.TabIndex = 34;
             this.cmbTech.SelectedIndexChanged += new System.EventHandler(this.cmbTech_SelectedIndexChanged);
             // 
             // chBox_technology
             // 
             this.chBox_technology.AutoSize = true;
-            this.chBox_technology.Location = new System.Drawing.Point(19, 130);
+            this.chBox_technology.Location = new System.Drawing.Point(28, 200);
+            this.chBox_technology.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chBox_technology.Name = "chBox_technology";
-            this.chBox_technology.Size = new System.Drawing.Size(93, 17);
+            this.chBox_technology.Size = new System.Drawing.Size(127, 24);
             this.chBox_technology.TabIndex = 35;
             this.chBox_technology.Text = "no technology";
             this.chBox_technology.UseVisualStyleBackColor = true;
@@ -136,71 +146,78 @@ namespace MajPAbGr_project
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(291, 169);
+            this.label1.Location = new System.Drawing.Point(436, 260);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
+            this.label1.Size = new System.Drawing.Size(57, 20);
             this.label1.TabIndex = 36;
             this.label1.Text = "Author";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(291, 204);
+            this.label2.Location = new System.Drawing.Point(436, 314);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 13);
+            this.label2.Size = new System.Drawing.Size(60, 20);
             this.label2.TabIndex = 37;
             this.label2.Text = "Source";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(291, 241);
+            this.label3.Location = new System.Drawing.Point(436, 371);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 13);
+            this.label3.Size = new System.Drawing.Size(42, 20);
             this.label3.TabIndex = 38;
             this.label3.Text = "URL";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(23, 275);
+            this.label4.Location = new System.Drawing.Point(34, 423);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(60, 13);
+            this.label4.Size = new System.Drawing.Size(89, 20);
             this.label4.TabIndex = 39;
             this.label4.Text = "Description";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(291, 29);
+            this.label5.Location = new System.Drawing.Point(436, 45);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(35, 13);
+            this.label5.Size = new System.Drawing.Size(51, 20);
             this.label5.TabIndex = 40;
             this.label5.Text = "Name";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(193, 65);
+            this.label6.Location = new System.Drawing.Point(290, 100);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(87, 13);
+            this.label6.Size = new System.Drawing.Size(129, 20);
             this.label6.TabIndex = 41;
             this.label6.Text = "Choose category";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(193, 106);
+            this.label7.Location = new System.Drawing.Point(290, 163);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(98, 13);
+            this.label7.Size = new System.Drawing.Size(145, 20);
             this.label7.TabIndex = 42;
             this.label7.Text = "Choose technology";
             // 
             // NewRecepture
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(398, 500);
+            this.ClientSize = new System.Drawing.Size(597, 749);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -218,6 +235,8 @@ namespace MajPAbGr_project
             this.Controls.Add(this.button2);
             this.Controls.Add(this.cmbCat);
             this.Controls.Add(this.txbRecepture);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "NewRecepture";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "About Recepture";

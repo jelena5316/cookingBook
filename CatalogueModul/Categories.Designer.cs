@@ -61,9 +61,10 @@ namespace MajPAbGr_project
             // cmb_categories
             // 
             this.cmb_categories.FormattingEnabled = true;
-            this.cmb_categories.Location = new System.Drawing.Point(208, 74);
+            this.cmb_categories.Location = new System.Drawing.Point(312, 114);
+            this.cmb_categories.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmb_categories.Name = "cmb_categories";
-            this.cmb_categories.Size = new System.Drawing.Size(182, 21);
+            this.cmb_categories.Size = new System.Drawing.Size(271, 28);
             this.cmb_categories.TabIndex = 0;
             this.cmb_categories.SelectedIndexChanged += new System.EventHandler(this.cmb_categories_SelectedIndexChanged);
             // 
@@ -72,9 +73,10 @@ namespace MajPAbGr_project
             this.lv_recepture.ContextMenuStrip = this.contextMenuStrip1;
             this.lv_recepture.GridLines = true;
             this.lv_recepture.HideSelection = false;
-            this.lv_recepture.Location = new System.Drawing.Point(12, 125);
+            this.lv_recepture.Location = new System.Drawing.Point(18, 192);
+            this.lv_recepture.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lv_recepture.Name = "lv_recepture";
-            this.lv_recepture.Size = new System.Drawing.Size(601, 224);
+            this.lv_recepture.Size = new System.Drawing.Size(900, 342);
             this.lv_recepture.TabIndex = 5;
             this.lv_recepture.UseCompatibleStateImageBehavior = false;
             this.lv_recepture.View = System.Windows.Forms.View.Details;
@@ -121,17 +123,19 @@ namespace MajPAbGr_project
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 74);
+            this.textBox1.Location = new System.Drawing.Point(18, 114);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(168, 20);
+            this.textBox1.Size = new System.Drawing.Size(250, 26);
             this.textBox1.TabIndex = 7;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(467, 69);
+            this.button1.Location = new System.Drawing.Point(700, 106);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(146, 29);
+            this.button1.Size = new System.Drawing.Size(219, 45);
             this.button1.TabIndex = 8;
             this.button1.Text = "Add new recipe";
             this.button1.UseVisualStyleBackColor = true;
@@ -147,7 +151,8 @@ namespace MajPAbGr_project
             this.aboutReceptureToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(625, 27);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
+            this.menuStrip1.Size = new System.Drawing.Size(938, 29);
             this.menuStrip1.TabIndex = 9;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -167,42 +172,42 @@ namespace MajPAbGr_project
             // recipeToolStripMenuItem
             // 
             this.recipeToolStripMenuItem.Name = "recipeToolStripMenuItem";
-            this.recipeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.recipeToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.recipeToolStripMenuItem.Text = "Recipes";
             this.recipeToolStripMenuItem.Click += new System.EventHandler(this.recipeToolStripMenuItem_Click);
             // 
             // tecnologyToolStripMenuItem
             // 
             this.tecnologyToolStripMenuItem.Name = "tecnologyToolStripMenuItem";
-            this.tecnologyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tecnologyToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.tecnologyToolStripMenuItem.Text = "Technology";
             this.tecnologyToolStripMenuItem.Click += new System.EventHandler(this.tecnologyToolStripMenuItem_Click);
             // 
             // ingredientsToolStripMenuItem
             // 
             this.ingredientsToolStripMenuItem.Name = "ingredientsToolStripMenuItem";
-            this.ingredientsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ingredientsToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.ingredientsToolStripMenuItem.Text = "Ingredients";
             this.ingredientsToolStripMenuItem.Click += new System.EventHandler(this.ingredientsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
             this.toolStripMenuItem1.Text = "Categorires";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // amountsEditorToolStripMenuItem
             // 
             this.amountsEditorToolStripMenuItem.Name = "amountsEditorToolStripMenuItem";
-            this.amountsEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.amountsEditorToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.amountsEditorToolStripMenuItem.Text = "Amounts";
             this.amountsEditorToolStripMenuItem.Click += new System.EventHandler(this.amountsEditorToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // printToolStripMenuItem
@@ -218,7 +223,7 @@ namespace MajPAbGr_project
             "selected recipe",
             "report about"});
             this.toolStripCmbPrint.Name = "toolStripCmbPrint";
-            this.toolStripCmbPrint.Size = new System.Drawing.Size(121, 23);
+            this.toolStripCmbPrint.Size = new System.Drawing.Size(180, 23);
             this.toolStripCmbPrint.Text = "print_option1";
             // 
             // seeAllToolStripMenuItem
@@ -238,35 +243,38 @@ namespace MajPAbGr_project
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 58);
+            this.label2.Location = new System.Drawing.Point(34, 89);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(84, 13);
+            this.label2.Size = new System.Drawing.Size(124, 20);
             this.label2.TabIndex = 10;
             this.label2.Text = "Search by name";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(220, 58);
+            this.label3.Location = new System.Drawing.Point(330, 89);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(75, 13);
+            this.label3.Size = new System.Drawing.Size(114, 20);
             this.label3.TabIndex = 11;
             this.label3.Text = "Categories` list";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 109);
+            this.label1.Location = new System.Drawing.Point(34, 168);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(62, 13);
+            this.label1.Size = new System.Drawing.Size(92, 20);
             this.label1.TabIndex = 12;
             this.label1.Text = "Receptures";
             // 
             // Categories
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(625, 361);
+            this.ClientSize = new System.Drawing.Size(938, 555);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -275,6 +283,8 @@ namespace MajPAbGr_project
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.lv_recepture);
             this.Controls.Add(this.cmb_categories);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Categories";
             this.Text = "Categories";
             this.Load += new System.EventHandler(this.Categories_Load);

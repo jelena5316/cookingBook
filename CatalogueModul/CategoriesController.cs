@@ -256,13 +256,23 @@ namespace MajPAbGr_project
 
             el = tb.readElement(1);
             rec = "";
-            for (k = 0; k < el.Count - 1; k++)
+
+            if (el.Count == 0) return "no formulation";
+            if (el.Count == 1)
             {
                 amount = string.Format("{0:f2}", el[k].Amounts);
-                rec += $"{el[k].Name} {amount}, ";
+                rec += $"{el[k].Name} {amount}.";
             }
-            amount = string.Format("{0:f2}", el[k].Amounts);
-            rec += $"{el[k].Name} {amount}.";
+            else
+            {
+                for (k = 0; k < el.Count - 1; k++)
+                {
+                    amount = string.Format("{0:f2}", el[k].Amounts);
+                    rec += $"{el[k].Name} {amount}, ";
+                }
+                amount = string.Format("{0:f2}", el[k].Amounts);
+                rec += $"{el[k].Name} {amount}.";
+            }          
             return rec;
         }
     }   
