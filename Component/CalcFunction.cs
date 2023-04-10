@@ -29,6 +29,7 @@ namespace MajPAbGr_project
         int count;
         double coefficient, total;
         double[] amounts;
+        CalcBase calcbase;
 
         public CalcFunction()
         {
@@ -39,6 +40,12 @@ namespace MajPAbGr_project
         {
             set { this.coefficient = value; }
             get { return coefficient; }
+        }
+
+        public CalcBase calcBase
+        {
+            set { calcbase = value; }
+            get { return calcbase; }
         }
 
         public void setAmounts(List<Element> source)

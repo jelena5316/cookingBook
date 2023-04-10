@@ -9,7 +9,8 @@ namespace MajPAbGr_project
     public enum Mode
     {
        Create,
-       Edit
+       Edit,
+       EditNewMain
     }
 
     enum Columns
@@ -24,5 +25,11 @@ namespace MajPAbGr_project
         Main,
         Total,
         Coefficient
+    }
+
+    public enum Operation
+    {
+        Add,
+        Remove
     }
 }
