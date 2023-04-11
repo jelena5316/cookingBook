@@ -8,8 +8,11 @@ namespace MajPAbGr_project
 {
     public class AmountsController
     {
-        int selected_rec;
-        double summa;
+        bool set_main, reset_main;
+        int selected_rec, main_ingredient_id;
+        Mode mode;
+        double summa, recipe;
+        string recipe_name;
         tbAmountsController tbAmount;
         tbIngredientsController tbIngred;
         List<Item> ingredients;
@@ -31,7 +34,10 @@ namespace MajPAbGr_project
 
             tbIngred = new tbIngredientsController(1);
             tbIngred.setCatalog();
-            ingredients = tbIngred.getCatalog();            
+            ingredients = tbIngred.getCatalog();
+
+            this.mode = (elements.Count < 1) ? Mode.Create : Mode.Edit;
+            // mode autodetector
         }
 
         public ReceptureStruct Info
@@ -103,6 +109,65 @@ namespace MajPAbGr_project
                 arr[q] =  $"{source[0]}:\t{source[1]},\t({source[2]});";
             }
             return arr;
+        }
+
+
+    /***************************************************
+        New logic (according PPS, using old code too)
+    ****************************************************/
+    public void SetMain(int ingr, double amount)
+        {
+            main_ingredient_id = ingr;
+            recipe = CalcFunction.calculateCoefficient(100.0, amount);
+            calc.Coefficient = CalcFunction.calculateCoefficient(amount, 100.0);
+            set_main = true;
+        }
+
+    public void RemoveMain()
+        {
+            set_main = false;
+            reset_main = false;
+            main_ingredient_id = 0;
+            recipe = 0;
+            calc.Coefficient = 1;           
+        }
+
+    public void ResetMain(int ingr, double amount)
+        {
+            main_ingredient_id = ingr;
+            recipe = CalcFunction.calculateCoefficient(100.0, amount);
+            calc.Coefficient = CalcFunction.calculateCoefficient(amount, 100.0);
+            reset_main = true;
+        }
+
+    public int RemoveElement(int index)
+        {            
+            elements.RemoveAt(index);
+            if (elements.Count > 0)
+            {
+                if (index > 0) index--;
+                if (index < 0) index = 0;
+                return index;
+            }
+            else
+            {
+                mode = Mode.EditNewMain;
+                return -1;
+            }           
+        }
+
+    public Element AddElement(int index, string name, double amount)
+        {
+            Element el = new Element();
+            el.Id = tbIngred.getSelected(); // id of ingredient 
+            el.Name = name;
+            el.Amounts = amount;
+
+            if (elements.Count > 0)
+                elements.Insert(index + 1, el);
+            else
+                elements.Add(el);
+            return el;
         }
     }
 }

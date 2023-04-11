@@ -11,7 +11,7 @@ namespace MajPAbGr_project
     public partial class InsertAmounts : Form
     {
         readonly int id_recepture; //для ввода рецепта (коэфициента) к расчитанной из него рецептуре
-         readonly CalcBase calcBase = CalcBase.Main;
+        readonly CalcBase calcBase = CalcBase.Main;
         
         private int pragma = 0; // for create mode
 
@@ -406,30 +406,37 @@ namespace MajPAbGr_project
 
             reset_main = (listView1.SelectedIndices[0] == 0)
                 ? true : false;
-            int index = listView1.SelectedItems[0].Index;            
+            int index = listView1.SelectedItems[0].Index;
+
+            //save string with sum (not needed)
+            {
             int tag = (int)listView1.Items[index].Tag;
-
-            if (tag == -1) pragma = 0;
-                //return; //check tag to preserve row with sum in case when create mode
-
+            if (tag == -1) pragma = 0; //return;
+            }
+                     
+            // deleting value
             listView1.Items[index].Selected = false;
-
             listView1.Items.RemoveAt(index);
-            if (index < elements.Count) //отсюда годиться только для нового
+            if (index < elements.Count) 
                 elements.RemoveAt(index);
+           //отсюда годиться только для нового (?)
 
+            // new selected
             if (listView1.Items.Count > 0)
             {
                 if (index > 0) index--;
                 if (index < 0) index = 0;
                 listView1.Items[index].Selected = true;
             }
-            else btn_submit.Enabled = false;
+            else
+            {
+                btn_submit.Enabled = false;
+                mode = Mode.EditNewMain;
+                main_ingredient_id = 0;
+                set_main = false;
+            }                
 
-            if (listView1.Items.Count == 1 && (int)listView1.SelectedItems[0].Tag == -1)
-               btn_calc.Enabled = false;
-
-            //переопределить главный вид сырья
+            //переопределить главный вид сырья            
             if (elements.Count > 0)
             {
                 main_ingredient_id = (int)listView1.Items[0].Tag;
@@ -455,18 +462,24 @@ namespace MajPAbGr_project
             else
             {
                 if (elements.Count == 0)
-                    toolStripStatusLabel6.Text = "none";              
+                    toolStripStatusLabel6.Text = "none";
+            }
+
+            //string with sum (old, is not needed)
+            if (listView1.Items.Count == 1 && (int)listView1.SelectedItems[0].Tag == -1)
+            {
+                btn_calc.Enabled = false;    
             }
                 
-      
             //вывод в консоль
-            frm.richTextBox1.Text += "On btn_remove click, an item deleted\n";
-            frm.richTextBox1.Text += "records in list view count: " + (listView1.Items.Count - 1).ToString();
-            frm.richTextBox1.Text += "\nrecords in \'elements\' count: " + this.elements.Count;
-            frm.richTextBox1.Text += "\nrecords in controller \'elements\' count: " + tbAmount.Elements_count;
-            frm.richTextBox1.Text += "\nid count: " + tbAmount.Amount_id_count + "\n";
-            frm.richTextBox1.Text += tbAmount.Amount_id_count >= tbAmount.Elements_count;
-            frm.richTextBox1.Text += "\n***\n";
+            {  frm.richTextBox1.Text += "On btn_remove click, an item deleted\n";
+                frm.richTextBox1.Text += "records in list view count: " + (listView1.Items.Count - 1).ToString();
+                frm.richTextBox1.Text += "\nrecords in \'elements\' count: " + this.elements.Count;
+                frm.richTextBox1.Text += "\nrecords in controller \'elements\' count: " + tbAmount.Elements_count;
+                frm.richTextBox1.Text += "\nid count: " + tbAmount.Amount_id_count + "\n";
+                frm.richTextBox1.Text += tbAmount.Amount_id_count >= tbAmount.Elements_count;
+                frm.richTextBox1.Text += "\n***\n";
+            }
         }
 
         /******************************************************************
@@ -593,27 +606,27 @@ namespace MajPAbGr_project
 
         private void button4_Click(object sender, EventArgs e) // submit
         {
-            //int ind=0;
-            //if (string.IsNullOrEmpty(listView1.Items[0].SubItems[1].Text)) return;         
-  
+            //int ind = 0;
+            //if (string.IsNullOrEmpty(listView1.Items[0].SubItems[1].Text)) return;
+
             //if (mode == Mode.Edit)
             //{
             //    ind = tbAmount.updateRecords(ref frm);
-            //    MessageBox.Show("Updated"+ind.ToString());
+            //    MessageBox.Show("Updated" + ind.ToString());
             //}
             //else
             //{
             //    ind = tbAmount.updateRecords(ref frm);
             //    if (ind == 0) MessageBox.Show("All amounts are inserted");
-            //    else MessageBox.Show($"{ind} from {listView1.Items.Count} are inserted");                               
+            //    else MessageBox.Show($"{ind} from {listView1.Items.Count} are inserted");
             //    mode = Mode.Edit;
-            //}            
+            //}
             //// забираю в обработчик Обновления (полоса меню)
 
-            // if (checkBox1.Checked && !string.IsNullOrEmpty(txbRecipe.Text))
-            // {
+            //if (checkBox1.Checked && !string.IsNullOrEmpty(txbRecipe.Text))
+            //{
             //    saveRecipe();
-            // }
+            //}
         }
        
         public void saveRecipe()
