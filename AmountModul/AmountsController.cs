@@ -57,7 +57,7 @@ namespace MajPAbGr_project
         {
             get { return calc; }
         }
-        public double Summa { get { return summa; }  }
+        public double Summa { get { return summa; } }
 
         public List<Element> Elements { get { return elements; } }
 
@@ -86,7 +86,7 @@ namespace MajPAbGr_project
         {
             int length, id, k;
             string name, category, info;
-            
+
             length = tbAmount.Elements_count + 1;
             length += items.Count + 2;
             id = RecStruct.getIds()[0];
@@ -94,69 +94,81 @@ namespace MajPAbGr_project
             category = RecStruct.getCategory();
             string[] arr = new string[length];
 
-            info = $"Recepture from DB:\n name {name} (id {tbAmount.Id_recepture}), category {category} ({id})";            
+            info = $"Recepture from DB:\n name {name} (id {tbAmount.Id_recepture}), category {category} ({id})";
             arr[0] = info + "\n";
-            for (k = 1; k < elements.Count+1; k++)
+            for (k = 1; k < elements.Count + 1; k++)
             {
-                arr[k] = $"({elements[k-1].Id.ToString()}) {elements[k-1].Name},\t{elements[k-1].Amounts.ToString()}";
+                arr[k] = $"({elements[k - 1].Id.ToString()}) {elements[k - 1].Name},\t{elements[k - 1].Amounts.ToString()}";
             }
             arr[k] = "\n";
             arr[k + 1] = "From listview: name: value, (old value)";
 
-            for (int q = k+2;  q < items.Count+k+2; q++)
-            {              
-                string[] source = items[q-k-2];
-                arr[q] =  $"{source[0]}:\t{source[1]},\t({source[2]});";
+            for (int q = k + 2; q < items.Count + k + 2; q++)
+            {
+                string[] source = items[q - k - 2];
+                arr[q] = $"{source[0]}:\t{source[1]},\t({source[2]});";
             }
             return arr;
         }
 
 
-    /***************************************************
-        New logic (according PPS, using old code too)
-    ****************************************************/
-    public void SetMain(int ingr, double amount)
+        /***************************************************
+            New logic (according PPS, using old code too)
+        ****************************************************/
+       
+        public Mode getMode { get { return mode; } }
+        
+        public void SetMain(int ingr, double amount)
         {
             main_ingredient_id = ingr;
-            recipe = CalcFunction.calculateCoefficient(100.0, amount);
+            if (mode == Mode.Create)
+                recipe = CalcFunction.calculateCoefficient(100.0, amount);
             calc.Coefficient = CalcFunction.calculateCoefficient(amount, 100.0);
             set_main = true;
         }
 
-    public void RemoveMain()
+        public void RemoveMain()
         {
             set_main = false;
             reset_main = false;
             main_ingredient_id = 0;
             recipe = 0;
-            calc.Coefficient = 1;           
+            calc.Coefficient = 1;
+            if (mode == Mode.Edit)
+                mode = Mode.EditNewMain;
         }
 
-    public void ResetMain(int ingr, double amount)
+        public bool ResetMain() //after RemoveMain()
         {
-            main_ingredient_id = ingr;
-            recipe = CalcFunction.calculateCoefficient(100.0, amount);
-            calc.Coefficient = CalcFunction.calculateCoefficient(amount, 100.0);
-            reset_main = true;
+            double amount;
+            if (elements.Count < 1) return false;
+            if (mode != Mode.Edit)
+            {
+                amount = elements[0].Amounts;
+                main_ingredient_id = elements[0].Id;
+                if (mode == Mode.Create)
+                    recipe = CalcFunction.calculateCoefficient(amount, 100.0);
+                calc.Coefficient = CalcFunction.calculateCoefficient(100.0, amount);
+                reset_main = true;                
+            }
+            return true;
         }
 
-    public int RemoveElement(int index)
-        {            
-            elements.RemoveAt(index);
-            if (elements.Count > 0)
-            {
+        public int RemoveElement(int index)
+        {
+            if (index < 0) return -1;
+            if (elements.Count > index)// 1 > 0
+            { 
+                elements.RemoveAt(index);
                 if (index > 0) index--;
-                if (index < 0) index = 0;
+                if (index < 0) index = 0;                
                 return index;
             }
             else
-            {
-                mode = Mode.EditNewMain;
-                return -1;
-            }           
+                return -2;
         }
 
-    public Element AddElement(int index, string name, double amount)
+        public Element AddElement(int index, string name, double amount)
         {
             Element el = new Element();
             el.Id = tbIngred.getSelected(); // id of ingredient 
@@ -169,5 +181,23 @@ namespace MajPAbGr_project
                 elements.Add(el);
             return el;
         }
-    }
+
+        public List<Element> ResetAmounts() // after ResetMain()
+        {
+            int k = 0;      
+            old_elements[k].Amounts = elements[k].Amounts;
+            elements[k].Amounts = 100;
+            if (elements.Count > 1)
+            {
+                for (k = 1; k < elements.Count; k++)
+                {
+                    old_elements[k].Amounts = elements[k].Amounts;
+                    double new_amount = elements[k].Amounts * calc.Coefficient;
+                    elements[k].Amounts = new_amount;
+                }
+            }
+            return elements;
+        }
+    } 
 }
+

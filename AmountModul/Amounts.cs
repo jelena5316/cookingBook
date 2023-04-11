@@ -12,26 +12,26 @@ namespace MajPAbGr_project
     {
         readonly int id_recepture; //для ввода рецепта (коэфициента) к расчитанной из него рецептуре
         readonly CalcBase calcBase = CalcBase.Main;
-        
+
         private int pragma = 0; // for create mode
 
         private int main_ingredient_id;
         bool set_main = false,
-            reset_main = false;        
+            reset_main = false;
         double summa = 0;
-        double[] amounts;     
-        
+        double[] amounts;
+
         Mode mode; //create new or edit old
         string name; // name of recepture, for assigning this.Text when form is loading
-        
+
         List<Element> elements; // id and name, for amounts
         List<Item> ingredients;
 
         AmountsController controller;
         tbIngredientsController tbIngred;
-        tbAmountsController tbAmount;        
+        tbAmountsController tbAmount;
         CalcFunction calc;
-   
+
         NumberFormatInfo nfi;
         string decimal_separator;
         Print frm = new Print();
@@ -39,7 +39,7 @@ namespace MajPAbGr_project
         public InsertAmounts(AmountsController controller) // this is main and it have to be one
         {
             InitializeComponent();
-            this.controller = controller;          
+            this.controller = controller;
             tbIngred = controller.TbIngred;
             tbAmount = controller.TbAmount;
             calc = controller.Calc;
@@ -69,10 +69,10 @@ namespace MajPAbGr_project
             }
             else
             {
-                checkBox1.Visible = false;                
+                checkBox1.Visible = false;
                 txbRecipe.Visible = false;
             }
-            
+
             FillAmountsView(); // listview
             if (mode == (Mode)1) // for edit mode
             {
@@ -83,13 +83,13 @@ namespace MajPAbGr_project
             }
             else pragma = 0;
 
-                  
+
             btn_submit.Enabled = false; // submit ingredients
-            
+
             if (mode == Mode.Edit) //1
             {
                 listView1.Columns[1].Text = "Amounts(%) new";
-                listView1.Columns[2].Text += " old";            
+                listView1.Columns[2].Text += " old";
             }
 
             this.Text += $" into '{name}' ";
@@ -103,7 +103,7 @@ namespace MajPAbGr_project
 
             /*
              * Текстовые поля: ингредиенты и рецепты
-             */ 
+             */
             cmbIngr.AutoCompleteCustomSource = AutoCompleteNames
                 (Class1.setBox(ingredients, cmbIngr));
             cmbIngr.AutoCompleteMode = AutoCompleteMode.Suggest;
@@ -114,7 +114,7 @@ namespace MajPAbGr_project
             txbRecipe.AutoCompleteMode = AutoCompleteMode.Suggest;
             txbRecipe.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
-             AutoCompleteStringCollection AutoCompleteNames(List <string> list)
+            AutoCompleteStringCollection AutoCompleteNames(List<string> list)
             {
                 AutoCompleteStringCollection source = new AutoCompleteStringCollection();
                 foreach (String el in list) source.Add(el);
@@ -130,15 +130,15 @@ namespace MajPAbGr_project
             frm.richTextBox1.Text += "\nid count: " + tbAmount.Amount_id_count + "\n";
             frm.richTextBox1.Text += tbAmount.Amount_id_count >= tbAmount.Elements_count;
             frm.richTextBox1.Text += "\nAmounts from array \'amounts\': \n";
-            
+
             if (mode == Mode.Edit)
-            { 
-                for (int k = 0; k < amounts.Length-1; k++)
+            {
+                for (int k = 0; k < amounts.Length - 1; k++)
                 {
                     frm.richTextBox1.Text += amounts[k] + " ";
                 }
             }
-                
+
             frm.richTextBox1.Text += "\n****\n";
         }
 
@@ -152,7 +152,7 @@ namespace MajPAbGr_project
             decimal_separator = nfi.NumberDecimalSeparator;
             this.Text = "Receptures " + CultureInfo.CurrentCulture +
                 " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
-            localizacijaToolStripMenuItem.Text = "US";      }
+            localizacijaToolStripMenuItem.Text = "US"; }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
@@ -180,20 +180,20 @@ namespace MajPAbGr_project
 
         private void fillAmounts()
         {
-            amounts = new double[elements.Count + 1]; 
+            amounts = new double[elements.Count + 1];
             int k;
             for (k = 0; k < amounts.Length - 1; k++)
             {
                 amounts[k] = elements[k].Amounts;
             }
-            
+
             calc.setAmounts(elements); // сохраняет и cуммирует величины
             amounts[k] = calc.getTotal();
             summa = calc.getTotal();
 
             //вывод в консоль
             frm.richTextBox1.Text += "On fillAmounts (write ingredients amounts from this elements)\n";
-            for (k = 0; k < amounts.Length-1; k++)
+            for (k = 0; k < amounts.Length - 1; k++)
             {
                 frm.richTextBox1.Text += amounts[k] + " ";
             }
@@ -217,7 +217,7 @@ namespace MajPAbGr_project
                 listView1.Items.Add(items);
             }
         }
-        
+
         private void showOldAmounts()
         {
             ListView list = listView1;
@@ -226,19 +226,19 @@ namespace MajPAbGr_project
                 list.Items[k].SubItems[2].Text = amounts[k].ToString();
             }
         }
-   
+
         private void cmbIngr_SelectedIndexChanged(object sender, EventArgs e)
         {
             tbIngred.setSelected(cmbIngr.SelectedIndex);
             cmbIngr.Text = cmbIngr.SelectedItem.ToString();
             txbAmounts.Focus();
-            if(mode == Mode.Create)
+            if (mode == Mode.Create)
                 txbAmounts.Text = "100" + decimal_separator + "0";
             else txbAmounts.Text = "";
         }
 
         private void btn_edit_Click(object sender, EventArgs e) // add an ingredient
-        {           
+        {
             if (cmbIngr.SelectedIndex == -1) return;
             if (string.IsNullOrEmpty(cmbIngr.Text)) return;
             if (string.IsNullOrEmpty(txbAmounts.Text)) return;
@@ -262,28 +262,28 @@ namespace MajPAbGr_project
                     elements.Add(el);
                 return el;
             }
-  
+
             ListViewItem items;
             int index = 0;
             if (listView1.SelectedItems.Count > 0) //proverka spiska            
             {
                 items = listView1.SelectedItems[0];
-                index = items.Index;                
+                index = items.Index;
                 items.Selected = false; // ubiraem vydelenie
 
                 //добавить в список элементов                
-                 Element el = AddElement(index);              
-                
+                Element el = AddElement(index);
+
                 ListViewItem item = new ListViewItem(el.Name);
                 item.SubItems.Add(el.Amounts.ToString());
                 item.SubItems.Add("");
                 item.Tag = el.Id;
                 if ((int)listView1.Items[index].Tag == -1)
                     index = -1;
-                listView1.Items.Insert(index+1, item);
-      
+                listView1.Items.Insert(index + 1, item);
+
                 //выделить новый
-                items = listView1.Items[index+1];
+                items = listView1.Items[index + 1];
                 items.Selected = true;
 
                 //пересчитать
@@ -293,28 +293,28 @@ namespace MajPAbGr_project
             else
             {
                 //добавить в список элементов
-                Element el = AddElement(index);                
+                Element el = AddElement(index);
 
                 ListViewItem item = new ListViewItem(el.Name);
                 item.SubItems.Add(el.Amounts.ToString());
                 item.SubItems.Add(""); // заготовка под проценты
                 item.Tag = el.Id; // id of ingredient       
-                listView1.Items.Add(item);                
+                listView1.Items.Add(item);
 
                 //выделить новый
-                items = listView1.Items[listView1.Items.Count-1];
+                items = listView1.Items[listView1.Items.Count - 1];
                 items.Selected = true;
 
                 //определить главный вид сырья
                 main_ingredient_id = el.Id;
                 toolStripStatusLabel6.Text = main_ingredient_id.ToString();
-                calc.Coefficient = 100/el.Amounts;
+                calc.Coefficient = 100 / el.Amounts;
                 listView1.Items[0].SubItems[2].Text = "100";
             }
             txbAmounts.Text = "100" + decimal_separator + "0";
             cmbIngr.Focus();
             btn_calc.Enabled = true;
-            
+
             //вывод в консоль
             frm.richTextBox1.Text += "On btn_edit click, new item added\n";
             frm.richTextBox1.Text += "records in list view count: " + (listView1.Items.Count - 1).ToString();
@@ -322,7 +322,7 @@ namespace MajPAbGr_project
             frm.richTextBox1.Text += "\nrecords in controller \'elements\' count: " + tbAmount.Elements_count;
             frm.richTextBox1.Text += "\nid count: " + tbAmount.Amount_id_count + "\n";
             frm.richTextBox1.Text += tbAmount.Amount_id_count >= tbAmount.Elements_count;
-            frm.richTextBox1.Text += "\n***\n";           
+            frm.richTextBox1.Text += "\n***\n";
         }
 
         private void button2_Click(object sender, EventArgs e) // edit listview item
@@ -344,11 +344,11 @@ namespace MajPAbGr_project
                 if (Edit() == 0)
                 {
                     btn_select.Text = "select";
-                    btn_edit.Enabled = true;                    
+                    btn_edit.Enabled = true;
                 }
                 else MessageBox.Show("Please, select any ingredient to edit!");
                 btn_remove.Enabled = true;
-            }            
+            }
         }
 
         private int SelectToEdit()
@@ -360,19 +360,19 @@ namespace MajPAbGr_project
             {
                 if (item.SubItems[0].Text == cmbIngr.Items[index].ToString())
                 {
-                    cmbIngr.SelectedIndex = index;                   
+                    cmbIngr.SelectedIndex = index;
                     cmbIngr.Text = cmbIngr.SelectedItem.ToString();
                     break;
                 }
             }
             txbAmounts.Text = item.SubItems[1].Text;
-            cmbIngr.Text = item.SubItems[0].Text;            
+            cmbIngr.Text = item.SubItems[0].Text;
             return 0;
         }
 
         private int Edit()
         {
-            if (listView1.SelectedItems.Count < 1) return -1;            
+            if (listView1.SelectedItems.Count < 1) return -1;
             ListViewItem item = listView1.SelectedItems[0];
 
             double num;
@@ -395,91 +395,60 @@ namespace MajPAbGr_project
             el.Name = (string)cmbIngr.SelectedItem;
             el.Id = (int)item.Tag;
 
-            txbAmounts.Text = "0" + decimal_separator + "0";            
+            txbAmounts.Text = "0" + decimal_separator + "0";
             return 0;
         }
 
-        private void btn_remove_Click(object sender, EventArgs e)
+        private void btn_remove_onClick()
         {
             if (listView1.Items.Count < 1) return; // proverka spiska
             if (listView1.SelectedItems.Count < 1) return;
+            if (listView1.SelectedItems[0].Index < 0) return;
 
-            reset_main = (listView1.SelectedIndices[0] == 0)
-                ? true : false;
-            int index = listView1.SelectedItems[0].Index;
+            int index, result;
 
-            //save string with sum (not needed)
-            {
-            int tag = (int)listView1.Items[index].Tag;
-            if (tag == -1) pragma = 0; //return;
-            }
-                     
             // deleting value
+            index = listView1.SelectedItems[0].Index;
             listView1.Items[index].Selected = false;
-            listView1.Items.RemoveAt(index);
-            if (index < elements.Count) 
-                elements.RemoveAt(index);
-           //отсюда годиться только для нового (?)
 
-            // new selected
-            if (listView1.Items.Count > 0)
+            result = controller.RemoveElement(index);
+
+            if (result > 0)
             {
-                if (index > 0) index--;
-                if (index < 0) index = 0;
-                listView1.Items[index].Selected = true;
+                listView1.Items.RemoveAt(index);
+                listView1.Items[result].Selected = true;
             }
             else
             {
-                btn_submit.Enabled = false;
-                mode = Mode.EditNewMain;
-                main_ingredient_id = 0;
-                set_main = false;
-            }                
-
-            //переопределить главный вид сырья            
-            if (elements.Count > 0)
-            {
-                main_ingredient_id = (int)listView1.Items[0].Tag;
-                double main_amounts = tbAmount.getElementByIndex(0).Amounts;
-                calc.Coefficient = 100 / main_amounts;
-                listView1.Items[0].SubItems[2].Text = "100";
-                toolStripStatusLabel6.Text = main_ingredient_id.ToString();
-
-                if (reset_main)
+                if (result == 0)
                 {
-                    label1.Text = "reset main ";
-                    for (int k = 1; k < elements.Count; k++)
+                    controller.RemoveMain();
+                    listView1.Items.RemoveAt(index);         
+                    
+                    if (controller.ResetMain())
                     {
-                        double new_amount = tbAmount.getElementByIndex(k).Amounts * calc.Coefficient;
-                        listView1.Items[k].SubItems[2].Text = new_amount.ToString() +
-                            " " + calc.Coefficient.ToString();
-                        label1.Text += calc.Coefficient.ToString() + " ";
+                        controller.ResetAmounts();                        
+                        for (int k = 0; k < elements.Count; k++)
+                        {
+                            double new_amount = tbAmount.getElementByIndex(k).Amounts;
+                            listView1.Items[k].SubItems[2].Text = new_amount.ToString();
+                            //label1.Text += calc.Coefficient.ToString() + " ";
+                        }
+                        listView1.Items[result].Selected = true;
+                        label1.Text = calc.Coefficient.ToString();
+                        //toolStripStatusLabel6.Text = calc.Coefficient.ToString();
                     }
-                }
-                else
-                    label1.Text = "main is not reset";
+                    else
+                    {
+                        if(listView1.Items.Count > 0)
+                            listView1.Items[index].Selected = true;
+                    }
+                }        
             }
-            else
-            {
-                if (elements.Count == 0)
-                    toolStripStatusLabel6.Text = "none";
-            }
-
-            //string with sum (old, is not needed)
-            if (listView1.Items.Count == 1 && (int)listView1.SelectedItems[0].Tag == -1)
-            {
-                btn_calc.Enabled = false;    
-            }
-                
-            //вывод в консоль
-            {  frm.richTextBox1.Text += "On btn_remove click, an item deleted\n";
-                frm.richTextBox1.Text += "records in list view count: " + (listView1.Items.Count - 1).ToString();
-                frm.richTextBox1.Text += "\nrecords in \'elements\' count: " + this.elements.Count;
-                frm.richTextBox1.Text += "\nrecords in controller \'elements\' count: " + tbAmount.Elements_count;
-                frm.richTextBox1.Text += "\nid count: " + tbAmount.Amount_id_count + "\n";
-                frm.richTextBox1.Text += tbAmount.Amount_id_count >= tbAmount.Elements_count;
-                frm.richTextBox1.Text += "\n***\n";
-            }
+    }
+        private void btn_remove_Click(object sender, EventArgs e)
+        {
+            btn_remove_onClick();            
         }
 
         /******************************************************************
