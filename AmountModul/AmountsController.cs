@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -147,8 +148,8 @@ namespace MajPAbGr_project
                 amount = elements[0].Amounts;
                 main_ingredient_id = elements[0].Id;
                 if (mode == Mode.Create)
-                    recipe = CalcFunction.calculateCoefficient(amount, 100.0);
-                calc.Coefficient = CalcFunction.calculateCoefficient(100.0, amount);
+                    recipe = CalcFunction.calculateCoefficient(amount, 100);
+                calc.Coefficient = CalcFunction.calculateCoefficient(100, amount);
                 reset_main = true;                
             }
             return true;
@@ -184,18 +185,40 @@ namespace MajPAbGr_project
 
         public List<Element> ResetAmounts() // after ResetMain()
         {
-            int k = 0;      
-            old_elements[k].Amounts = elements[k].Amounts;
-            elements[k].Amounts = 100;
-            if (elements.Count > 1)
+            const string PATH = "C:\\Users\\user\\Desktop\\ResetElements.txt";
+            int k = 0;
+            //old_elements[0].Amounts = elements[0].Amounts;
+            elements[0].Amounts = 100;
+
+            using (StreamWriter stream = new StreamWriter(PATH, true))
             {
-                for (k = 1; k < elements.Count; k++)
+                if (!File.Exists(PATH))
                 {
-                    old_elements[k].Amounts = elements[k].Amounts;
-                    double new_amount = elements[k].Amounts * calc.Coefficient;
-                    elements[k].Amounts = new_amount;
+                    File.CreateText(PATH);
+                    stream.WriteLine($"File is created: {File.GetLastWriteTime(PATH)} \n");
                 }
-            }
+                stream.WriteLine("Coefficient " + " " + calc.Coefficient.ToString());
+                stream.WriteLine(k + " " + elements[k].Name + " " + elements[k].Amounts);// + "\t" + old_elements[k].Amounts);
+                if (elements.Count > 1)
+                {
+                    for (k = 1; k < elements.Count; k++)
+                    {
+                        //old_elements[k].Amounts = elements[k].Amounts;
+                        elements[k].Amounts = elements[k].Amounts * calc.Coefficient;
+                        stream.WriteLine("\t" + (k - 1) + " " + elements[k - 1].Amounts);
+                        stream.WriteLine(k + " " + elements[k].Name + " " + elements[k].Amounts);// + "\t" + old_elements[k].Amounts);
+                    }
+
+                    stream.WriteLine("\nTest");
+                    for (k = 1; k < elements.Count; k++)
+                    {
+                        stream.WriteLine(k + " " + elements[k].Name + " " + elements[k].Amounts);
+                    }
+                    stream.WriteLine($"[Record of: {System.DateTime.Now}]\n");
+                stream.Close();
+                return elements;
+                }                     
+            }      
             return elements;
         }
     } 

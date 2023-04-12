@@ -427,10 +427,10 @@ namespace MajPAbGr_project
                     
                     if (controller.ResetMain())
                     {
-                        controller.ResetAmounts();                        
+                        elements = controller.ResetAmounts();                    
                         for (int k = 0; k < elements.Count; k++)
                         {
-                            double new_amount = tbAmount.getElementByIndex(k).Amounts;
+                            double new_amount = elements[k].Amounts;
                             listView1.Items[k].SubItems[2].Text = new_amount.ToString();
                             //label1.Text += calc.Coefficient.ToString() + " ";
                         }
@@ -616,38 +616,10 @@ namespace MajPAbGr_project
          * Подрежимы редактирования
          ***************************************************************************/
         
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (listView1.SelectedItems.Count < 1) return;          
+        private void onIndexChanged()
+        {   
+            if (listView1.SelectedItems.Count < 1) return;
             int index = listView1.SelectedItems[0].Index;
-            int tag = (int)listView1.Items[index].Tag;
-
-            if (tag > -1) //check tag to preserve row with sum in case when create mode
-            {
-                btn_select.Enabled = true;
-                btn_remove.Enabled = true;
-                btn_edit.Enabled = true;               
-            }
-            else
-            {
-                btn_select.Enabled = false;
-                btn_remove.Enabled = false;
-                //btn_edit.Enabled = false;
-                return;
-            }
-
-            if (index == 0) // check first ingredients amounts (not equil zero)
-            {
-                string text;
-                double num;
-                    
-                text = listView1.Items[index].SubItems[1].Text;
-                num = double.TryParse(text, out num) ? num : 100;
-                num = (num == 0) ? 100 : num;
-                listView1.Items[index].SubItems[1].Text = num.ToString();
-                elements[index].Amounts = num;
-            }
-
             checked
             {
                 try
@@ -678,6 +650,73 @@ namespace MajPAbGr_project
                     return;
                 }
             }
+
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            onIndexChanged();
+
+            //if (listView1.SelectedItems.Count < 1) return;          
+            //int index = listView1.SelectedItems[0].Index;
+            //int tag = (int)listView1.Items[index].Tag;
+
+            //if (tag > -1) //check tag to preserve row with sum in case when create mode
+            //{
+            //    btn_select.Enabled = true;
+            //    btn_remove.Enabled = true;
+            //    btn_edit.Enabled = true;               
+            //}
+            //else
+            //{
+            //    btn_select.Enabled = false;
+            //    btn_remove.Enabled = false;
+            //    //btn_edit.Enabled = false;
+            //    return;
+            //}
+
+            //if (index == 0) // check first ingredients amounts (not equil zero)
+            //{
+            //    string text;
+            //    double num;
+                    
+            //    text = listView1.Items[index].SubItems[1].Text;
+            //    num = double.TryParse(text, out num) ? num : 100;
+            //    num = (num == 0) ? 100 : num;
+            //    listView1.Items[index].SubItems[1].Text = num.ToString();
+            //    elements[index].Amounts = num;
+            //}
+
+            //checked
+            //{
+            //    try
+            //    {
+            //        int id; // номер выбранного элемента
+            //        Element el = tbAmount.getElementByIndex(index);
+            //        tbAmount.Selected = el.Id;
+            //        id = tbAmount.Selected;
+            //        frm.richTextBox1.Text += ">>> Selected element\n";
+            //        int k;
+            //        for (k = 0; k < ingredients.Count; k++)
+            //        {
+            //            if (ingredients[k].id == id)
+            //            {
+            //                cmbIngr.SelectedIndex = k;
+            //                frm.richTextBox1.Text += "> selected index of combo item: " + cmbIngr.SelectedIndex + "\n";
+            //                frm.richTextBox1.Text += "> selected item name: " + cmbIngr.Items[k].ToString() + "\n";
+            //            }
+            //        }
+            //        string t = string.Format("{0:f1}", el.Amounts);
+            //        //txbAmounts.Text = el.Amounts.ToString();
+            //        listView1.Focus();
+            //        frm.richTextBox1.Text += "> Selected ingredients (name, id): " + el.Name + " " + el.Id + "\n";
+            //    }
+            //    catch (ArgumentOutOfRangeException ex)
+            //    {
+            //        //throw ex;
+            //        return;
+            //    }
+            //}
 
         }
 

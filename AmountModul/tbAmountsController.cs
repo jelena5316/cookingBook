@@ -13,8 +13,7 @@ namespace MajPAbGr_project
         private List<string> amounts_id;
         private List<Element> elements; // id and name, for amounts      
         private tbReceptureController tbRec;
-
-        
+                
 
         public tbAmountsController(string table) : base(table) { } // New Recepture; create mode
 
