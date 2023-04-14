@@ -118,7 +118,7 @@ namespace MajPAbGr_project
         ****************************************************/
        
         public Mode getMode { get { return mode; } }
-        
+         
         public void SetMain(int ingr, double amount)
         {
             main_ingredient_id = ingr;
@@ -181,6 +181,16 @@ namespace MajPAbGr_project
             else
                 elements.Add(el);
             return el;
+        }
+
+        public double SetAmounts(int index)
+        { 
+            if (mode != Mode.Edit)
+                if (elements.Count == 1 || set_main)
+                  return 100.0;
+                else
+                    return elements[index].Amounts * recipe;         
+            return -1;
         }
 
         public List<Element> ResetAmounts() // after ResetMain()

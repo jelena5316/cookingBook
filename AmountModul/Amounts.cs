@@ -237,8 +237,80 @@ namespace MajPAbGr_project
             else txbAmounts.Text = "";
         }
 
+        private void btn_edit_onClick()
+        {
+            if (cmbIngr.SelectedIndex == -1) return;
+            if (string.IsNullOrEmpty(cmbIngr.Text)) return;
+            if (string.IsNullOrEmpty(txbAmounts.Text)) return;
+
+            double num;
+            if (double.TryParse(txbAmounts.Text, out num))
+                num = double.Parse(txbAmounts.Text);
+            else return;            
+
+            ListViewItem items;
+            int index = 0;
+
+            //добавить в список элементов
+            Element el = controller.AddElement(index, cmbIngr.Text, num);
+
+            if (listView1.SelectedItems.Count > 0) //proverka spiska            
+            {
+                items = listView1.SelectedItems[0];
+                index = items.Index;
+                items.Selected = false; // ubiraem vydelenie                
+
+                ListViewItem item = new ListViewItem(el.Name);
+                item.SubItems.Add(el.Amounts.ToString());
+                item.SubItems.Add("");
+                item.Tag = el.Id;
+                if ((int)listView1.Items[index].Tag == -1)
+                    index = -1;
+                listView1.Items.Insert(index + 1, item);
+
+                //выделить новый
+                items = listView1.Items[index + 1];
+                items.Selected = true;
+
+                //пересчитать
+                double koef = calc.Coefficient;
+                items.SubItems[2].Text = (el.Amounts * koef).ToString();
+            }
+            else
+            {
+                //добавить в список элементов                
+
+                ListViewItem item = new ListViewItem(el.Name);
+                item.SubItems.Add(el.Amounts.ToString());
+                item.SubItems.Add(""); // заготовка под проценты
+                item.Tag = el.Id; // id of ingredient       
+                listView1.Items.Add(item);
+
+                //выделить новый
+                items = listView1.Items[listView1.Items.Count - 1];
+                items.Selected = true;
+
+                //определить главный вид сырья
+                //controller.SetMain(el.Id, el.Amounts);
+                //double new_num;
+                //if (controller.setAmount(index) > -1)
+                //  new_num = controller.setAmount(index);
+                //else
+                //  new_num = 100;
+                // listView1.Items[0].SubItems[2].Text = new_num.ToString();
+                main_ingredient_id = el.Id;
+                toolStripStatusLabel6.Text = main_ingredient_id.ToString();
+                calc.Coefficient = 100 / el.Amounts;
+                listView1.Items[0].SubItems[2].Text = "100";
+            }
+            txbAmounts.Text = "100" + decimal_separator + "0";
+            cmbIngr.Focus();
+            btn_calc.Enabled = true;
+        }
         private void btn_edit_Click(object sender, EventArgs e) // add an ingredient
         {
+            //btn_edit_onClick();
+            
             if (cmbIngr.SelectedIndex == -1) return;
             if (string.IsNullOrEmpty(cmbIngr.Text)) return;
             if (string.IsNullOrEmpty(txbAmounts.Text)) return;
