@@ -118,15 +118,41 @@ namespace MajPAbGr_project
         ****************************************************/
        
         public Mode getMode { get { return mode; } }
-         
-        public void SetMain(int ingr, double amount)
+
+        public int SetMain(double amount, int index)
         {
-            main_ingredient_id = ingr;
-            if (mode == Mode.Create)
-                recipe = CalcFunction.calculateCoefficient(100.0, amount);
-            calc.Coefficient = CalcFunction.calculateCoefficient(amount, 100.0);
-            set_main = true;
+            if (elements.Count < 1)
+            {
+                main_ingredient_id = tbIngred.Selected;
+                if (mode == Mode.Create)
+                    recipe = CalcFunction.calculateCoefficient(100.0, amount);
+                calc.Coefficient = CalcFunction.calculateCoefficient(amount, 100.0);
+                reset_main = false;
+                set_main = true;                
+            }
+            return index+1;
+           
+            //else
+            {
+                if (set_main || reset_main) return -2;
+                else
+                {
+                    //if (index == 0)
+                    //{
+                    //    main_ingredient_id = tbIngred.Selected;
+                    //    if (mode == Mode.Create)
+                    //        recipe = CalcFunction.calculateCoefficient(100.0, amount);
+                    //    calc.Coefficient = CalcFunction.calculateCoefficient(amount, 100.0);
+                    //    reset_main = false;
+                    //    set_main = true;
+                    //    return index;
+                    //}
+                    //else
+                    //    return index;
+                }
+            }           
         }
+
 
         public void RemoveMain()
         {
@@ -183,14 +209,44 @@ namespace MajPAbGr_project
             return el;
         }
 
-        public double SetAmounts(int index)
-        { 
-            if (mode != Mode.Edit)
-                if (elements.Count == 1 || set_main)
-                  return 100.0;
+        public Element AddElement(int index_ingr, int index)
+        {
+            Element el = new Element();
+            el.Id = tbIngred.Selected;
+            el.Name = tbIngred.getName(index_ingr);            
+            
+            if (elements.Count > 0)            
+                elements.Insert(index + 1, el);
+            else
+                elements.Add(el);
+            return elements[elements.Count-1];
+        }
+
+        public double SetAmounts(double amount, Element el)
+        {             
+            if (elements.Count > 1)
+            {
+                if (mode == Mode.Edit)
+                    el.Amounts = amount; 
                 else
-                    return elements[index].Amounts * recipe;         
-            return -1;
+                    el.Amounts = amount * calc.Coefficient;
+            }
+            else
+                el.Amounts = 100.0;
+            return el.Amounts;
+
+            //if (mode != Mode.Edit)
+            //    if (elements.Count == 1 || set_main)
+            //    {
+            //        el.Amounts = 100.0;
+            //        return 100.0;
+            //    }
+            //    else
+            //    {
+            //        el.Amounts = amount * calc.Coefficient;
+            //        return el.Amounts;
+            //    }                            
+            //return -1;
         }
 
         public List<Element> ResetAmounts() // after ResetMain()

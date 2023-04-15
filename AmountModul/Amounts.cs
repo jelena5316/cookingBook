@@ -22,7 +22,7 @@ namespace MajPAbGr_project
         double[] amounts;
 
         Mode mode; //create new or edit old
-        string name; // name of recepture, for assigning this.Text when form is loading
+        string recepture_name; // name of recepture, for assigning this.Text when form is loading
 
         List<Element> elements; // id and name, for amounts
         List<Item> ingredients;
@@ -47,7 +47,7 @@ namespace MajPAbGr_project
             ingredients = controller.Ingredients;
 
             id_recepture = tbAmount.Id_recepture;
-            name = tbAmount.dbReader($"select name from Recepture where id = {id_recepture}")[0]; // for this.Text            
+            recepture_name = tbAmount.dbReader($"select name from Recepture where id = {id_recepture}")[0]; // for this.Text            
 
             this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1; // mode autodetector
             pragma = (mode == 0) ? 0 : 1;
@@ -92,7 +92,7 @@ namespace MajPAbGr_project
                 listView1.Columns[2].Text += " old";
             }
 
-            this.Text += $" into '{name}' ";
+            this.Text += $" into '{recepture_name}' ";
             CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
             nfi = CultureInfo.CurrentCulture.NumberFormat;
             decimal_separator = nfi.NumberDecimalSeparator;
@@ -239,74 +239,68 @@ namespace MajPAbGr_project
 
         private void btn_edit_onClick()
         {
-            if (cmbIngr.SelectedIndex == -1) return;
-            if (string.IsNullOrEmpty(cmbIngr.Text)) return;
-            if (string.IsNullOrEmpty(txbAmounts.Text)) return;
-
-            double num;
-            if (double.TryParse(txbAmounts.Text, out num))
-                num = double.Parse(txbAmounts.Text);
-            else return;            
-
-            ListViewItem items;
-            int index = 0;
-
-            //добавить в список элементов
-            Element el = controller.AddElement(index, cmbIngr.Text, num);
-
-            if (listView1.SelectedItems.Count > 0) //proverka spiska            
+            if (cmbIngr.SelectedIndex == -1) return;            
+            if (string.IsNullOrEmpty(txbAmounts.Text)) return;            
+            if (listView1.Items.Count > 0)
             {
-                items = listView1.SelectedItems[0];
-                index = items.Index;
-                items.Selected = false; // ubiraem vydelenie                
+                if (listView1.SelectedItems.Count < 1)
+                    return;
+            }
+  
+            int index = listView1.SelectedIndices[0],
+                index_ingr = cmbIngr.SelectedIndex,
+                new_index;
+            double amount, new_amount;
+            Element el;
+            ListViewItem item;
+            
+            if (double.TryParse(txbAmounts.Text, out amount))
+                amount = double.Parse(txbAmounts.Text);
+            else return;
 
-                ListViewItem item = new ListViewItem(el.Name);
+            //записываем в слепок с таблицы
+            new_index = controller.SetMain(amount, index);
+            el = controller.AddElement(index_ingr, index);
+            new_amount = controller.SetAmounts(amount, el);            
+            tbAmount.setSelected(new_index);
+
+            // создаём новую единицу списочного представления
+            mode = controller.getMode;
+            item = new ListViewItem(el.Name);            
+            if (mode == Mode.Edit)
                 item.SubItems.Add(el.Amounts.ToString());
-                item.SubItems.Add("");
-                item.Tag = el.Id;
-                if ((int)listView1.Items[index].Tag == -1)
-                    index = -1;
-                listView1.Items.Insert(index + 1, item);
+            else
+                item.SubItems.Add(amount.ToString());
+            item.SubItems.Add(el.Amounts.ToString());
+            item.Tag = el.Id;
 
-                //выделить новый
-                items = listView1.Items[index + 1];
-                items.Selected = true;
+            // вставляем созданную выше единицу          
+            if (new_index - listView1.Items.Count == 0)
+            {
+                //убираем выделение
+                listView1.SelectedItems[0].Selected = false;
+                    
+                //вводим в список после выбранного
+                listView1.Items.Insert(new_index, item);
 
-                //пересчитать
-                double koef = calc.Coefficient;
-                items.SubItems[2].Text = (el.Amounts * koef).ToString();
+                //выбираем новое
+                listView1.Items[new_index].Selected = true; 
             }
             else
             {
-                //добавить в список элементов                
-
-                ListViewItem item = new ListViewItem(el.Name);
-                item.SubItems.Add(el.Amounts.ToString());
-                item.SubItems.Add(""); // заготовка под проценты
-                item.Tag = el.Id; // id of ingredient       
-                listView1.Items.Add(item);
-
-                //выделить новый
-                items = listView1.Items[listView1.Items.Count - 1];
-                items.Selected = true;
-
-                //определить главный вид сырья
-                //controller.SetMain(el.Id, el.Amounts);
-                //double new_num;
-                //if (controller.setAmount(index) > -1)
-                //  new_num = controller.setAmount(index);
-                //else
-                //  new_num = 100;
-                // listView1.Items[0].SubItems[2].Text = new_num.ToString();
-                main_ingredient_id = el.Id;
-                toolStripStatusLabel6.Text = main_ingredient_id.ToString();
-                calc.Coefficient = 100 / el.Amounts;
-                listView1.Items[0].SubItems[2].Text = "100";
+                //убираем выделение
+                if (listView1.SelectedItems.Count > 0)
+                    listView1.SelectedItems[0].Selected = false;
+                
+                // добавляем в список
+                listView1.Items.Add(item);              
+ 
+                //выбираем новое
+                new_index = listView1.Items.Count - 1;                
+                listView1.Items[new_index].Selected = true;
             }
-            txbAmounts.Text = "100" + decimal_separator + "0";
-            cmbIngr.Focus();
-            btn_calc.Enabled = true;
         }
+
         private void btn_edit_Click(object sender, EventArgs e) // add an ingredient
         {
             //btn_edit_onClick();
@@ -328,8 +322,10 @@ namespace MajPAbGr_project
                 el.Name = cmbIngr.Text;
                 el.Amounts = num;
 
-                if (elements.Count > 0)
-                    elements.Insert(i + 1, el);
+                if (elements.Count > 0) 
+                    elements.Insert(5, el);
+                    //elements.Insert(i + 1, el);
+                    
                 else
                     elements.Add(el);
                 return el;
