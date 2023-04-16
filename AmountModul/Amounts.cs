@@ -241,23 +241,25 @@ namespace MajPAbGr_project
         {
             if (cmbIngr.SelectedIndex == -1) return;            
             if (string.IsNullOrEmpty(txbAmounts.Text)) return;            
-            if (listView1.Items.Count > 0)
-            {
-                if (listView1.SelectedItems.Count < 1)
-                    return;
-            }
-  
-            int index = listView1.SelectedIndices[0],
-                index_ingr = cmbIngr.SelectedIndex,
-                new_index;
+        
+            int index, index_ingr, new_index;
             double amount, new_amount;
             Element el;
             ListViewItem item;
-            
+
             if (double.TryParse(txbAmounts.Text, out amount))
                 amount = double.Parse(txbAmounts.Text);
             else return;
-
+            if (listView1.SelectedItems.Count < 1)
+            {
+                if (listView1.Items.Count > 0)
+                    index = listView1.Items.Count - 1;
+                else index = -1;
+            }
+            else
+                index = listView1.SelectedIndices[0];          
+            index_ingr = cmbIngr.SelectedIndex;         
+            
             //записываем в слепок с таблицы
             new_index = controller.SetMain(amount, index);
             el = controller.AddElement(index_ingr, index);
@@ -274,123 +276,119 @@ namespace MajPAbGr_project
             item.SubItems.Add(el.Amounts.ToString());
             item.Tag = el.Id;
 
-            // вставляем созданную выше единицу          
-            if (new_index - listView1.Items.Count == 0)
-            {
-                //убираем выделение
+            // убираем выделение
+            if (listView1.Items.Count > 0)
                 listView1.SelectedItems[0].Selected = false;
-                    
+
+            // вставляем созданную выше единицу
+            try
+            {
                 //вводим в список после выбранного
-                listView1.Items.Insert(new_index, item);
+                item = listView1.Items.Insert(new_index, item);
 
                 //выбираем новое
-                listView1.Items[new_index].Selected = true; 
+                //listView1.Items[new_index].Selected = true;
+                item.Selected = true;
             }
-            else
+            catch (ArgumentOutOfRangeException)
             {
-                //убираем выделение
-                if (listView1.SelectedItems.Count > 0)
-                    listView1.SelectedItems[0].Selected = false;
-                
                 // добавляем в список
-                listView1.Items.Add(item);              
- 
+                listView1.Items.Add(item);
+
                 //выбираем новое
-                new_index = listView1.Items.Count - 1;                
+                new_index = listView1.Items.Count - 1;
                 listView1.Items[new_index].Selected = true;
             }
         }
 
         private void btn_edit_Click(object sender, EventArgs e) // add an ingredient
         {
-            //btn_edit_onClick();
+            btn_edit_onClick();
             
-            if (cmbIngr.SelectedIndex == -1) return;
-            if (string.IsNullOrEmpty(cmbIngr.Text)) return;
-            if (string.IsNullOrEmpty(txbAmounts.Text)) return;
+            //if (cmbIngr.SelectedIndex == -1) return;
+            //if (string.IsNullOrEmpty(cmbIngr.Text)) return;
+            //if (string.IsNullOrEmpty(txbAmounts.Text)) return;
 
-            double num;
-            if (double.TryParse(txbAmounts.Text, out num))
-                num = double.Parse(txbAmounts.Text);
-            else return;
-            // see more in FormMain.cs
+            //double num;
+            //if (double.TryParse(txbAmounts.Text, out num))
+            //    num = double.Parse(txbAmounts.Text);
+            //else return;
+            //// see more in FormMain.cs
 
-            Element AddElement(int i)  //добавить в список элементов по индексу
-            {
-                Element el = new Element();
-                el.Id = tbIngred.getSelected(); // id of ingredient 
-                el.Name = cmbIngr.Text;
-                el.Amounts = num;
+            //Element AddElement(int i)  //добавить в список элементов по индексу
+            //{
+            //    Element el = new Element();
+            //    el.Id = tbIngred.getSelected(); // id of ingredient 
+            //    el.Name = cmbIngr.Text;
+            //    el.Amounts = num;
 
-                if (elements.Count > 0) 
-                    elements.Insert(5, el);
-                    //elements.Insert(i + 1, el);
-                    
-                else
-                    elements.Add(el);
-                return el;
-            }
+            //    if (elements.Count > 0)
+            //        elements.Insert(i + 1, el);
+            //    else
+            //        elements.Add(el);
+            //    return el;
+            //}
 
-            ListViewItem items;
-            int index = 0;
-            if (listView1.SelectedItems.Count > 0) //proverka spiska            
-            {
-                items = listView1.SelectedItems[0];
-                index = items.Index;
-                items.Selected = false; // ubiraem vydelenie
+            //ListViewItem items;
+            //int index = 0;
+            //if (listView1.SelectedItems.Count > 0) //proverka spiska            
+            //{
+            //    items = listView1.SelectedItems[0];
+            //    index = items.Index;
+            //    items.Selected = false; // ubiraem vydelenie
 
-                //добавить в список элементов                
-                Element el = AddElement(index);
+            //    //добавить в список элементов                
+            //    Element el = AddElement(index);
 
-                ListViewItem item = new ListViewItem(el.Name);
-                item.SubItems.Add(el.Amounts.ToString());
-                item.SubItems.Add("");
-                item.Tag = el.Id;
-                if ((int)listView1.Items[index].Tag == -1)
-                    index = -1;
-                listView1.Items.Insert(index + 1, item);
+            //    ListViewItem item = new ListViewItem(el.Name);
+            //    item.SubItems.Add(el.Amounts.ToString());
+            //    item.SubItems.Add("");
+            //    item.Tag = el.Id;
+            //    if ((int)listView1.Items[index].Tag == -1)
+            //        index = -1;
+            //    listView1.Items.Insert(index + 1, item);
 
-                //выделить новый
-                items = listView1.Items[index + 1];
-                items.Selected = true;
+            //    //выделить новый
+            //    items = listView1.Items[index + 1];
+            //    items.Selected = true;
 
-                //пересчитать
-                double koef = calc.Coefficient;
-                items.SubItems[2].Text = (el.Amounts * koef).ToString();
-            }
-            else
-            {
-                //добавить в список элементов
-                Element el = AddElement(index);
+            //    //пересчитать
+            //    double koef = calc.Coefficient;
+            //    items.SubItems[2].Text = (el.Amounts * koef).ToString();
+            //}
+            //else
+            //{
+            //    //добавить в список элементов
+            //    Element el = AddElement(index);
 
-                ListViewItem item = new ListViewItem(el.Name);
-                item.SubItems.Add(el.Amounts.ToString());
-                item.SubItems.Add(""); // заготовка под проценты
-                item.Tag = el.Id; // id of ingredient       
-                listView1.Items.Add(item);
+            //    ListViewItem item = new ListViewItem(el.Name);
+            //    item.SubItems.Add(el.Amounts.ToString());
+            //    item.SubItems.Add(""); // заготовка под проценты
+            //    item.Tag = el.Id; // id of ingredient       
+            //    listView1.Items.Add(item);
 
-                //выделить новый
-                items = listView1.Items[listView1.Items.Count - 1];
-                items.Selected = true;
+            //    //выделить новый
+            //    items = listView1.Items[listView1.Items.Count - 1];
+            //    items.Selected = true;
 
-                //определить главный вид сырья
-                main_ingredient_id = el.Id;
-                toolStripStatusLabel6.Text = main_ingredient_id.ToString();
-                calc.Coefficient = 100 / el.Amounts;
-                listView1.Items[0].SubItems[2].Text = "100";
-            }
-            txbAmounts.Text = "100" + decimal_separator + "0";
-            cmbIngr.Focus();
-            btn_calc.Enabled = true;
+            //    //определить главный вид сырья
+            //    main_ingredient_id = el.Id;
+            //    toolStripStatusLabel6.Text = main_ingredient_id.ToString();
+            //    calc.Coefficient = 100 / el.Amounts;
+            //    listView1.Items[0].SubItems[2].Text = "100";
+            //}
+            //txbAmounts.Text = "100" + decimal_separator + "0";
+            //cmbIngr.Focus();
+            //btn_calc.Enabled = true;
 
-            //вывод в консоль
-            frm.richTextBox1.Text += "On btn_edit click, new item added\n";
-            frm.richTextBox1.Text += "records in list view count: " + (listView1.Items.Count - 1).ToString();
-            frm.richTextBox1.Text += "\nrecords in \'elements\' count: " + this.elements.Count;
-            frm.richTextBox1.Text += "\nrecords in controller \'elements\' count: " + tbAmount.Elements_count;
-            frm.richTextBox1.Text += "\nid count: " + tbAmount.Amount_id_count + "\n";
-            frm.richTextBox1.Text += tbAmount.Amount_id_count >= tbAmount.Elements_count;
-            frm.richTextBox1.Text += "\n***\n";
+            ////вывод в консоль
+            //frm.richTextBox1.Text += "On btn_edit click, new item added\n";
+            //frm.richTextBox1.Text += "records in list view count: " + (listView1.Items.Count - 1).ToString();
+            //frm.richTextBox1.Text += "\nrecords in \'elements\' count: " + this.elements.Count;
+            //frm.richTextBox1.Text += "\nrecords in controller \'elements\' count: " + tbAmount.Elements_count;
+            //frm.richTextBox1.Text += "\nid count: " + tbAmount.Amount_id_count + "\n";
+            //frm.richTextBox1.Text += tbAmount.Amount_id_count >= tbAmount.Elements_count;
+            //frm.richTextBox1.Text += "\n***\n";
         }
 
         private void button2_Click(object sender, EventArgs e) // edit listview item
