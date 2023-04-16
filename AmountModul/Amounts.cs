@@ -229,12 +229,18 @@ namespace MajPAbGr_project
 
         private void cmbIngr_SelectedIndexChanged(object sender, EventArgs e)
         {
+            frm.richTextBox1.Text += ">>> Selected item (*cmbIngr)\n";
             tbIngred.setSelected(cmbIngr.SelectedIndex);
-            cmbIngr.Text = cmbIngr.SelectedItem.ToString();
+            frm.richTextBox1.Text += "> id of selected ingredient: " + tbIngred.Selected.ToString() + "\n";
+            //cmbIngr.Text = cmbIngr.SelectedItem.ToString();
             txbAmounts.Focus();
             if (mode == Mode.Create)
                 txbAmounts.Text = "100" + decimal_separator + "0";
             else txbAmounts.Text = "";
+
+            
+            frm.richTextBox1.Text += "> *selected index of combo: " + cmbIngr.SelectedIndex + "\n";
+            frm.richTextBox1.Text += "> *selected item name: " + tbIngred.getName(cmbIngr.SelectedIndex) + "\n";            
         }
 
         private void btn_edit_onClick()
@@ -264,7 +270,7 @@ namespace MajPAbGr_project
             new_index = controller.SetMain(amount, index);
             el = controller.AddElement(index_ingr, index);
             new_amount = controller.SetAmounts(amount, el);            
-            tbAmount.setSelected(new_index);
+            //tbAmount.setSelected(new_index);
 
             // создаём новую единицу списочного представления
             mode = controller.getMode;
@@ -684,8 +690,9 @@ namespace MajPAbGr_project
         
         private void onIndexChanged()
         {   
-            if (listView1.SelectedItems.Count < 1) return;
-            int index = listView1.SelectedItems[0].Index;
+            if (listView1.SelectedItems.Count < 1) return;            
+            int index = listView1.SelectedItems[0].Index;            
+            
             checked
             {
                 try
@@ -710,9 +717,8 @@ namespace MajPAbGr_project
                     listView1.Focus();
                     frm.richTextBox1.Text += "> Selected ingredients (name, id): " + el.Name + " " + el.Id + "\n";
                 }
-                catch (ArgumentOutOfRangeException ex)
-                {
-                    //throw ex;
+                catch (ArgumentOutOfRangeException)
+                {                    
                     return;
                 }
             }

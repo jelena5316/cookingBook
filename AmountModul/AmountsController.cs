@@ -215,11 +215,16 @@ namespace MajPAbGr_project
             el.Id = tbIngred.Selected;
             el.Name = tbIngred.getName(index_ingr);            
             
-            if (elements.Count > 0)            
+            if (elements.Count > 0)
+            {
                 elements.Insert(index + 1, el);
+                return elements[index + 1];
+            }
             else
+            {
                 elements.Add(el);
-            return elements[elements.Count-1];
+                return elements[elements.Count-1];
+            }
         }
 
         public double SetAmounts(double amount, Element el)
