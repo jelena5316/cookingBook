@@ -171,17 +171,19 @@ namespace MajPAbGr_project
                     print.PrintRecipe();
                     break;
                 case 1:
-                    string query, rec, tech, cards;
+                    string query, rec, tech, cards, coef;
                     query = $"select count (*) from {tb.getTable()};";
-                    rec = tb.Count(query);                    
+                    rec = tb.Count(query);                   
                     query = "select count (*) from Technology;";
                     tech = tb.Count(query);
                     query = "select count (*) from Technology_card;";
                     cards = tb.Count(query);
                     arr = new string[]
-                    { $"Recipes count {rec}",
-                        $"Technologies count {tech}",
-                        $"Technologies cards count {cards}"
+                    { 
+                        "Count of records: ",
+                        $"\trecipes: {rec}",
+                        $"\ttechnologies: {tech}",
+                        $"\ttechnologies cards: {cards}"
                     };
                     output.AddRange(arr);
                     file = "report";
