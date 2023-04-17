@@ -364,10 +364,20 @@ namespace MajPAbGr_project
 
 		private void printToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			int option = toolStripCmbPrint.SelectedIndex,
-				index = lv_recepture.SelectedItems[0].Index;
-
-			if (index < 0) option = 1;
+			int option, index;
+			option = toolStripCmbPrint.SelectedIndex;
+			index = -1;
+			
+			if (option == 0)
+            {
+				if (lv_recepture.Items.Count > 0)
+				{
+					index = lv_recepture.SelectedItems[0].Index;
+					if (index < 0) option = 1;
+				}
+				else
+					option = 1;
+            }
 			controller.Print(index, option);
 		}
 

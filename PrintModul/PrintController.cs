@@ -23,6 +23,7 @@ namespace MajPAbGr_project
             file = fname;
         }
 
+        public List<string> Strings { set { strings = value; } }
         public List<string> Info { set { info = value; } }
         public List<string> Ingredients { set { ingredients = value; } }
         public List<string> Technology { set { technology = value; } }
@@ -47,7 +48,10 @@ namespace MajPAbGr_project
             frm.Show();
         }
 
-        private void PrepareInfoOutput() { }
+        private void PrepareInfoOutput()
+        { 
+            //
+        }
 
         private void PrepareRecipeTableOutput() { }
 

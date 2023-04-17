@@ -149,7 +149,6 @@ namespace MajPAbGr_project
          * Print to file
          */
 
-
         public void Print(int index, int option)
         {
             string file = "file";
@@ -157,12 +156,13 @@ namespace MajPAbGr_project
             List<string> output = new List<string>();           
 
             if (index < 0) option = 1;
+            PrintController print; 
 
             switch (option)
             {
                 case 0:
                     file = rec_struct[index].EditorData[0];
-                    PrintController print = new PrintController(file);
+                    print = new PrintController(file);
                     print.Info = PrintInfo(index).ToList();
                     print.Ingredients = new List<string>() {PrintRecepture()};
                     print.Technology = PrintTechnology(index).ToList();
@@ -171,20 +171,33 @@ namespace MajPAbGr_project
                     print.PrintRecipe();
                     break;
                 case 1:
-                    arr = new string[] { "Recipes count ", "Technologies count", "Technologies cards count " };
+                    string query, rec, tech, cards;
+                    query = $"select count (*) from {tb.getTable()};";
+                    rec = tb.Count(query);                    
+                    query = "select count (*) from Technology;";
+                    tech = tb.Count(query);
+                    query = "select count (*) from Technology_card;";
+                    cards = tb.Count(query);
+                    arr = new string[]
+                    { $"Recipes count {rec}",
+                        $"Technologies count {tech}",
+                        $"Technologies cards count {cards}"
+                    };
                     output.AddRange(arr);
                     file = "report";
+                    print = new PrintController(file);
+                    print.Strings = output;
+                    print.PrintRecipe();
                     break;
                 default:
-                    arr = new string[] { "Home e-cooking book is apps to store and manage recipes` and technologies` collections" };
-                    output.AddRange(arr);
-                    file = "about";
+                    //arr = new string[] { "Home e-cooking book is apps to store and manage recipes` and technologies` collections" };
+                    //output.AddRange(arr);
+                    //file = "about";
                     break;
             }
             //Print frm = new Print(output, file);
             //frm.Show();
         }
-
 
         public string[] PrintInfo(int index)
         {
@@ -275,5 +288,6 @@ namespace MajPAbGr_project
             }          
             return rec;
         }
+        
     }   
 }
