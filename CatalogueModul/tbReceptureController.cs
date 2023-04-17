@@ -15,7 +15,7 @@ namespace MajPAbGr_project
 
         ReceptureStruct info;
 
-        public tbReceptureController(string table): base(table)
+        public tbReceptureController(string table) : base(table)
         {
             this.table = table;
         }
@@ -84,6 +84,21 @@ namespace MajPAbGr_project
         //    setCatalog();
         //    setData();
         //}
+
+        public string Statistic_common{
+            get {
+                query = $"select count (*) from {table}";
+                return Count(query);                 
+            }
+        }
+
+        public string Statistic_formul
+        {
+            get {
+                query = $"select count (*) from {table} where description is null";                               
+                return Count(query); ;            
+            }
+        }
 
         private bool Indicator(int id)
         {

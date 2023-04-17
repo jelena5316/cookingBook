@@ -29,6 +29,28 @@ namespace MajPAbGr_project
             used = Count(query);
         }
 
+        public string Statistic
+        {
+            get
+            {
+                query = $"select count (*) from {table}";
+                return Count(query);
+            }
+        }
+
+        public string getStatistic(int option)
+        {
+            if (opt == option)
+                return Statistic;
+            else
+            {
+                table = opt == 1 ? "Categories" : "Ingredients";
+                string t = Statistic;
+                table = opt == 1 ? "Ingredients" : "Categories";
+                return t;
+            }
+        }
+
         public override string getUsed()
         {
             return used;

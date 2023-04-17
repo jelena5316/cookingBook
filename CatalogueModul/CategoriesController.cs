@@ -171,19 +171,21 @@ namespace MajPAbGr_project
                     print.PrintRecipe();
                     break;
                 case 1:
-                    string query, rec, tech, cards, coef;
-                    query = $"select count (*) from {tb.getTable()};";
-                    rec = tb.Count(query);                   
-                    query = "select count (*) from Technology;";
-                    tech = tb.Count(query);
-                    query = "select count (*) from Technology_card;";
-                    cards = tb.Count(query);
+                    string rec, tech, cards, cat, ingr;
+                    rec = tb.Statistic_common;
+                    rec += $" (without technology: {tb.Statistic_formul})";                   
+                    tech = tbTech.getTbController().Statistic;
+                    cards = tbTech.getTbController().Statisic_cards;
+                    cat = tbCat.Statistic;
+                    ingr = tbCat.getStatistic(1);                    
                     arr = new string[]
-                    { 
-                        "Count of records: ",
+                    {
+                        "Statistic: ",
                         $"\trecipes: {rec}",
                         $"\ttechnologies: {tech}",
-                        $"\ttechnologies cards: {cards}"
+                        $"\ttechnologies cards: {cards}",
+                         $"\trecipes categories: {cat}",
+                        $"\tingredients: {ingr}"
                     };
                     output.AddRange(arr);
                     file = "report";
@@ -192,9 +194,9 @@ namespace MajPAbGr_project
                     print.PrintRecipe();
                     break;
                 default:
-                    //arr = new string[] { "Home e-cooking book is apps to store and manage recipes` and technologies` collections" };
-                    //output.AddRange(arr);
-                    //file = "about";
+                    arr = new string[] { "Home e-cooking book is apps to store and manage recipes` and technologies` collections" };
+                    output.AddRange(arr);
+                    file = "about";
                     break;
             }
             //Print frm = new Print(output, file);

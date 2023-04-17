@@ -221,7 +221,7 @@ namespace MajPAbGr_project
             // 
             this.toolStripCmbPrint.Items.AddRange(new object[] {
             "selected recipe",
-            "report about"});
+            "statistic"});
             this.toolStripCmbPrint.Name = "toolStripCmbPrint";
             this.toolStripCmbPrint.Size = new System.Drawing.Size(180, 23);
             this.toolStripCmbPrint.Text = "print_option1";

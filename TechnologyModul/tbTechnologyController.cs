@@ -20,6 +20,24 @@ namespace MajPAbGr_project
 
         public override string getUsed() { return used; }
 
+        public string Statistic
+        {
+            get
+            {
+                query = $"Select count (*) from {table};";
+                return Count(query);
+            }
+        }
+
+        public string Statisic_cards
+        {
+            get
+            {
+                query = $"select count (*) from Technology_card";
+                return Count(query);
+            }
+        }
+
         public int technologyIdByName(string name)
         {
             query = $"select id from Technology where name = '{name}';";            
