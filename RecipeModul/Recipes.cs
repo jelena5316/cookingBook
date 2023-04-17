@@ -374,46 +374,93 @@ namespace MajPAbGr_project
         //Print to file  
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string file;
+            string file, name, output = "", mesuare;
+
+            List<string> info,
+                ingredients;
+
+            info  = new List<string>();
+            ingredients = new List<string>();           
+
+            name = comboBox1.Text;
+            if (columnHeader2.Text == "Amounts (%)")
+            {
+                mesuare = "(in %)";              
+            }
+            else
+            {
+                mesuare = $" (on {cmbCoeff.SelectedItem.ToString()})";               
+            }
+
+            if (!string.IsNullOrEmpty(comboBox1.Text))
+            {
+                output = $"{name} {mesuare}";
+                info.Add(output);
+            }
+
+            if (listView1.Items.Count > 1)
+            {
+                int k = 0;
+                for (k = 0; k < listView1.Items.Count - 1; k++)
+                {
+                    output = $"{listView1.Items[k].Text} {listView1.Items[k].SubItems[1].Text}";
+                    ingredients.Add(output);
+                }
+                output = $"-----\n {listView1.Items[k].SubItems[1].Text}";
+                ingredients.Add(output);
+            }
+            else
+            {
+                output = "Ingredient amounts are unknown";
+                ingredients.Add(output);
+            }
+
             if (!string.IsNullOrEmpty(comboBox1.SelectedItem.ToString()))
                 file = comboBox1.SelectedItem.ToString();
             else file = "recipe";
-            List<string> strings = PrepareOutput();            
-            Print frm = new Print(strings, file); // method PrintToFile is a Form2 method
-            frm.Show();
-        }        
+
+            PrintController print = new PrintController(file);
+            print.Info = info;
+            print.Ingredients = ingredients;
+            print.PrepareRecipeIngredientsOutput();
+            print.PrintRecipe();                   
+        } 
+        
         private List<string> PrepareOutput()
         {
-            string name, output, mesuare, info;
+            string name, output="", mesuare, info;
             List<string> strings = new List<string>();
             name = comboBox1.Text;
             if (columnHeader2.Text == "Amounts (%)")
             {
-                mesuare = "%";
-                name += $" ({mesuare})";
-                info = $"Info: {lbl_info.Text}";
+                mesuare = "(in %)";
+               // name += $" ({mesuare})";
+                //info = $"Info: {lbl_info.Text}";
             }
             else
             {
-                mesuare = "g";
-                name += $" ({mesuare}) {cmbCoeff.SelectedItem.ToString()}";
-                info = $"Info:  {tb.getName(comboBox1.SelectedIndex)}: id {tb.getSelected()}, category ({category})\n"; ;
-            }
-
-            output = "Recipe name: ";
+               mesuare = $" (in g, \"{cmbCoeff.SelectedItem.ToString()}\")";
+               //info = $"Info:  {tb.getName(comboBox1.SelectedIndex)}: id {tb.getSelected()}, category ({category})\n"; ;
+            }           
+          
             if (!string.IsNullOrEmpty(comboBox1.Text))
             {
-                output += $"{name} \n";
+                output = $"{name} {mesuare}";                    
                 strings.Add(output);
             }
 
-            if (listView1.Items.Count > 0)
+            strings.Add("\ningredients");
+
+            if (listView1.Items.Count > 1)
             {
-                for (int k = 0; k < listView1.Items.Count; k++)
+                int k = 0;
+                for (k = 0; k < listView1.Items.Count-1; k++)
                 {
                     output = $"{listView1.Items[k].Text} {listView1.Items[k].SubItems[1].Text}";
                     strings.Add(output);
                 }
+                output = $"-----\n {listView1.Items[k].SubItems[1].Text}";
+                strings.Add(output);
             }
             else
             {
@@ -421,7 +468,7 @@ namespace MajPAbGr_project
                 strings.Add(output);
             }
 
-            strings.Add(info);
+            //strings.Add(info);
             return strings;
         }
         // konec 'print to file'

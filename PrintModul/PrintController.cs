@@ -15,9 +15,9 @@ namespace MajPAbGr_project
             info,
             ingredients,
             technology,
-            cards;
-
-
+            cards;          
+           
+  
         public PrintController(string fname)
         {
             file = fname;
@@ -45,12 +45,16 @@ namespace MajPAbGr_project
         public void PrintRecipe()
         {
             Print frm = new Print(strings, file);
-            frm.Show();
+            frm.Show();           
         }
 
-        private void PrepareInfoOutput()
-        { 
-            //
+        public void PrepareRecipeIngredientsOutput()
+        {
+            strings = new List<string>();
+            strings.Add("RECIPE");
+            strings.AddRange(info);
+            strings.Add("\nINGREDIENTS");
+            strings.AddRange(ingredients);
         }
 
         private void PrepareRecipeTableOutput() { }
