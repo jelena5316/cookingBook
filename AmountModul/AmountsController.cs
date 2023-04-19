@@ -121,12 +121,13 @@ namespace MajPAbGr_project
 
         public int SetMain(double amount, int index)
         {
+            double new_amount = 100.0;
             if (elements.Count < 1)
             {
                 main_ingredient_id = tbIngred.Selected;
                 if (mode == Mode.Create)
-                    recipe = CalcFunction.calculateCoefficient(100.0, amount);
-                calc.Coefficient = CalcFunction.calculateCoefficient(amount, 100.0);
+                    recipe = CalcFunction.calculateCoefficient (amount, new_amount); // amount, 100
+                calc.Coefficient = CalcFunction.calculateCoefficient(new_amount, amount); //100, amount
                 reset_main = false;
                 set_main = true;                
             }
@@ -167,15 +168,15 @@ namespace MajPAbGr_project
 
         public bool ResetMain() //after RemoveMain()
         {
-            double amount;
+            double amount, new_amount = 100.0;
             if (elements.Count < 1) return false;
             if (mode != Mode.Edit)
             {
                 amount = elements[0].Amounts;
                 main_ingredient_id = elements[0].Id;
                 if (mode == Mode.Create)
-                    recipe = CalcFunction.calculateCoefficient(amount, 100);
-                calc.Coefficient = CalcFunction.calculateCoefficient(100, amount);
+                    recipe = CalcFunction.calculateCoefficient(amount, new_amount); // amount, 100
+                calc.Coefficient = CalcFunction.calculateCoefficient(new_amount, amount); // 100, amount
                 reset_main = true;                
             }
             return true;

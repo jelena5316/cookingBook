@@ -211,7 +211,7 @@ namespace MajPAbGr_project
                 string t;
                 items = new ListViewItem(elements[k].Name);
                 items.Tag = elements[k].Id;
-                t = string.Format("{0:f1}", elements[k].Amounts);
+                t = string.Format("{0:f2}", elements[k].Amounts);
                 items.SubItems.Add(t);
                 items.SubItems.Add(""); // заготовка под старые величины или проценты  
                 listView1.Items.Add(items);
@@ -220,10 +220,12 @@ namespace MajPAbGr_project
 
         private void showOldAmounts()
         {
+            string t;
             ListView list = listView1;
             for (int k = 0; k < elements.Count; k++)
             {
-                list.Items[k].SubItems[2].Text = amounts[k].ToString();
+                t = string.Format("{0:f2}", amounts[k]);
+                list.Items[k].SubItems[2].Text = t;
             }
         }
 
@@ -275,16 +277,20 @@ namespace MajPAbGr_project
 
             // создаём новую единицу списочного представления
             mode = controller.getMode;
-            item = new ListViewItem(el.Name);            
+            item = new ListViewItem(el.Name);
+
+            string t = "";
             if (mode == Mode.Edit)
-                item.SubItems.Add(el.Amounts.ToString());
+                t = string.Format("{0:f2}", el.Amounts);
             else
-                item.SubItems.Add(amount.ToString());
-            item.SubItems.Add(el.Amounts.ToString());
+                t = string.Format("{0:f2}", amount);                   
+            // item.SubItems.Add(el.Amounts.ToString());
+            t = string.Format("{0:f2}", el.Amounts);
+            item.SubItems.Add(t);
             item.Tag = el.Id;
 
             // убираем выделение
-            if (listView1.SelectedItems.Count > 0)                
+            if (listView1.SelectedItems.Count > 0)               
                 listView1.SelectedItems[0].Selected = false;            
                 
 
