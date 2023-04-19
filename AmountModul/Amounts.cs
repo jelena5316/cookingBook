@@ -256,6 +256,7 @@ namespace MajPAbGr_project
             if (double.TryParse(txbAmounts.Text, out amount))
                 amount = double.Parse(txbAmounts.Text);
             else return;
+
             if (listView1.SelectedItems.Count < 1)
             {
                 if (listView1.Items.Count > 0)
@@ -263,7 +264,7 @@ namespace MajPAbGr_project
                 else index = -1;
             }
             else
-                index = listView1.SelectedIndices[0];          
+                index = listView1.SelectedItems[0].Index;         
             index_ingr = cmbIngr.SelectedIndex;         
             
             //записываем в слепок с таблицы
@@ -283,8 +284,9 @@ namespace MajPAbGr_project
             item.Tag = el.Id;
 
             // убираем выделение
-            if (listView1.Items.Count > 0)
-                listView1.SelectedItems[0].Selected = false;
+            if (listView1.SelectedItems.Count > 0)                
+                listView1.SelectedItems[0].Selected = false;            
+                
 
             // вставляем созданную выше единицу
             try
