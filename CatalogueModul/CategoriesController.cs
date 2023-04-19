@@ -227,17 +227,16 @@ namespace MajPAbGr_project
 
             id_technology = ReceptureStruct[index].getIds()[1];
 
-
-            if (id_technology < 0)
+            if (id_technology < 1)
                 return new string[] { "has no tehnology" };
             else
             {
                 tehn = new TechnologyController(id_technology);
                 tehn.setReceptures();
+                //arr = tehn.getFullInfo();
+                arr = tehn.OutTechnology(id_technology);
+                return arr;
             }
-            //arr = tehn.getFullInfo();
-            arr = tehn.OutTechnology(id_technology);
-            return arr;
         }
 
         public string[] PrintCards(int index)

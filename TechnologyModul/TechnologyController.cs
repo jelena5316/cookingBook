@@ -147,7 +147,11 @@ namespace MajPAbGr_project
 			List<string> list = new List<string>();			
 
 			list.Add(tb.Selected.ToString());
-			list.AddRange(OutTechnology(tb.Selected));
+
+			if (tb.Selected > 0)
+            {
+				list.AddRange(OutTechnology(tb.Selected));
+			}			
 
 			List<string> chain;
 			tbTechnologyCardsController tbCards;
