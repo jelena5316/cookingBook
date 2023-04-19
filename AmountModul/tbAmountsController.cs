@@ -103,12 +103,15 @@ namespace MajPAbGr_project
             }
             else ind = 0;
 
+            elements_count = elements.Count;
             string UpdateAmountQuery(Columns column, string value, string id_recepture)=>
              $"update {table} set {column.ToString()} = '{value}' where id = {id_recepture};";
 
-            if (amount_id_count >= elements_count)//amount_count >= element_count
+             
+            if (amount_id_count >= elements_count) // новый список сырья меньше или равен изначальному
             {
                 frm.richTextBox1.Text += "\n***\nUpdating db\n";
+               
                 for (k = 0; k < elements_count; k++)
                 {
                     query = UpdateAmountQuery(Columns.id_ingredients, elements[k].Id.ToString(), amounts_id[k]);
@@ -118,7 +121,7 @@ namespace MajPAbGr_project
                     ind+= Edit(query);
                     frm.richTextBox1.Text += ind / 2 + "th records, where id " + amounts_id[k] + "\n";
                 }
-                if (amount_id_count - elements_count > 0)//amount_count - element_count > 0
+                if (amount_id_count - elements_count > 0) // список сырья меньше изначального
                 {
                     //удаляем лишнее
                     frm.richTextBox1.Text += "\n***\nDeleting from db\n";
@@ -130,8 +133,9 @@ namespace MajPAbGr_project
                     }
                 }
             }
-            else
+            else // список сырья больше изначального или таковым и является
             {
+                // больше изначального, обнавляем изначальное
                 frm.richTextBox1.Text += "\n***\nUpdating db\n";
                 for (k = 0; k < amount_id_count; k++)
                 {
@@ -143,6 +147,7 @@ namespace MajPAbGr_project
                     frm.richTextBox1.Text += ind / 2 + "th records, where id " + amounts_id[k] + "\n";
                 }
 
+                // являлся изначальным, вводим
                 frm.richTextBox1.Text += "\n***\nInserting into db\n";
                 for (int q = k; q < elements_count; q++)
                 {
@@ -156,9 +161,11 @@ namespace MajPAbGr_project
 
                     // вносим номера в список номеров в контроллере
                     amounts_id.Add(id);
+                   
 
                     frm.richTextBox1.Text += "last insert records id " + id + ", where ingredients id " + elements[q].Id.ToString() + "\n";
                 }
+                amount_id_count = amounts_id.Count;
                 frm.richTextBox1.Text += "records are " + amounts_id.Count + "\n";
             }
             return ind;

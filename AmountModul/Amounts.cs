@@ -84,7 +84,7 @@ namespace MajPAbGr_project
             else pragma = 0;
 
 
-            btn_submit.Enabled = false; // submit ingredients
+            //btn_submit.Enabled = false; // submit ingredients
 
             if (mode == Mode.Edit) //1
             {
@@ -647,27 +647,27 @@ namespace MajPAbGr_project
 
         private void button4_Click(object sender, EventArgs e) // submit
         {
-            //int ind = 0;
+            int ind = 0;          
             //if (string.IsNullOrEmpty(listView1.Items[0].SubItems[1].Text)) return;
+            
+            ind = tbAmount.updateRecords(ref frm);
+            
+            if (mode == Mode.Create)
+            {                
+                if (ind == 0) MessageBox.Show("All amounts are inserted");
+                else MessageBox.Show($"{ind} from {listView1.Items.Count} are inserted");
+                mode = Mode.Edit;               
+            }
+            else
+            {
+                MessageBox.Show("Updated " + ind.ToString());                
+            }
 
-            //if (mode == Mode.Edit)
-            //{
-            //    ind = tbAmount.updateRecords(ref frm);
-            //    MessageBox.Show("Updated" + ind.ToString());
-            //}
-            //else
-            //{
-            //    ind = tbAmount.updateRecords(ref frm);
-            //    if (ind == 0) MessageBox.Show("All amounts are inserted");
-            //    else MessageBox.Show($"{ind} from {listView1.Items.Count} are inserted");
-            //    mode = Mode.Edit;
-            //}
-            //// забираю в обработчик Обновления (полоса меню)
-
-            //if (checkBox1.Checked && !string.IsNullOrEmpty(txbRecipe.Text))
-            //{
-            //    saveRecipe();
-            //}
+            // забираю в обработчик Обновления (полоса меню)
+            if (checkBox1.Checked && !string.IsNullOrEmpty(txbRecipe.Text))
+            {
+                saveRecipe();
+            }
         }
        
         public void saveRecipe()
