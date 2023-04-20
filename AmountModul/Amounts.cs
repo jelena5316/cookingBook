@@ -13,6 +13,8 @@ namespace MajPAbGr_project
         readonly int id_recepture; //для ввода рецепта (коэфициента) к расчитанной из него рецептуре
         readonly CalcBase calcBase = CalcBase.Main;
 
+        private int digits_after = 2;
+        
         private int pragma = 0; // for create mode
 
         private int main_ingredient_id;
@@ -283,8 +285,9 @@ namespace MajPAbGr_project
             if (mode == Mode.Edit)
                 t = string.Format("{0:f2}", el.Amounts);
             else
-                t = string.Format("{0:f2}", amount);                   
+                t = string.Format("{0:f2}", amount);
             // item.SubItems.Add(el.Amounts.ToString());
+            item.SubItems.Add(t);
             t = string.Format("{0:f2}", el.Amounts);
             item.SubItems.Add(t);
             item.Tag = el.Id;
@@ -684,6 +687,7 @@ namespace MajPAbGr_project
             double coefficient = calc.Coefficient;
             tbRecipeController tb = new tbRecipeController("Recipe");
             tb.Selected = id_recepture;
+            tb.Recepture = id_recepture;
 
             if (string.IsNullOrEmpty(txbRecipe.Text)) return;
             if (coefficient != 0)
@@ -822,7 +826,7 @@ namespace MajPAbGr_project
                 txbRecipe.Enabled = true;
             }
         }
-
+       
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
             List<string[]> lv = new List<string[]>();
