@@ -32,15 +32,11 @@ namespace MajPAbGr_project
             this.btn_submit = new System.Windows.Forms.Button();
             this.txbRecipe = new System.Windows.Forms.TextBox();
             this.txbAmounts = new System.Windows.Forms.TextBox();
-            this.btn_calc = new System.Windows.Forms.Button();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btn_remove = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btn_select = new System.Windows.Forms.Button();
             this.btn_edit = new System.Windows.Forms.Button();
             this.cmbIngr = new System.Windows.Forms.ComboBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -50,59 +46,54 @@ namespace MajPAbGr_project
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.localizacijaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.btn_test = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_submit
             // 
-            this.btn_submit.Location = new System.Drawing.Point(802, 477);
+            this.btn_submit.Location = new System.Drawing.Point(837, 229);
             this.btn_submit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_submit.Name = "btn_submit";
-            this.btn_submit.Size = new System.Drawing.Size(118, 48);
+            this.btn_submit.Size = new System.Drawing.Size(91, 40);
             this.btn_submit.TabIndex = 2;
-            this.btn_submit.Text = "Refresh DB";
+            this.btn_submit.Text = "Submit";
             this.btn_submit.UseVisualStyleBackColor = true;
             this.btn_submit.Click += new System.EventHandler(this.button4_Click);
             // 
             // txbRecipe
             // 
-            this.txbRecipe.Location = new System.Drawing.Point(525, 369);
+            this.txbRecipe.Location = new System.Drawing.Point(515, 236);
             this.txbRecipe.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txbRecipe.Name = "txbRecipe";
-            this.txbRecipe.Size = new System.Drawing.Size(264, 26);
+            this.txbRecipe.Size = new System.Drawing.Size(238, 26);
             this.txbRecipe.TabIndex = 0;
-            this.txbRecipe.Text = "Recipe name";
             // 
             // txbAmounts
             // 
             this.txbAmounts.Location = new System.Drawing.Point(258, 31);
             this.txbAmounts.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txbAmounts.Name = "txbAmounts";
-            this.txbAmounts.Size = new System.Drawing.Size(79, 26);
+            this.txbAmounts.Size = new System.Drawing.Size(56, 26);
             this.txbAmounts.TabIndex = 1;
             this.txbAmounts.Text = "100";
-            // 
-            // btn_calc
-            // 
-            this.btn_calc.Location = new System.Drawing.Point(294, 157);
-            this.btn_calc.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btn_calc.Name = "btn_calc";
-            this.btn_calc.Size = new System.Drawing.Size(128, 48);
-            this.btn_calc.TabIndex = 5;
-            this.btn_calc.Text = "Calculate";
-            this.btn_calc.UseVisualStyleBackColor = true;
-            this.btn_calc.Click += new System.EventHandler(this.button3_Click);
             // 
             // listView1
             // 
@@ -113,15 +104,14 @@ namespace MajPAbGr_project
             this.columnHeader3});
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(18, 72);
+            this.listView1.Location = new System.Drawing.Point(11, 60);
             this.listView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(472, 436);
+            this.listView1.Size = new System.Drawing.Size(472, 406);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
-            this.listView1.DoubleClick += new System.EventHandler(this.button2_Click);
             // 
             // columnHeader1
             // 
@@ -131,16 +121,16 @@ namespace MajPAbGr_project
             // columnHeader2
             // 
             this.columnHeader2.Text = "Amounts (g)";
-            this.columnHeader2.Width = 87;
+            this.columnHeader2.Width = 126;
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "Amounts (%)";
-            this.columnHeader3.Width = 89;
+            this.columnHeader3.Width = 127;
             // 
             // btn_remove
             // 
-            this.btn_remove.Location = new System.Drawing.Point(9, 115);
+            this.btn_remove.Location = new System.Drawing.Point(313, 73);
             this.btn_remove.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_remove.Name = "btn_remove";
             this.btn_remove.Size = new System.Drawing.Size(93, 35);
@@ -149,47 +139,9 @@ namespace MajPAbGr_project
             this.btn_remove.UseVisualStyleBackColor = true;
             this.btn_remove.Click += new System.EventHandler(this.btn_remove_Click);
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.btn_select);
-            this.groupBox1.Controls.Add(this.txbAmounts);
-            this.groupBox1.Controls.Add(this.btn_remove);
-            this.groupBox1.Controls.Add(this.btn_edit);
-            this.groupBox1.Controls.Add(this.cmbIngr);
-            this.groupBox1.Controls.Add(this.btn_calc);
-            this.groupBox1.Location = new System.Drawing.Point(525, 72);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox1.Size = new System.Drawing.Size(430, 228);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Ingredients";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(109, 122);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 20);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "label1";
-            // 
-            // btn_select
-            // 
-            this.btn_select.Location = new System.Drawing.Point(9, 71);
-            this.btn_select.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btn_select.Name = "btn_select";
-            this.btn_select.Size = new System.Drawing.Size(93, 35);
-            this.btn_select.TabIndex = 3;
-            this.btn_select.Text = "select";
-            this.btn_select.UseVisualStyleBackColor = true;
-            this.btn_select.Click += new System.EventHandler(this.button2_Click);
-            // 
             // btn_edit
             // 
-            this.btn_edit.Location = new System.Drawing.Point(348, 29);
+            this.btn_edit.Location = new System.Drawing.Point(331, 26);
             this.btn_edit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_edit.Name = "btn_edit";
             this.btn_edit.Size = new System.Drawing.Size(75, 37);
@@ -217,11 +169,12 @@ namespace MajPAbGr_project
             this.toolStripStatusLabel3,
             this.toolStripStatusLabel4,
             this.toolStripStatusLabel5,
-            this.toolStripStatusLabel6});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 590);
+            this.toolStripStatusLabel6,
+            this.toolStripStatusLabel7});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 484);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(974, 24);
+            this.statusStrip1.Size = new System.Drawing.Size(964, 24);
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -263,22 +216,25 @@ namespace MajPAbGr_project
             this.toolStripStatusLabel6.Size = new System.Drawing.Size(34, 19);
             this.toolStripStatusLabel6.Text = "none";
             // 
+            // toolStripStatusLabel7
+            // 
+            this.toolStripStatusLabel7.Name = "toolStripStatusLabel7";
+            this.toolStripStatusLabel7.Size = new System.Drawing.Size(30, 19);
+            this.toolStripStatusLabel7.Text = "koef";
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.localizacijaToolStripMenuItem,
-            this.refreshToolStripMenuItem,
-            this.printToolStripMenuItem});
+            this.localizacijaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
-            this.menuStrip1.Size = new System.Drawing.Size(974, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(964, 25);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // localizacijaToolStripMenuItem
             // 
-            this.localizacijaToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.localizacijaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
             this.toolStripMenuItem2,
@@ -290,67 +246,136 @@ namespace MajPAbGr_project
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(89, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem1.Text = "US";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(89, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem2.Text = "LV";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(89, 22);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem3.Text = "RU";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
-            // refreshToolStripMenuItem
+            // groupBox1
             // 
-            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(58, 19);
-            this.refreshToolStripMenuItem.Text = "Refresh";
-            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.txbAmounts);
+            this.groupBox1.Controls.Add(this.btn_remove);
+            this.groupBox1.Controls.Add(this.btn_edit);
+            this.groupBox1.Controls.Add(this.cmbIngr);
+            this.groupBox1.Location = new System.Drawing.Point(506, 60);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox1.Size = new System.Drawing.Size(430, 128);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Ingredients";
             // 
-            // printToolStripMenuItem
+            // label9
             // 
-            this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(44, 19);
-            this.printToolStripMenuItem.Text = "Print";
-            this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(14, 88);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(60, 20);
+            this.label9.TabIndex = 14;
+            this.label9.Text = "Reload";
+            this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
-            // checkBox1
+            // label1
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(525, 334);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(111, 24);
-            this.checkBox1.TabIndex = 6;
-            this.checkBox1.Text = "Save recipe";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(520, 211);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(113, 20);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Save as recipe";
             // 
-            // btn_test
+            // label2
             // 
-            this.btn_test.Location = new System.Drawing.Point(616, 473);
-            this.btn_test.Name = "btn_test";
-            this.btn_test.Size = new System.Drawing.Size(123, 35);
-            this.btn_test.TabIndex = 7;
-            this.btn_test.Text = "For Test";
-            this.btn_test.UseVisualStyleBackColor = true;
-            this.btn_test.Click += new System.EventHandler(this.btn_test_Click);
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(511, 317);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(43, 20);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "main";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(582, 317);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(70, 20);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "name_id";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(511, 355);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(52, 20);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "recipe";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(582, 355);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(18, 20);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "1";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(511, 398);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(40, 20);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "coef";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(582, 398);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(18, 20);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "1";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(22, 35);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(103, 20);
+            this.label8.TabIndex = 13;
+            this.label8.Text = "Recipe name";
             // 
             // InsertAmounts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(974, 614);
-            this.Controls.Add(this.btn_test);
-            this.Controls.Add(this.checkBox1);
+            this.ClientSize = new System.Drawing.Size(964, 508);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btn_submit);
             this.Controls.Add(this.menuStrip1);
@@ -365,12 +390,12 @@ namespace MajPAbGr_project
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "InsertAmounts";
             this.Load += new System.EventHandler(this.InsertAmounts_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -381,16 +406,13 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Button btn_submit;
         private System.Windows.Forms.TextBox txbRecipe;
         private System.Windows.Forms.TextBox txbAmounts;
-        private System.Windows.Forms.Button btn_calc;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.Button btn_remove;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btn_edit;
         private System.Windows.Forms.ComboBox cmbIngr;
-        private System.Windows.Forms.Button btn_select;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
@@ -401,12 +423,18 @@ namespace MajPAbGr_project
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
-        private System.Windows.Forms.Button btn_test;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel6;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel7;
+        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
     }
 }
