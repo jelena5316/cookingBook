@@ -31,6 +31,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.box = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // textBox1
@@ -63,6 +64,15 @@
             this.button2.Text = "fill new table";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
+            //
+            // box
+            //
+            this.box.Location = new System.Drawing.Point(300, 174);
+            this.box.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.box.Name = "cmbViews";
+            this.box.TabIndex = 4;
+            this.box.Size = new System.Drawing.Size(150, 15);
+            this.box.SelectedIndexChanged += new System.EventHandler(this.box_ChangeIndex);
             // 
             // EditDB
             // 
@@ -72,6 +82,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.box);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "EditDB";
@@ -86,5 +97,8 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ComboBox box;
+
+
     }
 }

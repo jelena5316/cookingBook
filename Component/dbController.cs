@@ -19,8 +19,8 @@ namespace MajPAbGr_project
 
         public dbController ()
         {
-            connectionString ="Data Source = C:\\Users\\user\\Documents\\SQLiteStudio\\CookingBook; Mode=ReadWrite";
-                //"Data Source = C:\\Users\\user\\source\\repos\\MajPavGr_project\\CookingBook; Mode=ReadWrite";
+            connectionString = "Data Source = C:\\Users\\user\\source\\repos\\MajPavGr_project\\CookingBook; Mode=ReadWrite";
+            //"Data Source = C:\\Users\\user\\Documents\\SQLiteStudio\\CookingBook; Mode=ReadWrite";
             connection = new SqliteConnection(connectionString);
         }
 
@@ -132,6 +132,35 @@ namespace MajPAbGr_project
                 connection.Close();
             }
             return cards;
+        }
+
+        public List<String> dbReadView(string query)
+        {
+            List<String> view_data = new List<String>();
+            using (connection)
+            {
+                command = new SqliteCommand(query, connection);
+                connection.Open();
+                using (reader = command.ExecuteReader())
+                {
+                    string data = "";                    
+                    if (reader.HasRows)
+                    {                        
+                        while (reader.Read())
+                        {
+                            data += reader.GetValue(0).ToString();
+                            for (int k = 1; k < reader.FieldCount; k++)
+                            {
+                                data += "*" + reader.GetValue(k).ToString();
+                            }                           
+                            view_data.Add(data);
+                            data = "";
+                        }
+                    }
+                }
+                connection.Close();
+            }
+            return view_data;
         }
 
         public int Edit(string query)
