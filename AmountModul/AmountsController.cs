@@ -10,9 +10,9 @@ namespace MajPAbGr_project
     public class AmountsController
     {
         bool set_main, reset_main;
-        int selected_rec, main_ingredient_id;
+        int selected_rec, main_ingredient_id=0;
         Mode mode;
-        double summa, recipe;
+        double summa, recipe = 1;
         string recipe_name;
         tbAmountsController tbAmount;
         tbIngredientsController tbIngred;
@@ -119,6 +119,24 @@ namespace MajPAbGr_project
        
         public Mode getMode { get { return mode; } }
 
+        public double Recipe { get { return recipe; } }
+
+        public string Main { get
+            {
+                if (main_ingredient_id > 0)
+                {
+                    string t = tbIngred.dbReader($"select name from {tbIngred.getTable()} where id = {main_ingredient_id}")[0];
+                    if (t != "")
+                        return $"{t} (id {main_ingredient_id})";
+                    else
+                        return "none";
+                }
+                else
+                    return "none";
+
+            }
+        }
+
         public int SetMain(double amount, int index)
         {
             double new_amount = 100.0;
@@ -166,9 +184,9 @@ namespace MajPAbGr_project
                 mode = Mode.EditNewMain;
         }
 
-        public bool ResetMain() //after RemoveMain()
+        public bool ResetMain(double amount) //after RemoveMain()
         {
-            double amount, new_amount = 100.0;
+            double new_amount = 100.0;
             if (elements.Count < 1) return false;
             if (mode != Mode.Edit)
             {

@@ -10,14 +10,9 @@ namespace MajPAbGr_project
 {
     public partial class InsertAmounts : Form
     {
-        readonly int id_recepture; //для ввода рецепта (коэфициента) к расчитанной из него рецептуре
-        //readonly CalcBase calcBase = CalcBase.Main;
-        
+        readonly int id_recepture; //для ввода рецепта (коэфициента) к расчитанной из него рецептуре       
         private int pragma = 0; // for create mode
-
-       // private int main_ingredient_id;
-        //bool set_main = false,
-            //reset_main = false;
+       
         double summa = 0;
         double[] amounts;
 
@@ -265,9 +260,7 @@ namespace MajPAbGr_project
             //записываем в слепок с таблицы
             new_index = controller.SetMain(amount, index);
             el = controller.AddElement(index_ingr, index);
-            new_amount = controller.SetAmounts(amount, el);
-
-            //toolStripStatusLabel7.Text = controller.Calc.Coefficient.ToString();     
+            new_amount = controller.SetAmounts(amount, el);              
 
             // создаём новую единицу списочного представления
             mode = controller.getMode;
@@ -313,6 +306,12 @@ namespace MajPAbGr_project
         private void btn_edit_Click(object sender, EventArgs e) // add an ingredient
         {
             btn_edit_onClick();
+
+            // выводим данные: коэффициенты, главный ингредиент
+            lblCoef.Text = string.Format("{0:f2}", controller.Calc.Coefficient);
+            lblRecipe.Text = string.Format("{0:f2}", controller.Recipe);
+            lblMain.Text = controller.Main;
+            //toolStripStatusLabel7.Text = controller.Calc.Coefficient.ToString();
         }
 
         private void btn_remove_onClick()
@@ -323,9 +322,12 @@ namespace MajPAbGr_project
 
             int index, result;
 
+            double coef = controller.Calc.Coefficient;
+            double recipe = controller.Recipe;            
+
             // deleting value
             index = listView1.SelectedItems[0].Index;
-            listView1.Items[index].Selected = false;
+            listView1.Items[index].Selected = false;           
 
             result = controller.RemoveElement(index);
 
@@ -338,32 +340,43 @@ namespace MajPAbGr_project
             {
                 if (result == 0)
                 {
-                    controller.RemoveMain();
-                    listView1.Items.RemoveAt(index);         
-                    
-                    if (controller.ResetMain())
+                    listView1.Items.RemoveAt(index);
+                    if (listView1.Items.Count > result)
+                        listView1.Items[result].Selected = true;
+
+                    if (index == 0)
                     {
-                        elements = controller.ResetAmounts();                    
-                        for (int k = 0; k < elements.Count; k++)
+                        double amount = 0.0;
+                        controller.RemoveMain();
+                        if (controller.Elements.Count > index+1)
+                            amount = double.Parse(listView1.Items[index + 1].SubItems[1].Text);
+                        if (amount > 0.0)
                         {
-                            double new_amount = elements[k].Amounts;
-                            listView1.Items[k].SubItems[2].Text = new_amount.ToString();
-                            //label1.Text += calc.Coefficient.ToString() + " ";
+                            if (controller.ResetMain(amount))
+                            {
+                                elements = controller.ResetAmounts();                    
+                                for (int k = 0; k < elements.Count; k++)
+                                {
+                                    double new_amount = elements[k].Amounts;
+                                    listView1.Items[k].SubItems[2].Text = new_amount.ToString();
+                                }                        
+                            }
+                        }                   
+                        else
+                        {
+                            if(listView1.Items.Count > 0)
+                                listView1.Items[0].Selected = true;
                         }
-                        listView1.Items[result].Selected = true;                       
-                        //toolStripStatusLabel6.Text = calc.Coefficient.ToString();
-                    }
-                    else
-                    {
-                        if(listView1.Items.Count > 0)
-                            listView1.Items[index].Selected = true;
                     }
                 }        
             }
     }
         private void btn_remove_Click(object sender, EventArgs e)
         {
-            btn_remove_onClick();            
+            btn_remove_onClick();
+            lblCoef.Text = string.Format("{0:f2}", controller.Calc.Coefficient);
+            lblRecipe.Text = string.Format("{0:f2}", controller.Recipe);
+            lblMain.Text = controller.Main;
         }
 
         /*************************************************************************
@@ -453,73 +466,6 @@ namespace MajPAbGr_project
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             onIndexChanged();
-
-            //if (listView1.SelectedItems.Count < 1) return;          
-            //int index = listView1.SelectedItems[0].Index;
-            //int tag = (int)listView1.Items[index].Tag;
-
-            //if (tag > -1) //check tag to preserve row with sum in case when create mode
-            //{
-            //    btn_select.Enabled = true;
-            //    btn_remove.Enabled = true;
-            //    btn_edit.Enabled = true;               
-            //}
-            //else
-            //{
-            //    btn_select.Enabled = false;
-            //    btn_remove.Enabled = false;
-            //    //btn_edit.Enabled = false;
-            //    return;
-            //}
-
-            //if (index == 0) // check first ingredients amounts (not equil zero)
-            //{
-            //    string text;
-            //    double num;
-                    
-            //    text = listView1.Items[index].SubItems[1].Text;
-            //    num = double.TryParse(text, out num) ? num : 100;
-            //    num = (num == 0) ? 100 : num;
-            //    listView1.Items[index].SubItems[1].Text = num.ToString();
-            //    elements[index].Amounts = num;
-            //}
-
-            //checked
-            //{
-            //    try
-            //    {
-            //        int id; // номер выбранного элемента
-            //        Element el = tbAmount.getElementByIndex(index);
-            //        tbAmount.Selected = el.Id;
-            //        id = tbAmount.Selected;
-            //        frm.richTextBox1.Text += ">>> Selected element\n";
-            //        int k;
-            //        for (k = 0; k < ingredients.Count; k++)
-            //        {
-            //            if (ingredients[k].id == id)
-            //            {
-            //                cmbIngr.SelectedIndex = k;
-            //                frm.richTextBox1.Text += "> selected index of combo item: " + cmbIngr.SelectedIndex + "\n";
-            //                frm.richTextBox1.Text += "> selected item name: " + cmbIngr.Items[k].ToString() + "\n";
-            //            }
-            //        }
-            //        string t = string.Format("{0:f1}", el.Amounts);
-            //        //txbAmounts.Text = el.Amounts.ToString();
-            //        listView1.Focus();
-            //        frm.richTextBox1.Text += "> Selected ingredients (name, id): " + el.Name + " " + el.Id + "\n";
-            //    }
-            //    catch (ArgumentOutOfRangeException ex)
-            //    {
-            //        //throw ex;
-            //        return;
-            //    }
-            //}
-
-        }
-
-        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-           
         }
 
         private void label9_Click(object sender, EventArgs e)
@@ -535,7 +481,6 @@ namespace MajPAbGr_project
             FillAmountsView(); // listview
             showOldAmounts(); // for edit mode                              
             btn_submit.Enabled = false;
-        }
-
+        }        
     }
 }

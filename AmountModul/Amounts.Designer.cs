@@ -56,11 +56,11 @@ namespace MajPAbGr_project
             this.label9 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblMain = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblRecipe = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.lblCoef = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -121,7 +121,7 @@ namespace MajPAbGr_project
             // columnHeader2
             // 
             this.columnHeader2.Text = "Amounts (g)";
-            this.columnHeader2.Width = 126;
+            this.columnHeader2.Width = 136;
             // 
             // columnHeader3
             // 
@@ -130,7 +130,7 @@ namespace MajPAbGr_project
             // 
             // btn_remove
             // 
-            this.btn_remove.Location = new System.Drawing.Point(313, 73);
+            this.btn_remove.Location = new System.Drawing.Point(9, 67);
             this.btn_remove.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_remove.Name = "btn_remove";
             this.btn_remove.Size = new System.Drawing.Size(93, 35);
@@ -246,21 +246,21 @@ namespace MajPAbGr_project
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(89, 22);
             this.toolStripMenuItem1.Text = "US";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(89, 22);
             this.toolStripMenuItem2.Text = "LV";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(89, 22);
             this.toolStripMenuItem3.Text = "RU";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
@@ -284,7 +284,7 @@ namespace MajPAbGr_project
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(14, 88);
+            this.label9.Location = new System.Drawing.Point(362, 103);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(60, 20);
             this.label9.TabIndex = 14;
@@ -309,14 +309,14 @@ namespace MajPAbGr_project
             this.label2.TabIndex = 7;
             this.label2.Text = "main";
             // 
-            // label3
+            // lblMain
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(582, 317);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(70, 20);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "name_id";
+            this.lblMain.AutoSize = true;
+            this.lblMain.Location = new System.Drawing.Point(582, 317);
+            this.lblMain.Name = "lblMain";
+            this.lblMain.Size = new System.Drawing.Size(70, 20);
+            this.lblMain.TabIndex = 8;
+            this.lblMain.Text = "name_id";
             // 
             // label4
             // 
@@ -327,14 +327,14 @@ namespace MajPAbGr_project
             this.label4.TabIndex = 9;
             this.label4.Text = "recipe";
             // 
-            // label5
+            // lblRecipe
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(582, 355);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(18, 20);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "1";
+            this.lblRecipe.AutoSize = true;
+            this.lblRecipe.Location = new System.Drawing.Point(582, 355);
+            this.lblRecipe.Name = "lblRecipe";
+            this.lblRecipe.Size = new System.Drawing.Size(18, 20);
+            this.lblRecipe.TabIndex = 10;
+            this.lblRecipe.Text = "1";
             // 
             // label6
             // 
@@ -345,14 +345,14 @@ namespace MajPAbGr_project
             this.label6.TabIndex = 11;
             this.label6.Text = "coef";
             // 
-            // label7
+            // lblCoef
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(582, 398);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(18, 20);
-            this.label7.TabIndex = 12;
-            this.label7.Text = "1";
+            this.lblCoef.AutoSize = true;
+            this.lblCoef.Location = new System.Drawing.Point(582, 398);
+            this.lblCoef.Name = "lblCoef";
+            this.lblCoef.Size = new System.Drawing.Size(18, 20);
+            this.lblCoef.TabIndex = 12;
+            this.lblCoef.Text = "1";
             // 
             // label8
             // 
@@ -369,11 +369,11 @@ namespace MajPAbGr_project
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(964, 508);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.lblCoef);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.lblRecipe);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblMain);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.statusStrip1);
@@ -429,11 +429,11 @@ namespace MajPAbGr_project
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblMain;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblRecipe;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblCoef;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
     }
