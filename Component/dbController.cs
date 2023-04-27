@@ -64,12 +64,7 @@ namespace MajPAbGr_project
                     {
                         while (reader.Read())
                         {
-                            var name = reader.GetValue(0);
-                            //if (reader.FieldCount > 1)
-                            //{
-                            //    for(int k = 0; k < reader.FieldCount; k++)
-                            //    name += " " + reader.GetValue(k);
-                            //}
+                            var name = reader.GetValue(0);                           
                             list.Add(name.ToString());
                         }
                     }   
