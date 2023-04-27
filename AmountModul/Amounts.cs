@@ -66,7 +66,7 @@ namespace MajPAbGr_project
             if (mode == (Mode)1) // for edit mode
             {
                 fillAmounts();
-                toolStripStatusLabel2.Text = summa.ToString();
+                //toolStripStatusLabel2.Text = summa.ToString();
                 showOldAmounts();
                 pragma = 1;
             }
@@ -81,11 +81,12 @@ namespace MajPAbGr_project
                 listView1.Columns[2].Text += " old";
             }
 
-            this.Text += $" into '{recepture_name}' ";
+            //this.Text += $" into '{recepture_name}' ";
+            label8.Text = recepture_name;
             CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
             nfi = CultureInfo.CurrentCulture.NumberFormat;
             decimal_separator = nfi.NumberDecimalSeparator;
-            this.Text += " " + CultureInfo.CurrentCulture +
+            label8.Text += " " + CultureInfo.CurrentCulture +
                 " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
             txbAmounts.Text = "100" + decimal_separator + "0";
 
