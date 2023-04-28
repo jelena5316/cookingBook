@@ -357,6 +357,16 @@ namespace MajPAbGr_project
                         {
                             if (controller.ResetMain(amount))
                             {
+                                for (int k = 1; k < listView1.Items.Count; k++)
+                                {
+                                    double num;
+                                    if (double.TryParse(listView1.Items[k].SubItems[1].Text, out num))
+                                    {
+                                        num = double.Parse(listView1.Items[k].SubItems[1].Text);
+                                    }
+                                    else num = 0;
+                                    controller.Elements[k].Amounts = num;
+                                }
                                 elements = controller.ResetAmounts();                    
                                 for (int k = 0; k < elements.Count; k++)
                                 {
