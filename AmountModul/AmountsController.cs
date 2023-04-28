@@ -62,6 +62,16 @@ namespace MajPAbGr_project
 
         public List<Element> Elements { get { return elements; } }
 
+        public void RefreshElements()
+        {
+            if (mode == Mode.Create) return;
+            if (elements != null )
+                elements.Clear();
+            tbAmount.RefreshElements();
+            elements = tbAmount.getElements();
+            mode = Mode.Edit;
+        }
+
         public List<Element> Old { get { return old_elements; } }
 
         public List<string> Formated
@@ -190,7 +200,7 @@ namespace MajPAbGr_project
             if (elements.Count < 1) return false;
             if (mode != Mode.Edit)
             {
-                amount = elements[0].Amounts;
+                //amount = elements[0].Amounts;
                 main_ingredient_id = elements[0].Id;
                 if (mode == Mode.Create)
                     recipe = CalcFunction.calculateCoefficient(amount, new_amount); // amount, 100
