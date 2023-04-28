@@ -11,7 +11,7 @@ namespace MajPAbGr_project
     public partial class InsertAmounts : Form
     {
         readonly int id_recepture; //для ввода рецепта (коэфициента) к расчитанной из него рецептуре       
-        private int pragma = 0; // for create mode
+        //private int pragma = 0; // for create mode
        
         double summa = 0;
         double[] amounts;
@@ -44,8 +44,8 @@ namespace MajPAbGr_project
             id_recepture = tbAmount.Id_recepture;
             recepture_name = tbAmount.dbReader($"select name from Recepture where id = {id_recepture}")[0]; // for this.Text            
 
-            this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1; // mode autodetector
-            pragma = (mode == 0) ? 0 : 1;
+            //this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1; // mode autodetector
+            mode = controller.getMode;
         }
 
         public CalcFunction Calc
@@ -56,10 +56,10 @@ namespace MajPAbGr_project
 
         private void InsertAmounts_Load(object sender, EventArgs e)
         {
-            if (mode == Mode.Create)                          
-                txbRecipe.Enabled = true;            
+            if (mode == Mode.Create)           
+                txbRecipe.Enabled = true;                            
             else                          
-                txbRecipe.Visible = false;
+                txbRecipe.Enabled = false;
            
 
             FillAmountsView(); // listview
@@ -68,9 +68,9 @@ namespace MajPAbGr_project
                 fillAmounts();
                 //toolStripStatusLabel2.Text = summa.ToString();
                 showOldAmounts();
-                pragma = 1;
+             //   pragma = 1;
             }
-            else pragma = 0;
+           // else pragma = 0;
 
 
             //btn_submit.Enabled = false; // submit ingredients
@@ -83,7 +83,8 @@ namespace MajPAbGr_project
 
             //this.Text += $" into '{recepture_name}' ";
             label8.Text = recepture_name;
-            CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
+            CultureInfo.CurrentCulture = new CultureInfo("us-US");
+            localizacijaToolStripMenuItem.Text = "US";
             nfi = CultureInfo.CurrentCulture.NumberFormat;
             decimal_separator = nfi.NumberDecimalSeparator;
             label8.Text += " " + CultureInfo.CurrentCulture +
@@ -112,24 +113,24 @@ namespace MajPAbGr_project
             }
 
             // эмулятор консоли, выводит метаданные           
-            frm.Show();
-            frm.richTextBox1.Text = "On Load: \n";
-            frm.richTextBox1.Text += this.Text + " ";
-            frm.richTextBox1.Text += this.mode == Mode.Create ? "crete mode" : "edit mode";
-            frm.richTextBox1.Text += "\nelements count: " + tbAmount.Elements_count;
-            frm.richTextBox1.Text += "\nid count: " + tbAmount.Amount_id_count + "\n";
-            frm.richTextBox1.Text += tbAmount.Amount_id_count >= tbAmount.Elements_count;
-            frm.richTextBox1.Text += "\nAmounts from array \'amounts\': \n";
+            //frm.Show();
+            //frm.richTextBox1.Text = "On Load: \n";
+            //frm.richTextBox1.Text += this.Text + " ";
+            //frm.richTextBox1.Text += this.mode == Mode.Create ? "crete mode" : "edit mode";
+            //frm.richTextBox1.Text += "\nelements count: " + tbAmount.Elements_count;
+            //frm.richTextBox1.Text += "\nid count: " + tbAmount.Amount_id_count + "\n";
+            //frm.richTextBox1.Text += tbAmount.Amount_id_count >= tbAmount.Elements_count;
+            //frm.richTextBox1.Text += "\nAmounts from array \'amounts\': \n";
 
-            if (mode == Mode.Edit)
-            {
-                for (int k = 0; k < amounts.Length - 1; k++)
-                {
-                    frm.richTextBox1.Text += amounts[k] + " ";
-                }
-            }
+            //if (mode == Mode.Edit)
+            //{
+            //    for (int k = 0; k < amounts.Length - 1; k++)
+            //    {
+            //        frm.richTextBox1.Text += amounts[k] + " ";
+            //    }
+            //}
 
-            frm.richTextBox1.Text += "\n****\n";
+            //frm.richTextBox1.Text += "\n****\n";
         }
 
         /*
@@ -142,7 +143,8 @@ namespace MajPAbGr_project
             decimal_separator = nfi.NumberDecimalSeparator;
             this.Text = "Receptures " + CultureInfo.CurrentCulture +
                 " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
-            localizacijaToolStripMenuItem.Text = "US"; }
+            localizacijaToolStripMenuItem.Text = "US";
+        }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
@@ -182,11 +184,11 @@ namespace MajPAbGr_project
             summa = calc.getTotal();
 
             //вывод в консоль
-            frm.richTextBox1.Text += "On fillAmounts (write ingredients amounts from this elements)\n";
-            for (k = 0; k < amounts.Length - 1; k++)
-            {
-                frm.richTextBox1.Text += amounts[k] + " ";
-            }
+            //frm.richTextBox1.Text += "On fillAmounts (write ingredients amounts from this elements)\n";
+            //for (k = 0; k < amounts.Length - 1; k++)
+            //{
+            //    frm.richTextBox1.Text += amounts[k] + " ";
+            //}
         }
 
         private void FillAmountsView()
@@ -228,10 +230,10 @@ namespace MajPAbGr_project
                 txbAmounts.Text = "100" + decimal_separator + "0";
             else txbAmounts.Text = "";
 
-            frm.richTextBox1.Text += ">>> Selected item (*cmbIngr)\n";
-            frm.richTextBox1.Text += "> id of selected ingredient: " + tbIngred.Selected.ToString() + "\n";
-            frm.richTextBox1.Text += "> *selected index of combo: " + cmbIngr.SelectedIndex + "\n";
-            frm.richTextBox1.Text += "> *selected item name: " + tbIngred.getName(cmbIngr.SelectedIndex) + "\n";            
+            //frm.richTextBox1.Text += ">>> Selected item (*cmbIngr)\n";
+            //frm.richTextBox1.Text += "> id of selected ingredient: " + tbIngred.Selected.ToString() + "\n";
+            //frm.richTextBox1.Text += "> *selected index of combo: " + cmbIngr.SelectedIndex + "\n";
+            //frm.richTextBox1.Text += "> *selected item name: " + tbIngred.getName(cmbIngr.SelectedIndex) + "\n";            
         }
 
         private void btn_edit_onClick()
@@ -348,9 +350,9 @@ namespace MajPAbGr_project
                     if (index == 0)
                     {
                         double amount = 0.0;
-                        controller.RemoveMain();
-                        if (controller.Elements.Count > index+1)
-                            amount = double.Parse(listView1.Items[index + 1].SubItems[1].Text);
+                        controller.RemoveMain();                       
+                        if (controller.Elements.Count > 0 && listView1.Items.Count > 0)
+                            amount = double.Parse(listView1.Items[0].SubItems[1].Text);
                         if (amount > 0.0)
                         {
                             if (controller.ResetMain(amount))
@@ -359,15 +361,16 @@ namespace MajPAbGr_project
                                 for (int k = 0; k < elements.Count; k++)
                                 {
                                     double new_amount = elements[k].Amounts;
-                                    listView1.Items[k].SubItems[2].Text = new_amount.ToString();
+                                    listView1.Items[k].SubItems[2].Text = string.Format("{0:f2}", new_amount);
                                 }                        
                             }
                         }                   
                         else
                         {
-                            if(listView1.Items.Count > 0)
-                                listView1.Items[0].Selected = true;
+                            if (listView1.Items.Count > 0)
+                                listView1.Items[0].Selected = true;                                
                         }
+                        mode = controller.getMode; // reload mode value from controller, because it may be changed there
                     }
                 }        
             }
@@ -411,7 +414,7 @@ namespace MajPAbGr_project
         public void saveRecipe()
         {
             int ind;
-            double coefficient = calc.Coefficient;
+            double coefficient = controller.Recipe;
             tbRecipeController tb = new tbRecipeController("Recipe");
             tb.Selected = id_recepture;
             tb.Recepture = id_recepture;
@@ -440,21 +443,21 @@ namespace MajPAbGr_project
                     Element el = tbAmount.getElementByIndex(index);
                     tbAmount.Selected = el.Id;
                     id = tbAmount.Selected;
-                    frm.richTextBox1.Text += ">>> Selected element\n";
+                    //frm.richTextBox1.Text += ">>> Selected element\n";
                     int k;
                     for (k = 0; k < ingredients.Count; k++)
                     {
                         if (ingredients[k].id == id)
                         {
                             cmbIngr.SelectedIndex = k;
-                            frm.richTextBox1.Text += "> selected index of combo item: " + cmbIngr.SelectedIndex + "\n";
-                            frm.richTextBox1.Text += "> selected item name: " + cmbIngr.Items[k].ToString() + "\n";
+                            //frm.richTextBox1.Text += "> selected index of combo item: " + cmbIngr.SelectedIndex + "\n";
+                            //frm.richTextBox1.Text += "> selected item name: " + cmbIngr.Items[k].ToString() + "\n";
                         }
                     }
                     string t = string.Format("{0:f1}", el.Amounts);
                     //txbAmounts.Text = el.Amounts.ToString();
                     listView1.Focus();
-                    frm.richTextBox1.Text += "> Selected ingredients (name, id): " + el.Name + " " + el.Id + "\n";
+                    //frm.richTextBox1.Text += "> Selected ingredients (name, id): " + el.Name + " " + el.Id + "\n";
                 }
                 catch (ArgumentOutOfRangeException)
                 {                    
@@ -471,17 +474,25 @@ namespace MajPAbGr_project
 
         private void label9_Click(object sender, EventArgs e)
         {
-            Refresh();
+            Refresh();            
+            fillAmounts();
+            FillAmountsView(); // listview            
+            showOldAmounts(); // for edit mode
+            if (listView1.Items.Count > 0)
+                listView1.Items[0].Selected = true;
+            lblMain.Text = "none";
+            lblRecipe.Text = "0";
+            lblCoef.Text = "1";
+
+            //btn_submit.Enabled = false;
         }
 
         private new void Refresh()
         {
-            tbAmount.RefreshElements();
-            elements = tbAmount.getElements();
-            fillAmounts();
-            FillAmountsView(); // listview
-            showOldAmounts(); // for edit mode                              
-            btn_submit.Enabled = false;
+            if (controller.getMode == (Mode).0) return;            
+            controller.RefreshElements();
+            mode = controller.getMode;
+            elements = controller.Elements;
         }        
     }
 }
