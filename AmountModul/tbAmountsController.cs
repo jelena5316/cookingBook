@@ -101,7 +101,11 @@ namespace MajPAbGr_project
                 if (ind == 0) return -1;
                 else ind = 0;
             }
-            else ind = 0;
+            else
+            {
+                ind = 0;
+            }
+                
 
             elements_count = elements.Count;
             string UpdateAmountQuery(Columns column, string value, string id_recepture)=>
@@ -117,9 +121,16 @@ namespace MajPAbGr_project
                     query = UpdateAmountQuery(Columns.id_ingredients, elements[k].Id.ToString(), amounts_id[k]);
                     ind = Edit(query);
                     amount = calc.ColonToPoint(elements[k].Amounts.ToString());
-                    query = UpdateAmountQuery(Columns.amount, amount, amounts_id[k]);
-                    ind+= Edit(query);
-                    frm.richTextBox1.Text += ind / 2 + "th records, where id " + amounts_id[k] + "\n";
+                    try
+                    {
+                        query = UpdateAmountQuery(Columns.amount, amount, amounts_id[k]);
+                        ind+= Edit(query);
+                        frm.richTextBox1.Text += ind / 2 + "th records, where id " + amounts_id[k] + "\n";
+                    }
+                    catch
+                    {
+                        continue;
+                    }                    
                 }
                 if (amount_id_count - elements_count > 0) // список сырья меньше изначального
                 {
@@ -128,8 +139,18 @@ namespace MajPAbGr_project
                     for (int q = k; q < amount_id_count; q++)
                     {
                         query = $"delete from Amounts where id = {amounts_id[q]};";
-                        int rezult = Edit(query);
-                        frm.richTextBox1.Text += rezult + " records, where id " + amounts_id[q] + "\n";
+                        int rezult = 0;
+                        try
+                        {
+                            rezult = Edit(query);
+                            if (rezult > 0)
+                                ind++;
+                            frm.richTextBox1.Text += rezult + " records, where id " + amounts_id[q] + "\n";
+                        }
+                        catch
+                        {
+                            continue;
+                        }
                     }
                 }
             }
@@ -157,13 +178,19 @@ namespace MajPAbGr_project
                         $"{Columns.id_ingredients.ToString()}, {Columns.amount.ToString()})" +
                         $"values ({id_recepture}, {elements[q].Id.ToString()}, {amount});"+
                         "select last_insert_rowid();";
-                    string id = Count(query);
-
-                    // вносим номера в список номеров в контроллере
-                    amounts_id.Add(id);
-                   
-
-                    frm.richTextBox1.Text += "last insert records id " + id + ", where ingredients id " + elements[q].Id.ToString() + "\n";
+                    string id="0";
+                    try
+                    {
+                        id = Count(query);
+                        ind++;
+                        // вносим номера в список номеров в контроллере
+                        amounts_id.Add(id);
+                        frm.richTextBox1.Text += "last insert records id " + id + ", where ingredients id " + elements[q].Id.ToString() + "\n";
+                    }
+                    catch
+                    {
+                        continue;
+                    }    
                 }
                 amount_id_count = amounts_id.Count;
                 frm.richTextBox1.Text += "records are " + amounts_id.Count + "\n";

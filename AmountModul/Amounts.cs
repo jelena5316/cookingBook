@@ -404,21 +404,40 @@ namespace MajPAbGr_project
             ind = tbAmount.updateRecords(ref frm);
             
             if (mode == Mode.Create)
-            {                
-                if (ind == 0) MessageBox.Show("All amounts are inserted");
-                else MessageBox.Show($"{ind} from {listView1.Items.Count} are inserted");
+            {
+                if (ind == elements.Count)
+                    MessageBox.Show("All amounts are inserted");
+                else
+                {
+                    if (ind > 0)
+                        MessageBox.Show($"{ind} from {elements.Count} are inserted");
+                    else
+                    {
+                        if (ind > -1)
+                            MessageBox.Show("Sorry! Nothing is inserted!");
+                        else
+                            MessageBox.Show("Formulation has no main ingredients!");
+                    }
+                }                    
                 mode = Mode.Edit;               
             }
             else
             {
-                MessageBox.Show("Updated " + ind.ToString());                
+                int test = tbAmount.Amount_id_count > elements.Count ? tbAmount.Amount_id_count : elements.Count;
+                if (ind == test)
+                    MessageBox.Show("Changes are succeful saved");
+                else
+                {
+                    if (ind > 0)
+                        MessageBox.Show($"{ind} from {elements.Count} are changed");
+                    else
+                        MessageBox.Show("Sorry! Nothing is changed");
+                }                   
             }
-
-            // забираю в обработчик Обновления (полоса меню)
             if (!string.IsNullOrEmpty(txbRecipe.Text))
             {
                 saveRecipe();
-            }
+            }            
         }
        
         public void saveRecipe()
