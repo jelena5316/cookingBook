@@ -360,6 +360,30 @@ namespace MajPAbGr_project
             }
             return ind;           
         }
+
+        public int saveRecipe(string name)
+        {
+            int ind = 0;
+            double coefficient = Recipe;
+            tbRecipeController tb = new tbRecipeController("Recipe");
+            tb.Selected = selected_rec;
+            tb.Recepture = selected_rec;
+
+            if (coefficient != 0)
+            {
+                string coeff = calc.ColonToPoint(coefficient.ToString());
+                try
+                {
+                    ind = tb.insertNewRecipe(name, coeff);
+                }
+                catch
+                {
+                    ind = -1;
+                }
+            }
+            ind--;
+            return ind;
+        }
     } 
 }
 

@@ -179,8 +179,10 @@ namespace MajPAbGr_project
                         {
                             continue;
                         }
-                    }
-                    if (rezult != q-k) ind = -1;  
+                    }                    
+                    ind += rezult;
+                    if (rezult != q - k)
+                        ind = -1;
                 }
             }
             else // список сырья больше изначального или таковым и является

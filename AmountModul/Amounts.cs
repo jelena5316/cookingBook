@@ -417,7 +417,6 @@ namespace MajPAbGr_project
                 }                   
                 ind = 0;                
                 {
-                    //ind = tbAmount.UpdateMain();
                     ind = controller.UpdateMain();
                     switch (ind)
                     {
@@ -433,15 +432,15 @@ namespace MajPAbGr_project
                 ind = 0;
                     if (!string.IsNullOrEmpty(txbRecipe.Text))
                     {
-                        ind = saveRecipe(txbRecipe.Text);
+                        ind = controller.saveRecipe(txbRecipe.Text);
                         if (ind < 0)
-                            MessageBox.Show($"Recipe {txbRecipe.Text} does not saved");
+                            MessageBox.Show($"Recipe \'{txbRecipe.Text}\' does not saved");
                     }
                              
             }
             else
             {
-                int test = tbAmount.Amount_id_count < elements.Count ? tbAmount.Amount_id_count : elements.Count;
+                int test = tbAmount.Amount_id_count > elements.Count ? tbAmount.Amount_id_count : elements.Count;
                 if (ind > 0)
                 {
                     if (ind == test)
@@ -450,17 +449,24 @@ namespace MajPAbGr_project
                     }
                     else
                     {
-                        MessageBox.Show($"{ind} from {elements.Count} are changed");
+                        MessageBox.Show($"{ind} from {test} are changed");
                     }
-                } 
+                }
                 else
                 {
-                   MessageBox.Show("Sorry! Nothing is changed");
+                    if (ind > -1)
+                    {
+                        if (test > 1)
+                            MessageBox.Show("Sorry! Something goes wrong!");                                                 
+                    }
+                    else
+                    {
+                        MessageBox.Show("Something does not changed");  
+                    }                
                 }
 
                 ind = 0;
-                {
-                    //ind = tbAmount.UpdateMain();
+                {                    
                     ind = controller.UpdateMain();
                     switch (ind)
                     {
@@ -477,29 +483,6 @@ namespace MajPAbGr_project
             this.Dispose();
         }
 
-        public int saveRecipe(string name)
-        {
-            int ind = 0;
-            double coefficient = controller.Recipe;
-            tbRecipeController tb = new tbRecipeController("Recipe");
-            tb.Selected = id_recepture;
-            tb.Recepture = id_recepture;
-           
-            if (coefficient != 0)
-            {
-                string coeff = calc.ColonToPoint(coefficient.ToString());
-                try
-                {
-                    ind = tb.insertNewRecipe(name, coeff);
-                }
-                catch
-                {
-                    ind = -1;
-                }  
-            }
-            ind--;
-            return ind;
-        }
         /****************************************************************************
          * Подрежимы редактирования
          ***************************************************************************/
