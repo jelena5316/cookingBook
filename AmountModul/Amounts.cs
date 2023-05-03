@@ -417,7 +417,8 @@ namespace MajPAbGr_project
                 }                   
                 ind = 0;                
                 {
-                    ind = tbAmount.UpdateMain();
+                    //ind = tbAmount.UpdateMain();
+                    ind = controller.UpdateMain();
                     switch (ind)
                     {
                         case -1:
@@ -440,7 +441,7 @@ namespace MajPAbGr_project
             }
             else
             {
-                int test = tbAmount.Amount_id_count > elements.Count ? tbAmount.Amount_id_count : elements.Count;
+                int test = tbAmount.Amount_id_count < elements.Count ? tbAmount.Amount_id_count : elements.Count;
                 if (ind > 0)
                 {
                     if (ind == test)
@@ -459,7 +460,8 @@ namespace MajPAbGr_project
 
                 ind = 0;
                 {
-                    ind = tbAmount.UpdateMain();
+                    //ind = tbAmount.UpdateMain();
+                    ind = controller.UpdateMain();
                     switch (ind)
                     {
                         case -1:

@@ -35,10 +35,12 @@ namespace MajPAbGr_project
 
             tbIngred = new tbIngredientsController(1);
             tbIngred.setCatalog();
-            ingredients = tbIngred.getCatalog();
+            ingredients = tbIngred.getCatalog();            
 
             this.mode = (elements.Count < 1) ? Mode.Create : Mode.Edit;
             // mode autodetector
+
+            main_ingredient_id = (elements.Count < 1) ? 0 : elements[0].Id;
         }
 
         public ReceptureStruct Info
@@ -320,6 +322,43 @@ namespace MajPAbGr_project
                 }                     
             }      
             return elements;
+        }
+
+        public int UpdateMain()
+        {
+            //writting main ingredient id into table Recepture
+            int ind = 0;
+            tbController tb = new tbController("Recepture");           
+
+            if (selected_rec > 0 && main_ingredient_id > 0)
+            {
+                try
+                {
+                    ind = tb.UpdateReceptureOrCards("id_main", main_ingredient_id.ToString(), selected_rec); // Recepture
+                }
+                catch
+                {
+                    return -2;
+                }
+            }
+            else
+            {
+                if (selected_rec > 0)
+                {
+                    string main = null;
+                    try
+                    {
+                        ind = tb.UpdateReceptureOrCards("id_main", main, selected_rec); // Recepture
+                    }
+                    catch
+                    {
+                        return -2;
+                    }
+                }
+                else
+                    ind--;
+            }
+            return ind;           
         }
     } 
 }

@@ -143,36 +143,44 @@ namespace MajPAbGr_project
                 for (k = 0; k < elements_count; k++)
                 {
                     query = UpdateAmountQuery(Columns.id_ingredients, elements[k].Id.ToString(), amounts_id[k]);
-                    ind = Edit(query);
-                    amount = calc.ColonToPoint(elements[k].Amounts.ToString());
                     try
                     {
-                        query = UpdateAmountQuery(Columns.amount, amount, amounts_id[k]);
-                        ind+= Edit(query);
+                        ind += Edit(query);                        
                     }
                     catch
                     {
+                        continue;
+                    }
+
+                    amount = calc.ColonToPoint(elements[k].Amounts.ToString());                       
+                    query = UpdateAmountQuery(Columns.amount, amount, amounts_id[k]);
+                    try
+                    {      
+                        Edit(query);
+                    }
+                    catch
+                    {
+                        ind--;
                         continue;
                     }                    
                 }
                 if (amount_id_count - elements_count > 0) // список сырья меньше изначального
                 {
                     //удаляем лишнее                   
-                    for (int q = k; q < amount_id_count; q++)
+                    int rezult = 0, q = 0;
+                    for (q = k; q < amount_id_count; q++)
                     {
-                        query = $"delete from Amounts where id = {amounts_id[q]};";
-                        int rezult = 0;
+                        query = $"delete from Amounts where id = {amounts_id[q]};";                        
                         try
                         {
-                            rezult = Edit(query);
-                            if (rezult > 0)
-                                ind++;                            
+                            rezult += Edit(query);                                                      
                         }
                         catch
                         {
                             continue;
                         }
                     }
+                    if (rezult != q-k) ind = -1;  
                 }
             }
             else // список сырья больше изначального или таковым и является
