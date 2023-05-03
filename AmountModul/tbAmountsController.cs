@@ -87,35 +87,59 @@ namespace MajPAbGr_project
             return amounts_id;
         }
 
-        public int updateRecords(ref Print frm)
+        public int UpdateMain()
         {
-            int k, ind = 0;
-            string query, amount;           
-            CalcFunction calc = new CalcFunction();
-
             //writting main ingredient id into table Recepture
+            int ind = 0;
+            tbController tb = new tbController("Recepture");
+            
             if (elements.Count > 0 && id_recepture > 0)
             {
-                tbController tb = new tbController("Recepture");
-                ind = tb.UpdateReceptureOrCards("id_main", elements[0].Id.ToString(), id_recepture); // Recepture
-                if (ind == 0) return -1;
-                else ind = 0;
+                try
+                {
+                    ind = tb.UpdateReceptureOrCards("id_main", elements[0].Id.ToString(), id_recepture); // Recepture
+                }
+                catch
+                {
+                    return -2;
+                }              
             }
             else
             {
-                ind = 0;
+                if (id_recepture > 0)
+                {
+                    string main = null;
+                    try
+                    {
+                        ind = tb.UpdateReceptureOrCards("id_main", main, id_recepture); // Recepture                        
+                    }
+                    catch
+                    {
+                        return -2;
+                    }
+                    ind = 0;
+                }
+                else
+                {
+                    ind = -1;                    
+                } 
             }
-                
-
+            return ind;
+        }
+        
+        public int updateRecords()
+        {
+            int k, ind = 0;
+            string query, amount;           
+            CalcFunction calc = new CalcFunction();            
             elements_count = elements.Count;
+
             string UpdateAmountQuery(Columns column, string value, string id_recepture)=>
              $"update {table} set {column.ToString()} = '{value}' where id = {id_recepture};";
 
              
             if (amount_id_count >= elements_count) // новый список сырья меньше или равен изначальному
-            {
-                frm.richTextBox1.Text += "\n***\nUpdating db\n";
-               
+            {        
                 for (k = 0; k < elements_count; k++)
                 {
                     query = UpdateAmountQuery(Columns.id_ingredients, elements[k].Id.ToString(), amounts_id[k]);
@@ -125,7 +149,6 @@ namespace MajPAbGr_project
                     {
                         query = UpdateAmountQuery(Columns.amount, amount, amounts_id[k]);
                         ind+= Edit(query);
-                        frm.richTextBox1.Text += ind / 2 + "th records, where id " + amounts_id[k] + "\n";
                     }
                     catch
                     {
@@ -134,8 +157,7 @@ namespace MajPAbGr_project
                 }
                 if (amount_id_count - elements_count > 0) // список сырья меньше изначального
                 {
-                    //удаляем лишнее
-                    frm.richTextBox1.Text += "\n***\nDeleting from db\n";
+                    //удаляем лишнее                   
                     for (int q = k; q < amount_id_count; q++)
                     {
                         query = $"delete from Amounts where id = {amounts_id[q]};";
@@ -144,8 +166,7 @@ namespace MajPAbGr_project
                         {
                             rezult = Edit(query);
                             if (rezult > 0)
-                                ind++;
-                            frm.richTextBox1.Text += rezult + " records, where id " + amounts_id[q] + "\n";
+                                ind++;                            
                         }
                         catch
                         {
@@ -156,20 +177,17 @@ namespace MajPAbGr_project
             }
             else // список сырья больше изначального или таковым и является
             {
-                // больше изначального, обнавляем изначальное
-                frm.richTextBox1.Text += "\n***\nUpdating db\n";
+                // больше изначального, обнавляем изначальное               
                 for (k = 0; k < amount_id_count; k++)
                 {
                     query = UpdateAmountQuery(Columns.id_ingredients, elements[k].Id.ToString(), amounts_id[k]);
                     ind = Edit(query);
                     amount = calc.ColonToPoint(elements[k].Amounts.ToString());
                     query = UpdateAmountQuery(Columns.amount, amount, amounts_id[k]);
-                    ind += Edit(query);
-                    frm.richTextBox1.Text += ind / 2 + "th records, where id " + amounts_id[k] + "\n";
+                    ind += Edit(query);                    
                 }
 
                 // являлся изначальным, вводим
-                frm.richTextBox1.Text += "\n***\nInserting into db\n";
                 for (int q = k; q < elements_count; q++)
                 {
                     // дописывает недостающее и получаем номера                    
@@ -184,16 +202,14 @@ namespace MajPAbGr_project
                         id = Count(query);
                         ind++;
                         // вносим номера в список номеров в контроллере
-                        amounts_id.Add(id);
-                        frm.richTextBox1.Text += "last insert records id " + id + ", where ingredients id " + elements[q].Id.ToString() + "\n";
+                        amounts_id.Add(id);                        
                     }
                     catch
                     {
                         continue;
                     }    
                 }
-                amount_id_count = amounts_id.Count;
-                frm.richTextBox1.Text += "records are " + amounts_id.Count + "\n";
+                amount_id_count = amounts_id.Count;                
             }
             return ind;
         }

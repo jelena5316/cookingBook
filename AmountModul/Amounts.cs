@@ -398,10 +398,9 @@ namespace MajPAbGr_project
          *************************************************************************/
         private void button4_Click(object sender, EventArgs e) // submit
         {
-            int ind = 0;          
-            //if (string.IsNullOrEmpty(listView1.Items[0].SubItems[1].Text)) return;
-            
-            ind = tbAmount.updateRecords(ref frm);
+            int ind = 0;
+            mode = controller.getMode;
+            ind = tbAmount.updateRecords();
             
             if (mode == Mode.Create)
             {
@@ -413,47 +412,91 @@ namespace MajPAbGr_project
                         MessageBox.Show($"{ind} from {elements.Count} are inserted");
                     else
                     {
-                        if (ind > -1)
-                            MessageBox.Show("Sorry! Nothing is inserted!");
-                        else
-                            MessageBox.Show("Formulation has no main ingredients!");
+                        MessageBox.Show("Sorry! Nothing is inserted!");                   
                     }
-                }                    
-                mode = Mode.Edit;               
+                }                   
+                ind = 0;                
+                {
+                    ind = tbAmount.UpdateMain();
+                    switch (ind)
+                    {
+                        case -1:
+                            MessageBox.Show("Unknown recepture");
+                            break;
+                        case -2:                           
+                            MessageBox.Show("Sorry! Something goes wrong!");
+                            break;
+                    }
+                }      
+                
+                ind = 0;
+                    if (!string.IsNullOrEmpty(txbRecipe.Text))
+                    {
+                        ind = saveRecipe(txbRecipe.Text);
+                        if (ind < 0)
+                            MessageBox.Show($"Recipe {txbRecipe.Text} does not saved");
+                    }
+                             
             }
             else
             {
                 int test = tbAmount.Amount_id_count > elements.Count ? tbAmount.Amount_id_count : elements.Count;
-                if (ind == test)
-                    MessageBox.Show("Changes are succeful saved");
+                if (ind > 0)
+                {
+                    if (ind == test)
+                    {
+                        MessageBox.Show("Changes are succeful saved");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"{ind} from {elements.Count} are changed");
+                    }
+                } 
                 else
                 {
-                    if (ind > 0)
-                        MessageBox.Show($"{ind} from {elements.Count} are changed");
-                    else
-                        MessageBox.Show("Sorry! Nothing is changed");
-                }                   
+                   MessageBox.Show("Sorry! Nothing is changed");
+                }
+
+                ind = 0;
+                {
+                    ind = tbAmount.UpdateMain();
+                    switch (ind)
+                    {
+                        case -1:
+                            MessageBox.Show("Unknown recepture");
+                            break;
+                        case -2:
+                            MessageBox.Show("Sorry! Something goes wrong!");
+                            break;
+                    }
+                }
             }
-            if (!string.IsNullOrEmpty(txbRecipe.Text))
-            {
-                saveRecipe();
-            }            
+            this.Close();
+            this.Dispose();
         }
-       
-        public void saveRecipe()
+
+        public int saveRecipe(string name)
         {
-            int ind;
+            int ind = 0;
             double coefficient = controller.Recipe;
             tbRecipeController tb = new tbRecipeController("Recipe");
             tb.Selected = id_recepture;
             tb.Recepture = id_recepture;
-
-            if (string.IsNullOrEmpty(txbRecipe.Text)) return;
+           
             if (coefficient != 0)
             {
                 string coeff = calc.ColonToPoint(coefficient.ToString());
-                ind = tb.insertNewRecipe(txbRecipe.Text, coeff);
+                try
+                {
+                    ind = tb.insertNewRecipe(name, coeff);
+                }
+                catch
+                {
+                    ind = -1;
+                }  
             }
+            ind--;
+            return ind;
         }
         /****************************************************************************
          * Подрежимы редактирования
