@@ -66,8 +66,8 @@ namespace MajPAbGr_project
             this.Text += " " + controller.InfoLocal();
             
             // form elements setting
-            checkBox1.Checked = false;
-            checkBox1.Enabled = false;
+            //checkBox1.Checked = false;
+           // checkBox1.Enabled = false;
             btn_insert.Enabled = false;
             txb_new_recipe.Enabled = false;
         }
@@ -198,7 +198,7 @@ namespace MajPAbGr_project
             {
                 int index = recipe.SelectedIndex;
                 controller.Calc.Coefficient = recipes[index].Amounts;                
-                lbl_koef.Text = controller.Calc.Coefficient.ToString();
+                lbl_koef.Text = string.Format("{0:f2}", controller.Calc.Coefficient.ToString());
                 txbRecipe.Text = recipes[index].Name;
             }
         }
@@ -213,7 +213,7 @@ namespace MajPAbGr_project
             List<string> t = controller.Calc.FormatAmounts(); //посчитали и придали вид
             for (index = 0; index < t.Count; index++)
             {
-                list.Items[index].SubItems[1].Text = t[index];
+                list.Items[index].SubItems[2].Text = t[index];
             }
             columnHeader2.Text = "Amounts (g)";
             //записали в списковид
@@ -237,8 +237,9 @@ namespace MajPAbGr_project
 
              for (index = 0; index < amounts.Length; index++)
              {
-                //list.Items[index].SubItems[1].Text = amounts[index].ToString();
-                list.Items[index].SubItems.Add(amounts[index].ToString());
+                string t = string.Format("{0:f2}", amounts[index]);
+                list.Items[index].SubItems[2].Text = t;
+                //list.Items[index].SubItems.Add(amounts[index].ToString());
             }
             list.Items[index].SubItems.Add(controller.Calc.Summa(amounts).ToString());
             txb_new_recipe.Enabled = true;
@@ -257,48 +258,48 @@ namespace MajPAbGr_project
             count = recipe.Count
                ($"Select count (name) from Recipe where name = '{txb_new_recipe.Text}';");
 
-            if (!checkBox1.Checked)
-            {
-                if (string.IsNullOrEmpty(txb_new_recipe.Text))
-                 return;
-                if (count == "0")
-                {
-                    //str_coeff = calc.ColonToPoint(coefficient.ToString());
-                    str_coeff = calc.ColonToPoint(calc.Coefficient.ToString());
-                     recipe.insertNewRecipe(txb_new_recipe.Text, str_coeff);
-                     fillSubCatalog();
-                     btn_insert.Enabled = false;
-                }
-                else
-                {
-                    MessageBox.Show($"Recipe {txb_new_recipe.Text} already exists");
-                }
-            }
-            else //Recipe.cs
-            {
-                if (txb_coeff.Text == "" || txb_coeff.Text == " ")
-                {
-                    str_coeff = calc.ColonToPoint(coefficient.ToString());
-                }
-                else
-                {
-                    str_coeff = calc.ColonToPoint(txb_coeff.Text);                    
-                }                   
-                if (txb_new_recipe.Text == "" || txb_new_recipe.Text == " ")
-                {
-                    txb_new_recipe.Text = cmbCoeff.SelectedItem.ToString();
-                }
-                DialogResult result = MessageBox.Show(
-                     $"New name = {txb_new_recipe.Text}, new coefficient = {str_coeff}", "",
-                     MessageBoxButtons.OKCancel);
-                if(result == DialogResult.OK)
-                {
-                    recipe.UpdateReceptureOrCards
-                        ("name", txb_new_recipe.Text, recipe.Selected);
-                    recipe.UpdateReceptureOrCards
-                        ("Coefficient", str_coeff, recipe.Selected);
-                }
-            }
+            //if (!checkBox1.Checked)
+            //{
+            //    if (string.IsNullOrEmpty(txb_new_recipe.Text))
+            //     return;
+            //    if (count == "0")
+            //    {
+            //        //str_coeff = calc.ColonToPoint(coefficient.ToString());
+            //        str_coeff = calc.ColonToPoint(calc.Coefficient.ToString());
+            //         recipe.insertNewRecipe(txb_new_recipe.Text, str_coeff);
+            //         fillSubCatalog();
+            //         btn_insert.Enabled = false;
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show($"Recipe {txb_new_recipe.Text} already exists");
+            //    }
+            //}
+            //else //Recipe.cs
+            //{
+            //    if (txb_coeff.Text == "" || txb_coeff.Text == " ")
+            //    {
+            //        str_coeff = calc.ColonToPoint(coefficient.ToString());
+            //    }
+            //    else
+            //    {
+            //        str_coeff = calc.ColonToPoint(txb_coeff.Text);                    
+            //    }                   
+            //    if (txb_new_recipe.Text == "" || txb_new_recipe.Text == " ")
+            //    {
+            //        txb_new_recipe.Text = cmbCoeff.SelectedItem.ToString();
+            //    }
+            //    DialogResult result = MessageBox.Show(
+            //         $"New name = {txb_new_recipe.Text}, new coefficient = {str_coeff}", "",
+            //         MessageBoxButtons.OKCancel);
+            //    if(result == DialogResult.OK)
+            //    {
+            //        recipe.UpdateReceptureOrCards
+            //            ("name", txb_new_recipe.Text, recipe.Selected);
+            //        recipe.UpdateReceptureOrCards
+            //            ("Coefficient", str_coeff, recipe.Selected);
+            //    }
+            //}
         }
 
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -479,15 +480,15 @@ namespace MajPAbGr_project
             this.lbl_info.Location = new Point(318, this.cmbCoeff.Location.Y);
             txb_new_recipe.Text = "";
             txb_coeff.Text = "";
-            checkBox1.Enabled = true;
-            checkBox1.Checked = true;
+            //checkBox1.Enabled = true;
+            //checkBox1.Checked = true;
             
             RecipeEditor frm = new RecipeEditor(this, controller.TbMain(), calc, comboBox1.SelectedIndex);        
             frm.ShowDialog();
 
             this.lbl_info.Location = new Point(318, lbl_info_y);
-            checkBox1.Checked = false;
-            checkBox1.Enabled = false;
+            //checkBox1.Checked = false;
+            //checkBox1.Enabled = false;
             button2.Enabled = true;
         }
 
@@ -545,22 +546,22 @@ namespace MajPAbGr_project
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked) // edit mode on
-            {
-                btn_insert.Enabled = true;
-                button2.Enabled = false;
-                btn_insert.Text = "edit";
-                cmb_option.SelectedItem = cmb_option.Items[2];
-                //cmb_option.DropDownStyle = ComboBoxStyle.Simple;
-            }
-            else // edit mode off
-            {
-                btn_insert.Enabled = false;
-                button2.Enabled = true;
-                btn_insert.Text = "btn_insert";
-                cmb_option.SelectedItem = cmb_option.Items[0];
-                //cmb_option.DropDownStyle = ComboBoxStyle.DropDown;
-            }
+            //if (checkBox1.Checked) // edit mode on
+            //{
+            //    btn_insert.Enabled = true;
+            //    button2.Enabled = false;
+            //    btn_insert.Text = "edit";
+            //    cmb_option.SelectedItem = cmb_option.Items[2];
+            //    //cmb_option.DropDownStyle = ComboBoxStyle.Simple;
+            //}
+            //else // edit mode off
+            //{
+            //    btn_insert.Enabled = false;
+            //    button2.Enabled = true;
+            //    btn_insert.Text = "btn_insert";
+            //    cmb_option.SelectedItem = cmb_option.Items[0];
+            //    //cmb_option.DropDownStyle = ComboBoxStyle.DropDown;
+            //}
         }
 
         private void label2_Click(object sender, EventArgs e)

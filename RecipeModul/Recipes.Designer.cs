@@ -66,7 +66,6 @@ namespace MajPAbGr_project
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.btn_edit = new System.Windows.Forms.Button();
             this.txbRecipe = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -83,17 +82,17 @@ namespace MajPAbGr_project
             this.columnHeader3});
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(38, 72);
+            this.listView1.Location = new System.Drawing.Point(38, 77);
             this.listView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(428, 526);
+            this.listView1.Size = new System.Drawing.Size(428, 447);
             this.listView1.TabIndex = 3;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Text = "Names";
+            this.columnHeader1.Text = "Ingredients";
             this.columnHeader1.Width = 123;
             // 
             // columnHeader2
@@ -103,7 +102,7 @@ namespace MajPAbGr_project
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "New";
+            this.columnHeader3.Text = "Amounts (g)";
             this.columnHeader3.Width = 172;
             // 
             // menuStrip1
@@ -132,34 +131,34 @@ namespace MajPAbGr_project
             this.receptureToolStripMenuItem,
             this.tecnologyToolStripMenuItem});
             this.goToToolStripMenuItem.Name = "goToToolStripMenuItem";
-            this.goToToolStripMenuItem.Size = new System.Drawing.Size(49, 19);
+            this.goToToolStripMenuItem.Size = new System.Drawing.Size(61, 25);
             this.goToToolStripMenuItem.Text = "Go To";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(157, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(188, 26);
             this.toolStripMenuItem1.Text = "Categorires";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // ingredientsToolStripMenuItem
             // 
             this.ingredientsToolStripMenuItem.Name = "ingredientsToolStripMenuItem";
-            this.ingredientsToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.ingredientsToolStripMenuItem.Size = new System.Drawing.Size(188, 26);
             this.ingredientsToolStripMenuItem.Text = "Ingredients";
             this.ingredientsToolStripMenuItem.Click += new System.EventHandler(this.ingredientsToolStripMenuItem_Click);
             // 
             // recipeToolStripMenuItem
             // 
             this.recipeToolStripMenuItem.Name = "recipeToolStripMenuItem";
-            this.recipeToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.recipeToolStripMenuItem.Size = new System.Drawing.Size(188, 26);
             this.recipeToolStripMenuItem.Text = "Recipe editor";
             this.recipeToolStripMenuItem.Click += new System.EventHandler(this.recipeToolStripMenuItem_Click);
             // 
             // amountsEditorToolStripMenuItem
             // 
             this.amountsEditorToolStripMenuItem.Name = "amountsEditorToolStripMenuItem";
-            this.amountsEditorToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.amountsEditorToolStripMenuItem.Size = new System.Drawing.Size(188, 26);
             this.amountsEditorToolStripMenuItem.Text = "Amounts editor";
             this.amountsEditorToolStripMenuItem.Click += new System.EventHandler(this.amountsEditorToolStripMenuItem_Click);
             // 
@@ -169,48 +168,48 @@ namespace MajPAbGr_project
             this.addNewToolStripMenuItem,
             this.editToolStripMenuItem});
             this.receptureToolStripMenuItem.Name = "receptureToolStripMenuItem";
-            this.receptureToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.receptureToolStripMenuItem.Size = new System.Drawing.Size(188, 26);
             this.receptureToolStripMenuItem.Text = "Recepture";
             // 
             // addNewToolStripMenuItem
             // 
             this.addNewToolStripMenuItem.Name = "addNewToolStripMenuItem";
-            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
             this.addNewToolStripMenuItem.Text = "Add New";
             this.addNewToolStripMenuItem.Click += new System.EventHandler(this.addNewToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // tecnologyToolStripMenuItem
             // 
             this.tecnologyToolStripMenuItem.Name = "tecnologyToolStripMenuItem";
-            this.tecnologyToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.tecnologyToolStripMenuItem.Size = new System.Drawing.Size(188, 26);
             this.tecnologyToolStripMenuItem.Text = "Technology";
             this.tecnologyToolStripMenuItem.Click += new System.EventHandler(this.technologyToolStripMenuItem_Click);
             // 
             // reloadToolStripMenuItem
             // 
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(55, 19);
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(70, 25);
             this.reloadToolStripMenuItem.Text = "Reload";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
             // openDbEditorToolStripMenuItem
             // 
             this.openDbEditorToolStripMenuItem.Name = "openDbEditorToolStripMenuItem";
-            this.openDbEditorToolStripMenuItem.Size = new System.Drawing.Size(99, 19);
+            this.openDbEditorToolStripMenuItem.Size = new System.Drawing.Size(127, 25);
             this.openDbEditorToolStripMenuItem.Text = "Open db editor";
             this.openDbEditorToolStripMenuItem.Click += new System.EventHandler(this.openDbEditorToolStripMenuItem_Click);
             // 
             // printToolStripMenuItem
             // 
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(44, 19);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(55, 25);
             this.printToolStripMenuItem.Text = "Print";
             this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
             // 
@@ -221,33 +220,33 @@ namespace MajPAbGr_project
             this.lVToolStripMenuItem,
             this.rUToolStripMenuItem});
             this.localizacijaToolStripMenuItem.Name = "localizacijaToolStripMenuItem";
-            this.localizacijaToolStripMenuItem.Size = new System.Drawing.Size(31, 19);
+            this.localizacijaToolStripMenuItem.Size = new System.Drawing.Size(39, 25);
             this.localizacijaToolStripMenuItem.Text = "LV";
             // 
             // uSToolStripMenuItem
             // 
             this.uSToolStripMenuItem.Name = "uSToolStripMenuItem";
-            this.uSToolStripMenuItem.Size = new System.Drawing.Size(89, 22);
+            this.uSToolStripMenuItem.Size = new System.Drawing.Size(101, 26);
             this.uSToolStripMenuItem.Text = "US";
             this.uSToolStripMenuItem.Click += new System.EventHandler(this.uSToolStripMenuItem_Click);
             // 
             // lVToolStripMenuItem
             // 
             this.lVToolStripMenuItem.Name = "lVToolStripMenuItem";
-            this.lVToolStripMenuItem.Size = new System.Drawing.Size(89, 22);
+            this.lVToolStripMenuItem.Size = new System.Drawing.Size(101, 26);
             this.lVToolStripMenuItem.Text = "LV";
             this.lVToolStripMenuItem.Click += new System.EventHandler(this.lVToolStripMenuItem_Click);
             // 
             // rUToolStripMenuItem
             // 
             this.rUToolStripMenuItem.Name = "rUToolStripMenuItem";
-            this.rUToolStripMenuItem.Size = new System.Drawing.Size(89, 22);
+            this.rUToolStripMenuItem.Size = new System.Drawing.Size(101, 26);
             this.rUToolStripMenuItem.Text = "RU";
             this.rUToolStripMenuItem.Click += new System.EventHandler(this.rUToolStripMenuItem_Click);
             // 
             // btn_insert
             // 
-            this.btn_insert.Location = new System.Drawing.Point(204, 258);
+            this.btn_insert.Location = new System.Drawing.Point(204, 212);
             this.btn_insert.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_insert.Name = "btn_insert";
             this.btn_insert.Size = new System.Drawing.Size(112, 38);
@@ -259,7 +258,7 @@ namespace MajPAbGr_project
             // lbl_info
             // 
             this.lbl_info.AutoSize = true;
-            this.lbl_info.Location = new System.Drawing.Point(18, 618);
+            this.lbl_info.Location = new System.Drawing.Point(34, 539);
             this.lbl_info.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_info.Name = "lbl_info";
             this.lbl_info.Size = new System.Drawing.Size(116, 20);
@@ -380,7 +379,6 @@ namespace MajPAbGr_project
             // 
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.checkBox1);
             this.groupBox1.Controls.Add(this.cmb_option);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.txb_new_recipe);
@@ -390,7 +388,7 @@ namespace MajPAbGr_project
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox1.Size = new System.Drawing.Size(348, 323);
+            this.groupBox1.Size = new System.Drawing.Size(348, 273);
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Insert recipe";
@@ -416,18 +414,6 @@ namespace MajPAbGr_project
             this.label1.TabIndex = 26;
             this.label1.Text = "clear";
             this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(8, 172);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(100, 24);
-            this.checkBox1.TabIndex = 26;
-            this.checkBox1.Text = "Edit mode";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // btn_edit
             // 
@@ -462,7 +448,7 @@ namespace MajPAbGr_project
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(950, 749);
+            this.ClientSize = new System.Drawing.Size(950, 665);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txbRecipe);
             this.Controls.Add(this.btn_edit);
@@ -529,7 +515,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btn_edit;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txbRecipe;
