@@ -234,6 +234,7 @@ namespace MajPAbGr_project
 
             int index = 0;            
             double [] amounts = controller.button1_onClick(txb_coeff.Text, calcBase);
+            if (amounts == null) return;
 
              for (index = 0; index < amounts.Length; index++)
              {

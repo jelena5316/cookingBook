@@ -127,6 +127,10 @@ namespace MajPAbGr_project
         {
             double summa, amount;
             double[] amounts = calc.getAmounts();
+
+            if (amounts == null) return null;
+
+               
             int indikator = (int)calcBase;
             string temp, t;
 

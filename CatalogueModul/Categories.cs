@@ -38,10 +38,15 @@ namespace MajPAbGr_project
 		private void Categories_Load(object sender, EventArgs e)
 		{
 			lv_recepture.Columns.Add("Name");
+			lv_recepture.Columns[0].Width = 250;
 			lv_recepture.Columns.Add("Category");
+			lv_recepture.Columns[1].Width = 100;
 			lv_recepture.Columns.Add("Main");
+			lv_recepture.Columns[2].Width = 120;
 			lv_recepture.Columns.Add("Author");
+			lv_recepture.Columns[3].Width = 250;
 			lv_recepture.Columns.Add("Source");
+			lv_recepture.Columns[4].Width = 250;
 
 			Class1.setBox(controller.Categories, cmb_categories);
 			resetRecepturesList(controller.ReceptureStruct);
@@ -90,7 +95,11 @@ namespace MajPAbGr_project
 
 			//id_technology
 			int index = selected_recepture == -1 ? 0 : selected_recepture;
-			id_technology = controller.ReceptureStruct[index].getIds()[1];
+
+			if (controller.ReceptureStruct.Count < 1)
+				id_technology = 0;
+			else
+				id_technology = controller.ReceptureStruct[index].getIds()[1];
 			id_technology = id_technology < 0 ? 0 : id_technology;
 
 			frm = new Technology(id_technology);
@@ -201,6 +210,7 @@ namespace MajPAbGr_project
 
 		private void resetRecepturesList(List<ReceptureStruct> list)
 		{
+			if (list == null) return;
 			lv_recepture.Items.Clear();
 			ListViewItem items;
 			for (int k = 0; k < list.Count; k++)

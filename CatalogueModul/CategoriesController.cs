@@ -70,7 +70,14 @@ namespace MajPAbGr_project
         }
 
         public int getMinIdOfReceptures()
-            => int.Parse(tb.dbReader("select min(id) from Recepture;")[0]);
+        {
+            string minid =  tb.dbReader("select min(id) from Recepture;")[0];
+            if (minid == "")
+                return 0;
+            else
+                return int.Parse(minid);
+        }
+            
         
 
         //public void SelectedByCategoryRecepture(int id)
