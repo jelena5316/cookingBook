@@ -107,12 +107,14 @@ namespace MajPAbGr_project
                 items = new ListViewItem(ingr[k].Name);
                 items.Tag = ingr[k].Id;
                 items.SubItems.Add(texts[k]);
+                items.SubItems.Add(""); // for recipes
                 list.Items.Add(items);
             }
             /*сумма: счет и вывод */
             items = new ListViewItem("Total");
             items.Tag = -1;
             items.SubItems.Add(texts[k]);
+            items.SubItems.Add(""); // for recipes
             list.Items.Add(items);
 
             //return texts;
