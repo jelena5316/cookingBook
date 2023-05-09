@@ -61,17 +61,17 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(112, 35);
             this.button2.TabIndex = 3;
-            this.button2.Text = "fill new table";
+            this.button2.Text = "execute view";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
-            //
+            // 
             // box
-            //
-            this.box.Location = new System.Drawing.Point(300, 174);
+            // 
+            this.box.Location = new System.Drawing.Point(300, 178);
             this.box.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.box.Name = "cmbViews";
+            this.box.Name = "box";
+            this.box.Size = new System.Drawing.Size(150, 28);
             this.box.TabIndex = 4;
-            this.box.Size = new System.Drawing.Size(150, 15);
             this.box.SelectedIndexChanged += new System.EventHandler(this.box_ChangeIndex);
             // 
             // EditDB
