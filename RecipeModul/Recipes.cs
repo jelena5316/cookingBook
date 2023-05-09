@@ -10,8 +10,7 @@ namespace MajPAbGr_project
 {
     public partial class Recipes : Form
     {
-        int category;
-        double coefficient;
+        int category;       
         private List<Item> receptures;
         public List<Element> recipes;
         public List <Element> elements;
@@ -65,9 +64,7 @@ namespace MajPAbGr_project
             current = controller.Current();            
             this.Text += " " + controller.InfoLocal();
             
-            // form elements setting
-            //checkBox1.Checked = false;
-           // checkBox1.Enabled = false;
+            
             btn_insert.Enabled = false;
             txb_new_recipe.Enabled = false;
         }
@@ -130,8 +127,7 @@ namespace MajPAbGr_project
             controller.setSubcatalog(index);
 
             int count = fillSubCatalog(); // fill the combobox2              
-            
-            //used more one time in `InsertAmounts`, mode:edit           
+                     
             elements = controller.Amounts; // amounts            
             calc.setAmounts(elements); // сохраняет и cуммирует величины
 
@@ -162,30 +158,7 @@ namespace MajPAbGr_project
             columnHeader2.Text = "Amounts (%)";
             AutocompleteRecipeName(); // table Recipe 
         }
-
-        private void InputRecepture(List<Element> ingr)
-        {
-            string t;
-            ListViewItem items;
-            list.Items.Clear();
-            for (int k = 0; k < ingr.Count; k++)
-            {
-                items = new ListViewItem(ingr[k].Name);
-                items.Tag = ingr[k].Id;
-                t = string.Format("{0:f2}", ingr[k].Amounts);
-                items.SubItems.Add(t);
-                listView1.Items.Add(items);
-                t = "";
-            }
-            //Сумма: счет и вывод
-            double summa = calc.getTotal();
-            t = string.Format("{0:f2}", summa);
-
-            items = new ListViewItem("Total");
-            items.Tag = -1;
-            items.SubItems.Add(t);
-            listView1.Items.Add(items);
-        }
+        
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -216,13 +189,7 @@ namespace MajPAbGr_project
                 list.Items[index].SubItems[2].Text = t[index];
             }
             columnHeader2.Text = "Amounts (g)";
-            //записали в списковид
-
-            //for (index = 0; index < controller.Calc.getAmounts().Length; index++)
-            //{
-            //    elements[index].Amounts = controller.Calc.getAmounts()[index];
-            //}
-
+            
         }
 
         /*****************************************************************************
@@ -246,58 +213,13 @@ namespace MajPAbGr_project
 
         private void btn_insert_Click(object sender, EventArgs e)
          {
-            string str_coeff;
             string count;
-
             calc = controller.Calc;
 
             tbRecipeController recipe = new tbRecipeController
                 ("Recipe", cmbCoeff.SelectedIndex, controller.TbMain().Selected);
             count = recipe.Count
                ($"Select count (name) from Recipe where name = '{txb_new_recipe.Text}';");
-
-            //if (!checkBox1.Checked)
-            //{
-            //    if (string.IsNullOrEmpty(txb_new_recipe.Text))
-            //     return;
-            //    if (count == "0")
-            //    {
-            //        //str_coeff = calc.ColonToPoint(coefficient.ToString());
-            //        str_coeff = calc.ColonToPoint(calc.Coefficient.ToString());
-            //         recipe.insertNewRecipe(txb_new_recipe.Text, str_coeff);
-            //         fillSubCatalog();
-            //         btn_insert.Enabled = false;
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show($"Recipe {txb_new_recipe.Text} already exists");
-            //    }
-            //}
-            //else //Recipe.cs
-            //{
-            //    if (txb_coeff.Text == "" || txb_coeff.Text == " ")
-            //    {
-            //        str_coeff = calc.ColonToPoint(coefficient.ToString());
-            //    }
-            //    else
-            //    {
-            //        str_coeff = calc.ColonToPoint(txb_coeff.Text);                    
-            //    }                   
-            //    if (txb_new_recipe.Text == "" || txb_new_recipe.Text == " ")
-            //    {
-            //        txb_new_recipe.Text = cmbCoeff.SelectedItem.ToString();
-            //    }
-            //    DialogResult result = MessageBox.Show(
-            //         $"New name = {txb_new_recipe.Text}, new coefficient = {str_coeff}", "",
-            //         MessageBoxButtons.OKCancel);
-            //    if(result == DialogResult.OK)
-            //    {
-            //        recipe.UpdateReceptureOrCards
-            //            ("name", txb_new_recipe.Text, recipe.Selected);
-            //        recipe.UpdateReceptureOrCards
-            //            ("Coefficient", str_coeff, recipe.Selected);
-            //    }
-            //}
         }
 
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -423,52 +345,6 @@ namespace MajPAbGr_project
             print.Ingredients = ingredients;
             print.PrepareRecipeIngredientsOutput();
             print.PrintRecipe();                   
-        } 
-        
-        private List<string> PrepareOutput()
-        {
-            string name, output="", mesuare, info;
-            List<string> strings = new List<string>();
-            name = comboBox1.Text;
-            if (columnHeader2.Text == "Amounts (%)")
-            {
-                mesuare = "(in %)";
-               // name += $" ({mesuare})";
-                //info = $"Info: {lbl_info.Text}";
-            }
-            else
-            {
-               mesuare = $" (in g, \"{cmbCoeff.SelectedItem.ToString()}\")";
-               //info = $"Info:  {tb.getName(comboBox1.SelectedIndex)}: id {tb.getSelected()}, category ({category})\n"; ;
-            }           
-          
-            if (!string.IsNullOrEmpty(comboBox1.Text))
-            {
-                output = $"{name} {mesuare}";                    
-                strings.Add(output);
-            }
-
-            strings.Add("\ningredients");
-
-            if (listView1.Items.Count > 1)
-            {
-                int k = 0;
-                for (k = 0; k < listView1.Items.Count-1; k++)
-                {
-                    output = $"{listView1.Items[k].Text} {listView1.Items[k].SubItems[1].Text}";
-                    strings.Add(output);
-                }
-                output = $"-----\n {listView1.Items[k].SubItems[1].Text}";
-                strings.Add(output);
-            }
-            else
-            {
-                output = "Ingredient amounts are unknown";
-                strings.Add(output);
-            }
-
-            //strings.Add(info);
-            return strings;
         }
         // konec 'print to file'
 
@@ -477,16 +353,12 @@ namespace MajPAbGr_project
             int lbl_info_y = lbl_info.Location.Y;
             this.lbl_info.Location = new Point(318, this.cmbCoeff.Location.Y);
             txb_new_recipe.Text = "";
-            txb_coeff.Text = "";
-            //checkBox1.Enabled = true;
-            //checkBox1.Checked = true;
+            txb_coeff.Text = "";            
             
             RecipeEditor frm = new RecipeEditor(this, controller.TbMain(), calc, comboBox1.SelectedIndex);        
             frm.ShowDialog();
 
-            this.lbl_info.Location = new Point(318, lbl_info_y);
-            //checkBox1.Checked = false;
-            //checkBox1.Enabled = false;
+            this.lbl_info.Location = new Point(318, lbl_info_y);           
             button2.Enabled = true;
         }
 
@@ -516,50 +388,7 @@ namespace MajPAbGr_project
             }  
             
             frm = new Chains(controller);
-            frm.Show();
-
-            { 
-            //Technology frm;
-            //int selected, id_technology, count;// id of recepture and of technology;
-
-            //// проверить выбранный в списке                   
-            //selected = tb.getSelected();
-            //count = tb.SelectedCount("Recepture", "id_technology", selected);// dos recepture contain any technology
-
-            //if (count == 1)
-            //{
-            //    id_technology = int.Parse(tb.getById("id_technology", selected));
-            //    frm = new Technology(selected, id_technology);
-            //    frm.Show();
-            //}
-            //else
-            //{
-            //    frm = new Technology(selected);
-            //    frm.Show();
-            //}
-            }
-
-        }
-
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            //if (checkBox1.Checked) // edit mode on
-            //{
-            //    btn_insert.Enabled = true;
-            //    button2.Enabled = false;
-            //    btn_insert.Text = "edit";
-            //    cmb_option.SelectedItem = cmb_option.Items[2];
-            //    //cmb_option.DropDownStyle = ComboBoxStyle.Simple;
-            //}
-            //else // edit mode off
-            //{
-            //    btn_insert.Enabled = false;
-            //    button2.Enabled = true;
-            //    btn_insert.Text = "btn_insert";
-            //    cmb_option.SelectedItem = cmb_option.Items[0];
-            //    //cmb_option.DropDownStyle = ComboBoxStyle.DropDown;
-            //}
+            frm.Show();            
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -571,11 +400,7 @@ namespace MajPAbGr_project
         {
             txb_new_recipe.Text = "";   
         }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //
-        }
+                
 
         // edit name of coefficient
         private void btn_edit_Click(object sender, EventArgs e) 
@@ -644,29 +469,5 @@ namespace MajPAbGr_project
             calcBase = (CalcBase)cmb_option.SelectedIndex;
             controller.CalcBase = (CalcBase)cmb_option.SelectedIndex;
         }
-
-
-        //private void executeViewToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    string file;
-        //    if (!string.IsNullOrEmpty(comboBox1.SelectedItem.ToString()))
-        //        file = comboBox1.SelectedItem.ToString();
-        //    else file = "recipe";
-        //    List<string> strings = PrintViewRezult();
-
-        //    //PrintToFile(strings, file);
-        //    Form2 frm = new Form2(strings, file);
-        //    frm.Show();
-        //}
-
-        //private List<string> PrintViewRezult()
-        //{
-        //    string query = "SELECT (SELECT name FROM Recepture WHERE id = 8) AS recepture, " +
-        //    "name, Coefficient AS coefficient, amount*Coefficient AS amount " +
-        //   "FROM Recipe AS r " +
-        //   "JOIN " +
-        //   "Amounts AS a ON r.id_recepture = a.id_recepture WHERE r.id_recepture = 8;";   
-        //    return tb.dbReader(query);
-        //}
     }
 }

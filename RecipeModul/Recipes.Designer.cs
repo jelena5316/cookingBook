@@ -93,12 +93,12 @@ namespace MajPAbGr_project
             // columnHeader1
             // 
             this.columnHeader1.Text = "Ingredients";
-            this.columnHeader1.Width = 107;
+            this.columnHeader1.Width = 139;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "Amounts (%)";
-            this.columnHeader2.Width = 84;
+            this.columnHeader2.Width = 141;
             // 
             // columnHeader3
             // 
@@ -174,14 +174,14 @@ namespace MajPAbGr_project
             // addNewToolStripMenuItem
             // 
             this.addNewToolStripMenuItem.Name = "addNewToolStripMenuItem";
-            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
+            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.addNewToolStripMenuItem.Text = "Add New";
             this.addNewToolStripMenuItem.Click += new System.EventHandler(this.addNewToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
@@ -227,21 +227,21 @@ namespace MajPAbGr_project
             // uSToolStripMenuItem
             // 
             this.uSToolStripMenuItem.Name = "uSToolStripMenuItem";
-            this.uSToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
+            this.uSToolStripMenuItem.Size = new System.Drawing.Size(101, 26);
             this.uSToolStripMenuItem.Text = "US";
             this.uSToolStripMenuItem.Click += new System.EventHandler(this.uSToolStripMenuItem_Click);
             // 
             // lVToolStripMenuItem
             // 
             this.lVToolStripMenuItem.Name = "lVToolStripMenuItem";
-            this.lVToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
+            this.lVToolStripMenuItem.Size = new System.Drawing.Size(101, 26);
             this.lVToolStripMenuItem.Text = "LV";
             this.lVToolStripMenuItem.Click += new System.EventHandler(this.lVToolStripMenuItem_Click);
             // 
             // rUToolStripMenuItem
             // 
             this.rUToolStripMenuItem.Name = "rUToolStripMenuItem";
-            this.rUToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
+            this.rUToolStripMenuItem.Size = new System.Drawing.Size(101, 26);
             this.rUToolStripMenuItem.Text = "RU";
             this.rUToolStripMenuItem.Click += new System.EventHandler(this.rUToolStripMenuItem_Click);
             // 
