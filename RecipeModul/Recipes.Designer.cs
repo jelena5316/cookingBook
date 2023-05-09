@@ -34,15 +34,6 @@ namespace MajPAbGr_project
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.goToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ingredientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.recipeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.amountsEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.receptureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tecnologyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDbEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -109,10 +100,9 @@ namespace MajPAbGr_project
             // 
             this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.goToToolStripMenuItem,
             this.reloadToolStripMenuItem,
-            this.openDbEditorToolStripMenuItem,
             this.printToolStripMenuItem,
+            this.openDbEditorToolStripMenuItem,
             this.localizacijaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -120,77 +110,6 @@ namespace MajPAbGr_project
             this.menuStrip1.Size = new System.Drawing.Size(950, 31);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // goToToolStripMenuItem
-            // 
-            this.goToToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.ingredientsToolStripMenuItem,
-            this.recipeToolStripMenuItem,
-            this.amountsEditorToolStripMenuItem,
-            this.receptureToolStripMenuItem,
-            this.tecnologyToolStripMenuItem});
-            this.goToToolStripMenuItem.Name = "goToToolStripMenuItem";
-            this.goToToolStripMenuItem.Size = new System.Drawing.Size(61, 25);
-            this.goToToolStripMenuItem.Text = "Go To";
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(188, 26);
-            this.toolStripMenuItem1.Text = "Categorires";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
-            // 
-            // ingredientsToolStripMenuItem
-            // 
-            this.ingredientsToolStripMenuItem.Name = "ingredientsToolStripMenuItem";
-            this.ingredientsToolStripMenuItem.Size = new System.Drawing.Size(188, 26);
-            this.ingredientsToolStripMenuItem.Text = "Ingredients";
-            this.ingredientsToolStripMenuItem.Click += new System.EventHandler(this.ingredientsToolStripMenuItem_Click);
-            // 
-            // recipeToolStripMenuItem
-            // 
-            this.recipeToolStripMenuItem.Name = "recipeToolStripMenuItem";
-            this.recipeToolStripMenuItem.Size = new System.Drawing.Size(188, 26);
-            this.recipeToolStripMenuItem.Text = "Recipe editor";
-            this.recipeToolStripMenuItem.Click += new System.EventHandler(this.recipeToolStripMenuItem_Click);
-            // 
-            // amountsEditorToolStripMenuItem
-            // 
-            this.amountsEditorToolStripMenuItem.Name = "amountsEditorToolStripMenuItem";
-            this.amountsEditorToolStripMenuItem.Size = new System.Drawing.Size(188, 26);
-            this.amountsEditorToolStripMenuItem.Text = "Amounts editor";
-            this.amountsEditorToolStripMenuItem.Click += new System.EventHandler(this.amountsEditorToolStripMenuItem_Click);
-            // 
-            // receptureToolStripMenuItem
-            // 
-            this.receptureToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addNewToolStripMenuItem,
-            this.editToolStripMenuItem});
-            this.receptureToolStripMenuItem.Name = "receptureToolStripMenuItem";
-            this.receptureToolStripMenuItem.Size = new System.Drawing.Size(188, 26);
-            this.receptureToolStripMenuItem.Text = "Recepture";
-            // 
-            // addNewToolStripMenuItem
-            // 
-            this.addNewToolStripMenuItem.Name = "addNewToolStripMenuItem";
-            this.addNewToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
-            this.addNewToolStripMenuItem.Text = "Add New";
-            this.addNewToolStripMenuItem.Click += new System.EventHandler(this.addNewToolStripMenuItem_Click);
-            // 
-            // editToolStripMenuItem
-            // 
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
-            this.editToolStripMenuItem.Text = "Edit";
-            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
-            // 
-            // tecnologyToolStripMenuItem
-            // 
-            this.tecnologyToolStripMenuItem.Name = "tecnologyToolStripMenuItem";
-            this.tecnologyToolStripMenuItem.Size = new System.Drawing.Size(188, 26);
-            this.tecnologyToolStripMenuItem.Text = "Technology";
-            this.tecnologyToolStripMenuItem.Click += new System.EventHandler(this.technologyToolStripMenuItem_Click);
             // 
             // reloadToolStripMenuItem
             // 
@@ -484,24 +403,15 @@ namespace MajPAbGr_project
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem goToToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem ingredientsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem recipeToolStripMenuItem;
         private System.Windows.Forms.Button btn_insert;
-        private System.Windows.Forms.ToolStripMenuItem receptureToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addNewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openDbEditorToolStripMenuItem;
         private System.Windows.Forms.Label lbl_info;
-        private System.Windows.Forms.ToolStripMenuItem tecnologyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem localizacijaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uSToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem lVToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rUToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem amountsEditorToolStripMenuItem;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ColumnHeader columnHeader3;

@@ -236,61 +236,7 @@ namespace MajPAbGr_project
             //comboBox1.Text = comboBox1.SelectedItem.ToString();
         }
 
-        private void addNewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //tbReceptureController cntrl = new tbReceptureController("Recepture");
-            //NewRecepture frm = new NewRecepture(cntrl);
-            //frm.ShowDialog();
-        }
-
-        private void editToolStripMenuItem_Click(object sender, EventArgs e) // edit recepture
-        {
-            //if (tb.getSelected() == 0) return;
-            //if (listView1.Items.Count < 1) return;
-            //int selected = tb.getSelected();
-
-            //tbReceptureController cntrl = new tbReceptureController("Recepture", selected, category);
-            //NewRecepture frm = new NewRecepture(cntrl);
-            //frm.ShowDialog();
-           
-            /*
-            Код вставки обработчика (копия из дизайнера):
-            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click_1);
-            */           
-        }
-
-        private void amountsEditorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (listView1.Items.Count < 1) return;
-            AmountsTable();            
-        }
-
-        private void AmountsTable()
-        {
-            if (tb.getSelected() == 0) return;            
-            AmountsController cntrl = new AmountsController(tb);
-            InsertAmounts frm = new InsertAmounts(cntrl);
-            frm.ShowDialog();
-            calc.Coefficient = frm.Calc.Coefficient;
-            Reload();
-        }
-
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            SimpleTable(2);
-        }
-
-        private void ingredientsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SimpleTable(1);
-        }
-
-        private void SimpleTable(int opt)
-        {
-            tbIngredientsController cntrl = new tbIngredientsController(opt);
-            Ingredients frm = new Ingredients(cntrl);
-            frm.Show();
-        }
+       
 
         //Print to file  
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
@@ -348,48 +294,11 @@ namespace MajPAbGr_project
         }
         // konec 'print to file'
 
-        private void recipeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            int lbl_info_y = lbl_info.Location.Y;
-            this.lbl_info.Location = new Point(318, this.cmbCoeff.Location.Y);
-            txb_new_recipe.Text = "";
-            txb_coeff.Text = "";            
-            
-            RecipeEditor frm = new RecipeEditor(this, controller.TbMain(), calc, comboBox1.SelectedIndex);        
-            frm.ShowDialog();
-
-            this.lbl_info.Location = new Point(318, lbl_info_y);           
-            button2.Enabled = true;
-        }
-
         private void openDbEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             EditDB frm = new EditDB();
             frm.Show();
-        }
-
-        private void technologyToolStripMenuItem_Click(object sender, EventArgs e) // open chains` of technology cards editor
-        {
-            Chains frm;
-            ChainsController controller;
-            int selected, id_technology, count;// id of recepture and of technology;
-            // проверить выбранный в списке                   
-            selected = tb.getSelected();
-
-            controller = new ChainsController();
-            controller.Recepture = selected;
-
-            //id_technology
-            count = tb.SelectedCount("Recepture", "id_technology", selected); // dos recepture contain any technology
-            if (count == 1)
-            {
-                id_technology = int.Parse(tb.getById("id_technology", selected));                
-                controller.Technology = id_technology;                 
-            }  
-            
-            frm = new Chains(controller);
-            frm.Show();            
-        }
+        }             
 
         private void label2_Click(object sender, EventArgs e)
         {
