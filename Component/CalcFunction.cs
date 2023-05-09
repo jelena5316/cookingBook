@@ -57,25 +57,7 @@ namespace MajPAbGr_project
             }
             total = Summa();
             this.count = source.Count();
-        }
-
-        public void setAmounts( List<double> source)
-        {
-            amounts = new double[source.Count];
-            for (int index = 0; index < amounts.Length; index++)
-            {
-                amounts[index] = source[index];
-            }
-            total = Summa();
-            this.count = source.Count();
-        }
-
-        public void setAmounts (double[] source)
-        {
-            amounts = source;           
-            total = Summa();
-            this.count = source.Length;
-        }
+        }       
 
         public double[] getAmounts()
         {
@@ -109,20 +91,9 @@ namespace MajPAbGr_project
                 return arr;
             }
         }
-        public double[] ReCalc(double koeff, double[] list)
-        {
-            if (koeff == 1 || koeff == 0) return list;
-            for (int k = 0; k < list.Length; k++)
-                list[k] *= koeff;
-            return list;
-        }
-
+     
         static public double calculateCoefficient(double old_amount, double new_amount)
-            => (old_amount / new_amount);
-
-        public double InvertCoefficient(double koeff) => (double)(Math.Pow((double)koeff, -1.0));
-
-        
+            => (old_amount / new_amount);      
 
         public double Summa(double[] values)
         {
@@ -140,11 +111,11 @@ namespace MajPAbGr_project
             string t = "";
             for (k = 0; k < arr.Length; k++)
             {
-                t = string.Format("{0:f1}", arr[k]);
+                t = string.Format("{0:f2}", arr[k]);
                 texts.Add(t);
                 t = "";
             }
-            t = string.Format("{0:f1}", summa);
+            t = string.Format("{0:f2}", summa);
             texts.Add(t);
             return texts;
         }
@@ -159,11 +130,11 @@ namespace MajPAbGr_project
             //форматировать числа при переводе в строку           
             for (k = 0; k < arr.Length; k++)
             {
-                t = string.Format("{0:f1}", arr[k]);
+                t = string.Format("{0:f2}", arr[k]);
                 texts.Add(t);
                 t = "";
             }
-            t = string.Format("{0:f1}", Summa(arr));
+            t = string.Format("{0:f2}", Summa(arr));
             texts.Add(t);
             return texts;
         }
@@ -190,38 +161,6 @@ namespace MajPAbGr_project
             return number;
         }
     }
-
-   
 }
 
-//static string ColonToPoint(string t) // from  gdb
-//{
-//    char[] new_string = new char[t.Length];
-//    for (int k = 0; k < t.Length; k++)
-//    {
-//        if (t[k] == (char)44)
-//        {
-//            new_string[k] = '.';
-//        }
-//        else new_string[k] = t[k];
-//    }
-//    t = new String(new_string);
-//    return t;
-//}
 
-// static string PointToColon ( string t ) // 196 -209 in Formmain.cs
-// {
-// char[] temp = new char[t.Length];
-// if (t.Contains('.'))
-//  {
-//    int k;
-//    for (k = 0; k < t.Length; k++)
-//    {
-//        if (t[k] == '.')
-//          temp [] = ',';
-//        else
-//          temp [k]= t[k];
-//    }
-//    t = new String(temp);    
-//  return t;
-//}
