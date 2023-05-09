@@ -9,6 +9,27 @@ namespace MajPAbGr_project
 {
     public class Class1
     {
+        static public int ChangeIndex(List<Item> items, int test)
+        {
+            int index = -1, temp_id = test;
+            if (items.Count != 0)
+            {
+                
+                if (temp_id > 0)
+                {
+                    for (index = 0; index < items.Count; index++)
+                    {
+                        if (items[index].id == temp_id)   
+                        {                    
+                            break;
+                        }
+                    }
+                }
+                return index;
+            }
+            else return index;          
+        }
+        
         static public List <string> setBox (List <Item> items, ComboBox combo)
         {
             List<string> list = new List<string>();
@@ -50,6 +71,18 @@ namespace MajPAbGr_project
             return items;
         }
 
+        static public void FillCombo(List<Element> elements, ComboBox combo)
+        {
+            if (combo.Items.Count > 0) combo.Items.Clear();
+            if (elements.Count > 0)
+            {
+                for (int k = 0; k < elements.Count; k++)
+                {
+                    combo.Items.Add(elements[k].Name);
+                }
+            }
+        }
+
         static public List <string> FillComboString(List <Item> items, ComboBox combo,
            out List <int> id)
         {
@@ -77,26 +110,8 @@ namespace MajPAbGr_project
             }
             return list;
         }
-
-        static public List<string> FormatAmounts(List<Element> ingr, double summa)
-        {
-           List<string> texts = new List<string>();
-            //форматировать числа при переводе в строку
-            int k;
-            string t = "";
-            for (k = 0; k < ingr.Count; k++)
-            {
-                t = string.Format("{0:f1}", ingr[k].Amounts);
-                texts.Add(t);
-                t = "";
-            }
-            t = string.Format("{0:f1}", summa);
-            texts.Add(t);
-            return texts;
-        }
-
-
-    static public void FillListView(List <Element> ingr, List<string> texts, ListView list)
+ 
+        static public void FillListView(List <Element> ingr, List<string> texts, ListView list)
         {
             /*запись в списочное представления*/
             int k = 0;           
@@ -120,66 +135,9 @@ namespace MajPAbGr_project
             //return texts;
         }
 
-        static public void FillCombo(List<Element> elements, ComboBox combo)
-        {
-            if (combo.Items.Count > 0) combo.Items.Clear();
-            if (elements.Count > 0)
-            {
-                for (int k = 0; k < elements.Count; k++)
-                {
-                    combo.Items.Add(elements[k].Name);
-                }
-            }
-        }
+        
+        
 
-        static public void FillListView(List<Item> ingr, ListView list)
-        {
-            /*запись в списочное представления*/
-            int k = 0;
-            ListViewItem items;
-            list.Items.Clear();
-            for (k = 0; k < ingr.Count; k++)
-            {
-                items = new ListViewItem(ingr[k].name);
-                items.Tag = ingr[k].id;                
-                list.Items.Add(items);
-            }            
-        }
-
-        static public double[] AmountsFromListToArray(ListView lv, byte num)
-        {
-            double[] arr = new double[lv.Items.Count];
-            string t;
-            double arr_item;
-            for (int index = 0; index < arr.Length; index++)
-            {
-                t = lv.Items[index].SubItems[num].Text;
-                if (double.TryParse(t, out arr_item))
-                    arr[index] = arr_item;
-                else
-                    arr[index] = 0.0;
-            }
-            return arr;
-        }
-
-        static public int ChangeIndex(List<Item> items, int test)
-        {
-            int index = -1, temp_id = test;
-            if (items.Count != 0)            {
-                
-                if (temp_id > 0)
-                {
-                    for (index = 0; index < items.Count; index++)
-                    {
-                        if (items[index].id == temp_id)   
-                        {                    
-                            break;
-                        }
-                    }
-                }
-                return index;
-            }
-            else return index;          
-        }
+        
     }
 }

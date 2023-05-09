@@ -148,16 +148,16 @@ namespace MajPAbGr_project
             //Info about recepture
             category = int.Parse(tb.getById("id_category", selected));            
             string info;
-            info = $"  {tb.getName(index)}: id {tb.getSelected()}, category ({category})\n";
+            info = $"{tb.getName(index)}: id {tb.getSelected()}, category ({category})\n";
             if (recipes.Count > 0)
             {
-                info += $"recipes\n";
+                info += $"recipes \n";
                 for (int k = 0; k < recipes.Count; k++)
                 {
-                    info += $"{recipes[k].Name} ({recipes[k].Amounts}) \n";
+                    info += $"  {recipes[k].Name} ({recipes[k].Amounts}) \n";
                 }
             }
-            lbl_info.Text = info;
+            lbl_info.Text = info;            
 
             columnHeader2.Text = "Amounts (%)";
             AutocompleteRecipeName(); // table Recipe 
@@ -198,8 +198,8 @@ namespace MajPAbGr_project
             {
                 int index = recipe.SelectedIndex;
                 controller.Calc.Coefficient = recipes[index].Amounts;                
-                lbl_koef.Text = string.Format("{0:f2}", controller.Calc.Coefficient.ToString());
-                txbRecipe.Text = recipes[index].Name;
+                lbl_koef.Text = string.Format("{0:f2}", controller.Calc.Coefficient);
+                //txbRecipe.Text = recipes[index].Name;
             }
         }
 

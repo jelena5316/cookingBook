@@ -93,12 +93,12 @@ namespace MajPAbGr_project
             // columnHeader1
             // 
             this.columnHeader1.Text = "Ingredients";
-            this.columnHeader1.Width = 123;
+            this.columnHeader1.Width = 107;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "Amounts (%)";
-            this.columnHeader2.Width = 150;
+            this.columnHeader2.Width = 84;
             // 
             // columnHeader3
             // 
@@ -219,6 +219,7 @@ namespace MajPAbGr_project
             this.uSToolStripMenuItem,
             this.lVToolStripMenuItem,
             this.rUToolStripMenuItem});
+            this.localizacijaToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.localizacijaToolStripMenuItem.Name = "localizacijaToolStripMenuItem";
             this.localizacijaToolStripMenuItem.Size = new System.Drawing.Size(39, 25);
             this.localizacijaToolStripMenuItem.Text = "LV";
@@ -226,21 +227,21 @@ namespace MajPAbGr_project
             // uSToolStripMenuItem
             // 
             this.uSToolStripMenuItem.Name = "uSToolStripMenuItem";
-            this.uSToolStripMenuItem.Size = new System.Drawing.Size(101, 26);
+            this.uSToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.uSToolStripMenuItem.Text = "US";
             this.uSToolStripMenuItem.Click += new System.EventHandler(this.uSToolStripMenuItem_Click);
             // 
             // lVToolStripMenuItem
             // 
             this.lVToolStripMenuItem.Name = "lVToolStripMenuItem";
-            this.lVToolStripMenuItem.Size = new System.Drawing.Size(101, 26);
+            this.lVToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.lVToolStripMenuItem.Text = "LV";
             this.lVToolStripMenuItem.Click += new System.EventHandler(this.lVToolStripMenuItem_Click);
             // 
             // rUToolStripMenuItem
             // 
             this.rUToolStripMenuItem.Name = "rUToolStripMenuItem";
-            this.rUToolStripMenuItem.Size = new System.Drawing.Size(101, 26);
+            this.rUToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.rUToolStripMenuItem.Text = "RU";
             this.rUToolStripMenuItem.Click += new System.EventHandler(this.rUToolStripMenuItem_Click);
             // 
@@ -258,7 +259,7 @@ namespace MajPAbGr_project
             // lbl_info
             // 
             this.lbl_info.AutoSize = true;
-            this.lbl_info.Location = new System.Drawing.Point(34, 539);
+            this.lbl_info.Location = new System.Drawing.Point(34, 538);
             this.lbl_info.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_info.Name = "lbl_info";
             this.lbl_info.Size = new System.Drawing.Size(116, 20);
@@ -279,7 +280,7 @@ namespace MajPAbGr_project
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(543, 247);
+            this.button3.Location = new System.Drawing.Point(543, 248);
             this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(96, 35);
@@ -368,7 +369,7 @@ namespace MajPAbGr_project
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(547, 149);
+            this.label3.Location = new System.Drawing.Point(548, 149);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(71, 20);
@@ -388,7 +389,7 @@ namespace MajPAbGr_project
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox1.Size = new System.Drawing.Size(348, 273);
+            this.groupBox1.Size = new System.Drawing.Size(348, 272);
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Insert recipe";
@@ -417,10 +418,10 @@ namespace MajPAbGr_project
             // 
             // btn_edit
             // 
-            this.btn_edit.Location = new System.Drawing.Point(664, 247);
+            this.btn_edit.Location = new System.Drawing.Point(664, 248);
             this.btn_edit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_edit.Name = "btn_edit";
-            this.btn_edit.Size = new System.Drawing.Size(101, 35);
+            this.btn_edit.Size = new System.Drawing.Size(100, 35);
             this.btn_edit.TabIndex = 25;
             this.btn_edit.Text = "Edit";
             this.btn_edit.UseVisualStyleBackColor = true;
@@ -437,7 +438,7 @@ namespace MajPAbGr_project
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(547, 72);
+            this.label4.Location = new System.Drawing.Point(548, 72);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(137, 20);
