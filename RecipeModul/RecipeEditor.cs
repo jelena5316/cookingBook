@@ -42,14 +42,14 @@ namespace MajPAbGr_project
 
          private void setLabels()
         {
-            tbRecipeController rec = new tbRecipeController("Recipe");
-            rec.Recepture = tb.Selected;
-            string info = rec.ReceptureInfo();
-            if (info == "" || info == "\n\n\n\n\n") info = "none description";
-            label1.Text = "Description: " + info;
-            label1.AutoSize = true;
-            label2.Location = new Point
-                (label1.Location.X, (label1.Location.Y + label1.Height + 20));
+            //tbRecipeController rec = new tbRecipeController("Recipe");
+            //rec.Recepture = tb.Selected;
+            //string info = rec.ReceptureInfo();
+            //if (info == "" || info == "\n\n\n\n\n") info = "none description";
+            //label1.Text = "Description: " + info;
+            //label1.AutoSize = true;
+            //label2.Location = new Point
+            //    (label1.Location.X, (label1.Location.Y + label1.Height + 20));
         }
         private void Recepture_Load(object sender, EventArgs e)
         {

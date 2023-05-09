@@ -48,16 +48,16 @@ namespace MajPAbGr_project
             get { return recepture; }
         }
 
-        public string ReceptureInfo()
-        {
-            string info = "\n";
-            info += dbReader($"select source from Recepture where id = {recepture};")[0] + "\n";
-            info += dbReader($"select author from Recepture where id = {recepture};")[0] + "\n";
-            info += dbReader($"select URL from Recepture where id = {recepture};")[0] + "\n";
-            info += dbReader($"select description from Recepture where id = {recepture};")[0]+ "\n";
-            // queries will be usefull for the form InsertAmounts!
-            return info;
-        }
+        //public string ReceptureInfo()
+        //{
+        //    string info = "\n";
+        //    info += dbReader($"select source from Recepture where id = {recepture};")[0] + "\n";
+        //    info += dbReader($"select author from Recepture where id = {recepture};")[0] + "\n";
+        //    info += dbReader($"select URL from Recepture where id = {recepture};")[0] + "\n";
+        //    info += dbReader($"select description from Recepture where id = {recepture};")[0]+ "\n";
+        //    // queries will be usefull for the form InsertAmounts!
+        //    return info;
+        //}
 
         public override int RemoveItem()
         {

@@ -10,9 +10,9 @@ namespace MajPAbGr_project
 {
     public class RecipesController
     {
-        int category, technology, selected; // выбранной из списка рецепторe, номера записей в базе данных
-        double coefficient; // выбранного из списка рецепта либо вычисленный
-        ReceptureStruct info;
+        int selected; // выбранной из списка рецептурe, номера записей в базе данных
+        //int technology, category;       
+        //ReceptureStruct info;
         private List<Item> receptures, subcatalog;
         private List<Element> recipes; // рецепты
         private List<Element> elements; // сырье
@@ -67,20 +67,9 @@ namespace MajPAbGr_project
         }
 
         public void setSubcatalog(int index)
-        {
-            // table Recipe, id_recepture
-            //int temp;            
+        {       
             subcatalog = tbCoeff.setSubCatalog();
-            recipes = tbCoeff.readElement(2);
-            //temp = tbCoeff.Selected;
-            //tbCoeff.Selected = receptures[index].id;
-            
-            //tbCoeff.Selected = temp;
-        }
-
-        public List<Item> SubCatalog
-        {
-            get { return subcatalog; }
+            recipes = tbCoeff.readElement(2);            
         }
 
         public int Selected
@@ -139,7 +128,8 @@ namespace MajPAbGr_project
             double summa, amount;
             double[] amounts = calc.getAmounts();
 
-            if (amounts == null) return null;
+            if (amounts.Length < 1) 
+                return null;
                
             int indikator = (int)calcBase;
             string temp, t;

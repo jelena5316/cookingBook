@@ -178,8 +178,6 @@ namespace MajPAbGr_project
         //    return list;
         //}
 
-        
-
 
         /********************
          * Операции с данными

@@ -17,8 +17,7 @@ namespace MajPAbGr_project
         RecipesController controller;
         tbReceptureController tb;
         tbRecipeController tbCoeff;
-        CalcFunction calc;
-        CalcBase calcBase = 0;
+        CalcFunction calc;       
 
         ComboBox combo;
         ComboBox recipe;
@@ -170,8 +169,8 @@ namespace MajPAbGr_project
             else
             {
                 int index = recipe.SelectedIndex;
-                controller.Calc.Coefficient = recipes[index].Amounts;                
-                lbl_koef.Text = string.Format("{0:f2}", controller.Calc.Coefficient);
+                calc.Coefficient = recipes[index].Amounts;                
+                lbl_koef.Text = string.Format("{0:f2}", calc.Coefficient);
                 //txbRecipe.Text = recipes[index].Name;
             }
         }
@@ -179,11 +178,11 @@ namespace MajPAbGr_project
         private void button1_Click(object sender, EventArgs e) // recalc recepture
         {
             if (recipes.Count < 1) return;
-            double coeff = controller.Calc.Coefficient;
+            double coeff = calc.Coefficient;
             if (coeff == 1) return;
 
             int index;                     
-            List<string> t = controller.Calc.FormatAmounts(); //посчитали и придали вид
+            List<string> t = calc.FormatAmounts(); //посчитали и придали вид
             for (index = 0; index < t.Count; index++)
             {
                 list.Items[index].SubItems[2].Text = t[index];
@@ -197,11 +196,15 @@ namespace MajPAbGr_project
         *******************************************************************************/
          private void button2_Click(object sender, EventArgs e) // calc new recipe
          {
-             if (string.IsNullOrEmpty(txb_coeff.Text)) return;            
+             if (string.IsNullOrEmpty(txb_coeff.Text)) return;             
 
             int index = 0;
             List <string> amounts = controller.button1_onClick(txb_coeff.Text);
-            if (amounts == null) return;            
+            if (amounts == null)
+            {
+                txb_coeff.Text = "";
+                return;
+            }   
 
            for (index=0; index < amounts.Count; index++)
             {
@@ -213,8 +216,7 @@ namespace MajPAbGr_project
 
         private void btn_insert_Click(object sender, EventArgs e)
          {
-            string count;
-            calc = controller.Calc;
+            string count;            
 
             tbRecipeController recipe = new tbRecipeController
                 ("Recipe", cmbCoeff.SelectedIndex, controller.TbMain().Selected);
@@ -235,8 +237,6 @@ namespace MajPAbGr_project
             columnHeader2.Text = "Amounts (%)";            
             //comboBox1.Text = comboBox1.SelectedItem.ToString();
         }
-
-       
 
         //Print to file  
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
@@ -265,15 +265,15 @@ namespace MajPAbGr_project
                 info.Add(output);
             }
 
-            if (listView1.Items.Count > 1)
+            if (list.Items.Count > 1)
             {
                 int k = 0;
-                for (k = 0; k < listView1.Items.Count - 1; k++)
+                for (k = 0; k < list.Items.Count - 1; k++)
                 {
-                    output = $"{listView1.Items[k].Text} {listView1.Items[k].SubItems[1].Text}";
+                    output = $"{list.Items[k].Text} {list.Items[k].SubItems[1].Text}";
                     ingredients.Add(output);
                 }
-                output = $"-----\n {listView1.Items[k].SubItems[1].Text}";
+                output = $"-----\n {list.Items[k].SubItems[1].Text}";
                 ingredients.Add(output);
             }
             else
@@ -375,8 +375,7 @@ namespace MajPAbGr_project
 
         private void cmb_option_SelectedIndexChanged(object sender, EventArgs e)
         {
-            calcBase = (CalcBase)cmb_option.SelectedIndex;
-            controller.CalcBase = (CalcBase)cmb_option.SelectedIndex;
+           controller.CalcBase = (CalcBase)cmb_option.SelectedIndex;
         }
     }
 }

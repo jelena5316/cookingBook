@@ -97,6 +97,8 @@ namespace MajPAbGr_project
 
         public void setNewRecipesCoefficient(double amount)
         {
+            if (amounts.Length < 1)
+                return;
             switch ((int)calcbase)
             {
                 case 1: // total                   
