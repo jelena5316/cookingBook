@@ -18,7 +18,10 @@ namespace MajPAbGr_project
         private List<Element> elements; // сырье
         tbReceptureController tb; // контроллер таблицы Рецептуры
         tbRecipeController tbCoeff; //контроллер таблицы Рецептов
-        CalcFunction calc; // Вычисления
+        
+        // Вычисления
+        CalcBase calcBase = 0;
+        CalcFunction calc; 
 
         CultureInfo current;
         NumberFormatInfo nfi; // локализация, разделитель целых и долей("," или ".")
@@ -96,6 +99,14 @@ namespace MajPAbGr_project
             get { return calc; }
         }
 
+        public CalcBase CalcBase
+        {
+            set
+            {
+                calcBase = value;
+                calc.calcBase = value;
+            }
+        }
 
         /*
          * Локализация
@@ -123,13 +134,12 @@ namespace MajPAbGr_project
         /* ************************************************
          * buttons click handlers
          **************************************************/
-        public double[] button1_onClick(string text, CalcBase calcBase)
+        public List <string> button1_onClick(string text)
         {
             double summa, amount;
             double[] amounts = calc.getAmounts();
 
             if (amounts == null) return null;
-
                
             int indikator = (int)calcBase;
             string temp, t;
@@ -174,33 +184,13 @@ namespace MajPAbGr_project
                 {
                     amount = 1;
                     text = "not number";
-                    return calc.getAmounts();
+                    return null;
                 }
             }
-
-            // вынести в CalcFunction.cs (?) в FormMainController
-            switch (indikator)
-            {
-                case 1: // total
-                    summa = calc.Summa();
-                    coefficient = amount / summa;
-                    //calc.Coefficient =  calc.calculateCoefficient(amount, calc.Summa());
-                    break;
-
-                case 0: //main
-                    coefficient = amount / amounts[0];
-                    //calc.Coefficient = calc.calculateCoefficient(amount, amounts[0]);
-
-                    break;
-
-                case 2: // coefficient
-                    coefficient = amount;
-                    //calc.Coefficient = amount;
-                    break;
-                default: coefficient = amount / amounts[0]; ; break;
-            }
-            calc.Coefficient = coefficient;           
-            return calc.ReCalc();
+            calc.setNewRecipesCoefficient(amount);
+            amounts = calc.ReCalc();
+            List<string> list = calc.FormatAmounts(amounts, calc.Summa());
+            return list;
         }
     
         public int btn_edit_onClick(string name, int index)

@@ -100,8 +100,10 @@
     <Compile Include="AmountModul\Enum.cs" />
     <Compile Include="Component\FormFunction.cs" />
     <Compile Include="Component\tbController.cs" />
-    <Compile Include="EditDB.cs" />
-    <Compile Include="EditDB.designer.cs">
+    <Compile Include="Component\EditDB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Component\EditDB.designer.cs">
       <DependentUpon>EditDB.cs</DependentUpon>
     </Compile>
     <Compile Include="RecipeModul\Recipes.cs">
@@ -118,10 +120,10 @@
     </Compile>
     <Compile Include="CatalogueModul\tbReceptureController.cs" />
     <Compile Include="IngredientsModul\tbIngredientsController.cs" />
-    <Compile Include="RecipeEditor.cs">
+    <Compile Include="RecipeModul\RecipeEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RecipeEditor.designer.cs">
+    <Compile Include="RecipeModul\RecipeEditor.designer.cs">
       <DependentUpon>RecipeEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="RecipeModul\tbRecipeController.cs" />
@@ -168,7 +170,7 @@
     <EmbeddedResource Include="TechnologyModul\Chains.resx">
       <DependentUpon>Chains.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EditDB.resx">
+    <EmbeddedResource Include="Component\EditDB.resx">
       <DependentUpon>EditDB.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RecipeModul\Recipes.resx">
@@ -195,7 +197,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="RecipeEditor.resx">
+    <EmbeddedResource Include="RecipeModul\RecipeEditor.resx">
       <DependentUpon>RecipeEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TechnologyModul\Technology.resx">

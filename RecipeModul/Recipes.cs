@@ -232,17 +232,14 @@ namespace MajPAbGr_project
          {
              if (string.IsNullOrEmpty(txb_coeff.Text)) return;            
 
-            int index = 0;            
-            double [] amounts = controller.button1_onClick(txb_coeff.Text, calcBase);
-            if (amounts == null) return;
+            int index = 0;
+            List <string> amounts = controller.button1_onClick(txb_coeff.Text);
+            if (amounts == null) return;            
 
-             for (index = 0; index < amounts.Length; index++)
-             {
-                string t = string.Format("{0:f2}", amounts[index]);
-                list.Items[index].SubItems[2].Text = t;
-                //list.Items[index].SubItems.Add(amounts[index].ToString());
+           for (index=0; index < amounts.Count; index++)
+            {
+                list.Items[index].SubItems[2].Text = amounts[index];
             }
-            list.Items[index].SubItems.Add(controller.Calc.Summa(amounts).ToString());
             txb_new_recipe.Enabled = true;
             btn_insert.Enabled = true;
          }
@@ -645,6 +642,7 @@ namespace MajPAbGr_project
         private void cmb_option_SelectedIndexChanged(object sender, EventArgs e)
         {
             calcBase = (CalcBase)cmb_option.SelectedIndex;
+            controller.CalcBase = (CalcBase)cmb_option.SelectedIndex;
         }
 
 

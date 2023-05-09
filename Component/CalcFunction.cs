@@ -95,6 +95,24 @@ namespace MajPAbGr_project
         static public double calculateCoefficient(double old_amount, double new_amount)
             => (old_amount / new_amount);      
 
+        public void setNewRecipesCoefficient(double amount)
+        {
+            switch ((int)calcbase)
+            {
+                case 1: // total                   
+                    coefficient = amount / Summa();                    
+                    break;
+                case 0: //main
+                    coefficient = amount / amounts[0];
+                    break;
+                case 2: // coefficient
+                    coefficient = amount;                    
+                    break;
+                default: coefficient = amount / amounts[0];
+                    break;
+            }
+        }
+
         public double Summa(double[] values)
         {
             double summa = 0;

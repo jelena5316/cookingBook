@@ -76,19 +76,19 @@ namespace MajPAbGr_project
 
         public List<Element> Old { get { return old_elements; } }
 
-        public List<string> Formated
-        {
-            get
-            {
-                int length = elements.Count;
-                double[] arr = new double[length];
-                for (int k = 0; k < length; k++)
-                {
-                    arr[k] = elements[k].Amounts;
-                }
-                return calc.FormatAmounts(arr, summa);
-            }
-        }
+        //public List<string> Formated
+        //{
+        //    get
+        //    {
+        //        int length = elements.Count;
+        //        double[] arr = new double[length];
+        //        for (int k = 0; k < length; k++)
+        //        {
+        //            arr[k] = elements[k].Amounts;
+        //        }
+        //        return calc.FormatAmounts(arr, summa);
+        //    }
+        //}
 
         public List<Item> Ingredients
         {
