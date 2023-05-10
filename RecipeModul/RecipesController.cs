@@ -179,7 +179,7 @@ namespace MajPAbGr_project
             }
             calc.setNewRecipesCoefficient(amount);
             amounts = calc.ReCalc();
-            List<string> list = calc.FormatAmounts(amounts, calc.Summa());
+            List<string> list = calc.FormatAmounts(amounts, calc.Summa(amounts));
             return list;
         }
     

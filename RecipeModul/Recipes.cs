@@ -216,12 +216,26 @@ namespace MajPAbGr_project
 
         private void btn_insert_Click(object sender, EventArgs e)
          {
-            string count;            
+            string count, str_coeff;        
 
             tbRecipeController recipe = new tbRecipeController
                 ("Recipe", cmbCoeff.SelectedIndex, controller.TbMain().Selected);
             count = recipe.Count
                ($"Select count (name) from Recipe where name = '{txb_new_recipe.Text}';");
+
+            if (string.IsNullOrEmpty(txb_new_recipe.Text))
+                return;
+            if (count == "0")
+            {
+                str_coeff = calc.ColonToPoint(calc.Coefficient.ToString());
+                recipe.insertNewRecipe(txb_new_recipe.Text, str_coeff);
+                fillSubCatalog();
+                btn_insert.Enabled = false;
+            }
+            else
+            {
+                MessageBox.Show($"Recipe {txb_new_recipe.Text} already exists");
+            }
         }
 
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
