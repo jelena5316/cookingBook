@@ -55,7 +55,7 @@ namespace MajPAbGr_project
             label1.Visible = false;
             // к списку записей
 
-            frm.Show();
+            //frm.Show();
             Output();       
         }
 

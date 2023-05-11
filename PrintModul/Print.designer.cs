@@ -84,7 +84,7 @@ namespace MajPAbGr_project
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(61, 14);
+            this.textBox1.Location = new System.Drawing.Point(76, 13);
             this.textBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(324, 21);
@@ -106,13 +106,13 @@ namespace MajPAbGr_project
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(406, 14);
+            this.button3.Location = new System.Drawing.Point(406, 13);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 7;
             this.button3.Text = "Print";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button2_Click);
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Print
             // 

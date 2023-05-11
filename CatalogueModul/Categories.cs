@@ -395,22 +395,10 @@ namespace MajPAbGr_project
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
 			Print frm = new Print();
-			frm.Show();
-			frm.richTextBox1.Text = "";
+			frm.Show();			
 
-			const string PATH = "C:\\Users\\user\\source\\repos\\MajPavGr_project\\Manual.txt";			
-			int k = 0;
-			string [] arr;
-
-			using (StreamReader stream = new StreamReader(PATH))
-			{
-				
-				while (!stream.EndOfStream)
-                {
-					string text = stream.ReadLine();
-					frm.richTextBox1.Text += $"{text}\n";
-                }
-			}
+			const string PATH = "C:\\Users\\user\\source\\repos\\MajPavGr_project\\Manual.txt";
+			frm.OpenFile1(PATH);			
 		}
 
         private void openReceptureEditor()

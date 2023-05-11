@@ -23,7 +23,7 @@ namespace MajPAbGr_project
         
         public Print()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
         public Print(List <string> strings, string file)
@@ -31,7 +31,7 @@ namespace MajPAbGr_project
             InitializeComponent();
             this.strings = strings;
             this.file = file;
-            textBox1.Text = file;
+            textBox1.Text = file;    
         }
 
         public List<string> Info { set { info = value; } }
@@ -83,12 +83,12 @@ namespace MajPAbGr_project
             this.Dispose();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(textBox1.Text))
             {
                 file = textBox1.Text;
-            }                
+            }
             else
             {
                 if (file == null)
@@ -122,12 +122,17 @@ namespace MajPAbGr_project
             }
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Text = "";
+        }
+
         private void Form2_Load(object sender, EventArgs e)
         {
             
             label1.Text = "File name";            
             button1.Text = "Cancel";
-            button2.Text = "Print";
+            button2.Text = "Clear";
             this.StartPosition = (FormStartPosition)1;
             
             richTextBox1.ReadOnly = true;
@@ -169,23 +174,41 @@ namespace MajPAbGr_project
             MessageBox.Show("Файл открыт");
 
             strings.Clear();
-            strings.Add(path);
+            //strings.Add(path);
             string[] arr = fileText.Split('\n');
             strings.AddRange(arr);            
             PrintToBox();        
 
             //читаем файл построчно
-            using (StreamReader reader = new StreamReader(path))
-            {
-                input = reader.ReadLine();
-                while (input != null)
-                {
-                    strings.Add(input);
-                    input = reader.ReadLine();
-                }
-                reader.Close();
-            }            
+            //using (StreamReader reader = new StreamReader(path))
+            //{
+            //    input = reader.ReadLine();
+            //    while (input != null)
+            //    {
+            //        strings.Add(input);
+            //        input = reader.ReadLine();
+            //    }
+            //    reader.Close();
+            //}            
+            //PrintToBox();
+        }
+
+        private void OpenFile (string path)
+        {
+            // читаем файл в строку
+            string fileText = System.IO.File.ReadAllText(path);
+            //MessageBox.Show("Файл открыт");
+
+            strings.Clear();            
+            string[] arr = fileText.Split('\n');
+            strings.AddRange(arr);
             PrintToBox();
+        }
+
+        public void OpenFile1 (string path)
+        {
+            strings = new List<string>();
+            OpenFile(path);
         }
     }
 }
