@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -389,6 +390,27 @@ namespace MajPAbGr_project
 					option = 1;
             }
 			controller.Print(index, option);
+		}
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			Print frm = new Print();
+			frm.Show();
+			frm.richTextBox1.Text = "";
+
+			const string PATH = "C:\\Users\\user\\source\\repos\\MajPavGr_project\\Manual.txt";			
+			int k = 0;
+			string [] arr;
+
+			using (StreamReader stream = new StreamReader(PATH))
+			{
+				
+				while (!stream.EndOfStream)
+                {
+					string text = stream.ReadLine();
+					frm.richTextBox1.Text += $"{text}\n";
+                }
+			}
 		}
 
         private void openReceptureEditor()
