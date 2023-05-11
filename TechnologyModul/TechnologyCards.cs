@@ -21,6 +21,7 @@ namespace MajPAbGr_project
         tbTechnologyCardsController tb;
         TechnologyCardsController controller;
 
+
         public TechnologyCards (TechnologyCardsController cntrl)
         {
             InitializeComponent();
@@ -28,6 +29,7 @@ namespace MajPAbGr_project
             this.tb = cntrl.getTbController();
             cards = cntrl.Cards;
             id_cards = tb.Selected;
+            label5.Visible = false;
         }
 
         public TechnologyCards(int card)
@@ -322,6 +324,11 @@ namespace MajPAbGr_project
             frm.richTextBox1.Text += "\n********\n";
 
             frm.richTextBox1.Text += FillCards(2);           
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
 
         private string FillCards(int id_tech) // ярлык с прочими картами

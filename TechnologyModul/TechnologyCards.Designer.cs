@@ -183,7 +183,7 @@ namespace MajPAbGr_project
             this.groupBox1.Size = new System.Drawing.Size(428, 591);
             this.groupBox1.TabIndex = 32;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Editor";
+            this.groupBox1.Text = "Editor";            
             // 
             // TechnologyCards
             // 
