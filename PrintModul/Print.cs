@@ -124,7 +124,7 @@ namespace MajPAbGr_project
 
         private void button2_Click(object sender, EventArgs e)
         {
-            richTextBox1.Text = "";
+            richTextBox1.Text = "";           
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -205,10 +205,17 @@ namespace MajPAbGr_project
             PrintToBox();
         }
 
-        public void OpenFile1 (string path)
+        public void OpenFile1 (string path, string fname)
         {
+            this.file = fname;
+            textBox1.Text = file;
             strings = new List<string>();
-            OpenFile(path);
+            OpenFile(path);            
+        }
+
+        public void Button3_Enabled_status(bool enabled)
+        {
+            button3.Enabled = enabled;
         }
     }
 }

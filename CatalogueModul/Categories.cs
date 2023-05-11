@@ -398,7 +398,8 @@ namespace MajPAbGr_project
 			frm.Show();			
 
 			const string PATH = "C:\\Users\\user\\source\\repos\\MajPavGr_project\\Manual.txt";
-			frm.OpenFile1(PATH);			
+			frm.OpenFile1(PATH, "Manual");
+			frm.Button3_Enabled_status(false);
 		}
 
         private void openReceptureEditor()
