@@ -395,10 +395,10 @@ namespace MajPAbGr_project
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
 			Print frm = new Print();
-			frm.Show();			
+			frm.Show();
 
-			const string PATH = "C:\\Users\\user\\source\\repos\\MajPavGr_project\\Manual.txt";
-			frm.OpenFile1(PATH, "Manual");
+			const string PATH = "man\\user_manul_lv.txt";
+			frm.OpenFile1(PATH, "user_manual");
 			frm.Button3_Enabled_status(false);
 		}
 
