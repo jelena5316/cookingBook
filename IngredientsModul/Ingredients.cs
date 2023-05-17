@@ -9,23 +9,8 @@ namespace MajPAbGr_project
         int option, l_used=0;
         string used;
 
-        List<string> output;
-        Print frm;
-
+        List<string> output;     
         tbIngredientsController tb;
-
-        public Ingredients(int opt)
-        {
-            InitializeComponent();            
-            this.option = opt;
-            string table = opt == 1 ? "Ingredients" : "Categories";
-            //tb = new tbClass1(table);            
-            // this `tb` is a object of class tbClass1 (from previous version of code)
-            
-            //tb.setCatalog();
-            //Elements();
-            //fillCatalog(tb.getCatalog());            
-        }
 
         public Ingredients (tbIngredientsController controller)
         {
@@ -38,8 +23,7 @@ namespace MajPAbGr_project
 
         private void Ingredients_Load(object sender, EventArgs e)
         {
-            string table;            
-            frm = new Print();
+            string table;          
             
             // Elements()
             table = tb.getTable();
@@ -53,45 +37,15 @@ namespace MajPAbGr_project
 
             label1.Text = "";
             label1.Visible = false;
-            // к списку записей
-
-            //frm.Show();
+            //for list of records'
+          
             Output();       
         }
 
         private void Output()
         {
-            int index;
             List<int> id;
             output = Class1.FillComboString(tb.getCatalog(), cmbData, out id);
-            frm.richTextBox1.Text = "";            
-            
-            for (index = 0; index < output.Count; index++)
-            {
-                tb.Selected = id[index];                
-                tb.setUsed();
-                used = tb.getUsed();
-
-                // for csv files, to open in Exel
-                // переделать на "человеческий" формат!!!
-                frm.richTextBox1.Text += index + 1 + "," + output[index];
-                string t = "";
-                if (used == "0")
-                {
-                    t =  ",not used\n";                    
-                }
-                else
-                {
-                    t = "," + used + "_records";
-                    List<string> recipes = tb.SeeMoreFunc();
-                    foreach (string li in recipes)
-                    { 
-                        t += "," + li;
-                    }
-                    t += "\n";
-                }
-                frm.richTextBox1.Text += t;
-            }
         }
 
         private void btn_edit_Click(object sender, EventArgs e)
@@ -100,7 +54,6 @@ namespace MajPAbGr_project
             {
                 if (cmbData.SelectedIndex != -1)
                 {
-                    //txbAdd.Text = tb.getName(cmbData.SelectedIndex);
                     string name = cmbData.SelectedItem.ToString();
                     groupBox2.Text = name;
                     txbAdd.Text = name;
@@ -140,9 +93,7 @@ namespace MajPAbGr_project
 
             if (count != 0)
             {
-                //fillCatalog(tb.getCatalog());
                 Output();
-
                 btn_add.Enabled = false;
                 txbAdd.Clear();
                 groupBox2.Text = "Insert new";                
@@ -183,7 +134,6 @@ namespace MajPAbGr_project
             int count = RemoveSelected();
             if (count > 0)
             {
-                //fillCatalog(tb.getCatalog());
                 Output();
                 btn_remove.Enabled = false;
             }
@@ -232,7 +182,7 @@ namespace MajPAbGr_project
             ComboBox c = cmbData;
             Label l = lblInfo;
 
-            used = "0"; // в скольких записях используется
+            used = "0"; //number of records where is used
             l.Text = "Is used in";
 
             if (c.SelectedIndex < tb.getCatalog().Count)
@@ -259,7 +209,7 @@ namespace MajPAbGr_project
                 l.Text += $"{used} record(s) >>";
                 lblTest.Text = tb.getSelected().ToString();               
 
-                //для  управлением списка рецептов
+                //to manage list of recipes
                 l_used = 1; 
                 label1.Text = "";
                 SeeMore();

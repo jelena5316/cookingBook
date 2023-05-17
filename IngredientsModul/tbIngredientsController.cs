@@ -56,7 +56,7 @@ namespace MajPAbGr_project
             return used;
         }
 
-        public List<string> SeeMoreFunc() // for Ingredients.cs
+        public List<string> SeeMoreFunc()
         {
             query = (table == "Ingredients") ? $"select name from Recepture where id in (select id_recepture from Amounts where id_ingredients = {selected});"
                     : $"select name from Recepture where id_category = {selected}";
@@ -64,7 +64,7 @@ namespace MajPAbGr_project
             return list;
         }
 
-        public int AddItem(string name) //Ingredients.cs
+        public int AddItem(string name)
         {
             query = $"select count(*) from {table} where name ='{name}';";
             string ind = Count(query);
@@ -82,7 +82,7 @@ namespace MajPAbGr_project
             }
         }
 
-        public int UpdateItem(string name) // Ingredients.cs
+        public int UpdateItem(string name)
         {
             query = $"select count(*) from {table} where name ='{name}';";
             string ind = Count(query);
