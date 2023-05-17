@@ -18,8 +18,8 @@ namespace MajPAbGr_project
 		int pragma;
 		List<string> list, list_of_categories;
 		List<ReceptureStruct> full;
-		CategoriesController controller; // включает в себя FormMainController
-		tbReceptureController tbMain; // указатель на controller.TbMain
+		CategoriesController controller; // include FormMainController
+		tbReceptureController tbMain; // pointer at controller.TbMain
 
 		public Categories()
 		{
@@ -68,9 +68,8 @@ namespace MajPAbGr_project
 		}
 
 		/*
-		 *  Методы для обработчиков событий
+		 * Methods for events handlers
 		 */
-
 
 		private int CheckTbMainSelected(int min)
 		{
@@ -89,8 +88,9 @@ namespace MajPAbGr_project
 
 		private void openTechnology()
 		{
-			int selected, id_technology, count;// id of recepture and of technology;
-											   // проверить выбранный в списке  
+			int selected, id_technology;
+
+			// check selected item of list
 			selected = CheckTbMainSelected(controller.getMinIdOfReceptures());
 			Technology frm;
 
@@ -105,18 +105,6 @@ namespace MajPAbGr_project
 
 			frm = new Technology(id_technology);
 			frm.Show();
-
-			//        count = tbMain.SelectedCount("Recepture", "id_technology", selected); // dos recepture contain any technology
-			//        if (count == 1)
-			//        {
-			//            id_technology = int.Parse(tbMain.getById("id_technology", selected));				
-			//        }
-			//        else
-			//        {
-			//id_technology = 0;
-			//        }
-
-
 		}
 
 		private void addNew()
@@ -138,13 +126,6 @@ namespace MajPAbGr_project
 
 		private void Reload()
 		{
-			//controller = new CategoriesController();
-			//tbMain = controller.TbMain;
-			//list = new List<string>();
-			//for (int k = 0; k < controller.Receptures.Count; k++)
-			//	list.Add(controller.Receptures[k].name);
-			//pragma = 0;
-
 			list.Clear();
 			for (int k = 0; k < controller.Receptures.Count; k++)
 				list.Add(controller.Receptures[k].name);
@@ -173,7 +154,7 @@ namespace MajPAbGr_project
 		}
 
 		/*
-		 * Обработчики событий
+		 * Events handlers
 		 */
 		private void lv_recepture_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -235,8 +216,7 @@ namespace MajPAbGr_project
 			full = null;
 			cmb_categories.Text = "all";
 			if (lv_recepture.Items.Count > 0)
-				lv_recepture.Items[0].Selected = true;
-			//pragma = 1;
+				lv_recepture.Items[0].Selected = true;			
 		}
 
 		private void textBox1_TextChanged(object sender, EventArgs e)
@@ -257,15 +237,6 @@ namespace MajPAbGr_project
 				lv_recepture.Items[0].Selected = true;
 		}
 
-		private void searchByName(string text) { }
-
-		private void lv_recepture_DoubleClick(object sender, EventArgs e)
-		{
-			openReceptureEditor();
-		}
-
-
-
 		/*
 		 * Others controls: buttons, menu strip items
 		 */
@@ -274,16 +245,6 @@ namespace MajPAbGr_project
 			addNew();
 		}
 
-		private void openDbEditorToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			EditDB frm = new EditDB();
-			frm.Show();
-		}
-
-		private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			Reload();
-		}
 
 		private void recipeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -300,43 +261,9 @@ namespace MajPAbGr_project
 			SimpleTable(1);
 		}
 
-		private void addNewToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			addNew();
-		}
-
-		private void editToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			openReceptureEditor();
-		}
-
-
 		private void tecnologyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			openTechnology();
-		}
-
-		/*
-		 * Context menu
-		 */
-		private void recipesEditorToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			openRecipesEditor();
-		}
-
-		private void printToolStripMenuItem1_Click(object sender, EventArgs e)
-		{
-            if (lv_recepture.SelectedItems.Count < 1) return;
-
-            int index = lv_recepture.SelectedItems[0].Index;
-            Print frm = new Print();
-            frm.Show();
-            frm.richTextBox1.Lines = controller.PrintInfo(index);
-        }
-
-		private void editToolStripMenuItem1_Click(object sender, EventArgs e)
-		{
-			openReceptureEditor();
 		}
 
 		private void AmountsTable()
@@ -348,13 +275,6 @@ namespace MajPAbGr_project
 			InsertAmounts frm = new InsertAmounts(cntrl);
 			frm.ShowDialog();
 			Reload();
-		}
-
-		private void amountsOfIngredientsToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (lv_recepture.SelectedItems.Count < 1) return;
-			if (tbMain.Selected < 1) tbMain.setSelected(lv_recepture.SelectedItems[0].Index);
-			AmountsTable();
 		}
 
 		private void amountsEditorToolStripMenuItem_Click(object sender, EventArgs e)
