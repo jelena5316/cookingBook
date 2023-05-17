@@ -14,12 +14,7 @@ namespace MajPAbGr_project
     public partial class Print : Form
     {
         string file;
-        List<string> strings,
-            info,
-            ingredients,
-            technology,
-            cards;
-        
+        List<string> strings; 
         
         public Print()
         {
@@ -34,30 +29,11 @@ namespace MajPAbGr_project
             textBox1.Text = file;    
         }
 
-        public List<string> Info { set { info = value; } }
-        public List<string> Ingredients { set { ingredients = value; } }
-        public List<string> Technology { set { technology = value; } }
-        public List<string> Cards { set { cards = value; } }
-
-
-
         private void PrintToFile()
         {
-            const string PATH ="C:\\Users\\user\\Desktop\\"; 
-              //  "C:\\Users\\user\\Documents\\2_diplom\\Receptures\\";
+            const string PATH ="C:\\Users\\user\\Desktop\\";              
             string path;
             file = $"{file}.txt";
-
-            //if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
-            //{
-            //    //file = $"{file}.csv"; // for lists to be able to be opened with Exel
-            //    path = PATH + file;
-            //}
-            //else
-            //{
-            //    path = saveFileDialog1.FileName;
-            //}
-
 
             path = PATH + file;
             using (StreamWriter stream = new StreamWriter(path, true))
@@ -162,42 +138,27 @@ namespace MajPAbGr_project
 
         private void openFile()
         {
-            string input, path;           
+            string path;           
 
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
 
-            // получаем выбранный файл
+            // get file
             path = openFileDialog1.FileName;
-            // читаем файл в строку
+            // read file as one string
             string fileText = System.IO.File.ReadAllText(path);
             MessageBox.Show("Файл открыт");
 
-            strings.Clear();
-            //strings.Add(path);
+            strings.Clear();           
             string[] arr = fileText.Split('\n');
             strings.AddRange(arr);            
-            PrintToBox();        
-
-            //читаем файл построчно
-            //using (StreamReader reader = new StreamReader(path))
-            //{
-            //    input = reader.ReadLine();
-            //    while (input != null)
-            //    {
-            //        strings.Add(input);
-            //        input = reader.ReadLine();
-            //    }
-            //    reader.Close();
-            //}            
-            //PrintToBox();
+            PrintToBox();      
         }
 
         private void OpenFile (string path)
         {
-            // читаем файл в строку
-            string fileText = System.IO.File.ReadAllText(path);
-            //MessageBox.Show("Файл открыт");
+            //  read file as one string
+            string fileText = System.IO.File.ReadAllText(path);           
 
             strings.Clear();            
             string[] arr = fileText.Split('\n');

@@ -8,8 +8,7 @@ namespace MajPAbGr_project
 {
     class PrintController
     {
-        const string PATH = "C:\\Users\\user\\Desktop\\";
-        //const string PATH = "C:\\Users\\user\\Documents\\2_diplom\\Receptures\\";
+        const string PATH = "C:\\Users\\user\\Desktop\\";       
         string file;
         List<string> strings,
             info,
@@ -56,9 +55,6 @@ namespace MajPAbGr_project
             strings.Add("\nINGREDIENTS");
             strings.AddRange(ingredients);
         }
-
-        private void PrepareRecipeTableOutput() { }
-
     }
 
     
