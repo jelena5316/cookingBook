@@ -22,7 +22,7 @@ namespace MajPAbGr_project
         NewReceptureController controller;// = new NewReceptureController();
 
 
-        public NewRecepture(tbReceptureController tbMain, NewReceptureController controller)
+        public NewRecepture(tbReceptureController tbMain, NewReceptureController controller) // addNew() in "Categories"
         {
             InitializeComponent();           
             this.controller = controller;
@@ -35,13 +35,11 @@ namespace MajPAbGr_project
             tbCat = new tbController("Categories");
             tbCat.setCatalog();
             tbTech = new tbTechnologyController("Technology");
-            tbTech.setCatalog();
-
-            //indicator = id_recepture > 0 ? true : false;
+            tbTech.setCatalog();          
             indicator = controller.Indicator;
         }
 
-        public NewRecepture(NewReceptureController controller)
+        public NewRecepture(NewReceptureController controller) // openReceptureEditor() in "Categories"
         {
             InitializeComponent();
             this.controller = controller;
@@ -107,6 +105,7 @@ namespace MajPAbGr_project
         {
             technology = tbTech.setSelected(cmbTech.SelectedIndex);
         }
+
         private void cmbCat_SelectedIndexChanged(object sender, EventArgs e)
         {
             tbCat.setSelected(cmbCat.SelectedIndex);
@@ -188,14 +187,16 @@ namespace MajPAbGr_project
                 name = txbRecepture.Text;
                 category = tbCat.getSelected();
                 if (category == 0) category = 1;
+
                 if (tb.IfRecordIs(name)) return -2;
-                //пресекаем попытку ввести новую запись с занятым названием
+                //if name is not unique
+
                 tb.InsertNewRecord(name, category);
-                // пишем в базу данных название и категория нового рецепта, получаем номер
+                // insert name and category into DB, take from DB id of last record's id
                 id_recepture = tb.getId();
-                //add new recepture and get it's id     
+                //get the id   
             }
-            else // редактируем существующую запись
+            else // updating existing record
             {
                 if (string.IsNullOrEmpty(txbRecepture.Text)) return -1;
 
@@ -206,8 +207,7 @@ namespace MajPAbGr_project
                 num = tb.UpdateReceptureOrCards("id_category", category.ToString(), id_recepture);
                 if (technology != 0 || !chBox_technology.Checked)
                 {
-                    num = tb.UpdateReceptureOrCards("id_technology", technology.ToString(), id_recepture);
-                    //num = tb.Edit($"update Recepture set id_technology = {technology} where id = {id_recepture};");
+                    num = tb.UpdateReceptureOrCards("id_technology", technology.ToString(), id_recepture);                    
                 }
                 else
                 {
@@ -221,8 +221,7 @@ namespace MajPAbGr_project
             if (!string.IsNullOrEmpty(txbAuthor.Text))
             {
                 author = txbAuthor.Text;
-                num = tb.UpdateReceptureOrCards("author", author, id_recepture);
-                //Report(num, "author");
+                num = tb.UpdateReceptureOrCards("author", author, id_recepture);                
             }
 
             if (!string.IsNullOrEmpty(txbSource.Text))
@@ -234,25 +233,17 @@ namespace MajPAbGr_project
             if (!string.IsNullOrEmpty(txbDescription.Text))
             {
                 description = txbDescription.Text;
-                num = tb.UpdateReceptureOrCards("description", description, id_recepture);
-                //Report(num, "description");
+                num = tb.UpdateReceptureOrCards("description", description, id_recepture);               
             }             
 
             if (!string.IsNullOrEmpty(txbURL.Text))
             {
                 URL = txbURL.Text;
-                num = tb.UpdateReceptureOrCards("URL", URL, id_recepture);
-                //Report(num, "URL");
+                num = tb.UpdateReceptureOrCards("URL", URL, id_recepture);               
             }
 
              return id_recepture;           
         }
-
-        //private void Report(int num, string variable) //developer mode
-        //{
-        //    if (num == 0) this.Text += $" {variable} not writted";
-        //    else this.Text += $" {variable} is writted";
-        //}
 
         private void NewRecepture_Load(object sender, EventArgs e)
         {
@@ -282,28 +273,6 @@ namespace MajPAbGr_project
             }
             return length;
     } 
-
-
-        //private void ChangeInfo()
-        //{
-        //    // добваить в РецептуруСтрукт методы для записи данных
-        //    if (string.IsNullOrEmpty(txbRecepture.Text)) return;
-        //    if (tb.IfRecordIs(txbRecepture.Text)) return;
-        //    name = txbRecepture.Text;
-
-        //    if (cmbCat.SelectedIndex < 0) return;
-        //    category = tbCat.setSelected(cmbCat.SelectedIndex);
-        //    if (!chBox_technology.Checked && cmbCat.SelectedIndex > -1)
-        //        technology = tbTech.setSelected(cmbTech.SelectedIndex);
-
-        //    if (string.IsNullOrEmpty(txbDescription.Text)) return;
-        //    description = txbDescription.Text;
-        //    if (string.IsNullOrEmpty(txbURL.Text)) return;
-        //    URL = txbURL.Text;
-
-        //    source = txbSource.Text;
-        //    author = txbAuthor.Text;
-        //}
 }
 
     public class NewReceptureController
@@ -315,20 +284,9 @@ namespace MajPAbGr_project
 
         tbReceptureController tb;
         tbController tbCat;
-        tbTechnologyController tbTech;
+        tbTechnologyController tbTech;       
 
-        //public NewReceptureController()
-        //{
-        //    tb = new tbReceptureController("Recepture");
-        //    tbCat = new tbController("Categories");
-        //    tbTech = new tbTechnologyController("Technology");
-        //    tbCat.setCatalog();
-        //    categories = tbCat.getCatalog();
-        //    tbTech.setCatalog();
-        //    technologies = tbTech.getCatalog();
-        //}
-
-        public NewReceptureController (tbReceptureController tb)
+        public NewReceptureController (tbReceptureController tb) // openReceptureEditor() in "Categories"
         {
             this.tb = tb;
             tbCat = new tbController("Categories");
@@ -339,7 +297,7 @@ namespace MajPAbGr_project
             technologies = tbTech.getCatalog();
         }
 
-        public NewReceptureController() // верный
+        public NewReceptureController() //addNew() in "Categories"
         {
             tbCat = new tbController("Categories");
             tbTech = new tbTechnologyController("Technology");
@@ -387,28 +345,6 @@ namespace MajPAbGr_project
         public string [] getNames(string column)
         {
             return tb.dbReader($"select {column} from Recepture;").ToArray();
-        }
-
-        //public void ReloadFromDataBase(int id)
-       /*{
-            string[] columns = { "id_category", "id_technology" };
-            string Query(string column) => 
-                $"select {column} from {tb.getTable()} where id = {id}";
-            
-            List<string> data = tb.getData();
-            category = int.Parse(tb.dbReader(Query(columns[0]))[0]);           
-            technology = int.Parse(tb.dbReader(Query(columns[1]))[0]);                     
-            // запустить setData()
-            if (data != null)
-            {
-                indicator = true;
-                name = data[0];
-                source = data[1];
-                author = data[2];
-                URL = data[3];
-                description = data[4];
-            }
-        }
-        */
+        }       
     }
 }
