@@ -69,7 +69,7 @@ namespace MajPAbGr_project
         }
 
         /*
-         * Lokalizacija
+         * Lokalization
          */
 
         private void changeLocale(string locale)
@@ -96,7 +96,7 @@ namespace MajPAbGr_project
         }
 
         /*
-         * Konec lokalizaciji
+         * End of lokalization's setting
          */
 
         public int fillSubCatalog()  // recipes of recepture, combobox
@@ -128,9 +128,9 @@ namespace MajPAbGr_project
             int count = fillSubCatalog(); // fill the combobox2              
                      
             elements = controller.Amounts; // amounts            
-            calc.setAmounts(elements); // сохраняет и cуммирует величины
+            calc.setAmounts(elements); // save and sum values
 
-            //InputRecepture(elements);            
+            //Output recepture (elements);            
             List<string> amounts = calc.FormatAmounts
                 (calc.getAmounts(), calc.getTotal());
             Class1.FillListView(elements, amounts, listView1);
@@ -170,8 +170,7 @@ namespace MajPAbGr_project
             {
                 int index = recipe.SelectedIndex;
                 calc.Coefficient = recipes[index].Amounts;                
-                lbl_koef.Text = string.Format("{0:f2}", calc.Coefficient);
-                //txbRecipe.Text = recipes[index].Name;
+                lbl_koef.Text = string.Format("{0:f2}", calc.Coefficient);                
             }
         }
 
@@ -182,7 +181,7 @@ namespace MajPAbGr_project
             if (coeff == 1) return;
 
             int index;                     
-            List<string> t = calc.FormatAmounts(); //посчитали и придали вид
+            List<string> t = calc.FormatAmounts();
             for (index = 0; index < t.Count; index++)
             {
                 list.Items[index].SubItems[2].Text = t[index];
@@ -191,9 +190,9 @@ namespace MajPAbGr_project
             
         }
 
-        /*****************************************************************************
-         * новый рецепт, навигация        
-        *******************************************************************************/
+        /*
+         * new recipe (coefficient)
+        */
          private void button2_Click(object sender, EventArgs e) // calc new recipe
          {
              if (string.IsNullOrEmpty(txb_coeff.Text)) return;             
@@ -242,17 +241,20 @@ namespace MajPAbGr_project
         {
             Reload();
         }
+
         private void Reload()
         {
             int temp = comboBox1.SelectedIndex;
             tb.setCatalog();
             Class1.setBox(tb.getCatalog(), combo);
             comboBox1.SelectedIndex = temp;
-            columnHeader2.Text = "Amounts (%)";            
-            //comboBox1.Text = comboBox1.SelectedItem.ToString();
+            columnHeader2.Text = "Amounts (%)";
         }
 
-        //Print to file  
+
+        /*
+         * Print to file 
+         */
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string file, name, output = "", mesuare;
@@ -306,7 +308,9 @@ namespace MajPAbGr_project
             print.PrepareRecipeIngredientsOutput();
             print.PrintRecipe();                   
         }
-        // konec 'print to file'
+        /*
+         * end of printing
+         */
 
         private void openDbEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -325,7 +329,10 @@ namespace MajPAbGr_project
         }
                 
 
-        // edit name of coefficient
+        /*
+         * edit name of coefficient
+         */
+
         private void btn_edit_Click(object sender, EventArgs e) 
         {
             int index, ind;

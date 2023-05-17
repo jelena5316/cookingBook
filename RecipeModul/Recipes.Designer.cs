@@ -35,8 +35,8 @@ namespace MajPAbGr_project
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openDbEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openDbEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.localizacijaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,7 +44,6 @@ namespace MajPAbGr_project
             this.btn_insert = new System.Windows.Forms.Button();
             this.lbl_info = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.button3 = new System.Windows.Forms.Button();
             this.txb_coeff = new System.Windows.Forms.TextBox();
             this.cmbCoeff = new System.Windows.Forms.ComboBox();
@@ -118,19 +117,19 @@ namespace MajPAbGr_project
             this.reloadToolStripMenuItem.Text = "Reload";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
-            // openDbEditorToolStripMenuItem
-            // 
-            this.openDbEditorToolStripMenuItem.Name = "openDbEditorToolStripMenuItem";
-            this.openDbEditorToolStripMenuItem.Size = new System.Drawing.Size(127, 25);
-            this.openDbEditorToolStripMenuItem.Text = "Open db editor";
-            this.openDbEditorToolStripMenuItem.Click += new System.EventHandler(this.openDbEditorToolStripMenuItem_Click);
-            // 
             // printToolStripMenuItem
             // 
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
             this.printToolStripMenuItem.Size = new System.Drawing.Size(55, 25);
             this.printToolStripMenuItem.Text = "Print";
             this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
+            // 
+            // openDbEditorToolStripMenuItem
+            // 
+            this.openDbEditorToolStripMenuItem.Name = "openDbEditorToolStripMenuItem";
+            this.openDbEditorToolStripMenuItem.Size = new System.Drawing.Size(127, 25);
+            this.openDbEditorToolStripMenuItem.Text = "Open db editor";
+            this.openDbEditorToolStripMenuItem.Click += new System.EventHandler(this.openDbEditorToolStripMenuItem_Click);
             // 
             // localizacijaToolStripMenuItem
             // 
@@ -413,7 +412,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.ToolStripMenuItem lVToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rUToolStripMenuItem;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TextBox txb_coeff;

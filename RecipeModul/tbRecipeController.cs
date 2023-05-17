@@ -12,7 +12,7 @@ namespace MajPAbGr_project
 
         public tbRecipeController(string table) : base(table) { }        
 
-        public tbRecipeController (string table, int index, int recepture) : base (table)
+        public tbRecipeController (string table, int index, int recepture) : base (table) // for inserting new recipe (coefficient)
         {
             this.recepture = recepture;
             catalog = setSubCatalog();
@@ -47,17 +47,6 @@ namespace MajPAbGr_project
             set { recepture = value; }
             get { return recepture; }
         }
-
-        //public string ReceptureInfo()
-        //{
-        //    string info = "\n";
-        //    info += dbReader($"select source from Recepture where id = {recepture};")[0] + "\n";
-        //    info += dbReader($"select author from Recepture where id = {recepture};")[0] + "\n";
-        //    info += dbReader($"select URL from Recepture where id = {recepture};")[0] + "\n";
-        //    info += dbReader($"select description from Recepture where id = {recepture};")[0]+ "\n";
-        //    // queries will be usefull for the form InsertAmounts!
-        //    return info;
-        //}
 
         public override int RemoveItem()
         {

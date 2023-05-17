@@ -10,22 +10,20 @@ namespace MajPAbGr_project
 {
     public class RecipesController
     {
-        int selected; // выбранной из списка рецептурe, номера записей в базе данных
-        //int technology, category;       
-        //ReceptureStruct info;
+        int selected;        
         private List<Item> receptures, subcatalog;
-        private List<Element> recipes; // рецепты
-        private List<Element> elements; // сырье
-        tbReceptureController tb; // контроллер таблицы Рецептуры
-        tbRecipeController tbCoeff; //контроллер таблицы Рецептов
-        
-        // Вычисления
+        private List<Element> recipes; // recipes (coefficients)
+        private List<Element> elements; // stuffs
+        tbReceptureController tb; // formulation
+        tbRecipeController tbCoeff; // recipes (coefficients)
+
+        // calculations
         CalcBase calcBase = 0;
         CalcFunction calc; 
 
         CultureInfo current;
-        NumberFormatInfo nfi; // локализация, разделитель целых и долей("," или ".")
-        string decimal_separator /*разделитель */;
+        NumberFormatInfo nfi; // number format
+        string decimal_separator /* ("," or ".") */;
         
 
         public RecipesController(int id)
@@ -39,10 +37,10 @@ namespace MajPAbGr_project
             tbCoeff.Recepture = id;
             selected = id;
             subcatalog = tb.setSubCatalog("Recipe", "id_recepture"); // table Recipe, id_recepture
-            recipes = tb.readElement(2); //читает полностью, все три поля
-            elements = tb.readElement(1); //читает полностью, все три поля     
+            recipes = tb.readElement(2);
+            elements = tb.readElement(1);
 
-            setNFI("ru_RU");            
+            setNFI("us_US");            
         }
 
         public tbReceptureController TbMain() => this.tb;
@@ -98,7 +96,7 @@ namespace MajPAbGr_project
         }
 
         /*
-         * Локализация
+         * Lokalization
          */
         public void setNFI(string lokalizacija)
         {
@@ -120,12 +118,12 @@ namespace MajPAbGr_project
             return name;
         }
 
-        /* ************************************************
+        /*
          * buttons click handlers
-         **************************************************/
+         */
         public List <string> button1_onClick(string text)
         {
-            double summa, amount;
+            double amount;
             double[] amounts = calc.getAmounts();
 
             if (amounts.Length < 1) 
@@ -185,7 +183,7 @@ namespace MajPAbGr_project
     
         public int btn_edit_onClick(string name, int index)
         {
-            int ind, id=1;
+            int ind, id = 1;
             id = subcatalog[index].id;
             tbRecipeController tbCoef = new tbRecipeController("Recipe");
             try

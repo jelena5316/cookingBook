@@ -120,12 +120,6 @@
     </Compile>
     <Compile Include="CatalogueModul\tbReceptureController.cs" />
     <Compile Include="IngredientsModul\tbIngredientsController.cs" />
-    <Compile Include="RecipeModul\RecipeEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RecipeModul\RecipeEditor.designer.cs">
-      <DependentUpon>RecipeEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="RecipeModul\tbRecipeController.cs" />
     <Compile Include="TechnologyModul\tbChainController.cs" />
     <Compile Include="TechnologyModul\TechnologyCards.cs">
@@ -197,9 +191,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="RecipeModul\RecipeEditor.resx">
-      <DependentUpon>RecipeEditor.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="TechnologyModul\Technology.resx">
       <DependentUpon>Technology.cs</DependentUpon>
     </EmbeddedResource>
