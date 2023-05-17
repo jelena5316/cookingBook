@@ -206,8 +206,6 @@ namespace MajPAbGr_project
                     file = "about";
                     break;
             }
-            //Print frm = new Print(output, file);
-            //frm.Show();
         }
 
         public string[] PrintInfo(int index)
@@ -239,8 +237,7 @@ namespace MajPAbGr_project
             else
             {
                 tehn = new TechnologyController(id_technology);
-                tehn.setReceptures();
-                //arr = tehn.getFullInfo();
+                tehn.setReceptures();                
                 arr = tehn.OutTechnology(id_technology);
                 return arr;
             }
@@ -297,7 +294,6 @@ namespace MajPAbGr_project
                 rec += $"{el[k].Name} {amount}.";
             }          
             return rec;
-        }
-        
+        }  
     }   
 }
