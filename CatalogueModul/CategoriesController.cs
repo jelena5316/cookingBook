@@ -180,7 +180,7 @@ namespace MajPAbGr_project
                 case 1:
                     string rec, tech, cards, cat, ingr;
                     rec = tb.Statistic_common;
-                    rec += $" (without technology: {tb.Statistic_formul})";                   
+                    rec += $" (without technology: {tb.Statistic_formula})";                   
                     tech = tbTech.getTbController().Statistic;
                     cards = tbTech.getTbController().Statisic_cards;
                     cat = tbCat.Statistic;

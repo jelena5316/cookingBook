@@ -10,8 +10,7 @@ namespace MajPAbGr_project
     {
         private int id_recepture, category, technology = 0;
         private bool indicator; // choose mode
-        string[,] Info = new string[2, 6];
-        //from tbReceptureController
+        string[,] Info = new string[2, 6];      
 
         ReceptureStruct info;
 
@@ -20,70 +19,6 @@ namespace MajPAbGr_project
             this.table = table;
         }
 
-        //Конструкторы для формы ввода новой рецептуры (3)
-        // пока передаётся существующий, а не создаётся новый
-        // FormMain.cs: new NewRecepture(..)
-        // Categories.cs: lv_recepture_DoubleClick(..)
-        // Recipes.cs: new Recepture(..) (now is a comment)
-        //public tbReceptureController(string table, bool indicator) // add new recepture
-        //{
-        //    base.table = table;
-        //    id_recepture = 0;
-        //    category = 0;
-        //    this.indicator = indicator;
-
-        //    Info[0, 0] = "name";
-        //    Info[0, 1] = "source";
-        //    Info[0, 2] = "author";
-        //    Info[0, 3] = "URL";
-        //    Info[0, 4] = "description";
-
-        //    setData();
-        //}
-
-        //public tbReceptureController(string table, int id, int category) // edit recepture
-        //   : base()
-        //{
-        //    base.table = table;
-        //    id_recepture = id;
-        //    selected = id;
-        //    this.category = category;
-
-        //    Info[0, 0] = "name";
-        //    Info[0, 1] = "source";
-        //    Info[0, 2] = "author";
-        //    Info[0, 3] = "URL";
-        //    Info[0, 4] = "description";
-
-        //    //from method setIndicator (): void
-        //    if (id_recepture > 0) indicator = true;
-        //    else indicator = false;
-
-        //    setData();
-        //}
-
-        //public tbReceptureController(string table, int id, int category, int technology) // edit recepture
-        //    : base()
-        //{
-        //    base.table = table;
-        //    id_recepture = id;
-        //    selected = id;
-        //    this.category = category;
-        //    this.technology = technology;
-
-        //    Info[0, 0] = "name";
-        //    Info[0, 1] = "source";
-        //    Info[0, 2] = "author";
-        //    Info[0, 3] = "URL";
-        //    Info[0, 4] = "description";
-
-        //    //from method setIndicator (): void
-        //    if (id_recepture > 0) indicator = true;
-        //    else indicator = false;
-
-        //    setCatalog();
-        //    setData();
-        //}
 
         public string Statistic_common{
             get {
@@ -92,64 +27,12 @@ namespace MajPAbGr_project
             }
         }
 
-        public string Statistic_formul
+        public string Statistic_formula
         {
             get {
                 query = $"select count (*) from {table} where description is null";                               
                 return Count(query); ;            
             }
-        }
-
-        private bool Indicator(int id)
-        {
-            return id > 0 ? true : false;
-        }
-
-        private void setData()// in place SetForm
-        {
-            Info[0, 0] = "name";
-            Info[0, 1] = "source";
-            Info[0, 2] = "author";
-            Info[0, 3] = "URL";
-            Info[0, 4] = "description";
-
-            if (Indicator(id_recepture))
-            {
-                for (int k = 0; k < 5; k++)
-                {
-                    query = $"select {Info[0, k]} from Recepture where id = {id_recepture};";
-                    Info[1, k] = dbReader(query)[0];
-                }
-            }
-        }
-
-        public List<string> getData()
-        {
-            setData();
-            if (indicator)
-            {
-                List<string> data = new List<string>();
-                for (int k = 0; k < 5; k++)
-                {
-                    data.Add(Info[1, k]);
-                }
-                return data;
-            }
-            else return null;
-        }
-
-        public ReceptureStruct ReceptureInfo
-        {
-            set {
-                info = value;
-                string[] arr = info.EditorData;
-                int[] ids = info.getIds();
-                for (int k = 0; k < 5; k++)
-                    Info[1, k] = arr[k];
-                category = ids[0];
-                technology = ids[1];  
-            }
-            get { return info; }
         }
 
         public int Id
@@ -168,14 +51,6 @@ namespace MajPAbGr_project
             set { category = value;}
             get { return category; }
         }
-
-        public int Technology
-        {
-            set { technology = value; }
-            get { return technology; }
-        }
-
-        public int getTechnology() { return technology; }
 
         public bool IfRecordIs()
         {
@@ -203,12 +78,6 @@ namespace MajPAbGr_project
             }
         }
 
-        //public void WriteIntoDataBase(string name, int category)
-        //{
-        //    bool recordIs = IfRecordIs(name);
-        //    InsertNewRecord(name, category);
-        //}
-
         public new int UpdateReceptureOrCards(string column, string value, int id_recepture)
         {
             int ind = base.UpdateReceptureOrCards(column, value, id_recepture);
@@ -222,17 +91,6 @@ namespace MajPAbGr_project
                 break;
             }
             return ind;
-        }
-
-        //tbFormainController
-        public string readCategory()
-        {
-           return dbReader($"select id_category from {table} where id = {selected};")[0];
-        }
-
-        public string readTechnology()
-        {
-            return dbReader($"select id_technology from Recepture where id = {selected};")[0];
         }
 
         public new List<Element> readElement(int opt) // for Form1.cs
@@ -260,17 +118,6 @@ namespace MajPAbGr_project
             }
             el = dbReadElement(query);
             return el;
-        }
-
-        public int SelectedCount(string table, string column, int id) // for Form1.cs: before Technology to open
-        {
-            string query;
-            query = $"select count ({column}) from {table}";
-            if (id > 0)
-                query += $"  where id = {id};";
-            else
-                query += ";";
-            return int.Parse(Count(query));
         }
     }
 }
