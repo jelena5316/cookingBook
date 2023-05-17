@@ -8,11 +8,8 @@ namespace MajPAbGr_project
 {
     public class tbReceptureController : tbController
     {
-        private int id_recepture, category, technology = 0;
-        private bool indicator; // choose mode
+        private int id_recepture, category;        
         string[,] Info = new string[2, 6];      
-
-        ReceptureStruct info;
 
         public tbReceptureController(string table) : base(table)
         {
@@ -39,9 +36,7 @@ namespace MajPAbGr_project
         {
             set
             {
-                id_recepture = value;
-                if (id_recepture > 0) indicator = true;
-                else indicator = false;
+                id_recepture = value;               
             }
             get => id_recepture;
         }
@@ -91,33 +86,6 @@ namespace MajPAbGr_project
                 break;
             }
             return ind;
-        }
-
-        public new List<Element> readElement(int opt) // for Form1.cs
-        {
-            List<Element> el;
-            switch (opt)
-            {
-                case 1: // amounts
-                    query = "SELECT id_ingredients, name, amount" +
-                    " FROM Amounts AS am JOIN Ingredients AS ingr " +
-                    "ON am.id_ingredients = ingr.id WHERE am.id_recepture = "
-                    + selected + ";";
-
-                    break;
-                case 2: // recipe
-                    query = "SELECT id, name, coefficient" +
-                    " FROM Recipe WHERE id_recepture = "
-                    + selected + ";";
-                    break;
-                default:
-                    query = "SELECT id, name, coefficient" +
-                    " FROM Recipe WHERE id_recepture = "
-                    + selected + ";";
-                    break;
-            }
-            el = dbReadElement(query);
-            return el;
         }
     }
 }
