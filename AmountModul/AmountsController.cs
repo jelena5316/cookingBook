@@ -12,12 +12,11 @@ namespace MajPAbGr_project
         bool set_main, reset_main;
         int selected_rec, main_ingredient_id=0;
         Mode mode;
-        double summa, recipe = 1;
-        string recipe_name;
+        double summa, recipe = 1;       
         tbAmountsController tbAmount;
         tbIngredientsController tbIngred;
         List<Item> ingredients;
-        List<Element> elements, old_elements, formated;
+        List<Element> elements, old_elements;
         CalcFunction calc;
         ReceptureStruct RecStruct;
 
@@ -52,15 +51,17 @@ namespace MajPAbGr_project
         {
             get { return tbAmount; }
         }
+        
         public tbIngredientsController TbIngred
         {
             get { return tbIngred; }
         }
+
         public CalcFunction Calc
         {
             get { return calc; }
         }
-        public double Summa { get { return summa; } }
+       
 
         public List<Element> Elements { get { return elements; } }
 
@@ -71,58 +72,14 @@ namespace MajPAbGr_project
                 elements.Clear();
             tbAmount.RefreshElements();
             elements = tbAmount.getElements();
-            mode = Mode.Edit;
-        }
+            mode = Mode.Edit;       }
 
-        public List<Element> Old { get { return old_elements; } }
-
-        //public List<string> Formated
-        //{
-        //    get
-        //    {
-        //        int length = elements.Count;
-        //        double[] arr = new double[length];
-        //        for (int k = 0; k < length; k++)
-        //        {
-        //            arr[k] = elements[k].Amounts;
-        //        }
-        //        return calc.FormatAmounts(arr, summa);
-        //    }
-        //}
+      
 
         public List<Item> Ingredients
         {
             get { return ingredients; }
-        }
-
-        public string[] PrintAmount(List<string[]> items)
-        {
-            int length, id, k;
-            string name, category, info;
-
-            length = tbAmount.Elements_count + 1;
-            length += items.Count + 2;
-            id = RecStruct.getIds()[0];
-            name = RecStruct.getName();
-            category = RecStruct.getCategory();
-            string[] arr = new string[length];
-
-            info = $"Recepture from DB:\n name {name} (id {tbAmount.Id_recepture}), category {category} ({id})";
-            arr[0] = info + "\n";
-            for (k = 1; k < elements.Count + 1; k++)
-            {
-                arr[k] = $"({elements[k - 1].Id.ToString()}) {elements[k - 1].Name},\t{elements[k - 1].Amounts.ToString()}";
-            }
-            arr[k] = "\n";
-            arr[k + 1] = "From listview: name: value, (old value)";
-
-            for (int q = k + 2; q < items.Count + k + 2; q++)
-            {
-                string[] source = items[q - k - 2];
-                arr[q] = $"{source[0]}:\t{source[1]},\t({source[2]});";
-            }
-            return arr;
-        }
+        }       
 
 
         /***************************************************
@@ -133,7 +90,8 @@ namespace MajPAbGr_project
 
         public double Recipe { get { return recipe; } }
 
-        public string Main { get
+        public string Main
+        { get
             {
                 if (main_ingredient_id > 0)
                 {
@@ -162,26 +120,6 @@ namespace MajPAbGr_project
                 set_main = true;                
             }
             return index+1;
-           
-            //else
-            {
-                if (set_main || reset_main) return -2;
-                else
-                {
-                    //if (index == 0)
-                    //{
-                    //    main_ingredient_id = tbIngred.Selected;
-                    //    if (mode == Mode.Create)
-                    //        recipe = CalcFunction.calculateCoefficient(100.0, amount);
-                    //    calc.Coefficient = CalcFunction.calculateCoefficient(amount, 100.0);
-                    //    reset_main = false;
-                    //    set_main = true;
-                    //    return index;
-                    //}
-                    //else
-                    //    return index;
-                }
-            }           
         }
 
 
@@ -202,7 +140,6 @@ namespace MajPAbGr_project
             if (elements.Count < 1) return false;
             if (mode != Mode.Edit)
             {
-                //amount = elements[0].Amounts;
                 main_ingredient_id = elements[0].Id;
                 if (mode == Mode.Create)
                     recipe = CalcFunction.calculateCoefficient(amount, new_amount); // amount, 100
@@ -270,58 +207,23 @@ namespace MajPAbGr_project
             else
                 el.Amounts = 100.0;
             return el.Amounts;
-
-            //if (mode != Mode.Edit)
-            //    if (elements.Count == 1 || set_main)
-            //    {
-            //        el.Amounts = 100.0;
-            //        return 100.0;
-            //    }
-            //    else
-            //    {
-            //        el.Amounts = amount * calc.Coefficient;
-            //        return el.Amounts;
-            //    }                            
-            //return -1;
         }
 
         public List<Element> ResetAmounts() // after ResetMain()
         {
-            const string PATH = "C:\\Users\\user\\Desktop\\ResetElements.txt";
-            int k = 0;
-            //old_elements[0].Amounts = elements[0].Amounts;
+            int k = 0;            
             elements[0].Amounts = 100;
 
-            using (StreamWriter stream = new StreamWriter(PATH, true))
-            {
-                if (!File.Exists(PATH))
+           if (elements.Count > 1)
                 {
-                    File.CreateText(PATH);
-                    stream.WriteLine($"File is created: {File.GetLastWriteTime(PATH)} \n");
-                }
-                stream.WriteLine("Coefficient " + " " + calc.Coefficient.ToString());
-                stream.WriteLine(k + " " + elements[k].Name + " " + elements[k].Amounts);// + "\t" + old_elements[k].Amounts);
-                if (elements.Count > 1)
-                {
-                    for (k = 1; k < elements.Count; k++)
+                 for (k = 1; k < elements.Count; k++)
                     {
-                        //old_elements[k].Amounts = elements[k].Amounts;
-                        elements[k].Amounts = elements[k].Amounts * calc.Coefficient;
-                        stream.WriteLine("\t" + (k - 1) + " " + elements[k - 1].Amounts);
-                        stream.WriteLine(k + " " + elements[k].Name + " " + elements[k].Amounts);// + "\t" + old_elements[k].Amounts);
-                    }
-
-                    stream.WriteLine("\nTest");
-                    for (k = 1; k < elements.Count; k++)
-                    {
-                        stream.WriteLine(k + " " + elements[k].Name + " " + elements[k].Amounts);
-                    }
-                    stream.WriteLine($"[Record of: {System.DateTime.Now}]\n");
-                stream.Close();
+                        elements[k].Amounts = elements[k].Amounts * calc.Coefficient;                        
+                    }                
                 return elements;
                 }                     
-            }      
-            return elements;
+                
+            return elements;                
         }
 
         public int UpdateMain()

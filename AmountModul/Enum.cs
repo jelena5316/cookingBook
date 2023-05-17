@@ -26,10 +26,4 @@ namespace MajPAbGr_project
         Total,
         Coefficient
     }
-
-    public enum Operation
-    {
-        Add,
-        Remove
-    }
 }

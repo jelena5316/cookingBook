@@ -10,8 +10,8 @@ namespace MajPAbGr_project
 {
     public partial class InsertAmounts : Form
     {
-        readonly int id_recepture; //для ввода рецепта (коэфициента) к расчитанной из него рецептуре       
-        //private int pragma = 0; // for create mode
+        readonly int id_recepture; // formulation's id
+       
        
         double summa = 0;
         double[] amounts;
@@ -42,16 +42,9 @@ namespace MajPAbGr_project
             ingredients = controller.Ingredients;
 
             id_recepture = tbAmount.Id_recepture;
-            recepture_name = tbAmount.dbReader($"select name from Recepture where id = {id_recepture}")[0]; // for this.Text            
-
-            //this.mode = (elements.Count < 1) ? (Mode)0 : (Mode)1; // mode autodetector
+            recepture_name = tbAmount.dbReader($"select name from Recepture where id = {id_recepture}")[0]; // for this.Text           
+            
             mode = controller.getMode;
-        }
-
-        public CalcFunction Calc
-        {
-            set { calc = value; }
-            get { return calc; }
         }
 
         private void InsertAmounts_Load(object sender, EventArgs e)
@@ -65,15 +58,9 @@ namespace MajPAbGr_project
             FillAmountsView(); // listview
             if (mode == (Mode)1) // for edit mode
             {
-                fillAmounts();
-                //toolStripStatusLabel2.Text = summa.ToString();
-                showOldAmounts();
-             //   pragma = 1;
+                fillAmounts();                
+                showOldAmounts();           
             }
-           // else pragma = 0;
-
-
-            //btn_submit.Enabled = false; // submit ingredients
 
             if (mode == Mode.Edit) //1
             {
@@ -81,7 +68,6 @@ namespace MajPAbGr_project
                 listView1.Columns[2].Text += " old";
             }
 
-            //this.Text += $" into '{recepture_name}' ";
             label8.Text = recepture_name;
             CultureInfo.CurrentCulture = new CultureInfo("us-US");
             localizacijaToolStripMenuItem.Text = "US";
@@ -93,7 +79,7 @@ namespace MajPAbGr_project
 
 
             /*
-             * Текстовые поля: ингредиенты и рецепты
+             * Textbox: ingredients and formulations
              */
             cmbIngr.AutoCompleteCustomSource = AutoCompleteNames
                 (Class1.setBox(ingredients, cmbIngr));
@@ -111,30 +97,10 @@ namespace MajPAbGr_project
                 foreach (String el in list) source.Add(el);
                 return source;
             }
-
-            // эмулятор консоли, выводит метаданные           
-            //frm.Show();
-            //frm.richTextBox1.Text = "On Load: \n";
-            //frm.richTextBox1.Text += this.Text + " ";
-            //frm.richTextBox1.Text += this.mode == Mode.Create ? "crete mode" : "edit mode";
-            //frm.richTextBox1.Text += "\nelements count: " + tbAmount.Elements_count;
-            //frm.richTextBox1.Text += "\nid count: " + tbAmount.Amount_id_count + "\n";
-            //frm.richTextBox1.Text += tbAmount.Amount_id_count >= tbAmount.Elements_count;
-            //frm.richTextBox1.Text += "\nAmounts from array \'amounts\': \n";
-
-            //if (mode == Mode.Edit)
-            //{
-            //    for (int k = 0; k < amounts.Length - 1; k++)
-            //    {
-            //        frm.richTextBox1.Text += amounts[k] + " ";
-            //    }
-            //}
-
-            //frm.richTextBox1.Text += "\n****\n";
         }
 
         /*
-         * Lokalizacija
+         * Lokalization
          */
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -167,7 +133,7 @@ namespace MajPAbGr_project
         }
 
         /*
-         * Konec lokalizaciji
+         * end
          */
 
         private void fillAmounts()
@@ -179,21 +145,13 @@ namespace MajPAbGr_project
                 amounts[k] = elements[k].Amounts;
             }
 
-            calc.setAmounts(elements); // сохраняет и cуммирует величины
+            calc.setAmounts(elements); // save and sum values
             amounts[k] = calc.getTotal();
-            summa = calc.getTotal();
-
-            //вывод в консоль
-            //frm.richTextBox1.Text += "On fillAmounts (write ingredients amounts from this elements)\n";
-            //for (k = 0; k < amounts.Length - 1; k++)
-            //{
-            //    frm.richTextBox1.Text += amounts[k] + " ";
-            //}
+            summa = calc.getTotal();          
         }
 
         private void FillAmountsView()
-        {
-            //from InputRecepture(); edited            
+        {             
             ListView list = listView1;
             list.Items.Clear();
 
@@ -205,7 +163,7 @@ namespace MajPAbGr_project
                 items.Tag = elements[k].Id;
                 t = string.Format("{0:f2}", elements[k].Amounts);
                 items.SubItems.Add(t);
-                items.SubItems.Add(""); // заготовка под старые величины или проценты  
+                items.SubItems.Add(""); // for calculated values
                 listView1.Items.Add(items);
             }
         }
@@ -223,17 +181,12 @@ namespace MajPAbGr_project
 
         private void cmbIngr_SelectedIndexChanged(object sender, EventArgs e)
         {
-            tbIngred.setSelected(cmbIngr.SelectedIndex);            
-            //cmbIngr.Text = cmbIngr.SelectedItem.ToString();
+            tbIngred.setSelected(cmbIngr.SelectedIndex);           
+           
             txbAmounts.Focus();
             if (mode == Mode.Create)
                 txbAmounts.Text = "100" + decimal_separator + "0";
-            else txbAmounts.Text = "";
-
-            //frm.richTextBox1.Text += ">>> Selected item (*cmbIngr)\n";
-            //frm.richTextBox1.Text += "> id of selected ingredient: " + tbIngred.Selected.ToString() + "\n";
-            //frm.richTextBox1.Text += "> *selected index of combo: " + cmbIngr.SelectedIndex + "\n";
-            //frm.richTextBox1.Text += "> *selected item name: " + tbIngred.getName(cmbIngr.SelectedIndex) + "\n";            
+            else txbAmounts.Text = "";       
         }
 
         private void btn_edit_onClick()
@@ -260,12 +213,12 @@ namespace MajPAbGr_project
                 index = listView1.SelectedItems[0].Index;         
             index_ingr = cmbIngr.SelectedIndex;         
             
-            //записываем в слепок с таблицы
+            //writting into double of table
             new_index = controller.SetMain(amount, index);
             el = controller.AddElement(index_ingr, index);
             new_amount = controller.SetAmounts(amount, el);              
 
-            // создаём новую единицу списочного представления
+            // creating new item of listview
             mode = controller.getMode;
             item = new ListViewItem(el.Name);
 
@@ -273,34 +226,32 @@ namespace MajPAbGr_project
             if (mode == Mode.Edit)
                 t = string.Format("{0:f2}", el.Amounts);
             else
-                t = string.Format("{0:f2}", amount);
-            // item.SubItems.Add(el.Amounts.ToString());
+                t = string.Format("{0:f2}", amount);           
             item.SubItems.Add(t);
             t = string.Format("{0:f2}", el.Amounts);
             item.SubItems.Add(t);
             item.Tag = el.Id;
 
-            // убираем выделение
+            // remove selecting
             if (listView1.SelectedItems.Count > 0)               
                 listView1.SelectedItems[0].Selected = false;            
                 
 
-            // вставляем созданную выше единицу
+            // inserting in listview new item
             try
             {
-                //вводим в список после выбранного
+                //inserting new
                 item = listView1.Items.Insert(new_index, item);
 
-                //выбираем новое
-                //listView1.Items[new_index].Selected = true;
+                //selecting new                
                 item.Selected = true;
             }
             catch (ArgumentOutOfRangeException)
             {
-                // добавляем в список
+                // adding new to list
                 listView1.Items.Add(item);
 
-                //выбираем новое
+                //selecting new
                 new_index = listView1.Items.Count - 1;
                 listView1.Items[new_index].Selected = true;
             }
@@ -310,16 +261,15 @@ namespace MajPAbGr_project
         {
             btn_edit_onClick();
 
-            // выводим данные: коэффициенты, главный ингредиент
+            // inserting data: coefficients, main ingredient
             lblCoef.Text = string.Format("{0:f2}", controller.Calc.Coefficient);
             lblRecipe.Text = string.Format("{0:f2}", controller.Recipe);
-            lblMain.Text = controller.Main;
-            //toolStripStatusLabel7.Text = controller.Calc.Coefficient.ToString();
+            lblMain.Text = controller.Main;         
         }
 
         private void btn_remove_onClick()
         {
-            if (listView1.Items.Count < 1) return; // proverka spiska
+            if (listView1.Items.Count < 1) return; // checking list
             if (listView1.SelectedItems.Count < 1) return;
             if (listView1.SelectedItems[0].Index < 0) return;
 
@@ -394,7 +344,7 @@ namespace MajPAbGr_project
         }
 
         /*************************************************************************
-         * Запись в базу данных
+         * Writting into DB
          *************************************************************************/
         private void button4_Click(object sender, EventArgs e) // submit
         {
@@ -484,7 +434,7 @@ namespace MajPAbGr_project
         }
 
         /****************************************************************************
-         * Подрежимы редактирования
+         * ListView and Reload
          ***************************************************************************/
         
         private void onIndexChanged()
@@ -496,25 +446,13 @@ namespace MajPAbGr_project
             {
                 try
                 {
-                    int id; // номер выбранного элемента
+                    int id; // id of selected element
                     Element el = tbAmount.getElementByIndex(index);
                     tbAmount.Selected = el.Id;
                     id = tbAmount.Selected;
-                    //frm.richTextBox1.Text += ">>> Selected element\n";
-                    int k;
-                    for (k = 0; k < ingredients.Count; k++)
-                    {
-                        if (ingredients[k].id == id)
-                        {
-                            cmbIngr.SelectedIndex = k;
-                            //frm.richTextBox1.Text += "> selected index of combo item: " + cmbIngr.SelectedIndex + "\n";
-                            //frm.richTextBox1.Text += "> selected item name: " + cmbIngr.Items[k].ToString() + "\n";
-                        }
-                    }
-                    string t = string.Format("{0:f1}", el.Amounts);
-                    //txbAmounts.Text = el.Amounts.ToString();
-                    listView1.Focus();
-                    //frm.richTextBox1.Text += "> Selected ingredients (name, id): " + el.Name + " " + el.Id + "\n";
+                    cmbIngr.SelectedIndex = Class1.ChangeIndex(ingredients, id);
+                    string t = string.Format("{0:f1}", el.Amounts);                   
+                    listView1.Focus();                    
                 }
                 catch (ArgumentOutOfRangeException)
                 {                    
@@ -540,8 +478,6 @@ namespace MajPAbGr_project
             lblMain.Text = "none";
             lblRecipe.Text = "0";
             lblCoef.Text = "1";
-
-            //btn_submit.Enabled = false;
         }
 
         private new void Refresh()

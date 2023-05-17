@@ -29,23 +29,6 @@ namespace MajPAbGr_project
             elements_count = elements.Count;
         }
 
-        public tbReceptureController TbRec
-        {
-            set { tbRec = value; }
-            get { return tbRec; }
-        }
-
-        public void tbRecSelected(int id)
-        {
-            tbRec.Selected = id;
-        }
-
-        public new int setSelected(int temp) // а использую ли я это где-нибудь?
-        {
-            this.selected_element = elements[temp].Id;
-            return selected_element;
-        }
-
         public new int Selected
         {
             set { selected_element = value; }
@@ -86,46 +69,7 @@ namespace MajPAbGr_project
             amounts_id = dbReader(query);
             return amounts_id;
         }
-
-        public int UpdateMain()
-        {
-            //writting main ingredient id into table Recepture
-            int ind = 0;
-            tbController tb = new tbController("Recepture");
-            
-            if (elements.Count > 0 && id_recepture > 0)
-            {
-                try
-                {
-                    ind = tb.UpdateReceptureOrCards("id_main", elements[0].Id.ToString(), id_recepture); // Recepture
-                }
-                catch
-                {
-                    return -2;
-                }              
-            }
-            else
-            {
-                if (id_recepture > 0)
-                {
-                    string main = null;
-                    try
-                    {
-                        ind = tb.UpdateReceptureOrCards("id_main", main, id_recepture); // Recepture                        
-                    }
-                    catch
-                    {
-                        return -2;
-                    }
-                    ind = 0;
-                }
-                else
-                {
-                    ind = -1;                    
-                } 
-            }
-            return ind;
-        }
+        
         
         public int updateRecords()
         {
