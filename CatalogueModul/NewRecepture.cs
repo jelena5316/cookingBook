@@ -80,7 +80,10 @@ namespace MajPAbGr_project
 
             temp = technology;            
             items = tbTech.getCatalog();
-            Class1.FillCombo(items, cmbTech);
+            //items.Clear(); // !!! only for test !!!
+                         
+            Class1.FillCombo(items, cmbTech);           
+
             technology = temp;
             if (technology > 0)
             {
@@ -88,8 +91,14 @@ namespace MajPAbGr_project
             }
             else
             {
-                cmbTech.Text = "choose any technology";
+                cmbTech.Text = "choose any technology";                
             }
+            if (items.Count < 1)
+            {
+                cmbTech.Text = "empty";
+                chBox_technology.Checked = true;
+                chBox_technology.Enabled = false;
+            }        
 
             if (indicator)
             {
@@ -116,7 +125,8 @@ namespace MajPAbGr_project
             if (chBox_technology.Checked)
             {
                 cmbTech.Enabled = false;
-                cmbTech.SelectedIndex = 0;
+                if (cmbTech.Items.Count > 0)
+                    cmbTech.SelectedIndex = 0;
                 technology = 0;
             }
             else
