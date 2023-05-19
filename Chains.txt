@@ -1,0 +1,36 @@
+Chains
+
+Выбор убираемой карты -- сделать и из списочного поля!
+
+
+Code
+Шире использовать локальные методы
+Методы, который формируют запросы
+
+Format
+Использовать не только для вывода чисел, но и для текста, особенно для вывода рецепта и рецептур в текстовое поле
+
+InsertAmounts
+1. прятать "Перезагрузить" в режиме "Создать"
+2. открывать редактор списка сырья и отсюда
+3. спрашивать пользователя, если он стёр состав, не ошибся ли он, нажав "Подтвердить"?
+4. отображать режим пользователю
+6. При удалении главного отдать пересчет расчётным функциям, а освежать -- через FillAmounts() и ShowOldAmounts()
+7. Навигация по форме при вводе должна позволять передвигаться по списку сырья стрелочными кнопками
+
+??? Что делать, когда стер все сырье, стирать ли все кроэффициенты? И что с главным видом сырья? Главное сырье перезаписаватся при удалении первой строки, если есть на что, а если нет, то что происходит? Почему остается?
+
+
+Query:
+
+---select name as formulation_without_recipes from Recepture  where id not in (select id_recepture from Recipe);
+-
+---select name as formulation_without_ingredients from Recepture  where id not in (select id_recepture from Amounts);
+
+---select name as formulation_without_technology from Recepture  where id not in (select id_recepture from Amounts);
+
+-select name as formulation_with_empty_technology from Recepture where id_technology in
+-(select id from Technology where id not in
+- (select id_technology from Technology_chain));
+
+
