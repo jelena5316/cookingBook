@@ -69,14 +69,21 @@ namespace MajPAbGr_project
             }
 
             label8.Text = recepture_name;
-            CultureInfo.CurrentCulture = new CultureInfo("us-US");
-            localizacijaToolStripMenuItem.Text = "US";
-            nfi = CultureInfo.CurrentCulture.NumberFormat;
-            decimal_separator = nfi.NumberDecimalSeparator;
-            label8.Text += " " + CultureInfo.CurrentCulture +
-                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
             txbAmounts.Text = "100" + decimal_separator + "0";
 
+            lblMain.Text = controller.Main;
+            lblRecipe.Text = string.Format("{0:f2}", controller.Recipe);
+            lblCoef.Text = string.Format("{0:f2}", controller.Calc.Coefficient);
+
+
+            /*
+             * Lokalization
+             */
+            CultureInfo.CurrentCulture = new CultureInfo("us-US");
+            localizacijaToolStripMenuItem.Text = $"US (\'{decimal_separator}\')";
+            nfi = CultureInfo.CurrentCulture.NumberFormat;
+            decimal_separator = nfi.NumberDecimalSeparator;          
+         
 
             /*
              * Textbox: ingredients and formulations
@@ -106,30 +113,24 @@ namespace MajPAbGr_project
         {
             CultureInfo.CurrentCulture = new CultureInfo("us-US");
             nfi = CultureInfo.CurrentCulture.NumberFormat;
-            decimal_separator = nfi.NumberDecimalSeparator;
-            this.Text = "Receptures " + CultureInfo.CurrentCulture +
-                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
-            localizacijaToolStripMenuItem.Text = "US";
+            decimal_separator = nfi.NumberDecimalSeparator;           
+            localizacijaToolStripMenuItem.Text = $"US (\'{decimal_separator}\')";           
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
             CultureInfo.CurrentCulture = new CultureInfo("lv-LV");
             nfi = CultureInfo.CurrentCulture.NumberFormat;
-            decimal_separator = nfi.NumberDecimalSeparator;
-            this.Text = "Receptures " + CultureInfo.CurrentCulture +
-                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
-            localizacijaToolStripMenuItem.Text = "LV";
+            decimal_separator = nfi.NumberDecimalSeparator;            
+            localizacijaToolStripMenuItem.Text = $"LV (\'{decimal_separator}\')";         
         }
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
             CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
             nfi = CultureInfo.CurrentCulture.NumberFormat;
-            decimal_separator = nfi.NumberDecimalSeparator;
-            this.Text = "Receptures " + CultureInfo.CurrentCulture +
-                " (decimal separator \'" + nfi.NumberDecimalSeparator + "\')";
-            localizacijaToolStripMenuItem.Text = "RU";
+            decimal_separator = nfi.NumberDecimalSeparator;            
+            localizacijaToolStripMenuItem.Text = $"RU (\'{decimal_separator}\')";
         }
 
         /*
@@ -261,10 +262,10 @@ namespace MajPAbGr_project
         {
             btn_edit_onClick();
 
-            // inserting data: coefficients, main ingredient
-            lblCoef.Text = string.Format("{0:f2}", controller.Calc.Coefficient);
+            // inserting data: main ingredient, coefficients
+            lblMain.Text = controller.Main;
             lblRecipe.Text = string.Format("{0:f2}", controller.Recipe);
-            lblMain.Text = controller.Main;         
+            lblCoef.Text = string.Format("{0:f2}", controller.Calc.Coefficient);
         }
 
         private void btn_remove_onClick()
@@ -338,9 +339,9 @@ namespace MajPAbGr_project
         private void btn_remove_Click(object sender, EventArgs e)
         {
             btn_remove_onClick();
-            lblCoef.Text = string.Format("{0:f2}", controller.Calc.Coefficient);
-            lblRecipe.Text = string.Format("{0:f2}", controller.Recipe);
             lblMain.Text = controller.Main;
+            lblRecipe.Text = string.Format("{0:f2}", controller.Recipe);
+            lblCoef.Text = string.Format("{0:f2}", controller.Calc.Coefficient);
         }
 
         /*************************************************************************
@@ -475,9 +476,11 @@ namespace MajPAbGr_project
             showOldAmounts(); // for edit mode
             if (listView1.Items.Count > 0)
                 listView1.Items[0].Selected = true;
-            lblMain.Text = "none";
-            lblRecipe.Text = "0";
-            lblCoef.Text = "1";
+
+
+            lblMain.Text = controller.Main;
+            lblRecipe.Text = "none";
+            lblCoef.Text = "none";                        
         }
 
         private new void Refresh()
@@ -486,6 +489,6 @@ namespace MajPAbGr_project
             controller.RefreshElements();
             mode = controller.getMode;
             elements = controller.Elements;
-        }        
+        }
     }
 }
