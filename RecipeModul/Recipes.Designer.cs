@@ -139,27 +139,27 @@ namespace MajPAbGr_project
             this.rUToolStripMenuItem});
             this.localizacijaToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.localizacijaToolStripMenuItem.Name = "localizacijaToolStripMenuItem";
-            this.localizacijaToolStripMenuItem.Size = new System.Drawing.Size(39, 25);
-            this.localizacijaToolStripMenuItem.Text = "LV";
+            this.localizacijaToolStripMenuItem.Size = new System.Drawing.Size(42, 25);
+            this.localizacijaToolStripMenuItem.Text = "US";
             // 
             // uSToolStripMenuItem
             // 
             this.uSToolStripMenuItem.Name = "uSToolStripMenuItem";
-            this.uSToolStripMenuItem.Size = new System.Drawing.Size(101, 26);
+            this.uSToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.uSToolStripMenuItem.Text = "US";
             this.uSToolStripMenuItem.Click += new System.EventHandler(this.uSToolStripMenuItem_Click);
             // 
             // lVToolStripMenuItem
             // 
             this.lVToolStripMenuItem.Name = "lVToolStripMenuItem";
-            this.lVToolStripMenuItem.Size = new System.Drawing.Size(101, 26);
+            this.lVToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.lVToolStripMenuItem.Text = "LV";
             this.lVToolStripMenuItem.Click += new System.EventHandler(this.lVToolStripMenuItem_Click);
             // 
             // rUToolStripMenuItem
             // 
             this.rUToolStripMenuItem.Name = "rUToolStripMenuItem";
-            this.rUToolStripMenuItem.Size = new System.Drawing.Size(101, 26);
+            this.rUToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.rUToolStripMenuItem.Text = "RU";
             this.rUToolStripMenuItem.Click += new System.EventHandler(this.rUToolStripMenuItem_Click);
             // 
