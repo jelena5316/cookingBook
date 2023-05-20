@@ -131,6 +131,29 @@ namespace MajPAbGr_project
             return selected;
          }
 
+        public List<ReceptureStruct> selectByName(string name)
+        {
+            List<ReceptureStruct> selected;
+            selected = rec_struct.FindAll(p => p.getName().Contains(name));
+            return selected;
+        }
+
+        public int indexOfSelectedByName(string name)
+        {
+            int index;
+            try
+            {
+                tb.Id = rec_struct.Find(p => p.getName().Contains(name)).getId();
+                index = rec_struct.FindIndex(p => p.getName().Contains(name));           
+                tb.setSelected(index);
+                return index;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
 
         /*
          * Print to file

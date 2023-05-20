@@ -145,12 +145,14 @@ namespace MajPAbGr_project
 			cmb_categories.Text = "all";
 			pragma = 1;
 
+			seeAll();
+
 			AutoCompleteStringCollection source = new AutoCompleteStringCollection();
 			foreach (Item item in controller.Receptures)
 				source.Add(item.name);
 			textBox1.AutoCompleteCustomSource = source;
 			textBox1.AutoCompleteMode = AutoCompleteMode.Suggest;
-			textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
+			textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;			
 		}
 
 		/*
@@ -161,46 +163,46 @@ namespace MajPAbGr_project
 			if (lv_recepture.Items.Count < 0)
 				exist_selected = false;
 
-            // for quick test
-            //        if (full != null)
-            //        {
-            //            if (lv_recepture.SelectedItems.Count < 1) return;
-            //            ReceptureStruct element = full.Find(p => p.getName().Contains(textBox1.Text));
-            //            int rec_index = full.FindIndex(p => p.getName().Contains(textBox1.Text));
-            //            tbMain.Selected = element.getId();
-            //selected_recepture = rec_index;
-            //            exist_selected = true;
-            //            return;
-            //        }
-            //        else return;
-
-            // end of quick test
-
-            if (lv_recepture.SelectedItems.Count > 0)
+			if (lv_recepture.SelectedItems.Count > 0)
             {
-                
 				if (full == null)
-                {
+				{
 					tbMain.setSelected(lv_recepture.SelectedItems[0].Index);
-					selected_recepture = lv_recepture.SelectedItems[0].Index;					
-                }
-                else
-                {
-					string name = textBox1.Text;
-					tbMain.Selected = full.Find(p => p.getName().Contains(name)).getId();
-					selected_recepture = full.FindIndex(p => p.getName().Contains(name));
-                }
+					selected_recepture = lv_recepture.SelectedItems[0].Index;
+				}
+				else
+				{
+					if (textBox1.Text != "")
+					{
+						string name = textBox1.Text;
+						//tbMain.Id = full.Find(p => p.getName().Contains(name)).getId();
+						//selected_recepture = full.FindIndex(p => p.getName().Contains(name));
+						selected_recepture = controller.indexOfSelectedByName(name);
+						//tbMain.setSelected(selected_recepture);
+					}
+					else
+					{
+						int index = lv_recepture.SelectedItems[0].Index;
+						string category = controller.Categories[cmb_categories.SelectedIndex].name;
+						List<ReceptureStruct> selected = full.FindAll(p => p.getCategory() == category);
+						tbMain.Id = selected[index].getId();
+						selected_recepture = full.FindIndex(p => p.getId() == tbMain.Id);
+						tbMain.setSelected(selected_recepture);
+					}
+				}
 				exist_selected = true;
 			}
             else
             {
-                selected_recepture = 0;
-                exist_selected = false;
-            }
+				selected_recepture = 0;
+				exist_selected = false;
+			}
         }
+
 		private void cmb_categories_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (pragma == 0) return;
+			textBox1.Text = "";
 			if (cmb_categories.SelectedIndex == -1) return;
 			int index = cmb_categories.SelectedIndex, id = controller.Categories[index].id;
 			List<ReceptureStruct> selected = new List<ReceptureStruct>();
@@ -256,7 +258,7 @@ namespace MajPAbGr_project
 			else
 			{
 				full = controller.ReceptureStruct;
-				List<ReceptureStruct> selected = full.FindAll(p => p.getName().Contains(textBox1.Text));
+				List<ReceptureStruct> selected = controller.selectByName(textBox1.Text);	
 				resetRecepturesList(selected);
 			}
 			if (lv_recepture.Items.Count > 0)
@@ -355,7 +357,7 @@ namespace MajPAbGr_project
 			if (lv_recepture.SelectedItems.Count < 1) return;
 			if (exist_selected)
 			{
-				id = controller.ReceptureStruct[lv_recepture.SelectedItems[0].Index].getId();				
+				id = controller.ReceptureStruct[selected_recepture].getId();				
 				if (tbMain.Selected != id)
 				{
 					tbMain.Selected = id;
