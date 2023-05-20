@@ -174,20 +174,19 @@ namespace MajPAbGr_project
 				{
 					if (textBox1.Text != "")
 					{
-						string name = textBox1.Text;
-						//tbMain.Id = full.Find(p => p.getName().Contains(name)).getId();
-						//selected_recepture = full.FindIndex(p => p.getName().Contains(name));
-						selected_recepture = controller.indexOfSelectedByName(name);
-						//tbMain.setSelected(selected_recepture);
+						string name = textBox1.Text;						
+						selected_recepture = controller.indexOfSelectedByName(name);						
 					}
 					else
 					{
 						int index = lv_recepture.SelectedItems[0].Index;
-						string category = controller.Categories[cmb_categories.SelectedIndex].name;
-						List<ReceptureStruct> selected = full.FindAll(p => p.getCategory() == category);
-						tbMain.Id = selected[index].getId();
-						selected_recepture = full.FindIndex(p => p.getId() == tbMain.Id);
-						tbMain.setSelected(selected_recepture);
+						if (controller.Categories.Count > 0)
+                        {
+							selected_recepture = controller.indexOfSelectedByCategory(index, cmb_categories.SelectedIndex);	
+                        }							
+						else
+							return;
+											
 					}
 				}
 				exist_selected = true;

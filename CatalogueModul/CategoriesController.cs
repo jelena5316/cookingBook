@@ -106,30 +106,54 @@ namespace MajPAbGr_project
             }
         }
 
-        public void setListView(ListView lv)
-        {
-            ListViewItem items;
-            for (int k = 0; k < receptures.Count; k++)
-            {                
-                items = new ListViewItem(receptures[k].name);
-                items.Tag = receptures[k].id;                
-                string[] arr = rec_struct[k].getData();
-
-                for (int q = 1; q < 4; q++)
-                {
-                    items.SubItems.Add(arr[q]);
-                }
-                lv.Items.Add(items);               
-            }
-            lv.Items[0].Selected = true;
-        }       
     
          public List<ReceptureStruct> selectByCategory(int index)
          {
             List<ReceptureStruct> selected;            
             selected = rec_struct.FindAll(p => p.getCategory() == categories[index].name);
+            tbCat.setSelected(index);
             return selected;
          }
+
+        //public int indexOfSelectedByCategory(int index)
+        //{
+        //    try
+        //    {
+        //        string category;
+        //        List<ReceptureStruct> selected;
+
+        //        category = tbCat.getById("name", tbCat.Selected);
+        //        selected = rec_struct.FindAll(p => p.getCategory() == category);
+        //        tb.Id = selected[index].getId();
+        //        index = rec_struct.FindIndex(p => p.getId() == tb.Id);
+        //        tb.setSelected(index);
+        //        return index;
+        //    }
+        //    catch
+        //    {
+        //        return 0;
+        //    }
+        //}
+
+        public int indexOfSelectedByCategory(int index, int category)
+        {
+            try
+            {
+                string name;
+                List<ReceptureStruct> selected;
+
+                name = tbCat.getName(category);
+                selected = rec_struct.FindAll(p => p.getCategory() == name);
+                tb.Id = selected[index].getId();
+                index = rec_struct.FindIndex(p => p.getId() == tb.Id);
+                tb.setSelected(index);
+                return index;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
 
         public List<ReceptureStruct> selectByName(string name)
         {
