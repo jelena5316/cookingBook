@@ -161,18 +161,43 @@ namespace MajPAbGr_project
 			if (lv_recepture.Items.Count < 0)
 				exist_selected = false;
 
-			if (lv_recepture.SelectedItems.Count > 0)
-			{
-				tbMain.setSelected(lv_recepture.SelectedItems[0].Index);
-				selected_recepture = lv_recepture.SelectedItems[0].Index;
+            // for quick test
+            //        if (full != null)
+            //        {
+            //            if (lv_recepture.SelectedItems.Count < 1) return;
+            //            ReceptureStruct element = full.Find(p => p.getName().Contains(textBox1.Text));
+            //            int rec_index = full.FindIndex(p => p.getName().Contains(textBox1.Text));
+            //            tbMain.Selected = element.getId();
+            //selected_recepture = rec_index;
+            //            exist_selected = true;
+            //            return;
+            //        }
+            //        else return;
+
+            // end of quick test
+
+            if (lv_recepture.SelectedItems.Count > 0)
+            {
+                
+				if (full == null)
+                {
+					tbMain.setSelected(lv_recepture.SelectedItems[0].Index);
+					selected_recepture = lv_recepture.SelectedItems[0].Index;					
+                }
+                else
+                {
+					string name = textBox1.Text;
+					tbMain.Selected = full.Find(p => p.getName().Contains(name)).getId();
+					selected_recepture = full.FindIndex(p => p.getName().Contains(name));
+                }
 				exist_selected = true;
 			}
-			else
-			{
-				selected_recepture = 0;
-				exist_selected = false;
-			}
-		}
+            else
+            {
+                selected_recepture = 0;
+                exist_selected = false;
+            }
+        }
 		private void cmb_categories_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (pragma == 0) return;
@@ -215,6 +240,7 @@ namespace MajPAbGr_project
 			resetRecepturesList(full);
 			full = null;
 			cmb_categories.Text = "all";
+			textBox1.Text = "";
 			if (lv_recepture.Items.Count > 0)
 				lv_recepture.Items[0].Selected = true;			
 		}
@@ -234,7 +260,7 @@ namespace MajPAbGr_project
 				resetRecepturesList(selected);
 			}
 			if (lv_recepture.Items.Count > 0)
-				lv_recepture.Items[0].Selected = true;
+				lv_recepture.Items[0].Selected = true;			
 		}
 
 		/*
@@ -324,11 +350,12 @@ namespace MajPAbGr_project
 
         private void openReceptureEditor()
 		{
-			int id = 0; //id_recepture
+			int id = 0; //id_recepture			
+
 			if (lv_recepture.SelectedItems.Count < 1) return;
 			if (exist_selected)
 			{
-				id = controller.ReceptureStruct[lv_recepture.SelectedItems[0].Index].getId();
+				id = controller.ReceptureStruct[lv_recepture.SelectedItems[0].Index].getId();				
 				if (tbMain.Selected != id)
 				{
 					tbMain.Selected = id;

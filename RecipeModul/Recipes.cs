@@ -61,9 +61,8 @@ namespace MajPAbGr_project
 
             //lokalization setting
             current = controller.Current();            
-            this.Text += " " + controller.InfoLocal();
-            
-            
+            this.Text += " " + controller.InfoLocal();            
+
             btn_insert.Enabled = false;
             txb_new_recipe.Enabled = false;
         }

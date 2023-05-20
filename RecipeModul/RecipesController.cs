@@ -40,7 +40,7 @@ namespace MajPAbGr_project
             recipes = tb.readElement(2);
             elements = tb.readElement(1);
 
-            setNFI("us_US");            
+            setNFI("us-US");            
         }
 
         public tbReceptureController TbMain() => this.tb;
