@@ -285,10 +285,10 @@ namespace MajPAbGr_project
                 int k = 0;
                 for (k = 0; k < list.Items.Count - 1; k++)
                 {
-                    output = $"{list.Items[k].Text} {list.Items[k].SubItems[1].Text}";
+                    output = string.Format("{0, -20}\t{1, -8}\t{2, -8}", list.Items[k].Text, list.Items[k].SubItems[1].Text, list.Items[k].SubItems[2].Text);                   
                     ingredients.Add(output);
                 }
-                output = $"-----\n {list.Items[k].SubItems[1].Text}";
+                output = $"-----\n {list.Items[k].SubItems[1].Text}\t({list.Items[k].SubItems[2].Text})";
                 ingredients.Add(output);
             }
             else
