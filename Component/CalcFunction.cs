@@ -1,31 +1,18 @@
-﻿using System;
+﻿/*
+ * to calculate sum of ingredients amounts and coefficients,
+ * to recalculate the ingredients amounts using the coefficients,
+ * to format results,
+ * to check and change a decimal separator
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MajPAbGr_project   
 {
        public class CalcFunction
         {
-        /* Суммировать общую массу для расчётов по ней
-         * Посчитать коэффициент:
-         * а) поделить старое количество на новое (новое вводиться)
-         * б) поделить новое на 100 (новое -- введёное, здесь за старое, а за новое - 100);
-         * Рассчитать рецептуру:
-         * 1) считаем коэффициент (делим граммы главного продукта на сто)
-         * 2) остальное делим на полученный коэфициент (умножаем на перевернутый)
-         * Расчитать назад в рецепт (для вывода):
-         * умножить проценты на коэффицинт из базы.
-         * Расчитать на другое количество главного продукта:
-         * 1) получить коэффициент (другое / 100)
-         * 2) перемножить на него остальное (в процентах)
-         * Расчитать на другое количество неглавного или сумму продукта:
-         * 1) расчитать коэффициент
-         * 2) посчитать новое количество главного продукта (умножить на полученный коэффициент)
-         * 3) рассчитать на другое количество главного продукта
-         */
-
         int count;
         double coefficient, total;
         double[] amounts;
@@ -48,6 +35,7 @@ namespace MajPAbGr_project
             get { return calcbase; }
         }
 
+
         public void setAmounts(List<Element> source)
         {
             amounts = new double[source.Count];
@@ -63,8 +51,7 @@ namespace MajPAbGr_project
         {
             return amounts;
         }
-
-       // public int getCount() { return count; }
+        public double getTotal() { return total; }
 
         public double Summa()
         {
@@ -76,7 +63,14 @@ namespace MajPAbGr_project
             return summa;
         }
 
-        public double getTotal() { return total; }
+        public double Summa(double[] values)
+        {
+            double summa = 0;
+            for (int k = 0; k < values.Length; k++)
+                summa += values[k];
+            return summa;
+        }
+
 
         public double[] ReCalc()
         {
@@ -115,18 +109,10 @@ namespace MajPAbGr_project
             }
         }
 
-        public double Summa(double[] values)
-        {
-            double summa = 0;
-            for (int k = 0; k < values.Length; k++)
-                summa += values[k];
-            return summa;
-        }
-
         public List<string> FormatAmounts(double[] arr, double summa)
         {
             List<string> texts = new List<string>();
-            //форматировать числа при переводе в строку
+            //to convert and format numbers
             int k;
             string t = "";
             for (k = 0; k < arr.Length; k++)
@@ -147,7 +133,7 @@ namespace MajPAbGr_project
             string t = "";
             List<string> texts = new List<string>();
 
-            //форматировать числа при переводе в строку           
+            //to convert and format numbers        
             for (k = 0; k < arr.Length; k++)
             {
                 t = string.Format("{0:f2}", arr[k]);

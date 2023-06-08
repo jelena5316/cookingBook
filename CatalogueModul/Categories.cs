@@ -49,7 +49,7 @@ namespace MajPAbGr_project
 			lv_recepture.Columns.Add("Source");
 			lv_recepture.Columns[4].Width = 250;
 
-			Class1.setBox(controller.Categories, cmb_categories);
+			FormFunction.setBox(controller.Categories, cmb_categories);
 			resetRecepturesList(controller.ReceptureStruct);
 			if (lv_recepture.Items.Count > 0)
 				lv_recepture.Items[0].Selected = true;
@@ -134,7 +134,7 @@ namespace MajPAbGr_project
 			tbIngredientsController tbCat = controller.TbCat;
 			tbCat.resetCatalog();
 			controller.Categories = tbCat.getCatalog();
-			Class1.setBox(controller.Categories, cmb_categories);
+			FormFunction.setBox(controller.Categories, cmb_categories);
 
 			controller.setReceptures();
 			controller.ReceptureStruct.Clear();
