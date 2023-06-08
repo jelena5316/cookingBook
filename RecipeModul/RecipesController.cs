@@ -121,7 +121,7 @@ namespace MajPAbGr_project
         /*
          * buttons click handlers
          */
-        public List <string> button1_onClick(string text)
+        public List <string> button2_onClick(string text)
         {
             double amount;
             double[] amounts = calc.getAmounts();

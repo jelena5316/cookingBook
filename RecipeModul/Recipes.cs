@@ -197,7 +197,7 @@ namespace MajPAbGr_project
              if (string.IsNullOrEmpty(txb_coeff.Text)) return;             
 
             int index = 0;
-            List <string> amounts = controller.button1_onClick(txb_coeff.Text);
+            List <string> amounts = controller.button2_onClick(txb_coeff.Text);
             if (amounts == null)
             {
                 txb_coeff.Text = "";
