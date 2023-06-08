@@ -303,7 +303,8 @@ namespace MajPAbGr_project
                         double amount = 0.0;
                         controller.RemoveMain();                       
                         if (controller.Elements.Count > 0 && listView1.Items.Count > 0)
-                            amount = double.Parse(listView1.Items[0].SubItems[1].Text);
+                            amount = double.Parse
+                                (listView1.Items[0].SubItems[1].Text);
                         if (amount > 0.0)
                         {
                             if (controller.ResetMain(amount))
@@ -311,9 +312,11 @@ namespace MajPAbGr_project
                                 for (int k = 1; k < listView1.Items.Count; k++)
                                 {
                                     double num;
-                                    if (double.TryParse(listView1.Items[k].SubItems[1].Text, out num))
+                                    if (double.TryParse
+                                        (listView1.Items[k].SubItems[1].Text, out num))
                                     {
-                                        num = double.Parse(listView1.Items[k].SubItems[1].Text);
+                                        num = double.Parse
+                                            (listView1.Items[k].SubItems[1].Text);
                                     }
                                     else num = 0;
                                     controller.Elements[k].Amounts = num;
@@ -322,7 +325,8 @@ namespace MajPAbGr_project
                                 for (int k = 0; k < elements.Count; k++)
                                 {
                                     double new_amount = elements[k].Amounts;
-                                    listView1.Items[k].SubItems[2].Text = string.Format("{0:f2}", new_amount);
+                                    listView1.Items[k].SubItems[2].Text
+                                        = string.Format("{0:f2}", new_amount);
                                 }                        
                             }
                         }                   
@@ -331,7 +335,8 @@ namespace MajPAbGr_project
                             if (listView1.Items.Count > 0)
                                 listView1.Items[0].Selected = true;                                
                         }
-                        mode = controller.getMode; // reload mode value from controller, because it may be changed there
+                        mode = controller.getMode;
+                        // reload mode value from controller, because it may be changed there
                     }
                 }        
             }
