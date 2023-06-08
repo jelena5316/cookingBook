@@ -88,6 +88,7 @@
             this.Name = "EditDB";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "EditDB";
+            this.Load += new System.EventHandler(this.EditDB_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

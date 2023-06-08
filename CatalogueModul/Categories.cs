@@ -344,10 +344,15 @@ namespace MajPAbGr_project
 			Print frm = new Print();
 			frm.Show();
 
-			const string PATH = "man\\user_manul_lv.txt";
+			const string PATH = "man\\user_manul_en.txt";
 			frm.OpenFile1(PATH, "user_manual");
 			frm.Button3_Enabled_status(false);
 		}
+
+        private void goToToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void openReceptureEditor()
 		{

@@ -27,10 +27,11 @@ namespace MajPAbGr_project
             try
             {
                 result = db.Edit(query);
+                textBox1.Text = result.ToString();
             }
             catch
             {
-                MessageBox.Show("Oops! Somthnig wrong!");
+                textBox1.Text = "Oops! Something wrong!";
                 result = -1;
             }
             
@@ -50,7 +51,7 @@ namespace MajPAbGr_project
             }
             catch
             {
-                textBox1.Text = "Oops!";
+                textBox1.Text = "Oops! Something wrong!";
             }              
         }
 
@@ -63,6 +64,11 @@ namespace MajPAbGr_project
             arr = source[0].Split('*');
             line = string.Format("{0,-12} {1,12} {2,12}", arr[0], arr[1], arr[2]);
             return line;
-        }     
+        }
+
+        private void EditDB_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
