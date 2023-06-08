@@ -46,15 +46,13 @@ namespace MajPAbGr_project
         {
             try
             {
-                textBox1.Lines = db.dbReadView(textBox1.Text).ToArray();
-                //textBox1.Text = Output(db.dbReadView(textBox1.Text));
+               textBox1.Lines = db.dbReadView(textBox1.Text).ToArray();
             }
             catch
             {
                 textBox1.Text = "Oops! Something wrong!";
-            }              
+            }
         }
-
 
         private string Output(List<string> source)
         {
@@ -64,11 +62,6 @@ namespace MajPAbGr_project
             arr = source[0].Split('*');
             line = string.Format("{0,-12} {1,12} {2,12}", arr[0], arr[1], arr[2]);
             return line;
-        }
-
-        private void EditDB_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

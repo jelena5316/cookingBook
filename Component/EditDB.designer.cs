@@ -87,8 +87,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "EditDB";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "EditDB";
-            this.Load += new System.EventHandler(this.EditDB_Load);
+            this.Text = "EditDB";           
             this.ResumeLayout(false);
             this.PerformLayout();
 

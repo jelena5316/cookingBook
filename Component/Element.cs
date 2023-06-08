@@ -55,11 +55,10 @@ namespace MajPAbGr_project
     public class ReceptureStruct
     {
         int id;
-        string name, category, source, author, technology, ingredient, description, url;
-        string[] data;
-        int[] data_id; // 0 - category, 1 - technology, 2 - ingredient
-        //Item recepture, cat, techn, ingred;
-        //Item?!
+        string name, category, source, author, technology, ingredient, description, url;       
+        int[] data_id;
+        // 0 - category, 1 - technology, 2 - ingredient
+             
 
         public ReceptureStruct(int id)
         {
@@ -68,7 +67,7 @@ namespace MajPAbGr_project
 
         public void setData()
         {
-            string[] //it need enum!
+            string[]
                 tables = {
                 "Recepture", // 0
                 "Categories", // 1
@@ -114,7 +113,7 @@ namespace MajPAbGr_project
                 if (list.Count > 0)
                 {
                     item = list[0];
-                    field = item.name; // + " " + item.id.ToString();
+                    field = item.name;
                     number = item.id;
                 }
             }
@@ -129,32 +128,18 @@ namespace MajPAbGr_project
             url = CheckData(db.dbReader(SubQuery(7)));
         }
 
-        public string[] getData()
-        {
-            string[] arr = new string[] { name, category, ingredient, author, source, technology, description};
-            return arr;
-        }
+        public string [] getData() => new string[] { name, category, ingredient, author, source, technology, description};
 
-        public string[] EditorData => new string[] { name, source, author, url, description };
+        public string [] EditorData => new string[] { name, source, author, url, description };
 
-        public int getId()
-        {
-            return id;
-        }
+        public int getId() => id;
 
         public int [] getIds() => data_id;
 
-        public string getName()
-        {
-            return name;
-        }
+        public string getName() => name;
+        
 
-        public string getCategory()
-        {
-            return category;
-        }
-
-       // public string getDescription() => description;
+        public string getCategory() => category;
     }
 
     public struct Item

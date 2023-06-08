@@ -6,24 +6,23 @@ using Microsoft.Data.Sqlite;
 
 namespace MajPAbGr_project
 { 
-        public class dbController /*chitaem recepty iz bd */
+        public class dbController /*access data base*/
     {
         private string connectionString;
         private SqliteConnection connection;
         private SqliteDataReader reader;
         private SqliteCommand command;
-        //protected string connectionString;
-        //protected SqliteConnection connection;
-        //protected SqliteDataReader reader;
-        //protected SqliteCommand command;
+        
 
         public dbController ()
         {
-            connectionString = "Data Source = db\\CookingBook; Mode=ReadWrite";
-                //"Data Source = C:\\Users\\user\\source\\repos\\MajPavGr_project\\CookingBook; Mode=ReadWrite";
-            //connectionString = "Data Source = C:\\Users\\user\\Documents\\SQLiteStudio\\CookingBook; Mode=ReadWrite";            
+            connectionString = "Data Source = db\\CookingBook; Mode=ReadWrite";                           
             connection = new SqliteConnection(connectionString);
         }
+
+        /*
+         * 'select'
+         */
 
         public List<Item> Catalog (string query) //int, string
         {
@@ -75,8 +74,7 @@ namespace MajPAbGr_project
             return list;
         }
 
-        public List<Element> dbReadElement(string query)
-            // int, string, double
+        public List<Element> dbReadElement(string query) // int, string, double
         {
             List<Element> list = new List<Element>();
             Element element;
@@ -106,7 +104,7 @@ namespace MajPAbGr_project
             }
         }
 
-        public List<String> dbReadTechnology(string query)
+        public List<String> dbReadTechnology(string query) // only strings
         {
             List <String> cards = new List<String>();
             using (connection)
@@ -147,7 +145,7 @@ namespace MajPAbGr_project
                             data += reader.GetValue(0).ToString();
                             for (int k = 1; k < reader.FieldCount; k++)
                             {
-                                data += "*" + reader.GetValue(k).ToString();
+                                data += " " + reader.GetValue(k).ToString();
                             }                           
                             view_data.Add(data);
                             data = "";
@@ -158,6 +156,10 @@ namespace MajPAbGr_project
             }
             return view_data;
         }
+
+        /*
+         * 'update', 'delete', 'insert'
+         */
 
         public int Edit(string query)
         {
@@ -172,7 +174,12 @@ namespace MajPAbGr_project
             return ind;
         }
 
-        public string Count(string query) // + last_insert_rowid()
+
+        /*
+         * insert and get id of last inserted row; 'select' with function return a number
+         */
+
+        public string Count(string query)
         {
             string count="";
             using (connection)
