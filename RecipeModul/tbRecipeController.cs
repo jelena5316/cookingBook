@@ -1,8 +1,9 @@
-﻿using System;
+﻿/*
+ * to access table Recipe, to store list of recipes of recepture: id, name and coefficients
+ */
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
@@ -10,19 +11,7 @@ namespace MajPAbGr_project
     {
         int recepture;
 
-        public tbRecipeController(string table) : base(table) { }        
-
-        public tbRecipeController (string table, int index, int recepture) : base (table) // for inserting new recipe (coefficient)
-        {
-            this.recepture = recepture;
-            catalog = setSubCatalog();
-            selected = setSelected(0);
-
-            if (index > -1)
-            {
-                selected = setSelected(index);
-            }  
-        }
+        public tbRecipeController(string table) : base(table) { }
 
         public List<Item> setSubCatalog()
         {

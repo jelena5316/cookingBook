@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*
+ * to calculate recipe and manage coefficients` catalogue
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -11,8 +15,8 @@ namespace MajPAbGr_project
     public partial class Recipes : Form
     {
         int category;       
-        private List<Item> receptures;
-        public List<Element> recipes;
+        private List<Item> receptures; // formulation
+        public List<Element> recipes;  // recipes (coeifficients)
         public List <Element> elements;
         RecipesController controller;
         tbReceptureController tb;
@@ -52,12 +56,9 @@ namespace MajPAbGr_project
         {
             // list of receptures setting            
             tbCoeff.Recepture = tb.Selected;
-            int index = Class1.ChangeIndex(controller.getCatalog(), tb.Selected);
-            Class1.setBox(controller.getCatalog(), combo);
+            int index = FormFunction.ChangeIndex(controller.getCatalog(), tb.Selected);
+            FormFunction.setBox(controller.getCatalog(), combo);
             combo.SelectedIndex = index;
-            
-            fillSubCatalog(); // table Recipe;
-            AutocompleteRecipeName(); // table Recipe            
 
             //lokalization setting
             current = controller.Current();            
@@ -101,7 +102,7 @@ namespace MajPAbGr_project
         public int fillSubCatalog()  // recipes of recepture, combobox
         {
             recipes = controller.Recipes;
-            Class1.FillCombo(recipes, recipe);            
+            FormFunction.FillCombo(recipes, recipe);            
             if (recipe.Items.Count > 0)
             {
                 recipe.SelectedIndex = 0;                
@@ -132,13 +133,14 @@ namespace MajPAbGr_project
             //Output recepture (elements);            
             List<string> amounts = calc.FormatAmounts
                 (calc.getAmounts(), calc.getTotal());
-            Class1.FillListView(elements, amounts, listView1);
+            FormFunction.FillListView(elements, amounts, listView1);
 
             if (count == 0)
             {
                 calc.Coefficient = 1;
                 lbl_koef.Text = "1";
             }
+
             //Info about recepture
             category = int.Parse(tb.getById("id_category", selected));            
             string info;
@@ -216,17 +218,15 @@ namespace MajPAbGr_project
          {
             string count, str_coeff;        
 
-            tbRecipeController recipe = new tbRecipeController
-                ("Recipe", cmbCoeff.SelectedIndex, controller.TbMain().Selected);
-            count = recipe.Count
+            count = tbCoeff.Count
                ($"Select count (name) from Recipe where name = '{txb_new_recipe.Text}';");
 
             if (string.IsNullOrEmpty(txb_new_recipe.Text))
                 return;
             if (count == "0")
             {
-                str_coeff = calc.ColonToPoint(calc.Coefficient.ToString());
-                recipe.insertNewRecipe(txb_new_recipe.Text, str_coeff);
+                str_coeff = calc.Coefficient.ToString();                
+                tbCoeff.insertNewRecipe(txb_new_recipe.Text, str_coeff);
                 fillSubCatalog();
                 btn_insert.Enabled = false;
             }
@@ -245,7 +245,7 @@ namespace MajPAbGr_project
         {
             int temp = comboBox1.SelectedIndex;
             tb.setCatalog();
-            Class1.setBox(tb.getCatalog(), combo);
+            FormFunction.setBox(tb.getCatalog(), combo);
             comboBox1.SelectedIndex = temp;
             columnHeader2.Text = "Amounts (%)";
         }
@@ -339,6 +339,8 @@ namespace MajPAbGr_project
 
             index = recipe.SelectedIndex;
             if (index < 0) return;
+            if (recipes.Count < 1) return;
+
             old_name = recipe.Text;
             name = txbRecipe.Text;
             ind = controller.btn_edit_onClick(name, index);
@@ -357,12 +359,15 @@ namespace MajPAbGr_project
                     break;
              }
             MessageBox.Show(message);
+            fillSubCatalog();
+            AutocompleteRecipeName();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             if (recipe.Items.Count < 1) return;
             if (recipe.SelectedIndex < 0) return;
+            if (recipes.Count > 1) return;
 
             DialogResult result = MessageBox.Show(
                     "Do delete recipe?", "",
@@ -393,6 +398,7 @@ namespace MajPAbGr_project
             }
         }
 
+        // set calcualtion base
         private void cmb_option_SelectedIndexChanged(object sender, EventArgs e)
         {
            controller.CalcBase = (CalcBase)cmb_option.SelectedIndex;

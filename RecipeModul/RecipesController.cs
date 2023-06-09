@@ -1,9 +1,9 @@
-﻿using System;
+﻿/*
+ * to manage work with recipes using form "Recepture" and classes` CalcFunction and tbRecipeController methods
+ */
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Globalization;
 
 namespace MajPAbGr_project
@@ -13,7 +13,7 @@ namespace MajPAbGr_project
         int selected;        
         private List<Item> receptures, subcatalog;
         private List<Element> recipes; // recipes (coefficients)
-        private List<Element> elements; // stuffs
+        private List<Element> elements; // ingredients
         tbReceptureController tb; // formulation
         tbRecipeController tbCoeff; // recipes (coefficients)
 
@@ -47,12 +47,9 @@ namespace MajPAbGr_project
 
         public tbRecipeController TbCoeff() => this.tbCoeff;
 
-        public List<Item> getCatalog() => this.receptures;  
+        public List<Item> getCatalog() => this.receptures;
 
-        public List<Element> Recipes
-        {
-            get { return recipes; }
-        }
+        public List<Element> Recipes => recipes;       
 
         public List<Element> Amounts
         {
@@ -98,9 +95,9 @@ namespace MajPAbGr_project
         /*
          * Lokalization
          */
-        public void setNFI(string lokalizacija)
+        public void setNFI(string lokation)
         {
-            current = new CultureInfo(lokalizacija);
+            current = new CultureInfo(lokation);
             CultureInfo.CurrentCulture = current;
             nfi = current.NumberFormat;
             decimal_separator = nfi.NumberDecimalSeparator;
@@ -129,52 +126,24 @@ namespace MajPAbGr_project
             if (amounts.Length < 1) 
                 return null;
                
-            int indikator = (int)calcBase;
-            string temp, t;
+            int indikator = (int)calcBase;           
 
-            //if (nfi.NumberDecimalSeparator == ".")
-            //    txb_coeff.Text = calc.ColonToPoint(txb_coeff.Text);
-            // или
-            if (current.Name == "us-US")
+            if (nfi.NumberDecimalSeparator == ".")               
                 text = calc.ColonToPoint(text);
-            // потому что при английской локализации (".")
-            // число с запятой парсируется, но не верно;
+
+            if (nfi.NumberDecimalSeparator == ",")
+                 text = calc.PointToColon(text);
 
             if (double.TryParse(text, out amount))
             {
                 amount = double.Parse(text);//us_Us: from '0,x' get a 'x'
             }
-            else // при латышской или русской локализации
+            else
             {
-                //MessageBox.Show("String was not in correct format");
-                //point to colon -- улавливает ошибку неверного формата строки и исрпавляет её
-                t = text;
-                temp = "";
-                if (t.Contains('.'))
-                {
-                    int k;
-                    for (k = 0; k < t.Length; k++)
-                    {
-                        if (t[k] != '.')
-                            temp += t[k];
-                        else
-                            temp += ',';
-                    }
-                    t = temp;
-                    text = temp;
-                }
-
-                if (double.TryParse(t, out amount))
-                {
-                    amount = double.Parse(t);
-                }
-                else
-                {
-                    amount = 1;
-                    text = "not number";
-                    return null;
-                }
+                amount = 1;
+                return null;
             }
+
             calc.setNewRecipesCoefficient(amount);
             amounts = calc.ReCalc();
             List<string> list = calc.FormatAmounts(amounts, calc.Summa(amounts));
@@ -184,20 +153,20 @@ namespace MajPAbGr_project
         public int btn_edit_onClick(string name, int index)
         {
             int ind, id = 1;
-            id = subcatalog[index].id;
-            tbRecipeController tbCoef = new tbRecipeController("Recipe");
+            id = subcatalog[index].id;            
             try
             {
-                ind = tbCoef.UpdateReceptureOrCards("name", name, id);
+                ind = tbCoeff.UpdateReceptureOrCards("name", name, id);
             }
             catch
             {
                 ind = -1;
             }                        
             return ind;
+  
         }
 
-        public int btn_remove_onClick(int recipe, int recepture)
+        public int btn_remove_onClick(int recipe, int recepture) // remove recipe from DB
         {
             // comboboxes index changed handlers
             int id = 0, ind = 0, index;
@@ -209,7 +178,7 @@ namespace MajPAbGr_project
             setRecepture(index);
 
             // deleting
-            ind = tbCoeff.RemoveItem(); // replace 'override'!
+            ind = tbCoeff.RemoveItem();
             tbCoeff.Selected = id;
             return ind;
         }
