@@ -39,14 +39,14 @@ namespace MajPAbGr_project
 
         private void box_ChangeIndex(object sender, EventArgs e)
         {
-            textBox1.Text = $"select * from {box.Items[box.SelectedIndex].ToString()}";
+            textBox1.Text = $"select * from '{box.Items[box.SelectedIndex].ToString()}'";
         }        
         
         private void button2_Click(object sender, EventArgs e)
         {
             try
             {
-               textBox1.Lines = db.dbReadView(textBox1.Text).ToArray();
+                textBox1.Lines = db.dbReadView(textBox1.Text).ToArray();
             }
             catch
             {
