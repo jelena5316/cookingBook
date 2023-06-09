@@ -1,16 +1,15 @@
-﻿using System;
+﻿/*
+ * to manage work with recipe ingredients using form "Insert Amounts and classes` CalcFunction and tbAmountsController methods
+ */
+
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
     public class AmountsController
     {
-        bool set_main, reset_main;
-        int selected_rec, main_ingredient_id=0;
+        int selected_rec, main_ingredient_id = 0;
         Mode mode;
         double summa, recipe = 1;       
         tbAmountsController tbAmount;
@@ -45,11 +44,28 @@ namespace MajPAbGr_project
         public ReceptureStruct Info
         {
             set { RecStruct = value; }
+            get { return RecStruct; }
         }
 
         public tbAmountsController TbAmount
         {
             get { return tbAmount; }
+        }
+
+        public List <string> getRecipesNames()
+        {
+            try
+            {            
+                List <string> names = tbAmount.dbReader($"select name from Recipe;");
+                if (names.Count > 1)
+                    return names;
+                else
+                    return null;
+            }
+            catch
+            {
+                return null;
+            } 
         }
         
         public tbIngredientsController TbIngred
@@ -61,31 +77,35 @@ namespace MajPAbGr_project
         {
             get { return calc; }
         }
-       
-
+     
         public List<Element> Elements { get { return elements; } }
 
-        public void RefreshElements()
+        public Element changeSelectedElement (int index)
         {
-            if (mode == Mode.Create) return;
-            if (elements != null )
-                elements.Clear();
-            tbAmount.RefreshElements();
-            elements = tbAmount.getElements();
-            mode = Mode.Edit;       }
-
-      
+            tbAmount.Selected = elements[index].Id;
+            return elements[index];
+        }
 
         public List<Item> Ingredients
         {
             get { return ingredients; }
-        }       
+        }
+
+        public void RefreshElements()
+        {
+            if (mode == Mode.Create) return;
+            if (elements != null)
+                elements.Clear();
+            tbAmount.RefreshElements();
+            elements = tbAmount.getElements();
+            mode = Mode.Edit;
+        }
 
 
-        /***************************************************
-            New logic (according PPS, using old code too)
-        ****************************************************/
-       
+        /*
+         *   Main ingredients and calculation
+        */
+
         public Mode getMode { get { return mode; } }
 
         public double Recipe { get { return recipe; } }
@@ -115,18 +135,13 @@ namespace MajPAbGr_project
                 main_ingredient_id = tbIngred.Selected;
                 if (mode == Mode.Create)
                     recipe = CalcFunction.calculateCoefficient (amount, new_amount); // amount, 100
-                calc.Coefficient = CalcFunction.calculateCoefficient(new_amount, amount); //100, amount
-                reset_main = false;
-                set_main = true;                
+                calc.Coefficient = CalcFunction.calculateCoefficient(new_amount, amount); //100, amount                            
             }
             return index+1;
         }
 
-
         public void RemoveMain()
         {
-            set_main = false;
-            reset_main = false;
             main_ingredient_id = 0;
             recipe = 0;
             calc.Coefficient = 1;
@@ -143,8 +158,7 @@ namespace MajPAbGr_project
                 main_ingredient_id = elements[0].Id;
                 if (mode == Mode.Create)
                     recipe = CalcFunction.calculateCoefficient(amount, new_amount); // amount, 100
-                calc.Coefficient = CalcFunction.calculateCoefficient(new_amount, amount); // 100, amount
-                reset_main = true;                
+                calc.Coefficient = CalcFunction.calculateCoefficient(new_amount, amount); // 100, amount                      
             }
             return true;
         }
@@ -236,7 +250,7 @@ namespace MajPAbGr_project
             {
                 try
                 {
-                    ind = tb.UpdateReceptureOrCards("id_main", main_ingredient_id.ToString(), selected_rec); // Recepture
+                    ind = tb.UpdateReceptureOrCards("id_main", main_ingredient_id.ToString(), selected_rec); // table Recepture
                 }
                 catch
                 {
@@ -250,7 +264,7 @@ namespace MajPAbGr_project
                     string main = null;
                     try
                     {
-                        ind = tb.UpdateReceptureOrCards("id_main", main, selected_rec); // Recepture
+                        ind = tb.UpdateReceptureOrCards("id_main", main, selected_rec); //table  Recepture
                     }
                     catch
                     {

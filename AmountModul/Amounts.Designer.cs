@@ -32,7 +32,7 @@ namespace MajPAbGr_project
             this.btn_submit = new System.Windows.Forms.Button();
             this.txbRecipe = new System.Windows.Forms.TextBox();
             this.txbAmounts = new System.Windows.Forms.TextBox();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.lvRecipe = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -45,7 +45,7 @@ namespace MajPAbGr_project
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label9 = new System.Windows.Forms.Label();
+            this.lblReload = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lblMain = new System.Windows.Forms.Label();
@@ -53,7 +53,7 @@ namespace MajPAbGr_project
             this.lblRecipe = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.lblCoef = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.lblName = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -67,7 +67,7 @@ namespace MajPAbGr_project
             this.btn_submit.TabIndex = 2;
             this.btn_submit.Text = "Submit";
             this.btn_submit.UseVisualStyleBackColor = true;
-            this.btn_submit.Click += new System.EventHandler(this.button4_Click);
+            this.btn_submit.Click += new System.EventHandler(this.btn_submit_Click);
             // 
             // txbRecipe
             // 
@@ -86,23 +86,23 @@ namespace MajPAbGr_project
             this.txbAmounts.TabIndex = 1;
             this.txbAmounts.Text = "100";
             // 
-            // listView1
+            // lvRecipe
             // 
-            this.listView1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.lvRecipe.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lvRecipe.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3});
-            this.listView1.GridLines = true;
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(26, 60);
-            this.listView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(399, 407);
-            this.listView1.TabIndex = 1;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.lvRecipe.GridLines = true;
+            this.lvRecipe.HideSelection = false;
+            this.lvRecipe.Location = new System.Drawing.Point(26, 60);
+            this.lvRecipe.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.lvRecipe.Name = "lvRecipe";
+            this.lvRecipe.Size = new System.Drawing.Size(399, 407);
+            this.lvRecipe.TabIndex = 1;
+            this.lvRecipe.UseCompatibleStateImageBehavior = false;
+            this.lvRecipe.View = System.Windows.Forms.View.Details;
+            this.lvRecipe.SelectedIndexChanged += new System.EventHandler(this.lvRecipe_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
@@ -196,7 +196,7 @@ namespace MajPAbGr_project
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.lblReload);
             this.groupBox1.Controls.Add(this.txbAmounts);
             this.groupBox1.Controls.Add(this.btn_remove);
             this.groupBox1.Controls.Add(this.btn_edit);
@@ -210,16 +210,16 @@ namespace MajPAbGr_project
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ingredients";
             // 
-            // label9
+            // lblReload
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(346, 103);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(60, 20);
-            this.label9.TabIndex = 14;
-            this.label9.Text = "Reload";
-            this.label9.Click += new System.EventHandler(this.label9_Click);
+            this.lblReload.AutoSize = true;
+            this.lblReload.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblReload.Location = new System.Drawing.Point(346, 103);
+            this.lblReload.Name = "lblReload";
+            this.lblReload.Size = new System.Drawing.Size(60, 20);
+            this.lblReload.TabIndex = 14;
+            this.lblReload.Text = "Reload";
+            this.lblReload.Click += new System.EventHandler(this.lblReload_Click);
             // 
             // label1
             // 
@@ -246,7 +246,7 @@ namespace MajPAbGr_project
             this.lblMain.Name = "lblMain";
             this.lblMain.Size = new System.Drawing.Size(70, 20);
             this.lblMain.TabIndex = 8;
-            this.lblMain.Text = "name_id";           
+            this.lblMain.Text = "name_id";
             // 
             // label4
             // 
@@ -284,21 +284,21 @@ namespace MajPAbGr_project
             this.lblCoef.TabIndex = 12;
             this.lblCoef.Text = "1";
             // 
-            // label8
+            // lblName
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(22, 35);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(103, 20);
-            this.label8.TabIndex = 13;
-            this.label8.Text = "Recipe name";
+            this.lblName.AutoSize = true;
+            this.lblName.Location = new System.Drawing.Point(22, 35);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(103, 20);
+            this.lblName.TabIndex = 13;
+            this.lblName.Text = "Recipe name";
             // 
             // InsertAmounts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(909, 487);
-            this.Controls.Add(this.label8);
+            this.Controls.Add(this.lblName);
             this.Controls.Add(this.lblCoef);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.lblRecipe);
@@ -309,7 +309,7 @@ namespace MajPAbGr_project
             this.Controls.Add(this.btn_submit);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.txbRecipe);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.lvRecipe);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.KeyPreview = true;
@@ -333,7 +333,7 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Button btn_submit;
         private System.Windows.Forms.TextBox txbRecipe;
         private System.Windows.Forms.TextBox txbAmounts;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView lvRecipe;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
@@ -353,7 +353,7 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Label lblRecipe;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lblCoef;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblName;
+        private System.Windows.Forms.Label lblReload;
     }
 }

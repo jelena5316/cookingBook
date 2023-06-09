@@ -1,8 +1,9 @@
-﻿using System;
+﻿/*
+ * to input ingredients of recipe (formulation) and insert ones into DB
+ */
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Globalization;
 
@@ -10,16 +11,10 @@ namespace MajPAbGr_project
 {
     public partial class InsertAmounts : Form
     {
-        readonly int id_recepture; // formulation's id
-       
-       
-        double summa = 0;
+        double summa;
         double[] amounts;
-
-        Mode mode; //create new or edit old
-        string recepture_name; // name of recepture, for assigning this.Text when form is loading
-
-        List<Element> elements; // id and name, for amounts
+        Mode mode; //0 - Create, 1 - Edit, 2 - EditNewMain
+        List<Element> elements; //list of recipe ingredients
         List<Item> ingredients;
 
         AmountsController controller;
@@ -28,10 +23,9 @@ namespace MajPAbGr_project
         CalcFunction calc;
 
         NumberFormatInfo nfi;
-        string decimal_separator;
-        Print frm = new Print();
+        string decimal_separator;        
 
-        public InsertAmounts(AmountsController controller) // this is main and it have to be one
+        public InsertAmounts(AmountsController controller)
         {
             InitializeComponent();
             this.controller = controller;
@@ -40,74 +34,76 @@ namespace MajPAbGr_project
             calc = controller.Calc;
             elements = controller.Elements;
             ingredients = controller.Ingredients;
-
-            id_recepture = tbAmount.Id_recepture;
-            recepture_name = tbAmount.dbReader($"select name from Recepture where id = {id_recepture}")[0]; // for this.Text           
-            
             mode = controller.getMode;
+            summa = 0.0;
         }
 
         private void InsertAmounts_Load(object sender, EventArgs e)
         {
-            if (mode == Mode.Create)           
-                txbRecipe.Enabled = true;                            
-            else                          
-                txbRecipe.Enabled = false;
-           
-
-            FillAmountsView(); // listview
-            if (mode == (Mode)1) // for edit mode
-            {
-                fillAmounts();                
-                showOldAmounts();           
-            }
-
-            if (mode == Mode.Edit) //1
-            {
-                listView1.Columns[1].Text = "Amounts(%) new";
-                listView1.Columns[2].Text += " old";
-            }
-
-            label8.Text = recepture_name;
-            txbAmounts.Text = "100" + decimal_separator + "0";
-
-            lblMain.Text = controller.Main;
-            lblRecipe.Text = string.Format("{0:f2}", controller.Recipe);
-            lblCoef.Text = string.Format("{0:f2}", controller.Calc.Coefficient);
-
-
             /*
-             * Lokalization
-             */
+            * Lokalization
+            */
             CultureInfo.CurrentCulture = new CultureInfo("us-US");
             localizacijaToolStripMenuItem.Text = $"US (\'{decimal_separator}\')";
             nfi = CultureInfo.CurrentCulture.NumberFormat;
-            decimal_separator = nfi.NumberDecimalSeparator;          
-         
+            decimal_separator = nfi.NumberDecimalSeparator;
 
             /*
              * Textbox: ingredients and formulations
              */
             cmbIngr.AutoCompleteCustomSource = AutoCompleteNames
-                (Class1.setBox(ingredients, cmbIngr));
+                (FormFunction.setBox(ingredients, cmbIngr));
             cmbIngr.AutoCompleteMode = AutoCompleteMode.Suggest;
             cmbIngr.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
             txbRecipe.AutoCompleteCustomSource = AutoCompleteNames
-                (tbAmount.dbReader($"select name from Recipe;"));
+                (controller.getRecipesNames());
             txbRecipe.AutoCompleteMode = AutoCompleteMode.Suggest;
             txbRecipe.AutoCompleteSource = AutoCompleteSource.CustomSource;
 
             AutoCompleteStringCollection AutoCompleteNames(List<string> list)
             {
                 AutoCompleteStringCollection source = new AutoCompleteStringCollection();
-                foreach (String el in list) source.Add(el);
+                if (list.Count > 1)
+                {                
+                    foreach (String el in list) source.Add(el);                   
+                }
+                else
+                {
+                    source.Add("none");
+                }
                 return source;
             }
+
+            /*
+             *  set elements
+             */
+
+            lblName.Text = controller.Info.getName(); 
+            
+            FillAmountsView(); // listview
+            if (mode == (Mode)1) // for edit mode
+            {
+                fillAmounts();                
+                showOldAmounts();
+                lvRecipe.Columns[1].Text = "Amounts(%) new";
+                lvRecipe.Columns[2].Text += " old";
+            }
+            
+             //a main ingredient, coefficients
+            lblMain.Text = controller.Main;
+            lblRecipe.Text = string.Format("{0:f2}", controller.Recipe);
+            lblCoef.Text = string.Format("{0:f2}", controller.Calc.Coefficient);
+            
+            // save a coefficient (recipe)
+            if (mode == Mode.Create)           
+                txbRecipe.Enabled = true;                            
+            else                          
+                txbRecipe.Enabled = false;
         }
 
         /*
-         * Lokalization
+         * Lokalization setting
          */
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -134,7 +130,7 @@ namespace MajPAbGr_project
         }
 
         /*
-         * end
+         * end of lokalization setting
          */
 
         private void fillAmounts()
@@ -153,7 +149,7 @@ namespace MajPAbGr_project
 
         private void FillAmountsView()
         {             
-            ListView list = listView1;
+            ListView list = lvRecipe;
             list.Items.Clear();
 
             ListViewItem items;
@@ -165,14 +161,14 @@ namespace MajPAbGr_project
                 t = string.Format("{0:f2}", elements[k].Amounts);
                 items.SubItems.Add(t);
                 items.SubItems.Add(""); // for calculated values
-                listView1.Items.Add(items);
+                lvRecipe.Items.Add(items);
             }
         }
 
         private void showOldAmounts()
         {
             string t;
-            ListView list = listView1;
+            ListView list = lvRecipe;
             for (int k = 0; k < elements.Count; k++)
             {
                 t = string.Format("{0:f2}", amounts[k]);
@@ -182,79 +178,71 @@ namespace MajPAbGr_project
 
         private void cmbIngr_SelectedIndexChanged(object sender, EventArgs e)
         {
-            tbIngred.setSelected(cmbIngr.SelectedIndex);           
-           
+            if (ingredients.Count < 1) return;
+            
+            tbIngred.setSelected(cmbIngr.SelectedIndex);               
+            txbAmounts.Text = "";            
             txbAmounts.Focus();
-            if (mode == Mode.Create)
-                txbAmounts.Text = "100" + decimal_separator + "0";
-            else txbAmounts.Text = "";       
         }
 
-        private void btn_edit_onClick()
+        private void btn_edit_onClick() // add an ingredient
         {
             if (cmbIngr.SelectedIndex == -1) return;            
             if (string.IsNullOrEmpty(txbAmounts.Text)) return;            
         
             int index, index_ingr, new_index;
-            double amount, new_amount;
+            double amount;
+            string item_text = "";
             Element el;
             ListViewItem item;
 
             if (double.TryParse(txbAmounts.Text, out amount))
                 amount = double.Parse(txbAmounts.Text);
             else return;
-
-            if (listView1.SelectedItems.Count < 1)
+                                    
+            // getting index            
+            if (lvRecipe.SelectedItems.Count > 1)
             {
-                if (listView1.Items.Count > 0)
-                    index = listView1.Items.Count - 1;
-                else index = -1;
+                index = lvRecipe.SelectedItems[0].Index;
             }
             else
-                index = listView1.SelectedItems[0].Index;         
+            {
+                if (lvRecipe.Items.Count > 0)
+                    index = lvRecipe.Items.Count - 1;
+                else
+                    index = -1;
+            }            
             index_ingr = cmbIngr.SelectedIndex;         
             
-            //writting into double of table
+            //writing into mirror of table
             new_index = controller.SetMain(amount, index);
             el = controller.AddElement(index_ingr, index);
-            new_amount = controller.SetAmounts(amount, el);              
 
-            // creating new item of listview
-            mode = controller.getMode;
+            //inserting in listview new item           
             item = new ListViewItem(el.Name);
-
-            string t = "";
+            mode = controller.getMode;
             if (mode == Mode.Edit)
-                t = string.Format("{0:f2}", el.Amounts);
+                item_text = string.Format("{0:f2}", el.Amounts);
             else
-                t = string.Format("{0:f2}", amount);           
-            item.SubItems.Add(t);
-            t = string.Format("{0:f2}", el.Amounts);
-            item.SubItems.Add(t);
+                item_text = string.Format("{0:f2}", amount);           
+            item.SubItems.Add(item_text);
+            item_text = string.Format("{0:f2}", el.Amounts);
+            item.SubItems.Add(item_text);
             item.Tag = el.Id;
 
-            // remove selecting
-            if (listView1.SelectedItems.Count > 0)               
-                listView1.SelectedItems[0].Selected = false;            
+            if (lvRecipe.SelectedItems.Count > 0)               
+                lvRecipe.SelectedItems[0].Selected = false;            
                 
-
-            // inserting in listview new item
             try
-            {
-                //inserting new
-                item = listView1.Items.Insert(new_index, item);
-
-                //selecting new                
+            {               
+                item = lvRecipe.Items.Insert(new_index, item);                          
                 item.Selected = true;
             }
             catch (ArgumentOutOfRangeException)
             {
-                // adding new to list
-                listView1.Items.Add(item);
-
-                //selecting new
-                new_index = listView1.Items.Count - 1;
-                listView1.Items[new_index].Selected = true;
+                lvRecipe.Items.Add(item);                
+                new_index = lvRecipe.Items.Count - 1;
+                lvRecipe.Items[new_index].Selected = true;
             }
         }
 
@@ -262,7 +250,7 @@ namespace MajPAbGr_project
         {
             btn_edit_onClick();
 
-            // inserting data: main ingredient, coefficients
+            //main ingredient, coefficients
             lblMain.Text = controller.Main;
             lblRecipe.Text = string.Format("{0:f2}", controller.Recipe);
             lblCoef.Text = string.Format("{0:f2}", controller.Calc.Coefficient);
@@ -270,9 +258,9 @@ namespace MajPAbGr_project
 
         private void btn_remove_onClick()
         {
-            if (listView1.Items.Count < 1) return; // checking list
-            if (listView1.SelectedItems.Count < 1) return;
-            if (listView1.SelectedItems[0].Index < 0) return;
+            if (lvRecipe.Items.Count < 1) return;
+            if (lvRecipe.SelectedItems.Count < 1) return;
+            if (lvRecipe.SelectedItems[0].Index < 0) return;
 
             int index, result;
 
@@ -280,63 +268,62 @@ namespace MajPAbGr_project
             double recipe = controller.Recipe;            
 
             // deleting value
-            index = listView1.SelectedItems[0].Index;
-            listView1.Items[index].Selected = false;           
+            index = lvRecipe.SelectedItems[0].Index;
+            lvRecipe.Items[index].Selected = false;           
 
             result = controller.RemoveElement(index);
 
             if (result > 0)
             {
-                listView1.Items.RemoveAt(index);
-                listView1.Items[result].Selected = true;
+                lvRecipe.Items.RemoveAt(index);
+                lvRecipe.Items[result].Selected = true;
             }
             else
             {
                 if (result == 0)
                 {
-                    listView1.Items.RemoveAt(index);
-                    if (listView1.Items.Count > result)
-                        listView1.Items[result].Selected = true;
+                    lvRecipe.Items.RemoveAt(index);
+                    if (lvRecipe.Items.Count > result)
+                        lvRecipe.Items[result].Selected = true;
 
                     if (index == 0)
                     {
                         double amount = 0.0;
-                        controller.RemoveMain();                       
-                        if (controller.Elements.Count > 0 && listView1.Items.Count > 0)
+                        controller.RemoveMain(); // remove data about a main ingredient                
+                        if (controller.Elements.Count > 0 && lvRecipe.Items.Count > 0)
                             amount = double.Parse
-                                (listView1.Items[0].SubItems[1].Text);
+                                (lvRecipe.Items[0].SubItems[1].Text);
                         if (amount > 0.0)
                         {
-                            if (controller.ResetMain(amount))
+                            if (controller.ResetMain(amount)) // set new data of a main ingredient
                             {
-                                for (int k = 1; k < listView1.Items.Count; k++)
+                                for (int k = 1; k < lvRecipe.Items.Count; k++)
                                 {
                                     double num;
                                     if (double.TryParse
-                                        (listView1.Items[k].SubItems[1].Text, out num))
+                                        (lvRecipe.Items[k].SubItems[1].Text, out num))
                                     {
                                         num = double.Parse
-                                            (listView1.Items[k].SubItems[1].Text);
+                                            (lvRecipe.Items[k].SubItems[1].Text);
                                     }
                                     else num = 0;
                                     controller.Elements[k].Amounts = num;
                                 }
-                                elements = controller.ResetAmounts();                    
+                                elements = controller.ResetAmounts();  // amounts of ingredients will be recalculated          
                                 for (int k = 0; k < elements.Count; k++)
                                 {
                                     double new_amount = elements[k].Amounts;
-                                    listView1.Items[k].SubItems[2].Text
+                                    lvRecipe.Items[k].SubItems[2].Text
                                         = string.Format("{0:f2}", new_amount);
                                 }                        
                             }
                         }                   
                         else
                         {
-                            if (listView1.Items.Count > 0)
-                                listView1.Items[0].Selected = true;                                
+                            if (lvRecipe.Items.Count > 0)
+                                lvRecipe.Items[0].Selected = true;                                
                         }
-                        mode = controller.getMode;
-                        // reload mode value from controller, because it may be changed there
+                        mode = controller.getMode; // reload mode value from controller, because it may be changed there
                     }
                 }        
             }
@@ -344,20 +331,22 @@ namespace MajPAbGr_project
         private void btn_remove_Click(object sender, EventArgs e)
         {
             btn_remove_onClick();
+
+            //main ingredient, coefficients
             lblMain.Text = controller.Main;
             lblRecipe.Text = string.Format("{0:f2}", controller.Recipe);
             lblCoef.Text = string.Format("{0:f2}", controller.Calc.Coefficient);
         }
 
-        /*************************************************************************
+        /*
          * Writting into DB
-         *************************************************************************/
-        private void button4_Click(object sender, EventArgs e) // submit
+         */
+        private void btn_submit_Click(object sender, EventArgs e) // submit
         {
             int ind = 0;
             mode = controller.getMode;
-            ind = tbAmount.updateRecords();
-            
+
+            ind = tbAmount.updateRecords();            
             if (mode == Mode.Create)
             {
                 if (ind == elements.Count)
@@ -439,48 +428,50 @@ namespace MajPAbGr_project
             this.Dispose();
         }
 
-        /****************************************************************************
+        /*
          * ListView and Reload
-         ***************************************************************************/
-        
-        private void onIndexChanged()
-        {   
-            if (listView1.SelectedItems.Count < 1) return;            
-            int index = listView1.SelectedItems[0].Index;            
-            
+        */
+        private void lvRecipe_onIndexChanged()
+        {
+            if (lvRecipe.SelectedItems.Count < 1) return;
+            int index = lvRecipe.SelectedItems[0].Index;
+
             checked
             {
                 try
                 {
-                    int id; // id of selected element
-                    Element el = tbAmount.getElementByIndex(index);
-                    tbAmount.Selected = el.Id;
-                    id = tbAmount.Selected;
-                    cmbIngr.SelectedIndex = Class1.ChangeIndex(ingredients, id);
-                    string t = string.Format("{0:f1}", el.Amounts);                   
-                    listView1.Focus();                    
+                    int id;
+                    string amount;
+                    Element el;
+
+                    el = controller.changeSelectedElement(index);
+                    id = el.Id;
+                    amount = string.Format("{0:f2}", el.Amounts);
+
+                    cmbIngr.SelectedIndex = FormFunction.ChangeIndex(ingredients, id);
+                    txbAmounts.Text = amount;
+                    lvRecipe.Focus();
                 }
                 catch (ArgumentOutOfRangeException)
-                {                    
+                {
                     return;
                 }
             }
-
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private void lvRecipe_SelectedIndexChanged(object sender, EventArgs e)
         {
-            onIndexChanged();
+            lvRecipe_onIndexChanged();
         }
 
-        private void label9_Click(object sender, EventArgs e)
+        private void lblReload_Click(object sender, EventArgs e)
         {
             Refresh();            
             fillAmounts();
             FillAmountsView(); // listview            
             showOldAmounts(); // for edit mode
-            if (listView1.Items.Count > 0)
-                listView1.Items[0].Selected = true;
+            if (lvRecipe.Items.Count > 0)
+                lvRecipe.Items[0].Selected = true;
 
 
             lblMain.Text = controller.Main;
