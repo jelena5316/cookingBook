@@ -64,7 +64,7 @@ namespace MajPAbGr_project
             AutoCompleteStringCollection AutoCompleteNames(List<string> list)
             {
                 AutoCompleteStringCollection source = new AutoCompleteStringCollection();
-                if (list.Count > 1)
+                if (list.Count > 0)
                 {                
                     foreach (String el in list) source.Add(el);                   
                 }
@@ -201,7 +201,7 @@ namespace MajPAbGr_project
             else return;
                                     
             // getting index            
-            if (lvRecipe.SelectedItems.Count > 1)
+            if (lvRecipe.SelectedItems.Count > 0)
             {
                 index = lvRecipe.SelectedItems[0].Index;
             }

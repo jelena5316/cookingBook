@@ -166,6 +166,29 @@ namespace MajPAbGr_project
             }
             return number;
         }
+
+        public string PointToColon(string text)
+        {
+            string number;          
+
+            number = "";
+            if (text.Contains('.'))
+            {
+                int k;
+                for (k = 0; k < text.Length; k++)
+                {
+                    if (text[k] != '.')
+                        number += text[k];
+                    else
+                        number += ',';
+                }
+            }
+            else
+            {
+                number = text;
+            }
+            return number;
+        }
     }
 }
 
