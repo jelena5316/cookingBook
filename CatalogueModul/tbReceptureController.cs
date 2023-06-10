@@ -16,9 +16,10 @@ namespace MajPAbGr_project
             this.table = table;
         }
 
-
-        public string Statistic_common{
-            get {
+        public string Statistic_common
+        {
+            get
+            {
                 query = $"select count (*) from {table}";
                 return Count(query);                 
             }
@@ -26,7 +27,8 @@ namespace MajPAbGr_project
 
         public string Statistic_formula
         {
-            get {
+            get
+            {
                 query = $"select count (*) from {table} where description is null";                               
                 return Count(query); ;            
             }
@@ -34,18 +36,15 @@ namespace MajPAbGr_project
 
         public int Id
         {
-            set
-            {
-                id_recepture = value;               
-            }
-            get => id_recepture;
+            set { id_recepture = value; }
+
+            get { return id_recepture; }
         }
+        
+        /*
+         * for form `About Recepture'
+         */
         public int getId() { return id_recepture; }
-        public int Category
-        {
-            set { category = value;}
-            get { return category; }
-        }
 
         public bool IfRecordIs()
         {

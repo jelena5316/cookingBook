@@ -9,7 +9,7 @@ namespace MajPAbGr_project
 {
     class CategoriesController
     {
-        int category, recepture;
+        int category, recepture; //id
         List<int> receptures_id;
         List<Item> categories, receptures;
         List<ReceptureStruct> rec_struct;  
@@ -77,15 +77,6 @@ namespace MajPAbGr_project
             else
                 return int.Parse(minid);
         }
-            
-        
-
-        //public void SelectedByCategoryRecepture(int id)
-        //{
-        //    string query;
-        //    query = $"select id, name from Recepture where id_category = {id};";            
-        //    receptures = tb.Catalog(query);
-        //}
 
         public void setReceptures()
         {           
@@ -106,7 +97,6 @@ namespace MajPAbGr_project
             }
         }
 
-    
          public List<ReceptureStruct> selectByCategory(int index)
          {
             List<ReceptureStruct> selected;            
@@ -114,26 +104,6 @@ namespace MajPAbGr_project
             tbCat.setSelected(index);
             return selected;
          }
-
-        //public int indexOfSelectedByCategory(int index)
-        //{
-        //    try
-        //    {
-        //        string category;
-        //        List<ReceptureStruct> selected;
-
-        //        category = tbCat.getById("name", tbCat.Selected);
-        //        selected = rec_struct.FindAll(p => p.getCategory() == category);
-        //        tb.Id = selected[index].getId();
-        //        index = rec_struct.FindIndex(p => p.getId() == tb.Id);
-        //        tb.setSelected(index);
-        //        return index;
-        //    }
-        //    catch
-        //    {
-        //        return 0;
-        //    }
-        //}
 
         public int indexOfSelectedByCategory(int index, int category)
         {
@@ -182,7 +152,6 @@ namespace MajPAbGr_project
         /*
          * Print to file
          */
-
         public void Print(int index, int option)
         {
             string file = "file";
@@ -195,7 +164,7 @@ namespace MajPAbGr_project
             switch (option)
             {
                 case 0:
-                    file = rec_struct[index].EditorData[0];
+                    file = rec_struct[index].getName();
                     print = new PrintController(file);
                     print.Info = PrintInfo(index).ToList();
                     print.Ingredients = new List<string>() {PrintRecepture()};

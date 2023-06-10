@@ -1,12 +1,9 @@
-﻿using System;
+﻿/*
+ * to manage recipes` (formulations`) catalogue: read data from DB and show it
+ */
+
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MajPAbGr_project
@@ -14,26 +11,16 @@ namespace MajPAbGr_project
 	public partial class Categories : Form
 	{
 		bool exist_selected = false;
-		int selected_recepture = -1;
-		int pragma;
-		List<string> list, list_of_categories;
+		int selected_recepture = -1;		
 		List<ReceptureStruct> full;
-		CategoriesController controller; // include FormMainController
+		CategoriesController controller;
 		tbReceptureController tbMain; // pointer at controller.TbMain
 
 		public Categories()
 		{
 			InitializeComponent();
 			controller = new CategoriesController();
-			tbMain = controller.TbMain;
-			list = new List<string>();
-			for (int k = 0; k < controller.Receptures.Count; k++)
-				list.Add(controller.Receptures[k].name);
-			list_of_categories = new List<string>();
-			for (int k = 0; k < controller.Receptures.Count; k++)
-				list_of_categories.Add(controller.ReceptureStruct[k].getCategory());
-
-			pragma = 0;
+			tbMain = controller.TbMain;			
 		}
 
 		private void Categories_Load(object sender, EventArgs e)
@@ -53,14 +40,17 @@ namespace MajPAbGr_project
 			resetRecepturesList(controller.ReceptureStruct);
 			if (lv_recepture.Items.Count > 0)
 				lv_recepture.Items[0].Selected = true;
-			cmb_categories.Text = "all";
-			pragma = 1;
+			cmb_categories.Text = "all";	
+				
+			toolStripCmbPrint.SelectedIndex = 0;//print		
 
-			//print			
-			toolStripCmbPrint.SelectedIndex = 0;
+			AutoCompleteRecepture(controller.Receptures);
+		}
 
+		private void AutoCompleteRecepture(List<Item> rec)
+		{
 			AutoCompleteStringCollection source = new AutoCompleteStringCollection();
-			foreach (Item item in controller.Receptures)
+			foreach (Item item in rec)
 				source.Add(item.name);
 			textBox1.AutoCompleteCustomSource = source;
 			textBox1.AutoCompleteMode = AutoCompleteMode.Suggest;
@@ -126,11 +116,6 @@ namespace MajPAbGr_project
 
 		private void Reload()
 		{
-			list.Clear();
-			for (int k = 0; k < controller.Receptures.Count; k++)
-				list.Add(controller.Receptures[k].name);
-			pragma = 0;
-
 			tbIngredientsController tbCat = controller.TbCat;
 			tbCat.resetCatalog();
 			controller.Categories = tbCat.getCatalog();
@@ -140,19 +125,13 @@ namespace MajPAbGr_project
 			controller.ReceptureStruct.Clear();
 			controller.setFields();
 			resetRecepturesList(controller.ReceptureStruct);
+
 			if (lv_recepture.Items.Count > 0)
-				lv_recepture.Items[0].Selected = true;
-			cmb_categories.Text = "all";
-			pragma = 1;
+				lv_recepture.Items[0].Selected = true;			
+			cmb_categories.Text = "all";		
 
 			seeAll();
-
-			AutoCompleteStringCollection source = new AutoCompleteStringCollection();
-			foreach (Item item in controller.Receptures)
-				source.Add(item.name);
-			textBox1.AutoCompleteCustomSource = source;
-			textBox1.AutoCompleteMode = AutoCompleteMode.Suggest;
-			textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;			
+			AutoCompleteRecepture(controller.Receptures);		
 		}
 
 		/*
@@ -200,7 +179,7 @@ namespace MajPAbGr_project
 
 		private void cmb_categories_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (pragma == 0) return;
+			if (cmb_categories.Items.Count < 1) return;
 			textBox1.Text = "";
 			if (cmb_categories.SelectedIndex == -1) return;
 			int index = cmb_categories.SelectedIndex, id = controller.Categories[index].id;
@@ -348,11 +327,6 @@ namespace MajPAbGr_project
 			frm.OpenFile1(PATH, "user_manual");
 			frm.Button3_Enabled_status(false);
 		}
-
-        private void goToToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void openReceptureEditor()
 		{

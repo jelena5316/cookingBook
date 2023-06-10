@@ -19,7 +19,7 @@ namespace MajPAbGr_project
         tbReceptureController tb;
         tbController tbCat;
         tbTechnologyController tbTech;
-        NewReceptureController controller;// = new NewReceptureController();
+        NewReceptureController controller;
 
 
         public NewRecepture(tbReceptureController tbMain, NewReceptureController controller) // addNew() in "Categories"
@@ -85,20 +85,25 @@ namespace MajPAbGr_project
             FormFunction.FillCombo(items, cmbTech);           
 
             technology = temp;
-            if (technology > 0)
+            
+            if (items.Count > 0)
             {
-                cmbTech.SelectedIndex = FormFunction.ChangeIndex(items, technology);                
+                if (technology > 0)
+                {
+                    cmbTech.SelectedIndex = FormFunction.ChangeIndex(items, technology);
+                }
+                else
+                {
+                    cmbTech.Text = "choose any technology";
+                }
             }
             else
-            {
-                cmbTech.Text = "choose any technology";                
-            }
-            if (items.Count < 1)
-            {
+            {              
                 cmbTech.Text = "empty";
                 chBox_technology.Checked = true;
                 chBox_technology.Enabled = false;
-            }        
+
+            }  
 
             if (indicator)
             {
@@ -165,9 +170,9 @@ namespace MajPAbGr_project
                 MessageBox.Show(message);
                 if (!indicator)
                     {
-                     this.Dispose();
-                     this.Close();                      
-                    }       
+                    this.Dispose();
+                    this.Close();
+                }       
             }
             else
             {
@@ -215,16 +220,18 @@ namespace MajPAbGr_project
 
                 num = tb.UpdateReceptureOrCards("name", name, id_recepture);
                 num = tb.UpdateReceptureOrCards("id_category", category.ToString(), id_recepture);
+                
                 if (technology != 0 || !chBox_technology.Checked)
                 {
-                    num = tb.UpdateReceptureOrCards("id_technology", technology.ToString(), id_recepture);                    
+                    if (technology > 0 )
+                        num = tb.UpdateReceptureOrCards("id_technology", technology.ToString(), id_recepture);                    
                 }
                 else
                 {
                     if (chBox_technology.Checked)
                     {
                         num = tb.UpdateReceptureOrCards("id_technology", null, id_recepture);
-                    }
+                    }                    
                 }
             }
 
