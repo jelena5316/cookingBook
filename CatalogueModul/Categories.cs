@@ -36,16 +36,15 @@ namespace MajPAbGr_project
 			lv_recepture.Columns.Add("Source");
 			lv_recepture.Columns[4].Width = 250;
 
-			FormFunction.setBox(controller.Categories, cmb_categories);
-			resetRecepturesList(controller.ReceptureStruct);
-			if (lv_recepture.Items.Count > 0)
-				lv_recepture.Items[0].Selected = true;
-			cmb_categories.Text = "all";	
-				
-			toolStripCmbPrint.SelectedIndex = 0;//print		
-
-			AutoCompleteRecepture(controller.Receptures);
-		}
+            toolStripCmbPrint.SelectedIndex = 0;//print	
+            FormFunction.setBox(controller.Categories, cmb_categories);
+			cmb_categories.Text = "all";
+			resetRecepturesList(controller.ReceptureStruct);			
+			full = null;
+            if (lv_recepture.Items.Count > 0)
+                lv_recepture.Items[0].Selected = true;
+            AutoCompleteRecepture(controller.Receptures);
+        }
 
 		private void AutoCompleteRecepture(List<Item> rec)
 		{
@@ -63,16 +62,23 @@ namespace MajPAbGr_project
 
 		private int CheckTbMainSelected(int min)
 		{
-			if (tbMain.Selected == 0)
+			if (tbMain.Selected > 0)
+			{ 
+				return tbMain.Selected;
+            }				
+            else
+            {
 				tbMain.Selected = min;
-			if (lv_recepture.SelectedItems == null)
-				lv_recepture.Items[0].Selected = true;
-			return tbMain.Selected;
+				return min;
+            }	
 		}
 
 		private void openRecipesEditor()
 		{
-			Recipes frm = new Recipes(CheckTbMainSelected(controller.getMinIdOfReceptures()));
+			if (!exist_selected) return;
+            int id = CheckTbMainSelected(controller.getMinIdOfReceptures());
+            if (id == 0) return;            
+			Recipes frm = new Recipes(tbMain.Selected);
 			frm.Show();
 		}
 
@@ -124,13 +130,8 @@ namespace MajPAbGr_project
 			controller.setReceptures();
 			controller.ReceptureStruct.Clear();
 			controller.setFields();
-			resetRecepturesList(controller.ReceptureStruct);
 
-			if (lv_recepture.Items.Count > 0)
-				lv_recepture.Items[0].Selected = true;			
-			cmb_categories.Text = "all";		
-
-			seeAll();
+            seeAll();
 			AutoCompleteRecepture(controller.Receptures);		
 		}
 
@@ -139,42 +140,40 @@ namespace MajPAbGr_project
 		 */
 		private void lv_recepture_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (lv_recepture.Items.Count < 0)
+            if (lv_recepture.Items.Count < 0)
+                exist_selected = false;
+            if (lv_recepture.SelectedItems.Count < 1)
+			{
+				selected_recepture = 0;
 				exist_selected = false;
+				return;
+			}
 
-			if (lv_recepture.SelectedItems.Count > 0)
-            {
-				if (full == null)
+			if (full == null)
+			{
+				tbMain.setSelected(lv_recepture.SelectedItems[0].Index);
+				selected_recepture = lv_recepture.SelectedItems[0].Index;
+			}
+			else
+			{
+				if (textBox1.Text != "")
 				{
-					tbMain.setSelected(lv_recepture.SelectedItems[0].Index);
-					selected_recepture = lv_recepture.SelectedItems[0].Index;
+					string name = textBox1.Text;
+					selected_recepture = controller.indexOfSelectedByName(name);
 				}
 				else
 				{
-					if (textBox1.Text != "")
+					int index = lv_recepture.SelectedItems[0].Index;
+					if (controller.Categories.Count > 0)
 					{
-						string name = textBox1.Text;						
-						selected_recepture = controller.indexOfSelectedByName(name);						
+						selected_recepture = controller.indexOfSelectedByCategory(index, cmb_categories.SelectedIndex);
 					}
 					else
-					{
-						int index = lv_recepture.SelectedItems[0].Index;
-						if (controller.Categories.Count > 0)
-                        {
-							selected_recepture = controller.indexOfSelectedByCategory(index, cmb_categories.SelectedIndex);	
-                        }							
-						else
-							return;
-											
-					}
+						return;
+
 				}
-				exist_selected = true;
 			}
-            else
-            {
-				selected_recepture = 0;
-				exist_selected = false;
-			}
+			exist_selected = true;
         }
 
 		private void cmb_categories_SelectedIndexChanged(object sender, EventArgs e)
@@ -353,6 +352,5 @@ namespace MajPAbGr_project
 			frm.ShowDialog();
 			Reload();
 		}
-
-	}
+    }
 }
