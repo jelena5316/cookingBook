@@ -32,15 +32,15 @@ namespace MajPAbGr_project
             List<Item> items;
             
             items = techn.getCatalog();
-            Class1.FillCombo(items, cmbTechn);
+            FormFunction.FillCombo(items, cmbTechn);
             if (controller.Technology > 0)            
-                cmbTechn.SelectedIndex = Class1.ChangeIndex(items, controller.Technology);           
+                cmbTechn.SelectedIndex = FormFunction.ChangeIndex(items, controller.Technology);           
        
             items = cards.getCatalog();
-            Class1.FillCombo(items, cmbData);
+            FormFunction.FillCombo(items, cmbData);
             id = controller.Card; 
             if (id !=0)
-                cmbData.SelectedIndex = Class1.ChangeIndex(items, id);            
+                cmbData.SelectedIndex = FormFunction.ChangeIndex(items, id);            
         }        
        
         private void cmbData_SelectedIndexChanged(object sender, EventArgs e)

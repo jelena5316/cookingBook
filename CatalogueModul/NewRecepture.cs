@@ -70,22 +70,22 @@ namespace MajPAbGr_project
             List<Item> items;          
 
             temp = category;
-            items = tbCat.getCatalog();
+            items = tbCat.getCatalog();            
             FormFunction.FillCombo(items, cmbCat);
             category = temp;
             if (category > 0)
                 cmbCat.SelectedIndex = FormFunction.ChangeIndex(items, category);
             else
-                cmbCat.SelectedIndex = 0;
+            {
+                if (cmbCat.Items.Count > 0)
+                    cmbCat.SelectedIndex = 0;
+            }
+                
 
             temp = technology;            
             items = tbTech.getCatalog();
-            //items.Clear(); // !!! only for test !!!
-                         
-            FormFunction.FillCombo(items, cmbTech);           
-
-            technology = temp;
-            
+            FormFunction.FillCombo(items, cmbTech);     
+            technology = temp;            
             if (items.Count > 0)
             {
                 if (technology > 0)

@@ -8,8 +8,7 @@ namespace MajPAbGr_project
     {
         int option, l_used=0;
         string used;
-
-        List<string> output;     
+   
         tbIngredientsController tb;
 
         public Ingredients (tbIngredientsController controller)
@@ -43,9 +42,8 @@ namespace MajPAbGr_project
         }
 
         private void Output()
-        {
-            List<int> id;
-            output = Class1.FillComboString(tb.getCatalog(), cmbData, out id);
+        {         
+            FormFunction.FillCombo(tb.getCatalog(), cmbData);
         }
 
         private void btn_edit_Click(object sender, EventArgs e)

@@ -49,7 +49,7 @@ namespace MajPAbGr_project
             //tb = new tbTechnologyCardsController("Technology_card");
             ////db = new dbController();
             //tb.setCatalog();
-            //cards = Class1.FillCombo(tb.getCatalog(), cmbData);
+            //cards = FormFunction.FillCombo(tb.getCatalog(), cmbData);
 
             //cards_count = 0;
 
@@ -67,8 +67,8 @@ namespace MajPAbGr_project
             // вывод в комбо-поле списка карт, установка в него выбранной карты
             // и возврат значения выбранной карты
             int temp = tb.Selected;
-            Class1.FillCombo(cards, cmbCards);           
-            cmbCards.SelectedIndex = Class1.ChangeIndex(cards, temp);
+            FormFunction.FillCombo(cards, cmbCards);           
+            cmbCards.SelectedIndex = FormFunction.ChangeIndex(cards, temp);
 
             //автозаполнения
             AutoCompleteStringCollection source = new AutoCompleteStringCollection();
@@ -233,9 +233,9 @@ namespace MajPAbGr_project
 
             id_temp = tb.Selected;
             tb.setCatalog();           
-            cards = Class1.FillCombo(tb.getCatalog(), cmbCards);
+            cards = FormFunction.FillCombo(tb.getCatalog(), cmbCards);
             tb.Selected = id_temp;
-            cmbCards.SelectedIndex = Class1.ChangeIndex(cards, tb.Selected);
+            cmbCards.SelectedIndex = FormFunction.ChangeIndex(cards, tb.Selected);
             name = "";
             //cmbCards.SelectedIndex = ChangeSelectedIndex(tb.Selected);
             
@@ -385,9 +385,9 @@ namespace MajPAbGr_project
                     int id_temp = tb.Selected;
                     tb.setCatalog();
                     cards.Clear();
-                    cards = Class1.FillCombo(tb.getCatalog(), cmbCards);
+                    cards = FormFunction.FillCombo(tb.getCatalog(), cmbCards);
                     tb.Selected = id_temp;
-                    cmbCards.SelectedIndex = Class1.ChangeIndex(cards, tb.Selected);
+                    cmbCards.SelectedIndex = FormFunction.ChangeIndex(cards, tb.Selected);
                     
                     //выводим сообщение                    
                     MessageBox.Show($"{name} is deleted");

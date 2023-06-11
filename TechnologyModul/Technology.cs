@@ -57,8 +57,8 @@ namespace MajPAbGr_project
 
 		private void Technology_Load(object sender, EventArgs e)
 		{
-			int index = Class1.ChangeIndex(technologies, tb.Selected);
-			Class1.FillCombo(technologies, comboBox2);
+			int index = FormFunction.ChangeIndex(technologies, tb.Selected);
+			FormFunction.FillCombo(technologies, comboBox2);
 			comboBox2.SelectedIndex = index;
 			//ChangeIndex(technologies);
 			//OutTechnology();
@@ -197,12 +197,12 @@ namespace MajPAbGr_project
 			report = controller.Submit(name, description, id_temp);
 			MessageBox.Show(report);
 
-			//Class1.FillCombo(.., ..) меняет tb.Selected, selected_tech, меняет в setSelected(int index),
+			//FormFunction.FillCombo(.., ..) меняет tb.Selected, selected_tech, меняет в setSelected(int index),
 			//где index = 0;
 			id_temp = tb.Selected;
-			technologies = Class1.FillCombo(tb.getCatalog(), comboBox2);
+			technologies = FormFunction.FillCombo(tb.getCatalog(), comboBox2);
 			tb.Selected = id_temp;
-			comboBox2.SelectedIndex = Class1.ChangeIndex(technologies, tb.Selected);
+			comboBox2.SelectedIndex = FormFunction.ChangeIndex(technologies, tb.Selected);
 
 			//OutTechnology();
 			//toolStripStatusLabel2.Text = $"Selected: recepture {id_recepture} technology {selected_tech}";
@@ -296,7 +296,7 @@ namespace MajPAbGr_project
 				if (ind && index > -1)
 				{
 					//обновляем форму
-					technologies = Class1.FillCombo(tb.getCatalog(), comboBox2);
+					technologies = FormFunction.FillCombo(tb.getCatalog(), comboBox2);
 					comboBox2.SelectedIndex = index;
 					textBox1.Focus();
 					MessageBox.Show($"{name} is deleted");
