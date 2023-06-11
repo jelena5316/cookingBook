@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
@@ -12,16 +9,6 @@ namespace MajPAbGr_project
 		List<Item> cards;
 		tbTechnologyCardsController tb;
 		ChainsController chains;
-
-		public TechnologyCardsController(int card)
-        {
-			tb = new tbTechnologyCardsController("Technology_card");	
-			if (card < 0) card = 0;
-			id_card = card;
-			tb.setCatalog();
-			cards = tb.getCatalog();			
-			tb.Selected = card;
-		}
 
 		public TechnologyCardsController(ChainsController cntrl)
         {
@@ -40,6 +27,7 @@ namespace MajPAbGr_project
         {
 			get { return chains;  }
         }
+
 		public tbTechnologyCardsController getTbController()
 		{
 			return tb;
@@ -96,8 +84,7 @@ namespace MajPAbGr_project
 				for (k = 0; k < tech_list.Count; k++)
 				{
 					string name = tbTech.getById("name", int.Parse(tech_list[k]));
-					list.Add($"{k} {name}");
-					//$" ({tbChain.dbReader($"select id from {tbChain.getTable()} where id_card = {tb.Selected} and id_technology = {tech_list[k]};")[0]})");
+					list.Add($"{k} {name}");					
 				}
 				
 				list.Add("Receptures:");
@@ -122,8 +109,7 @@ namespace MajPAbGr_project
             {
 				list.Add("no technology");
             }			
-			return list.ToArray();
-			//return new string[1] {"Info about a technologies step" };
+			return list.ToArray();			
         }
 	}
 }

@@ -8,18 +8,19 @@ namespace MajPAbGr_project
 {
     public class ChainsController
     {
-        int id_technology = 0, id_card = 0, id_recepture;     
+        int id_technology = 0,
+            id_card = 0; // id of the first cards of a selected technology             
         tbTechnologyCardsController tbCards;
         tbTechnologyController tbTech;
         tbChainController tbChain;
 
         public ChainsController()
         {
+            tbChain = new tbChainController("Technology_chain");
             tbCards = new tbTechnologyCardsController("Technology_card");
             tbCards.setCatalog();
             tbTech = new tbTechnologyController("Technology");
             tbTech.setCatalog();
-            tbChain = new tbChainController("Technology_chain");
         }        
 
         public int Technology
@@ -30,7 +31,7 @@ namespace MajPAbGr_project
                 int count = tbChain.CardsInTechnologyCount(id_technology);
                 if (count != 0)
                 {
-                    id_card = int.Parse(tbChain.CardsInTechnology(id_technology)[0]);
+                    id_card = int.Parse(tbChain.CardsInTechnology(id_technology)[0]);                    
                 }
             }
             get { return id_technology; }
@@ -66,12 +67,6 @@ namespace MajPAbGr_project
             }
             return list;
         }
-
-        public int Recepture
-        {
-            set { id_recepture = value; }
-            get { return id_recepture; }
-        }
         
         public tbTechnologyCardsController tbCardsController
         {
@@ -90,6 +85,11 @@ namespace MajPAbGr_project
 
         public int ApplyToChain()
         {
+            if (tbTech.getCatalog().Count() == 0 || tbCards.getCatalog().Count() == 0)
+            {
+                return -2;
+            }
+
             int ind = tbChain.ApplyCardToChain(
                 tbTech.Selected.ToString(),
                 tbCards.Selected.ToString()
@@ -99,11 +99,15 @@ namespace MajPAbGr_project
 
         public int RemoveFromChain()
         {
-            int ind;
-            id_card = tbCards.Selected;
-            id_technology = tbTech.Selected;
-            ind = tbChain.RemoveCardFromChain(id_technology.ToString(), id_card.ToString());
-
+            if (tbTech.getCatalog().Count() == 0 || tbCards.getCatalog().Count() == 0)
+            {
+                return -2;
+            }
+           
+            int ind = tbChain.RemoveCardFromChain(
+                tbTech.Selected.ToString(),
+                tbCards.Selected.ToString()
+                );
             return ind;
         }
     }

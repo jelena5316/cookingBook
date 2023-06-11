@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
@@ -38,20 +35,11 @@ namespace MajPAbGr_project
             }
         }
 
-        public int technologyIdByName(string name)
-        {
-            query = $"select id from Technology where name = '{name}';";            
-            return int.Parse(dbReader(query)[0]);            
-        }
-
         public List <Item> getTechnologiesIdsByName(string name)
         {
             query = $"select id, name from Technology where name = '{name}';";
             return Catalog(query);
         }
-
-        public string getDescription()
-            => dbReader($"select description from {getTable()} where id = {selected}")[0];
 
         public string insertTechnology(string name, string description)
         {
@@ -59,17 +47,10 @@ namespace MajPAbGr_project
                 $" values ('{name}', '{description}'); select last_insert_rowid()";
         }
 
-        //SelectedCount (used in FormMain), cardsCount (used in TechnologyCards)
         public string technologiesCount(string name)
         {
             query = $"select count(*) from Technology where name = '{name}';";
             return Count(query);
-        }
-        
-
-        public string recepturesCount(int recepture, int technology)
-        {
-            return $"select count(*) from Recepture where id = '{recepture}' and id_technology = '{technology}';";
         }
     }
 }

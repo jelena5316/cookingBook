@@ -9,52 +9,8 @@ namespace MajPAbGr_project
     
     public class tbChainController: tbController
     {
-        int technology, card;
-        string name;
-        List<Item> cards, technologies;
-
-        public tbChainController(string table) : base(table)
-        {
-            cards = new List<Item>();
-        }      
-
-        /***********************************************************************
-         Getters and setters
-         ***********************************************************************/
-        // public int Card
-        //{
-        //    set { card = value; }
-        //    get { return card; }
-        //}
-
-        //public int Technology
-        //{
-        //    set { technology = value; }
-        //    get { return technology; }
-        //}
-
-        //public string Name
-        //{
-        //    set { name = value; }
-        //    get { return name; }
-        //}
-
-        //public void setCards(TechnologyCardsController tbCards)
-        //{
-        //    query = $"select id_card from {table} where id_technology = {technology};";
-        //    List <string> id = dbReader(query);            
-        //    for (int k = 0; k < id.Count; k++)
-        //    {
-        //        Item item = new Item();
-        //        item.createItem(int.Parse(id[k]), tbCards.dbReader($"select name from {tbCards.getTable()} where id = {id[k]};")[0]);
-        //        cards.Add(item);
-        //    }  
-        //}
-
-        //public List<Item> getCards()
-        //{
-        //    return cards;
-        //}
+       
+        public tbChainController(string table) : base(table) {}
 
         /************************************************************************
          Read data from table

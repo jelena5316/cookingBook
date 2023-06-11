@@ -1,40 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
     public class TechnologyController
     {
-        int id_technology, id_recepture, id, selected_tech/*, selected_rec*/;
-        List<Item> technologies, receptures;
+		int id_technology, //tooken id, will be changed updating and creating
+			id;			
+		List<Item> receptures;
         tbTechnologyController tb;
         tbController tbRec;
-
-		/*		 
-		 * id_technology -- переданный номер, выставляет с поле имя из списка в поле технологий;  номер исправленной технологии (теперь и новой);
-		 * selected_tech -- номер выбранной из списка в поле, равен c tb.Selected; обнуляется при их очистке; по нему удаляем  и правим;
-		 * id - возможно, больше не нужен, (уже не) используется в  OutTechnology(), с прежних конструкторов на случай,
-		 * если не технология не передавалась;
-		 * submit new, setStatusLabel3, comboBox2_SelectedIndexChanged;
-		 * id_recepture - используется в fillCatalogRec();
-		 * selected_rec (убрала) - только для вывода в статусную полоску, определяется только при очистке полей редактора.
-		 */
 
 		public TechnologyController (int technology)
 		{
 			tb = new tbTechnologyController("Technology");
-			tbRec = new tbController("Recepture");
-			id_recepture = 0;
+			tbRec = new tbController("Recepture");			
 
-			if (technology < 0) technology = 0;
+			if (technology < 0)
+				technology = 0;
 			id_technology = technology;
 			tb.setCatalog();
-			technologies = tb.getCatalog();
-
-			selected_tech = technology;
 			tb.Selected = technology;
 			id = technology;
 		}
@@ -48,16 +33,37 @@ namespace MajPAbGr_project
 		{
 			return tbRec;
 		}
-
 		
 		public string [] OutTechnology(int selected) //into textbox
 		{
-			string query = $"select name, description from Technology where id ={selected};"; //id
-			string technology = "";
-			technology = tb.dbReadTechnology(query)[0];
+			string query, technology = "";
 			string[] arr = null;
+
+			query = $"select name, description from Technology where id = {selected};"; //id			
+			technology = tb.dbReadTechnology(query)[0];			
 			arr = technology.Split('*');
 			return arr;
+		}
+
+		public List<string> Names(List <string> cards_id)
+        {
+			int k;
+			string range = "";
+			for (k = 0; k < cards_id.Count - 1; k++)
+				range += $"{cards_id[k]}, ";
+			range += cards_id[k];		
+			return tb.dbReader($"select name from Technology_card where id in ({range})");
+		}
+
+		public List <string> Cards (int selected, out int count)
+        {
+			tbChainController chains;
+			chains = new tbChainController("Technology_chain");
+			count = chains.CardsInTechnologyCount(selected);
+			if (count > 0)
+				return chains.CardsInTechnology(selected);
+			else
+				return null;
 		}
 
 		public List<Item> setReceptures()
@@ -70,22 +76,6 @@ namespace MajPAbGr_project
         {
 			set { receptures = value; }
 			get { return receptures; }
-        }
-
-		public string SeeRecepturesCategory(int index)
-        {
-			int selected;
-			string category = "category: ", query;
-			if (receptures.Count > 0)
-			{
-				tbRec.Selected = receptures[index].id;	
-				selected = receptures[index].id;							
-				query = $"select name from Categories where id = " +
-					$"(select id_category from Recepture where id = {selected});";
-				category += tbRec.dbReader(query)[0];
-				
-			}
-			return category;
         }
 
 		public string Submit(string name, string description, int techn_id)
@@ -114,15 +104,6 @@ namespace MajPAbGr_project
 			return $"Technology {name} (id {tb.Selected}) is {report}";
         }
 
-		public string IsUsed()
-		{			
-			string used = tb.getUsed();
-			if (used == "0")
-				return "";
-			else
-				return $"The technology is used in {used} Receptures.\nPlease, remove it before deleting";
-        }
-
 		public bool Remove(int index, out int new_index)
         {
 			int ind = 0, count = tb.getCatalog().Count;
@@ -141,53 +122,5 @@ namespace MajPAbGr_project
             }
 				
         }
-
-		public string[] getFullInfo()
-		{
-			List<string> list = new List<string>();			
-
-			list.Add(tb.Selected.ToString());
-
-			if (tb.Selected > 0)
-            {
-				list.AddRange(OutTechnology(tb.Selected));
-			}			
-
-			List<string> chain;
-			tbTechnologyCardsController tbCards;
-
-			//выведет название рецепта
-			if (tbRec.Selected > 0 || receptures.Count > 0)
-            {
-                list.Add("Receptures:");
-                int id_rec = tbRec.Selected;
-                //list.Add( $"Technology is used in {receptures.Count.ToString()} receptures:");               
-                for (int k = 0; k < receptures.Count; k++)
-                {
-                    string category = SeeRecepturesCategory(k);
-                    string rec = receptures[k].name;
-                    list.Add($"{k + 1}. name: {rec}, id {tbRec.Selected}, {category}");
-                }
-                tbRec.Selected = id_rec;
-            }
-            else
-            {
-               list.Add("no recepture");
-            }
-            list.Add("Cards:");
-
-			//выведет на печать технологию с цепочкой карт
-			tbCards = new tbTechnologyCardsController("Technology_card");
-			chain = tbCards.SeeOtherCards(tb.Selected);
-			list.AddRange(chain);
-
-			//if (tb.Selected > 0)
-   //         {
-   //             tbCards = new tbTechnologyCardsController("Technology_card");
-   //             chain = tbCards.SeeOtherCards(tb.Selected);
-   //             list.AddRange(chain);               
-   //         }
-            return list.ToArray();			
-		}
 	}
 }

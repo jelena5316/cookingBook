@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MajPAbGr_project
@@ -28,18 +22,20 @@ namespace MajPAbGr_project
 
         private void Chains_Load(object sender, EventArgs e)
         {
-            int id = 0, k;
+            int id = 0;
             List<Item> items;
             
             items = techn.getCatalog();
             FormFunction.FillCombo(items, cmbTechn);
+
             if (controller.Technology > 0)            
                 cmbTechn.SelectedIndex = FormFunction.ChangeIndex(items, controller.Technology);           
        
             items = cards.getCatalog();
             FormFunction.FillCombo(items, cmbData);
-            id = controller.Card; 
-            if (id !=0)
+            id = controller.Card;
+            
+            if (id != 0)
                 cmbData.SelectedIndex = FormFunction.ChangeIndex(items, id);            
         }        
        
@@ -54,17 +50,23 @@ namespace MajPAbGr_project
         {
             int index = cmbData.SelectedIndex, selected_cards = 0;
             string description;
-            List<string> technologies;           
+            List<string> technologies;
+            
             selected_cards = cards.Selected;
             listBox_tech.Items.Clear();
             technologies = chains.getNames(chains.TechnologiesWithSelectedCard(selected_cards));
+
             if (technologies != null)
             {
                 for (int k = 0; k < technologies.Count; k++)
-                    listBox_tech.Items.Add(technologies[k]); // а есть ли проверка на уникальность имени? 
+                    listBox_tech.Items.Add(technologies[k]); // is a name unique?    
             }
-            if (listBox_tech.Items.Count != 0) listBox_tech.SelectedIndex = 0;
-            else listBox_tech.Text = "";
+
+            if (listBox_tech.Items.Count != 0)
+                listBox_tech.SelectedIndex = 0;
+            else
+                listBox_tech.Text = "";
+
             description = cards.getById("description", selected_cards);
             lblInfo.Text = chains.TechnologiesWithSelectedCardCount(selected_cards).ToString();
             lblCards.Text = description;           
@@ -83,12 +85,16 @@ namespace MajPAbGr_project
             List<string> names;            
             listBox_cards.Items.Clear();            
             names = controller.Names(chains.CardsInTechnology(techn.Selected));
-            for (int k = 0; k < names.Count; k++)
-                listBox_cards.Items.Add(names[k]); // а есть ли проверка на уникальность имени?           
-            if (listBox_cards.Items.Count != 0) listBox_cards.SelectedIndex = 0;
-            else listBox_cards.Text = "";
 
-            description = techn.getDescription();
+            for (int k = 0; k < names.Count; k++)
+                listBox_cards.Items.Add(names[k]); // is a name unique?
+
+            if (listBox_cards.Items.Count != 0)
+                listBox_cards.SelectedIndex = 0;
+            else
+                listBox_cards.Text = "";
+                        
+            description = techn.getById("description", techn.Selected);
             if (description.Length > 50)
             {
                 string t = description.Substring(0, 50);
@@ -102,7 +108,10 @@ namespace MajPAbGr_project
         {
             int ind = 0;
             string message = "";
+
             ind = controller.ApplyToChain();
+            if (ind == -2) return;
+
             message = (ind == -1) ? "Is inserted no records" : $"Is inserted {ind} records";
             MessageBox.Show(message);
             setListBoxCards();
@@ -112,7 +121,10 @@ namespace MajPAbGr_project
         private void btn_remove_Click(object sender, EventArgs e)
         {
             int ind = 0;
+
             ind = controller.RemoveFromChain();
+            if (ind == -2) return;
+
             MessageBox.Show($"Is deleted {ind} records");
             setListBoxCards();
             setListBoxTechnology();
