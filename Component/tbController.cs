@@ -2,7 +2,6 @@
  * read data from tables od data base and manage it
  */
 
-
 using System.Collections.Generic;
 
 namespace MajPAbGr_project

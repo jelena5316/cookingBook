@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+ * to access table Recepture, to store lists of receptures
+ */
+
+using System;
 
 namespace MajPAbGr_project
 {
     public class tbReceptureController : tbController
     {
-        private int id_recepture, category;        
+        private int id_recepture;       
         string[,] Info = new string[2, 6];      
 
         public tbReceptureController(string table) : base(table)

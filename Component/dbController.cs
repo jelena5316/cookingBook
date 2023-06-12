@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*
+ * to provide accessig to data base
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data;
@@ -16,8 +20,7 @@ namespace MajPAbGr_project
 
         public dbController ()
         {
-            connectionString = "Data Source = db\\CookingBook; Mode=ReadWrite";        
-            //connectionString = "Data Source = C:\\Users\\user\\Documents\\SQLiteStudio\\CookingBook; Mode=ReadWrite";
+            connectionString = "Data Source = db\\CookingBook; Mode=ReadWrite";            
             connection = new SqliteConnection(connectionString);
         }
 

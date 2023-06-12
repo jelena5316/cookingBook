@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*
+ * to input a head of technological chain
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 

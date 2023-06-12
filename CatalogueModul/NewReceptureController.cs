@@ -1,15 +1,15 @@
-﻿using System;
+﻿/*
+ * to manage catalogue cards using form "About Recepture"
+ */
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {
     public class NewReceptureController
     {
         int id_recepture = 0, category, technology;
-        string name, recepture, source, author, URL, description;
         List<Item> categories, technologies;
         ReceptureStruct info;
 

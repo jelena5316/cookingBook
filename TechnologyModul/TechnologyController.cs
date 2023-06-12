@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * to manage inputing technologies head using form "Technology"
+ * and methods of classes tbTechnologyController and tbController
+ */
+
+using System;
 using System.Collections.Generic;
 
 namespace MajPAbGr_project

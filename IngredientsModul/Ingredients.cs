@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * to input ingredients into DB
+ */
+
+
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 

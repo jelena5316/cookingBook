@@ -1,26 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+ *  enum for work with amounts of recipe ingredients
+ */
+
 
 namespace MajPAbGr_project
 {
-    public enum Mode
+    public enum Mode //amounts editor
     {
        Create,
        Edit,
        EditNewMain
     }
 
-    enum Columns
+    enum Columns // amounts editor
     {
         id_ingredients,
         amount,
         id_recepture
     }
 
-    public enum CalcBase
+    public enum CalcBase // recipes' calculator
     {
         Main,
         Total,

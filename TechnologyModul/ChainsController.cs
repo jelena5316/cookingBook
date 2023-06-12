@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * to manage creating  of technological chains using form "Chains"
+ * and methods of classes tbChainController, tbTechnologyController and tbTechnologyCardsController
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

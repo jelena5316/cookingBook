@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*
+ * to create technological chains
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 

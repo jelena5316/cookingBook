@@ -1,8 +1,10 @@
-﻿using System;
+﻿/*
+ * to access table "Technology_chain"
+ */
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace MajPAbGr_project
 {

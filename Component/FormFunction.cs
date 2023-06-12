@@ -2,8 +2,6 @@
  * to control lists view, combobox and 
  */
 
-
-
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;

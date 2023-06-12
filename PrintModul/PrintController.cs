@@ -1,8 +1,9 @@
-﻿using System;
+﻿/*
+ * to mange  data outputint into file and reading user manual using form "Print to file"
+ */
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MajPAbGr_project
 {

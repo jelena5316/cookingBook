@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*
+ * to manage technologies cards inputing using form "Steps" and methods of class tbTechnologyController
+ */
+
+using System;
 using System.Collections.Generic;
 
 namespace MajPAbGr_project

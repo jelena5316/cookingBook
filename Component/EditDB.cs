@@ -1,7 +1,12 @@
-﻿using System;
+﻿/*
+ * to access to data base
+ */
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Microsoft.Data.Sqlite;
 
 namespace MajPAbGr_project
 {  

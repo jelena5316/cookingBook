@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*
+ * to access table "Technology"
+ */
+
+using System;
 using System.Collections.Generic;
 
 namespace MajPAbGr_project

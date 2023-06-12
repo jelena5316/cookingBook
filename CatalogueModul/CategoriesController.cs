@@ -1,15 +1,17 @@
-﻿using System;
+﻿/*
+ * to manage work with recepture catalogue using form "Categories"
+ * and methods of classes tbReceptureController, tbIngredientsController and tbTechnologyController
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+
 
 namespace MajPAbGr_project
 {
     class CategoriesController
     {
-        int category, recepture; //id
         List<int> receptures_id;
         List<Item> categories, receptures;
         List<ReceptureStruct> rec_struct;  
@@ -23,8 +25,7 @@ namespace MajPAbGr_project
         {
             tbCat = new tbIngredientsController(2);
             tbCat.setCatalog();            
-            categories = tbCat.getCatalog();
-            category = 0;
+            categories = tbCat.getCatalog();            
 
             tb = new tbReceptureController("Recepture");
             tb.setCatalog();
@@ -35,7 +36,6 @@ namespace MajPAbGr_project
             {
                 receptures_id.Add(receptures[k].id);
             }
-            recepture = 0;
             
             tbTech = new TechnologyController(1);
             tbTech.Receptures = this.receptures;

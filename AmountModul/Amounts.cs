@@ -15,7 +15,7 @@ namespace MajPAbGr_project
         double[] amounts;
         Mode mode; //0 - Create, 1 - Edit, 2 - EditNewMain
         List<Element> elements; //list of recipe ingredients
-        List<Item> ingredients;
+        List<Item> ingredients; // list of ingredients
 
         AmountsController controller;
         tbIngredientsController tbIngred;
