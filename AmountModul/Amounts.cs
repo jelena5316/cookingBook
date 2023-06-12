@@ -217,6 +217,7 @@ namespace MajPAbGr_project
             //writing into mirror of table
             new_index = controller.SetMain(amount, index);
             el = controller.AddElement(index_ingr, index);
+            controller.SetAmounts(amount, el);
 
             //inserting in listview new item           
             item = new ListViewItem(el.Name);
@@ -229,7 +230,6 @@ namespace MajPAbGr_project
             item_text = string.Format("{0:f2}", el.Amounts);
             item.SubItems.Add(item_text);
             item.Tag = el.Id;
-
             if (lvRecipe.SelectedItems.Count > 0)               
                 lvRecipe.SelectedItems[0].Selected = false;            
                 
