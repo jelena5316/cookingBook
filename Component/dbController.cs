@@ -16,12 +16,42 @@ namespace MajPAbGr_project
         private SqliteConnection connection;
         private SqliteDataReader reader;
         private SqliteCommand command;
+
+        protected int error_code = 0;
+        protected string error_message="";
         
 
         public dbController ()
         {
-            connectionString = "Data Source = db\\CookingBook; Mode=ReadWrite";            
+            connectionString = "Data Source = db\\CookingBook; Mode=ReadWrite";
+            //connectionString =  "Data Source = db\\CookingBoo; Mode=ReadWrite"; // for debugging
             connection = new SqliteConnection(connectionString);
+        }
+
+        /*
+         * Testing conection with data base file for class Program
+         */
+
+        public string ConnectionString { get { return connectionString.ToString(); } }
+        public bool testConnection()
+        {
+            string message = "";
+            using (connection)
+            {
+                try
+                {
+                    connection.Open();
+                    connection.Close();
+                    return false;
+                }
+                catch(SqliteException ex) // https://marketsplash.com/tutorials/c-sharp/csharp-how-to-use-sqlite/#link7
+                {
+                    if (ex.SqliteErrorCode == 14)
+                        message = $"{System.DateTime.Now} {ex.Message} {connectionString}";
+                        Program.cook_error(message);
+                    return true;
+                }
+            }
         }
 
         /*
@@ -35,24 +65,34 @@ namespace MajPAbGr_project
             using (connection)
             {
                 command = new SqliteCommand(query, connection);
-                connection.Open();                
-                using (reader = command.ExecuteReader())
+                try
                 {
-                    if (reader.HasRows)
+                    connection.Open();
+                    using (reader = command.ExecuteReader())
                     {
-                        while (reader.Read())
+                        if (reader.HasRows)
                         {
-                            int id = int.Parse(reader.GetValue(0).ToString());
-                            string name = reader.GetValue(1).ToString();
-                            item = new Item();
-                            item.createItem(id, name);
-                            list.Add(item);
+                            while (reader.Read())
+                            {
+                                int id = int.Parse(reader.GetValue(0).ToString());
+                                string name = reader.GetValue(1).ToString();
+                                item = new Item();
+                                item.createItem(id, name);
+                                list.Add(item);
+                            }
                         }
                     }
+                    connection.Close();
+                    return list;
                 }
-                connection.Close();
+                catch (SqliteException ex)
+                {
+                    error_code = ex.SqliteErrorCode; // получаем код ошибки
+                    error_message = ex.Message; // получаем сообщение об ошибке                   
+                    Program.cook_error($"{System.DateTime.Now} {ex.Message}");
+                    return list;
+                }                                
             }            
-            return list;
         }        
 
         public List<string> dbReader(string query)  // only strings   

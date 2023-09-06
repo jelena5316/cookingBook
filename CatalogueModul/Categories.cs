@@ -19,7 +19,7 @@ namespace MajPAbGr_project
 		public Categories()
 		{
 			InitializeComponent();
-			controller = new CategoriesController();
+			controller = new CategoriesController();			
 			tbMain = controller.TbMain;			
 		}
 
@@ -44,6 +44,12 @@ namespace MajPAbGr_project
             if (lv_recepture.Items.Count > 0)
                 lv_recepture.Items[0].Selected = true;
             AutoCompleteRecepture(controller.Receptures);
+
+			if(tbMain.Err_code > 0)
+            {
+				MessageBox.Show($"{tbMain.Err_message}");
+				tbMain.ResetErr_info();
+            }
         }
 
 		private void AutoCompleteRecepture(List<Item> rec)

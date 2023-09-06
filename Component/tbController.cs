@@ -163,5 +163,17 @@ namespace MajPAbGr_project
             return ind;
         }
 
+        /*
+         * Error code and message, getters
+         */
+
+        public int Err_code { get { return error_code; } }
+        public string Err_message { get { return error_message; } }
+
+        public void ResetErr_info()
+        {
+            error_code = 0;
+            error_message = "";
+        }
     }
 }
