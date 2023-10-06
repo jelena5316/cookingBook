@@ -23,8 +23,8 @@ namespace MajPAbGr_project
 
         public dbController ()
         {
-            connectionString = "Data Source = db\\CookingBook; Mode=ReadWrite";
-            //connectionString =  "Data Source = db\\CookingBoo; Mode=ReadWrite"; // for debugging
+            //connectionString = "Data Source = db\\CookingBook; Mode=ReadWrite";
+            connectionString =  "Data Source = db\\CookingBoo; Mode=ReadWrite"; // for debugging
             connection = new SqliteConnection(connectionString);
         }
 
@@ -199,6 +199,46 @@ namespace MajPAbGr_project
                 connection.Close();
             }
             return view_data;
+        }
+
+        public DBAnswer dbReadData(string query)
+        {
+            int length = 0;
+            DBAnswer answer;
+            List<object[]> data = new List<object[]>();
+            using (connection)
+            {
+                command = new SqliteCommand(query, connection);
+                try
+                {
+                    connection.Open();
+                    using (reader = command.ExecuteReader())
+                    {
+                        length = reader.FieldCount;
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                object[] arr = new object[length];
+                                reader.GetValues(arr);
+                                data.Add(arr);
+                            }
+                        }
+                    }
+                    connection.Close();
+
+                    answer = new DBAnswer(0, "", query, connectionString, data);
+                    return answer;
+                }
+                catch (SqliteException ex)
+                {
+                    error_code = ex.SqliteErrorCode; // получаем код ошибки
+                    error_message = ex.Message; // получаем сообщение об ошибке                   
+                    Program.cook_error($"{System.DateTime.Now} {ex.Message}");
+                    answer = new DBAnswer(error_code, error_message, query, connectionString, data);
+                    return answer;
+                }
+            }
         }
 
         /*
