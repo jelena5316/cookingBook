@@ -174,7 +174,7 @@ namespace MajPAbGr_project
 		}
     }
 
-	public struct DBAnswer
+	public class DBAnswer
 	{
 		public AnswerInfo Info;
 		public List<object[]> data;
