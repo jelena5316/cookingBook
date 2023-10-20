@@ -19,13 +19,14 @@ namespace MajPAbGr_project
 
         protected int error_code = 0;
         protected string error_message="";
+        AnswerInfo Info;
         
 
         public dbController ()
         {
             connectionString = "Data Source = db\\CookingBook; Mode=ReadWrite";
             //connectionString =  "Data Source = db\\CookingBoo; Mode=ReadWrite"; // for debugging
-            connection = new SqliteConnection(connectionString);
+            connection = new SqliteConnection(connectionString);            
         }
 
         /*
@@ -228,6 +229,7 @@ namespace MajPAbGr_project
                     connection.Close();
 
                     answer = new DBAnswer(0, "", query, connectionString, data);
+                    Info = answer.getInfo;
                     return answer;
                 }
                 catch (SqliteException ex)
@@ -276,5 +278,6 @@ namespace MajPAbGr_project
             }
             return count;
         }
+
     }
 }
