@@ -12,7 +12,7 @@ namespace MajPAbGr_project
 		protected string query;
 		protected List<Item> catalog, subcatalog;
 		protected int selected;
-		int count;
+		protected int count;
 
 
 		public tbController() : base()
@@ -65,9 +65,23 @@ namespace MajPAbGr_project
 
 		public List<Item> setSubCatalog(string subtable, string column) //Recipe, id_recepture
 		{
+			List<object[]> data;
+			DBAnswer answer;
+			
 			query = $"select id, name from {subtable} where {column} = "
 				+ selected + ";";
-			subcatalog = Catalog(query);
+
+			if (subcatalog.Count > 0)
+			{
+				subcatalog.Clear();
+			}	
+
+			answer = dbReadData(query);
+			data = answer.getData;
+			DataItemsList(subcatalog, data);// convert data to list of Item enstance
+			
+			count = catalog.Count;
+			answer.getData.Clear();			
 			return subcatalog;
 		}
 
@@ -196,7 +210,6 @@ namespace MajPAbGr_project
 			error_message = "";
 		}
 
-
 		/*
 		 * methods to convert data from list of objects` arrays getted from data base (getValues() in dbDataReader()) to wanted type;
 		 */
@@ -238,31 +251,30 @@ namespace MajPAbGr_project
 		}
 
 		public void DataTechnologiesList(List<string> cards, List<object[]> data)
-        {
+		{
 			for (int k = 0; k < data.Count; k++)
 			{
 				object[] arr = data[k];
-				string technology = arr[0].ToString();				
-				technology += "*" + arr[1].ToString();				
+				string technology = arr[0].ToString();
+				technology += "*" + arr[1].ToString();
 				cards.Add(technology);
 			}
 		}
 
 		public void DataViewsList(List<string> views, List<object[]> data)
 		{
-			string view="";
+			string view = "";
 			for (int k = 0; k < data.Count; k++)
 			{
 				object[] arr = data[k];
-				view += arr[0].ToString();				
-                for (int q = 1; q < arr.Length; q++)
-                {
-                    view += " " + arr[q].ToString();
-                }
+				view += arr[0].ToString();
+				for (int q = 1; q < arr.Length; q++)
+				{
+					view += " " + arr[q].ToString();
+				}
 				views.Add(view);
 				view = "";
 			}
 		}
-
 	}
 }
