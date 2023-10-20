@@ -12,7 +12,8 @@ namespace MajPAbGr_project
 {  
     public partial class EditDB : Form
     {
-        dbController db;        
+        dbController db;
+        tbController tb;
         string query="";
         List<string> views;
         int result;
@@ -20,7 +21,7 @@ namespace MajPAbGr_project
         public EditDB()
         {
             InitializeComponent();
-            db = new dbController();
+            db = new dbController();            
             views = db.dbReader("SELECT name FROM sqlite_schema WHERE type = 'view';");            
             box.Items.AddRange(views.ToArray());
             box.Text = "view list";
@@ -51,7 +52,11 @@ namespace MajPAbGr_project
         {
             try
             {
-                textBox1.Lines = db.dbReadView(textBox1.Text).ToArray();
+                //textBox1.Lines = db.dbReadView(textBox1.Text).ToArray();
+                tb = new tbController();
+                List<string> views = new List<string>();
+                tb.DataViewsList(views, tb.dbReadData(textBox1.Text).getData);
+                textBox1.Lines = views.ToArray();
             }
             catch
             {
