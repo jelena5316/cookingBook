@@ -13,11 +13,35 @@ namespace MajPAbGr_project
 
         public tbRecipeController(string table) : base(table) { }
 
-        public List<Item> setSubCatalog()
+        public List<Item> setSubCatalog() // for table's "Coefficients" controller
         {
-            query = $"select id, name from Recipe where id_recepture = "
-                + recepture + ";";
-            subcatalog = Catalog(query);
+            //query = $"select id, name from Recipe where id_recepture = "
+            //    + recepture + ";";
+            //subcatalog = Catalog(query);
+            //catalog = subcatalog;
+            //return subcatalog;
+
+            List<object[]> data;
+            DBAnswer answer;
+
+            query = $"select id, name from {table} where id_recepture = {recepture};";
+            // 'table' -- 'Recipe'
+            if (subcatalog.Count > 0)
+            {
+                subcatalog.Clear();
+            }
+
+            if (catalog.Count > 0)
+            {
+                catalog.Clear();
+            }
+
+            answer = dbReadData(query);
+            data = answer.getData;
+            DataItemsList(subcatalog, data);// convert data to list of Item enstance
+
+            count = catalog.Count;
+            answer.getData.Clear();
             catalog = subcatalog;
             return subcatalog;
         }
