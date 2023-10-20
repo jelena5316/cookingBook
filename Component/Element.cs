@@ -176,8 +176,8 @@ namespace MajPAbGr_project
 
 	public class DBAnswer
 	{
-		public AnswerInfo Info;
-		public List<object[]> data;
+		private AnswerInfo Info;
+		private List<object[]> data;
 
         public DBAnswer(
 						int code,
