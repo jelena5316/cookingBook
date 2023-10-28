@@ -34,23 +34,16 @@ namespace MajPAbGr_project
 
 		public void setCatalog()
 		{
-			//query = "select id, name from " + table + ";";
-			//catalog = Catalog(query);
-			//count = catalog.Count;
-
-			List<object[]> data;
-			//DBAnswer answer;
+			List<object[]> data;			
 
 			if (catalog.Count > 0)
 			{
 				catalog.Clear();
 			}
 
-			query = "select id, name from " + table + ";";
-			//answer = dbReadData(query);
-			//data = answer.getData;
+			query = "select id, name from " + table + ";";			
 			data = dbReadData(query);
-			DataItemsList(catalog, data); // convert data to list of Item enstance
+			DataItemsList(catalog, data);
 			count = catalog.Count;
 			data.Clear();
 		}
@@ -66,8 +59,7 @@ namespace MajPAbGr_project
 
 		public List<Item> setSubCatalog(string subtable, string column) //Recipe, id_recepture
 		{
-			List<object[]> data;
-			//DBAnswer answer;
+			List<object[]> data;			
 			
 			query = $"select id, name from {subtable} where {column} = "
 				+ selected + ";";
@@ -77,14 +69,11 @@ namespace MajPAbGr_project
 				subcatalog.Clear();
 			}	
 
-			//answer = dbReadData(query);
-			//data = answer.getData;
 			data = dbReadData(query);
 			DataItemsList(subcatalog, data);// convert data to list of Item enstance
-			
+			data.Clear();
+
 			count = catalog.Count;
-			//answer.getData.Clear();
-			data.Clear();		
 			return subcatalog;
 		}
 
@@ -166,8 +155,6 @@ namespace MajPAbGr_project
 					+ selected + ";";
 					break;
 			}
-
-			//el = dbReadElement(query);
 
 			List <object[]> data = dbReadData(query);
 			el = new List<Element>();

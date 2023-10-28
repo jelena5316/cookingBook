@@ -13,19 +13,19 @@ namespace MajPAbGr_project
 
         public tbRecipeController(string table) : base(table) { }
 
+        public int Recepture
+        {
+            set { recepture = value; }
+            get { return recepture; }
+        }
+
         public List<Item> setSubCatalog() // for table's "Coefficients" controller
         {
-            //query = $"select id, name from Recipe where id_recepture = "
-            //    + recepture + ";";
-            //subcatalog = Catalog(query);
-            //catalog = subcatalog;
-            //return subcatalog;
-
             List<object[]> data;
-            //DBAnswer answer;
-
+            
             query = $"select id, name from {table} where id_recepture = {recepture};";
             // 'table' -- 'Recipe'
+            
             if (subcatalog.Count > 0)
             {
                 subcatalog.Clear();
@@ -36,15 +36,12 @@ namespace MajPAbGr_project
                 catalog.Clear();
             }
 
-            //answer = dbReadData(query);
-            //data = answer.getData;
             data = dbReadData(query);
             DataItemsList(subcatalog, data);// convert data to list of Item enstance
-
-            count = catalog.Count;
-            //answer.getData.Clear();
             data.Clear();
+            
             catalog = subcatalog;
+            count = catalog.Count;            
             return subcatalog;
         }
 
@@ -55,12 +52,6 @@ namespace MajPAbGr_project
             List<Element> el = base.readElement(2);
             selected = temp;
             return el;
-        }
-
-        public int Recepture
-        {
-            set { recepture = value; }
-            get { return recepture; }
         }
 
         public override int RemoveItem()
