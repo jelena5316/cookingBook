@@ -39,7 +39,7 @@ namespace MajPAbGr_project
 			//count = catalog.Count;
 
 			List<object[]> data;
-			DBAnswer answer;
+			//DBAnswer answer;
 
 			if (catalog.Count > 0)
 			{
@@ -47,11 +47,12 @@ namespace MajPAbGr_project
 			}
 
 			query = "select id, name from " + table + ";";
-			answer = dbReadData(query);
-			data = answer.getData;
+			//answer = dbReadData(query);
+			//data = answer.getData;
+			data = dbReadData(query);
 			DataItemsList(catalog, data); // convert data to list of Item enstance
 			count = catalog.Count;
-			answer.getData.Clear();
+			data.Clear();
 		}
 
 		public List<Item> getCatalog() { return catalog; }
@@ -66,7 +67,7 @@ namespace MajPAbGr_project
 		public List<Item> setSubCatalog(string subtable, string column) //Recipe, id_recepture
 		{
 			List<object[]> data;
-			DBAnswer answer;
+			//DBAnswer answer;
 			
 			query = $"select id, name from {subtable} where {column} = "
 				+ selected + ";";
@@ -76,12 +77,14 @@ namespace MajPAbGr_project
 				subcatalog.Clear();
 			}	
 
-			answer = dbReadData(query);
-			data = answer.getData;
+			//answer = dbReadData(query);
+			//data = answer.getData;
+			data = dbReadData(query);
 			DataItemsList(subcatalog, data);// convert data to list of Item enstance
 			
 			count = catalog.Count;
-			answer.getData.Clear();			
+			//answer.getData.Clear();
+			data.Clear();		
 			return subcatalog;
 		}
 
@@ -166,7 +169,7 @@ namespace MajPAbGr_project
 
 			//el = dbReadElement(query);
 
-			List <object[]> data = dbReadData(query).getData;
+			List <object[]> data = dbReadData(query);
 			el = new List<Element>();
 			DataElementsList(el, data);			
 			return el;
@@ -208,6 +211,22 @@ namespace MajPAbGr_project
 		{
 			error_code = 0;
 			error_message = "";
+		}
+
+		public  int Error_code { get { return Info.err_code; } }
+
+		public string Error_message { get { return Info.err_message; } }
+
+		public string LastQuery { get { return Info.query; } }
+
+		public string DataBaseName { get { return Info.database; } }
+
+		public void ResetError_info()
+		{
+			Info.err_code = 0;
+			Info.err_message = "";
+			Info.query = "";
+			Info.database = "";
 		}
 
 		/*

@@ -66,6 +66,13 @@ namespace MajPAbGr_project
 
             btn_insert.Enabled = false;
             txb_new_recipe.Enabled = false;
+
+            //information about connection
+            int code = tb.Error_code;
+            if (code > 0)
+            {
+                MessageBox.Show(tb.Error_message);
+            }
         }
 
         /*

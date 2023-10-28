@@ -24,8 +24,8 @@ namespace MajPAbGr_project
             if (db.testConnection())
             {
                 string message = $"Unable to open data base file, connection string: {db.ConnectionString}.";
-                MessageBox.Show(message);                
-                return;
+                MessageBox.Show(message);
+                //return; to will be replaced with a dialog box
             }
 
             /*

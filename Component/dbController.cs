@@ -19,7 +19,7 @@ namespace MajPAbGr_project
 
         protected int error_code = 0;
         protected string error_message="";
-        AnswerInfo Info;
+        protected AnswerInfo Info;
         
 
         public dbController ()
@@ -202,7 +202,7 @@ namespace MajPAbGr_project
             return view_data;
         }
 
-        public DBAnswer dbReadData(string query)
+        public List<object[]> dbReadData(string query)
         {
             int length = 0;
             DBAnswer answer;
@@ -230,7 +230,8 @@ namespace MajPAbGr_project
 
                     answer = new DBAnswer(0, "", query, connectionString, data);
                     Info = answer.getInfo;
-                    return answer;
+                    //return answer;
+                    return answer.getData;
                 }
                 catch (SqliteException ex)
                 {
@@ -238,7 +239,8 @@ namespace MajPAbGr_project
                     error_message = ex.Message; // получаем сообщение об ошибке                   
                     Program.cook_error($"{System.DateTime.Now} {ex.Message}");
                     answer = new DBAnswer(error_code, error_message, query, connectionString, data);
-                    return answer;
+                    //return answer;
+                    return answer.getData;
                 }
             }
         }

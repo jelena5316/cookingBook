@@ -22,7 +22,7 @@ namespace MajPAbGr_project
             //return subcatalog;
 
             List<object[]> data;
-            DBAnswer answer;
+            //DBAnswer answer;
 
             query = $"select id, name from {table} where id_recepture = {recepture};";
             // 'table' -- 'Recipe'
@@ -36,12 +36,14 @@ namespace MajPAbGr_project
                 catalog.Clear();
             }
 
-            answer = dbReadData(query);
-            data = answer.getData;
+            //answer = dbReadData(query);
+            //data = answer.getData;
+            data = dbReadData(query);
             DataItemsList(subcatalog, data);// convert data to list of Item enstance
 
             count = catalog.Count;
-            answer.getData.Clear();
+            //answer.getData.Clear();
+            data.Clear();
             catalog = subcatalog;
             return subcatalog;
         }

@@ -55,7 +55,7 @@ namespace MajPAbGr_project
                 //textBox1.Lines = db.dbReadView(textBox1.Text).ToArray();
                 tb = new tbController();
                 List<string> views = new List<string>();
-                tb.DataViewsList(views, tb.dbReadData(textBox1.Text).getData);
+                tb.DataViewsList(views, tb.dbReadData(textBox1.Text));
                 textBox1.Lines = views.ToArray();
             }
             catch
