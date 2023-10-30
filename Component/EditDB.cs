@@ -27,10 +27,9 @@ namespace MajPAbGr_project
             box.Text = "view list";
         }
 
-        public EditDB(dbController db, string connectionStringPath)
+        public EditDB(string connectionStringPath)
         {
-            InitializeComponent();
-            this.db = db;
+            InitializeComponent();            
             textBox1.Text = connectionStringPath;
             button1.Enabled = false;
             button2.Enabled = false;
@@ -44,27 +43,18 @@ namespace MajPAbGr_project
 
         private void editPath_Click(object sender, EventArgs e)
         {
-            //db.improveConnection(textBox1.Text);
             Program.connectionStringPath = textBox1.Text;
             db = new dbController();
             if (db.testConnection())
             {
-                MessageBox.Show("false");
-                //this.Close();
+                MessageBox.Show("false");                
             }
             else
             {
-                Categories frm = new Categories();
-                frm.Show();
-                //this.Close();
+                MessageBox.Show("true");
+                this.Close();
             }
         }
-
-        //public string EditDBconnectionString
-        //{
-        //    get { return db.ConnectionString; }
-        //}
-
 
         private void button1_Click(object sender, EventArgs e) 
         {

@@ -45,21 +45,6 @@ namespace MajPAbGr_project
 				else
 				{
 					needToImproveConnectionString = true;
-					
-					
-					////EditDB editor = new EditDB(db, connectionStringPath);
-							
-
-					////string improvedString = db.ConnectionString;
-					////MessageBox.Show(improvedString);
-
-					//will be added possibility for user to entry an improved connection string!
-					//string improvedString = "Data Source = db\\CookingBook; Mode=ReadWrite";
-					//db.improveConnection(improvedString);
-					//if (!db.testConnection())
-					//{
-					//	connectionStringPath = improvedString;
-					//}
 				}
 			}
 
@@ -68,11 +53,11 @@ namespace MajPAbGr_project
 			 */
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-			if (!needToImproveConnectionString)
-				Application.Run(new Categories());
-			else
-				Application.Run(new EditDB(db, connectionStringPath));
-        }
+			if (needToImproveConnectionString)
+				Application.Run(new EditDB(connectionStringPath));
+			Application.Run(new Categories());
+
+		}
 
 		public static void cook_error(string message)
 		{
