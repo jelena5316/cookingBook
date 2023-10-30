@@ -24,8 +24,8 @@ namespace MajPAbGr_project
 
         public dbController ()
         {
-            connectionString = "Data Source = db\\CookingBook; Mode=ReadWrite";
-            //connectionString =  "Data Source = db\\CookingBoo; Mode=ReadWrite"; // for debugging
+            //connectionString = "Data Source = db\\CookingBook; Mode=ReadWrite";
+            connectionString =  "Data Source = db\\CookingBoo; Mode=ReadWrite"; // for debugging
             connection = new SqliteConnection(connectionString);            
         }
 
@@ -33,7 +33,17 @@ namespace MajPAbGr_project
          * Testing conection with data base file for class Program
          */
 
-        public string ConnectionString { get { return connectionString.ToString(); } }
+        public string ConnectionString
+        {
+            set
+            {
+                connectionString = value;
+            }
+            get
+            { 
+                return connectionString.ToString();
+            } 
+        }
         public bool testConnection()
         {
             string message = "";
@@ -53,6 +63,12 @@ namespace MajPAbGr_project
                     return true;
                 }
             }
+        }
+
+        public void improveConnection(string improved)
+        {
+            connection.ConnectionString = improved;
+            //connection string will be improved only in current instance of 'dbController'
         }
 
         /*

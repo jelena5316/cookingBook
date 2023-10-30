@@ -23,9 +23,20 @@ namespace MajPAbGr_project
             dbController db = new dbController();
             if (db.testConnection())
             {
-                string message = $"Unable to open data base file, connection string: {db.ConnectionString}.";
-                MessageBox.Show(message);
-                //return; to will be replaced with a dialog box
+                string message = $"Unable to open data base file, connection string: {db.ConnectionString}.\n" +
+                    $"Do you want to continue without data base?";
+                DialogResult answer = MessageBox.Show(
+                    message,
+                    "Connection test",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question,
+                    MessageBoxDefaultButton.Button1                   
+                    );
+
+                if(answer == DialogResult.No)
+                {
+                    return;
+                }
             }
 
             /*
