@@ -27,6 +27,45 @@ namespace MajPAbGr_project
             box.Text = "view list";
         }
 
+        public EditDB(dbController db, string connectionStringPath)
+        {
+            InitializeComponent();
+            this.db = db;
+            textBox1.Text = connectionStringPath;
+            button1.Enabled = false;
+            button2.Enabled = false;
+            box.Enabled = false;
+            Button editPath = new Button();
+            editPath.Location = new System.Drawing.Point(469, 178);
+            editPath.Text = "Edit path";
+            this.Controls.Add(editPath);
+            editPath.Click += new System.EventHandler(editPath_Click);
+        }
+
+        private void editPath_Click(object sender, EventArgs e)
+        {
+            //db.improveConnection(textBox1.Text);
+            Program.connectionStringPath = textBox1.Text;
+            db = new dbController();
+            if (db.testConnection())
+            {
+                MessageBox.Show("false");
+                //this.Close();
+            }
+            else
+            {
+                Categories frm = new Categories();
+                frm.Show();
+                //this.Close();
+            }
+        }
+
+        //public string EditDBconnectionString
+        //{
+        //    get { return db.ConnectionString; }
+        //}
+
+
         private void button1_Click(object sender, EventArgs e) 
         {
             query = textBox1.Text;

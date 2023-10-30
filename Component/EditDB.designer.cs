@@ -87,7 +87,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "EditDB";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "EditDB";           
+            this.Text = "EditDB";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -98,7 +98,5 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ComboBox box;
-
-
     }
 }

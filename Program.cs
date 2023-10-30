@@ -10,8 +10,8 @@ namespace MajPAbGr_project
 	static class Program
 	{
 
-		public static string connectionStringPath = "Data Source = db\\CookingBook; Mode=ReadWrite";
-		//public static string connectionStringPath = "Data Source = db\\CookingBoo; Mode=ReadWrite;"; // for debugging
+		//public static string connectionStringPath = "Data Source = db\\CookingBook; Mode=ReadWrite";
+		public static string connectionStringPath = "Data Source = db\\CookingBoo; Mode=ReadWrite;"; // for debugging
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -24,6 +24,7 @@ namespace MajPAbGr_project
 			/*
 			 * Checking connection, links https://marketsplash.com/tutorials/c-sharp/csharp-how-to-use-sqlite/#link7
 			 */
+			bool needToImproveConnectionString = false;
 			dbController db = new dbController();
 			if (db.testConnection())
 			{
@@ -43,23 +44,35 @@ namespace MajPAbGr_project
 				}
 				else
 				{
+					needToImproveConnectionString = true;
+					
+					
+					////EditDB editor = new EditDB(db, connectionStringPath);
+							
+
+					////string improvedString = db.ConnectionString;
+					////MessageBox.Show(improvedString);
+
 					//will be added possibility for user to entry an improved connection string!
-					string improvedString = "Data Source = db\\CookingBook; Mode=ReadWrite";
-					db.improveConnection(improvedString);
-					if (!db.testConnection())
-					{
-						connectionStringPath = improvedString;
-					}
+					//string improvedString = "Data Source = db\\CookingBook; Mode=ReadWrite";
+					//db.improveConnection(improvedString);
+					//if (!db.testConnection())
+					//{
+					//	connectionStringPath = improvedString;
+					//}
 				}
 			}
 
-			/*
+            /*
 			 * Starting application
 			 */
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new Categories());
-		}
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+			if (!needToImproveConnectionString)
+				Application.Run(new Categories());
+			else
+				Application.Run(new EditDB(db, connectionStringPath));
+        }
 
 		public static void cook_error(string message)
 		{
