@@ -25,7 +25,9 @@ namespace MajPAbGr_project
         public dbController ()
         {
             //connectionString = "Data Source = db\\CookingBook; Mode=ReadWrite";
-            connectionString =  "Data Source = db\\CookingBoo; Mode=ReadWrite"; // for debugging
+            //connectionString =  "Data Source = db\\CookingBoo; Mode=ReadWrite"; // for debugging
+
+            connectionString = Program.connectionStringPath;
             connection = new SqliteConnection(connectionString);            
         }
 

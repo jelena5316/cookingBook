@@ -9,12 +9,15 @@ namespace MajPAbGr_project
 {
     static class Program
     {
+        
+        public static string connectionStringPath = "Data Source = db\\CookingBoo; Mode=ReadWrite;";
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
 
-        
+       
+
         static void Main()
         {
             /*
@@ -36,6 +39,14 @@ namespace MajPAbGr_project
                 if(answer == DialogResult.No)
                 {
                     return;
+                }
+                else
+                {
+                    db.improveConnection("Data Source = db\\CookingBook; Mode=ReadWrite");
+                    if (!db.testConnection())
+                    {
+                        connectionStringPath = "Data Source = db\\CookingBook; Mode=ReadWrite";
+                    }
                 }
             }
 
