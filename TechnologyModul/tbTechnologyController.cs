@@ -42,7 +42,13 @@ namespace MajPAbGr_project
         public List <Item> getTechnologiesIdsByName(string name)
         {
             query = $"select id, name from Technology where name = '{name}';";
-            return Catalog(query);
+            
+            //in place of "return Catalog(query);
+            List<Item> items = new List<Item>();
+            List<object[]> data = dbReadData(query);
+            DataItemsList(items, data);
+            return items;
+            //return Catalog(query);
         }
 
         public string insertTechnology(string name, string description)
