@@ -10,8 +10,8 @@ namespace MajPAbGr_project
 	static class Program
 	{
 
-		//public static string connectionStringPath = "Data Source = db\\CookingBook; Mode=ReadWrite";
-		public static string connectionStringPath = "Data Source = db\\CookingBoo; Mode=ReadWrite;"; // for debugging
+		public static string connectionStringPath = "Data Source = db\\CookingBook; Mode=ReadWrite";
+		//public static string connectionStringPath = "Data Source = db\\CookingBoo; Mode=ReadWrite;"; // for debugging
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>

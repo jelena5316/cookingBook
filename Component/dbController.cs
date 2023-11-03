@@ -64,12 +64,6 @@ namespace MajPAbGr_project
             }
         }
 
-        public void improveConnection(string improved)
-        {
-            connection.ConnectionString = improved;
-            //connection string will be improved only in current instance of 'dbController'
-        }
-
         /*
          * 'select'
          */

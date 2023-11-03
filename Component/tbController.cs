@@ -282,5 +282,16 @@ namespace MajPAbGr_project
 				view = "";
 			}
 		}
+
+		//public List<string> DataStringList(string query)
+  //      {
+		//	List<object[]> data = dbReadData(query);
+		//	List<string> list = new List<string>();
+		//	for (int k = 0; k < data.Count; k++)
+  //          {
+		//		list.Add(data[k][0].ToString());
+  //          }
+		//	return list;
+  //      }
 	}
 }

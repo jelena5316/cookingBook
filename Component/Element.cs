@@ -85,7 +85,8 @@ namespace MajPAbGr_project
 			int id = this.id;
 			data_id = new int[3];
 			Item item;
-			dbController db = new dbController();
+			//dbController db = new dbController();
+			tbController tb = new tbController();
 
 			string SubQuery(int column)
 				=> $"select {column_names[column]} from {tables[0]} where id = {id}";
@@ -106,7 +107,11 @@ namespace MajPAbGr_project
 			{
 				number = 0;
 				field = "unknown";
-				List<Item> list = db.Catalog(query);
+				//List <Item> list = db.Catalog(query);
+				List<object[]> data = tb.dbReadData(query);
+				List<Item> list = new List<Item>();				
+				tb.DataItemsList(list, data);
+				data.Clear();
 				if (list.Count > 0)
 				{
 					item = list[0];
@@ -115,14 +120,14 @@ namespace MajPAbGr_project
 				}
 			}
  
-			name = db.dbReader(SubQuery(0))[0];
+			name = tb.dbReader(SubQuery(0))[0];
 			getItemData(Query(1, SubQuery(1)), out category, out data_id[0]);
-			source = CheckData(db.dbReader(SubQuery(4)));
-			author = CheckData(db.dbReader(SubQuery(5)));
+			source = CheckData(tb.dbReader(SubQuery(4)));
+			author = CheckData(tb.dbReader(SubQuery(5)));
 			getItemData(Query(2, SubQuery(2)), out technology, out data_id[1]);
 			getItemData(Query(3, SubQuery(3)), out ingredient, out data_id[2]);                
-			description = CheckData(db.dbReader(SubQuery(6)));
-			url = CheckData(db.dbReader(SubQuery(7)));
+			description = CheckData(tb.dbReader(SubQuery(6)));
+			url = CheckData(tb.dbReader(SubQuery(7)));
 		}
 
 		public string [] getData() => new string[] { name, category, ingredient, author, source, technology, description};
