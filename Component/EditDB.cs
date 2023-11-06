@@ -39,21 +39,7 @@ namespace MajPAbGr_project
             editPath.Text = "Edit path";
             this.Controls.Add(editPath);
             editPath.Click += new System.EventHandler(editPath_Click);
-        }
-
-        private void editPath_Click(object sender, EventArgs e)
-        {
-            Program.connectionStringPath = textBox1.Text;
-            db = new dbController();
-            if (db.testConnection())
-            {
-                MessageBox.Show("false");                
-            }
-            else
-            {
-                MessageBox.Show("true");
-                this.Close();
-            }
+            result = 1;
         }
 
         private void button1_Click(object sender, EventArgs e) 
@@ -101,6 +87,53 @@ namespace MajPAbGr_project
             arr = source[0].Split('*');
             line = string.Format("{0,-12} {1,12} {2,12}", arr[0], arr[1], arr[2]);
             return line;
+        }
+
+        private void editPath_Click(object sender, EventArgs e)
+        {
+                /* if a connection string is succesefully corrected, then a variable, what is used as condition, is equel 'true'
+				 * else it is equel 'false'.
+				 * Value of this variable will be changed in case the connection string is changed AND it is correct -- 'true'.
+				 * In case connection string is neither not changed or not correct this variable will be not changed -- 'false'.
+				 * In case connection string is changed, but stay incorrect, this variable stay unchanged too -- 'false'.
+				 */
+
+            Program.connectionStringPath = textBox1.Text;
+            result = 0;
+            db = new dbController();
+
+            if (db.testConnection())
+            {
+                Program.ConnectionStringIsCorrect = true;
+                MessageBox.Show("true");
+                this.Close();
+                //the connection string is changed AND it is correct
+            }
+            else
+            {
+                string message = "Connection string not correct. Want you continue improving?";
+                DialogResult answer = MessageBox.Show(
+                    message,
+                    "Connection test",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question,
+                    MessageBoxDefaultButton.Button1
+                    );
+
+                if (answer == DialogResult.No)
+                {
+                    this.Close();
+                }
+                // the connection string stays wrong
+            }
+        }
+
+        private void EditDB_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if(result == 1)
+            {
+                editPath_Click(sender, e);
+            }
         }
     }
 }

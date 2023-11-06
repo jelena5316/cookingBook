@@ -52,14 +52,14 @@ namespace MajPAbGr_project
 				{
 					connection.Open();
 					connection.Close();
-					return false;
+					return true;
 				}
 				catch(SqliteException ex) // https://marketsplash.com/tutorials/c-sharp/csharp-how-to-use-sqlite/#link7
 				{
 					if (ex.SqliteErrorCode == 14)
 						message = $"{System.DateTime.Now} {ex.Message} {connectionString}";
 						Program.cook_error(message);
-					return true;
+					return false;
 				}
 			}
 		}

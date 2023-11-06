@@ -88,6 +88,7 @@
             this.Name = "EditDB";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "EditDB";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.EditDB_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 
