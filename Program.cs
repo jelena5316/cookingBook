@@ -11,8 +11,10 @@ namespace MajPAbGr_project
 	{
 
 		//public static string connectionStringPath = "Data Source = db\\CookingBook; Mode=ReadWrite";
-		public static string connectionStringPath = "Data Source = db\\CookingBoo; Mode=ReadWrite;"; // for debugging
+		//public static string connectionStringPath = "Data Source = db\\CookingBoo; Mode=ReadWrite;"; // for debugging
+		public static string connectionStringPath = "";
 		private static bool  connectionStringIsCorrect = true;
+		private static string PATH = "C:\\Users\\user\\source\\repos\\MajPavGr_project1\\Config.txt"; // stores a coonection string
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -22,13 +24,22 @@ namespace MajPAbGr_project
 		static void Main()
 		{
 			/*
-			 * Checking connection, links https://marketsplash.com/tutorials/c-sharp/csharp-how-to-use-sqlite/#link7
+			 * Reading connection string from config file
 			 */
-			dbController db = new dbController();
+			using (StreamReader reader = new StreamReader(PATH))
+			{
+				connectionStringPath = reader.ReadLine();
+				reader.Close();
+			}
+
+				/*
+				 * Checking connection, links https://marketsplash.com/tutorials/c-sharp/csharp-how-to-use-sqlite/#link7
+				 */
+				dbController db = new dbController();
 			if (!db.testConnection())
 			{
 				string message = $"Unable to open data base file, connection string: {db.ConnectionString}.\n" +
-					$"Do you want to continue without data base?";
+					$"Do you want to continue?";
 				DialogResult answer = MessageBox.Show(
 					message,
 					"Connection test",
@@ -37,9 +48,9 @@ namespace MajPAbGr_project
 					MessageBoxDefaultButton.Button1                   
 					);
 
-				if(answer == DialogResult.No)
+				if(answer == DialogResult.Yes)
 				{
-					message = "Want you to improve a database connecting string or to end a work?";
+					message = "Want you to improve a database connecting string or to finish work?";
 					answer = MessageBox.Show(
 					message,
 					"Connection test",
@@ -100,6 +111,19 @@ namespace MajPAbGr_project
 			set {connectionStringIsCorrect = value;	}
 			get { return connectionStringIsCorrect; }
         }
+
+		public static void StoreConnectionString()
+        {
+			using (StreamWriter stream = new StreamWriter(PATH))
+			{
+				if (!File.Exists(PATH))
+				{
+					File.CreateText(PATH);					
+				}
+				stream.WriteLine(connectionStringPath);
+				stream.Close();
+			}
+		}
 
 	}
 }

@@ -105,13 +105,24 @@ namespace MajPAbGr_project
             if (db.testConnection())
             {
                 Program.ConnectionStringIsCorrect = true;
-                MessageBox.Show("true");
+                string message = "Want you to save new connection string for next time?";
+                DialogResult answer = MessageBox.Show
+                    (message,
+                    "Connection test",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question,
+                    MessageBoxDefaultButton.Button1
+                    );
+               if(answer == DialogResult.Yes)
+                {
+                    Program.StoreConnectionString();
+                }
                 this.Close();
                 //the connection string is changed AND it is correct
             }
             else
             {
-                string message = "Connection string not correct. Want you continue improving?";
+                string message = "Connection string not correct. Want you to continue improving?";
                 DialogResult answer = MessageBox.Show(
                     message,
                     "Connection test",
