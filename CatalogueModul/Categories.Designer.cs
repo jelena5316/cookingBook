@@ -48,16 +48,17 @@ namespace MajPAbGr_project
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.lbl_add = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmb_categories
             // 
             this.cmb_categories.FormattingEnabled = true;
-            this.cmb_categories.Location = new System.Drawing.Point(312, 114);
+            this.cmb_categories.Location = new System.Drawing.Point(305, 114);
             this.cmb_categories.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmb_categories.Name = "cmb_categories";
-            this.cmb_categories.Size = new System.Drawing.Size(271, 28);
+            this.cmb_categories.Size = new System.Drawing.Size(190, 28);
             this.cmb_categories.TabIndex = 0;
             this.cmb_categories.SelectedIndexChanged += new System.EventHandler(this.cmb_categories_SelectedIndexChanged);
             // 
@@ -72,7 +73,7 @@ namespace MajPAbGr_project
             this.lv_recepture.TabIndex = 5;
             this.lv_recepture.UseCompatibleStateImageBehavior = false;
             this.lv_recepture.View = System.Windows.Forms.View.Details;
-            this.lv_recepture.SelectedIndexChanged += new System.EventHandler(this.lv_recepture_SelectedIndexChanged);            
+            this.lv_recepture.SelectedIndexChanged += new System.EventHandler(this.lv_recepture_SelectedIndexChanged);
             // 
             // textBox1
             // 
@@ -207,7 +208,7 @@ namespace MajPAbGr_project
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(330, 89);
+            this.label3.Location = new System.Drawing.Point(320, 89);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(114, 20);
@@ -224,11 +225,23 @@ namespace MajPAbGr_project
             this.label1.TabIndex = 12;
             this.label1.Text = "Receptures";
             // 
+            // lbl_add
+            // 
+            this.lbl_add.AutoSize = true;
+            this.lbl_add.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_add.Location = new System.Drawing.Point(502, 118);
+            this.lbl_add.Name = "lbl_add";
+            this.lbl_add.Size = new System.Drawing.Size(69, 20);
+            this.lbl_add.TabIndex = 13;
+            this.lbl_add.Text = "add new";
+            this.lbl_add.Click += new System.EventHandler(this.lbl_add_Click);
+            // 
             // Categories
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(938, 555);
+            this.Controls.Add(this.lbl_add);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -270,5 +283,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.ToolStripMenuItem aboutReceptureToolStripMenuItem;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.Label lbl_add;
     }
 }

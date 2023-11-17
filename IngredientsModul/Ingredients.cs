@@ -46,6 +46,11 @@ namespace MajPAbGr_project
             Output();       
         }
 
+        public List<Item> TbCatalog
+        {
+            get { return tb.getCatalog(); }
+        }
+
         private void Output()
         {         
             FormFunction.FillCombo(tb.getCatalog(), cmbData);

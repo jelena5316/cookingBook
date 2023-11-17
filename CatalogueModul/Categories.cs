@@ -124,7 +124,7 @@ namespace MajPAbGr_project
 			tbIngredientsController cntrl = new tbIngredientsController(opt);
 			Ingredients frm = new Ingredients(cntrl);
 			frm.Show();
-		}
+        }
 
 		private void Reload()
 		{
@@ -264,8 +264,25 @@ namespace MajPAbGr_project
 
 		private void toolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			SimpleTable(2);
+			SimpleTable(2);			
 		}
+
+		private void lbl_add_Click(object sender, EventArgs e) // add category
+		{
+			int rec_index = lv_recepture.SelectedItems[0].Index;
+			
+			tbIngredientsController cntrl = new tbIngredientsController(2);
+			Ingredients frm = new Ingredients(cntrl);
+			frm.ShowDialog();
+			controller.TbCat.setCatalog();
+			controller.Categories = controller.TbCat.getCatalog();
+			FormFunction.setBox(controller.Categories, cmb_categories);
+			cmb_categories.Text = "all";
+			seeAll();
+            lv_recepture.Items[lv_recepture.SelectedItems[0].Index].Selected = false;
+            lv_recepture.Items[rec_index].Selected = true;			
+            openReceptureEditor();
+        }
 
 		private void ingredientsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -355,8 +372,9 @@ namespace MajPAbGr_project
 			NewReceptureController rec = new NewReceptureController(tbMain);
 			rec.ReceptureInfo = controller.ReceptureStruct[selected_recepture];
 			NewRecepture frm = new NewRecepture(rec);
+
 			frm.ShowDialog();
 			Reload();
 		}
-    }
+	}
 }

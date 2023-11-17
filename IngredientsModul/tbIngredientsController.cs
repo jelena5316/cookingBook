@@ -72,9 +72,10 @@ namespace MajPAbGr_project
 
             if (ind == "0")
             {
-                query = $"insert into {table} (name) values ('{name}');";
+                query = $"insert into {table} (name) values ('{name}');";                
                 int count = Edit(query);
                 if (count != 0) resetCatalog();
+                query = "";                
                 return count;
             }
             else
