@@ -148,6 +148,11 @@ namespace MajPAbGr_project
             }
         }
 
+        public int changeCategoryToAdded(int category)
+        {
+            return tb.UpdateReceptureOrCards("id_category", category.ToString(), tb.Selected);
+        }
+
 
         /*
          * Print to file

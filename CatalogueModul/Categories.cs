@@ -282,8 +282,29 @@ namespace MajPAbGr_project
             lv_recepture.Items[lv_recepture.SelectedItems[0].Index].Selected = false;
             lv_recepture.Items[rec_index].Selected = true;
 
-			controller.TbCat.Selected = cntrl.Selected;
-            openReceptureEditor(controller.TbCat.Selected);
+			DialogResult result = MessageBox.Show
+				(
+				"Want you change category of selected recipe?",
+				"Quetion",
+				MessageBoxButtons.YesNo,
+				0
+				);
+			if (result == DialogResult.Yes)
+            {
+				controller.TbCat.Selected = cntrl.Selected;
+				int num = 0;
+				num = controller.changeCategoryToAdded(controller.TbCat.Selected);
+				//openReceptureEditor(controller.TbCat.Selected);
+				if (num != 0)
+				{
+					MessageBox.Show("Category is changed");
+				}
+                else
+                {
+					MessageBox.Show("Category is NOT changed");
+				}
+            }
+			Reload();
         }
 
 		private void ingredientsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -400,11 +421,10 @@ namespace MajPAbGr_project
 			tbMain.Id = id;
 			NewReceptureController rec = new NewReceptureController(tbMain);
 			rec.ReceptureInfo = controller.ReceptureStruct[selected_recepture];
-			NewRecepture frm = new NewRecepture(rec);
-
+			NewRecepture frm = new NewRecepture(rec);		
+			
 			frm.Show();
-			frm.cmbCat_IndexChange(temp);
-			MessageBox.Show($"Please confirm your change. Temp: {temp}");
+			frm.cmbCat_IndexChange(temp);			
 			Reload();
 		}
 	}
