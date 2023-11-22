@@ -272,7 +272,7 @@ namespace MajPAbGr_project
 			int rec_index = lv_recepture.SelectedItems[0].Index;
 			
 			tbIngredientsController cntrl = new tbIngredientsController(2);
-			Ingredients frm = new Ingredients(cntrl);
+			Ingredients frm = new Ingredients(cntrl, false);
 			frm.ShowDialog();
 			controller.TbCat.setCatalog();
 			controller.Categories = controller.TbCat.getCatalog();

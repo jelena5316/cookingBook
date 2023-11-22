@@ -13,6 +13,7 @@ namespace MajPAbGr_project
     {
         int option, l_used=0;
         string used;
+        bool allFunction = true;
    
         tbIngredientsController tb;
 
@@ -23,6 +24,16 @@ namespace MajPAbGr_project
             this.option = tb.getOption();
             string table = tb.getTable();
             tb.setCatalog();            
+        }
+
+        public Ingredients (tbIngredientsController controller, bool function)
+        {
+            InitializeComponent();
+            tb = controller;
+            this.option = tb.getOption();
+            string table = tb.getTable();
+            tb.setCatalog();
+            allFunction = function; // only part of funcktion is aviable
         }
 
         private void Ingredients_Load(object sender, EventArgs e)
@@ -86,8 +97,33 @@ namespace MajPAbGr_project
         private void AddButton_Click (object sender, EventArgs e)
         {
             int count;
+            string name = txbAdd.Text;
             if (btn_add.Text == "add")
             {
+                if (!allFunction) //
+                {
+                    DialogResult result = MessageBox.Show
+                        (
+                        $"Are you sure to insert new category \"{name}\"?",
+                        "Attention!",
+                        MessageBoxButtons.YesNo,
+                        0
+                        );
+                    if (result == DialogResult.Yes)
+                    {
+                        AddNewItem();
+                        Output();                       
+                        cmbData.SelectedIndex = tb.getCatalog().
+                            FindIndex(n => n.name == name);
+
+                        this.Dispose();
+                        this.Close();
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
                 count = AddNewItem();
             }
             else if (btn_add.Text == "update")
@@ -104,15 +140,14 @@ namespace MajPAbGr_project
                 Output();
                 btn_add.Enabled = false;
                 txbAdd.Clear();
-                groupBox2.Text = "Insert new";                
+                groupBox2.Text = "Insert new";
             }
         }
 
         private int AddNewItem()
         {
             if (string.IsNullOrEmpty(txbAdd.Text)) return 0;
-            int count = tb.AddItem(txbAdd.Text);
-            //tb.Selected = 100;//for test
+            int count = tb.AddItem(txbAdd.Text);            
             return count;
         }
 
