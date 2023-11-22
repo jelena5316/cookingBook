@@ -170,6 +170,7 @@ namespace MajPAbGr_project
             this.Name = "Ingredients";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Ingredients";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Ingredients_FormClosed);
             this.Load += new System.EventHandler(this.Ingredients_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

@@ -70,6 +70,8 @@ namespace MajPAbGr_project
             query = $"select count(*) from {table} where name ='{name}';";
             string ind = Count(query);
 
+            //Selected = 100;//for test
+
             if (ind == "0")
             {
                 query = $"insert into {table} (name) values ('{name}');";                

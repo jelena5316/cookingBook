@@ -123,6 +123,15 @@ namespace MajPAbGr_project
             tbCat.setSelected(cmbCat.SelectedIndex);
         }
 
+        public void cmbCat_IndexChange(int id)
+        {
+            int temp = FormFunction.ChangeIndex(tbCat.getCatalog(), id);
+            if (temp > -1)
+                cmbCat.SelectedIndex = temp;
+            else
+                return;                
+        }
+
         private void chBox_technology_CheckedChanged(object sender, EventArgs e)
         {
             if (chBox_technology.Checked)

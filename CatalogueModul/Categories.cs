@@ -280,8 +280,10 @@ namespace MajPAbGr_project
 			cmb_categories.Text = "all";
 			seeAll();
             lv_recepture.Items[lv_recepture.SelectedItems[0].Index].Selected = false;
-            lv_recepture.Items[rec_index].Selected = true;			
-            openReceptureEditor();
+            lv_recepture.Items[rec_index].Selected = true;
+
+			controller.TbCat.Selected = cntrl.Selected;
+            openReceptureEditor(controller.TbCat.Selected);
         }
 
 		private void ingredientsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -374,6 +376,35 @@ namespace MajPAbGr_project
 			NewRecepture frm = new NewRecepture(rec);
 
 			frm.ShowDialog();
+			Reload();
+		}
+
+		private void openReceptureEditor(int temp)
+		{
+			int id = 0; //id_recepture			
+
+			if (lv_recepture.SelectedItems.Count < 1) return;
+			if (exist_selected)
+			{
+				id = controller.ReceptureStruct[selected_recepture].getId();
+				if (tbMain.Selected != id)
+				{
+					tbMain.Selected = id;
+				}
+			}
+			else
+			{
+				MessageBox.Show("Please, select any recepture from list");
+				return;
+			}
+			tbMain.Id = id;
+			NewReceptureController rec = new NewReceptureController(tbMain);
+			rec.ReceptureInfo = controller.ReceptureStruct[selected_recepture];
+			NewRecepture frm = new NewRecepture(rec);
+
+			frm.Show();
+			frm.cmbCat_IndexChange(temp);
+			MessageBox.Show($"Please confirm your change. Temp: {temp}");
 			Reload();
 		}
 	}

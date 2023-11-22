@@ -112,6 +112,7 @@ namespace MajPAbGr_project
         {
             if (string.IsNullOrEmpty(txbAdd.Text)) return 0;
             int count = tb.AddItem(txbAdd.Text);
+            //tb.Selected = 100;//for test
             return count;
         }
 
@@ -222,6 +223,11 @@ namespace MajPAbGr_project
                 label1.Text = "";
                 SeeMore();
             }           
+        }
+
+        private void Ingredients_FormClosed(object sender, FormClosedEventArgs e)//testing
+        {
+            //tb.Selected = 100;
         }
     }
 }
