@@ -36,21 +36,21 @@ namespace MajPAbGr_project
 			lv_recepture.Columns.Add("Source");
 			lv_recepture.Columns[4].Width = 250;
 
-            toolStripCmbPrint.SelectedIndex = 0;//print	
-            FormFunction.setBox(controller.Categories, cmb_categories);
+			toolStripCmbPrint.SelectedIndex = 0;//print	
+			FormFunction.setBox(controller.Categories, cmb_categories);
 			cmb_categories.Text = "all";
 			resetRecepturesList(controller.ReceptureStruct);			
 			full = null;
-            if (lv_recepture.Items.Count > 0)
-                lv_recepture.Items[0].Selected = true;
-            AutoCompleteRecepture(controller.Receptures);
+			if (lv_recepture.Items.Count > 0)
+				lv_recepture.Items[0].Selected = true;
+			AutoCompleteRecepture(controller.Receptures);
 
 			if(tbMain.Err_code > 0)
-            {
+			{
 				MessageBox.Show($"{tbMain.Err_message}");
 				tbMain.ResetErr_info();
-            }
-        }
+			}
+		}
 
 		private void AutoCompleteRecepture(List<Item> rec)
 		{
@@ -71,19 +71,19 @@ namespace MajPAbGr_project
 			if (tbMain.Selected > 0)
 			{ 
 				return tbMain.Selected;
-            }				
-            else
-            {
+			}				
+			else
+			{
 				tbMain.Selected = min;
 				return min;
-            }	
+			}	
 		}
 
 		private void openRecipesEditor()
 		{
 			if (!exist_selected) return;
-            int id = CheckTbMainSelected(controller.getMinIdOfReceptures());
-            if (id == 0) return;            
+			int id = CheckTbMainSelected(controller.getMinIdOfReceptures());
+			if (id == 0) return;            
 			Recipes frm = new Recipes(tbMain.Selected);
 			frm.Show();
 		}
@@ -124,7 +124,7 @@ namespace MajPAbGr_project
 			tbIngredientsController cntrl = new tbIngredientsController(opt);
 			Ingredients frm = new Ingredients(cntrl);
 			frm.Show();
-        }
+		}
 
 		private void Reload()
 		{
@@ -137,7 +137,7 @@ namespace MajPAbGr_project
 			controller.ReceptureStruct.Clear();
 			controller.setFields();
 
-            seeAll();
+			seeAll();
 			AutoCompleteRecepture(controller.Receptures);		
 		}
 
@@ -146,9 +146,9 @@ namespace MajPAbGr_project
 		 */
 		private void lv_recepture_SelectedIndexChanged(object sender, EventArgs e)
 		{
-            if (lv_recepture.Items.Count < 0)
-                exist_selected = false;
-            if (lv_recepture.SelectedItems.Count < 1)
+			if (lv_recepture.Items.Count < 0)
+				exist_selected = false;
+			if (lv_recepture.SelectedItems.Count < 1)
 			{
 				selected_recepture = 0;
 				exist_selected = false;
@@ -180,7 +180,7 @@ namespace MajPAbGr_project
 				}
 			}
 			exist_selected = true;
-        }
+		}
 
 		private void cmb_categories_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -269,43 +269,76 @@ namespace MajPAbGr_project
 
 		private void lbl_add_Click(object sender, EventArgs e) // add category
 		{
-			int rec_index = lv_recepture.SelectedItems[0].Index;
-			
-			tbIngredientsController cntrl = new tbIngredientsController(2);
-			Ingredients frm = new Ingredients(cntrl, false);
-			frm.ShowDialog();
-			controller.TbCat.setCatalog();
-			controller.Categories = controller.TbCat.getCatalog();
-			FormFunction.setBox(controller.Categories, cmb_categories);
-			cmb_categories.Text = "all";
-			seeAll();
-            lv_recepture.Items[lv_recepture.SelectedItems[0].Index].Selected = false;
-            lv_recepture.Items[rec_index].Selected = true;
+			int rec_index = lv_recepture.SelectedItems[0].Index, num;
+			string new_category = "", t = lbl_add.Text;
 
-			DialogResult result = MessageBox.Show
-				(
-				"Want you change category of selected recipe?",
-				"Quetion",
-				MessageBoxButtons.YesNo,
-				0
-				);
-			if (result == DialogResult.Yes)
+			if (t == "add new")
             {
-				controller.TbCat.Selected = cntrl.Selected;
-				int num = 0;
-				num = controller.changeCategoryToAdded(controller.TbCat.Selected);
-				//openReceptureEditor(controller.TbCat.Selected);
-				if (num != 0)
-				{
-					MessageBox.Show("Category is changed");
-				}
-                else
+				//change GUI for input of new category item
+				cmb_categories.DropDownStyle = ComboBoxStyle.Simple;
+				cmb_categories.Text = "";
+				label3.Text = "Type a name";
+				lbl_add.Text = "insert";
+			}
+            else
+            {
+				if (t == "insert")
                 {
-					MessageBox.Show("Category is NOT changed");
+					DialogResult result1 = MessageBox.Show
+						(
+						"Want you insert new category?",
+						"Quetion",
+						MessageBoxButtons.YesNo,
+						0
+						);
+
+					if (cmb_categories.Text != "" && result1 == DialogResult.Yes)
+                    {
+                        new_category = cmb_categories.Text;
+                        num = controller.TbCat.AddItem(new_category);					
+						
+						FormFunction.setBox(controller.Categories, cmb_categories);
+						//cmb_categories.Text = "all";
+						seeAll();
+						lv_recepture.Items[lv_recepture.SelectedItems[0].Index].Selected = false;
+						lv_recepture.Items[rec_index].Selected = true;
+
+						DialogResult result2 = MessageBox.Show
+						(
+						"Want you change category of selected recipe?",
+						"Quetion",
+						MessageBoxButtons.YesNo,
+						0
+						);
+
+						//id of new category
+						int temp = controller.TbCat.getCatalog().
+							FindIndex(n => n.name == new_category);						
+						controller.TbCat.Selected = controller.TbCat.getCatalog()[temp].id;
+
+						if (result2 == DialogResult.Yes)
+						{
+							num = controller.changeCategoryToAdded(controller.TbCat.Selected);							
+							if (num != 0)
+							{
+								MessageBox.Show("Category is changed");
+							}
+							else
+							{
+								MessageBox.Show("Category is NOT changed");
+							}
+							Reload();
+						}
+					}					
+                    
+					//change GUI for input of new category item
+                    cmb_categories.DropDownStyle = ComboBoxStyle.DropDown;
+					label3.Text = "Categories` list";
+					lbl_add.Text = "add_new";
+					seeAll();
 				}
             }
-			Reload();
-        }
+		}
 
 		private void ingredientsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -351,7 +384,7 @@ namespace MajPAbGr_project
 			index = -1;
 			
 			if (option == 0)
-            {
+			{
 				if (lv_recepture.Items.Count > 0)
 				{
 					index = lv_recepture.SelectedItems[0].Index;
@@ -359,12 +392,12 @@ namespace MajPAbGr_project
 				}
 				else
 					option = 1;
-            }
+			}
 			controller.Print(index, option);
 		}
 
-        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+		private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+		{
 			Print frm = new Print();
 			frm.Show();
 
@@ -373,7 +406,7 @@ namespace MajPAbGr_project
 			frm.Button3_Enabled_status(false);
 		}
 
-        private void openReceptureEditor()
+		private void openReceptureEditor()
 		{
 			int id = 0; //id_recepture			
 
