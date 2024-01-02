@@ -136,10 +136,35 @@ namespace MajPAbGr_project
 
         public int MultyInsert(List<string> ingrs)
         {
-            List<string> ingredients = ingrs;            
-            return 0;
+            List<string> ingredients = ingrs;
+            string string_app = "";
+
+            int k;
+            string t = "";
+            for(k=0; k<ingredients.Count-1; k++)
+            {
+                string_app = $"('{ingredients[k]}'),";
+                t += string_app;
+            }
+            string_app = $"('{ingredients[k]}')";
+            t += string_app;
+
+            query = $"insert into {table} (name) values {t};";
+
+            int count;
+            try
+            {
+                count = Edit(query);
+                if (count != 0) resetCatalog();
+                query = "";
+                return count;
+            }
+            catch(Exception)
+            {
+                query = "";
+                count = -1;
+                return -1;
+            } 
         }
-
-
     }
 }
