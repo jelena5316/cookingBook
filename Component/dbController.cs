@@ -229,7 +229,7 @@ namespace MajPAbGr_project
 		public List<object[]> dbReadData(string query)
 		{
 			int length = 0;
-			DBAnswer answer;
+			//DBAnswer answer;
 			List<object[]> data = new List<object[]>();
 			using (connection)
 			{
@@ -252,20 +252,27 @@ namespace MajPAbGr_project
 					}
 					connection.Close();
 
-					answer = new DBAnswer(0, "", query, connectionString, data);
-					Info = answer.getInfo;
-					//return answer;
-					return answer.getData;
+					//answer = new DBAnswer(0, "", query, connectionString, data);
+					//Info = answer.getInfo;					
+					//return answer.getData;
+					
+					Info = new AnswerInfo(0, "", query, connectionString);
+					return data;
 				}
 				catch (SqliteException ex)
 				{
+					//error_code = ex.SqliteErrorCode; // получаем код ошибки
+					//error_message = ex.Message; // получаем сообщение об ошибке                   
+					//Program.cook_error($"{System.DateTime.Now} {ex.Message}");
+					//answer = new DBAnswer(error_code, error_message, query, connectionString, data);
+					//Info = answer.getInfo;					
+					//return answer.getData;
+
 					error_code = ex.SqliteErrorCode; // получаем код ошибки
 					error_message = ex.Message; // получаем сообщение об ошибке                   
 					Program.cook_error($"{System.DateTime.Now} {ex.Message}");
-					answer = new DBAnswer(error_code, error_message, query, connectionString, data);
-					Info = answer.getInfo;
-					//return answer;
-					return answer.getData;
+					Info = new AnswerInfo(error_code, error_message, query, connectionString);
+					return data;
 				}
 			}
 		}
