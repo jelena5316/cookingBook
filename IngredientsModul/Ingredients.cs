@@ -57,6 +57,11 @@ namespace MajPAbGr_project
             Output();       
         }
 
+        public tbIngredientsController TbIngr
+        {
+            get { return this.tb; }
+        }
+
         public List<Item> TbCatalog
         {
             get { return tb.getCatalog(); }
@@ -258,6 +263,11 @@ namespace MajPAbGr_project
                 label1.Text = "";
                 SeeMore();
             }           
+        }
+
+        private void lbl_file_Click(object sender, EventArgs e)
+        {
+            //
         }
 
         private void Ingredients_FormClosed(object sender, FormClosedEventArgs e)//testing

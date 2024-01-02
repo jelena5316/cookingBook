@@ -176,5 +176,56 @@ namespace MajPAbGr_project
         {
             button3.Enabled = enabled;
         }
+
+        private void cntxt_item_ingr_Click(object sender, EventArgs e)
+        {
+            FormCollection fc = Application.OpenForms;
+            bool frmopen = false;
+            string formName = "";
+            Ingredients ingr; ;
+            tbIngredientsController tb;
+            string fulltext = "";
+            List<String> ingr_list;
+
+           
+            if (richTextBox1.SelectedText.Length > 0)
+            {
+                fulltext = richTextBox1.SelectedText;
+            }
+            else
+            {
+                fulltext = richTextBox1.Text;
+                if (fulltext == "")
+                    return;
+            }
+
+            string[] arr = fulltext.Split('\n');
+            ingr_list = new List<string>();
+            ingr_list.AddRange(arr);
+            ingr_list.RemoveAt(ingr_list.Count - 1);          
+
+
+
+            foreach (Form frm in fc)
+            {
+                //iterate through
+                if (frm.Name == "Ingredients")
+                {
+                   frmopen  = true;
+                   formName = frm.Name;
+                   //int option = frm.Option;
+                   ingr = (Ingredients)frm;
+                    //ingr.Focus();
+                    tb = ingr.TbIngr;
+                    tb.MultyInsert(ingr_list);
+                    break;
+                } 
+            }
+            if(!frmopen)
+            {
+                tb = new tbIngredientsController(1);
+                tb.MultyInsert(ingr_list);
+            }
+        }
     }
 }

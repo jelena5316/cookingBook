@@ -39,6 +39,7 @@ namespace MajPAbGr_project
             this.txbAdd = new System.Windows.Forms.TextBox();
             this.btn_add = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lbl_file = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -147,6 +148,7 @@ namespace MajPAbGr_project
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.lbl_file);
             this.groupBox2.Controls.Add(this.txbAdd);
             this.groupBox2.Controls.Add(this.btn_add);
             this.groupBox2.Location = new System.Drawing.Point(354, 42);
@@ -157,6 +159,17 @@ namespace MajPAbGr_project
             this.groupBox2.TabIndex = 21;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Insert new";
+            // 
+            // lbl_file
+            // 
+            this.lbl_file.AutoSize = true;
+            this.lbl_file.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_file.Location = new System.Drawing.Point(128, 122);
+            this.lbl_file.Name = "lbl_file";
+            this.lbl_file.Size = new System.Drawing.Size(99, 17);
+            this.lbl_file.TabIndex = 22;
+            this.lbl_file.Text = "Add from a file";
+            this.lbl_file.Click += new System.EventHandler(this.lbl_file_Click);
             // 
             // Ingredients
             // 
@@ -192,5 +205,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label lblTest;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbl_file;
     }
 }

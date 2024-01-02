@@ -13,6 +13,7 @@ namespace MajPAbGr_project
         string used = "0";
 
         public tbIngredientsController() { }
+        
         public tbIngredientsController(int opt) : base ()
         {
             this.opt = opt;
@@ -101,6 +102,44 @@ namespace MajPAbGr_project
                 return 0;
             }
         }
+
+        public int ReadIngredientsFromFile(string name)
+        {
+            string fname = "";
+            List <string> names = new List<string>();
+            List<string> data = new List<string>();
+
+            //open a file dialog and get file name;
+
+            //check file explaneing: txt and csv
+            //reading file
+
+            PrintController cntrl = new PrintController(fname);
+            // will create methode for print controller: read file;
+            cntrl.Strings = names;
+            cntrl.PrintRecipe();
+
+            //add code to Print.cs: accept a chois of file;
+
+            //check file content: find list of ingredients or category list
+            //storing name list: List<string>()
+
+            for(int k=0; k < names.Count; k++)
+            {
+                names.Add(data[k]);
+            }
+
+            
+
+            return 0;
+        }
+
+        public int MultyInsert(List<string> ingrs)
+        {
+            List<string> ingredients = ingrs;            
+            return 0;
+        }
+
 
     }
 }
