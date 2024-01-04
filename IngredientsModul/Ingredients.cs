@@ -265,14 +265,44 @@ namespace MajPAbGr_project
             }           
         }
 
-        private void lbl_file_Click(object sender, EventArgs e)
-        {
-            //
-        }
 
         private void Ingredients_FormClosed(object sender, FormClosedEventArgs e)//testing
         {
             //tb.Selected = 100;
         }
+
+        private void lbl_file_Click(object sender, EventArgs e)
+        {
+            FormCollection fc = Application.OpenForms;
+            bool frmopen = false;
+            string formName = "";
+            Print ingr; ;
+            tbIngredientsController tb;
+            string fulltext = "";
+            List<String> ingr_list;
+           
+
+            foreach (Form frm in fc)
+            {
+                //iterate through
+                if (frm.Name == "Print")
+                {
+                    frmopen = true;
+                    formName = frm.Name;
+                    //int option = frm.Option;
+                    ingr = (Print)frm;                                      
+                    ingr.Focus();
+                    ingr.richTextBox1.ReadOnly = false;
+                }
+            }
+            if (!frmopen)
+            {
+                ingr = new Print();
+                ingr.Show();
+                ingr.richTextBox1.ReadOnly = false;
+            }
+        }
+
+        
     }
 }

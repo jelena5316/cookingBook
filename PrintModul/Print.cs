@@ -186,7 +186,7 @@ namespace MajPAbGr_project
             tbIngredientsController tb;
             string fulltext = "";
             List<String> ingr_list;
-
+            
            
             if (richTextBox1.SelectedText.Length > 0)
             {
@@ -202,9 +202,9 @@ namespace MajPAbGr_project
             string[] arr = fulltext.Split('\n');
             ingr_list = new List<string>();
             ingr_list.AddRange(arr);
-            ingr_list.RemoveAt(ingr_list.Count - 1);          
+            //ingr_list.RemoveAt(ingr_list.Count - 1);
 
-
+            
 
             foreach (Form frm in fc)
             {
@@ -226,6 +226,8 @@ namespace MajPAbGr_project
                 tb = new tbIngredientsController(1);
                 tb.MultyInsert(ingr_list);
             }
+
+            richTextBox1.ReadOnly = true;
         }
     }
 }
