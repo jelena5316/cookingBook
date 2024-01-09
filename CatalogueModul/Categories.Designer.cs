@@ -49,6 +49,8 @@ namespace MajPAbGr_project
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lbl_add = new System.Windows.Forms.Label();
+            this.helpOnlineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.onlineCalculatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -102,7 +104,8 @@ namespace MajPAbGr_project
             this.printToolStripMenuItem,
             this.toolStripCmbPrint,
             this.seeAllToolStripMenuItem,
-            this.aboutReceptureToolStripMenuItem});
+            this.aboutReceptureToolStripMenuItem,
+            this.onlineCalculatorToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
@@ -118,7 +121,8 @@ namespace MajPAbGr_project
             this.ingredientsToolStripMenuItem,
             this.toolStripMenuItem1,
             this.amountsEditorToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.helpToolStripMenuItem,
+            this.helpOnlineToolStripMenuItem});
             this.goToToolStripMenuItem.Name = "goToToolStripMenuItem";
             this.goToToolStripMenuItem.Size = new System.Drawing.Size(49, 23);
             this.goToToolStripMenuItem.Text = "Go To";
@@ -126,42 +130,42 @@ namespace MajPAbGr_project
             // recipeToolStripMenuItem
             // 
             this.recipeToolStripMenuItem.Name = "recipeToolStripMenuItem";
-            this.recipeToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.recipeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.recipeToolStripMenuItem.Text = "Recipes";
             this.recipeToolStripMenuItem.Click += new System.EventHandler(this.recipeToolStripMenuItem_Click);
             // 
             // tecnologyToolStripMenuItem
             // 
             this.tecnologyToolStripMenuItem.Name = "tecnologyToolStripMenuItem";
-            this.tecnologyToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.tecnologyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tecnologyToolStripMenuItem.Text = "Technology";
             this.tecnologyToolStripMenuItem.Click += new System.EventHandler(this.tecnologyToolStripMenuItem_Click);
             // 
             // ingredientsToolStripMenuItem
             // 
             this.ingredientsToolStripMenuItem.Name = "ingredientsToolStripMenuItem";
-            this.ingredientsToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.ingredientsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ingredientsToolStripMenuItem.Text = "Ingredients";
             this.ingredientsToolStripMenuItem.Click += new System.EventHandler(this.ingredientsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(135, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenuItem1.Text = "Categorires";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // amountsEditorToolStripMenuItem
             // 
             this.amountsEditorToolStripMenuItem.Name = "amountsEditorToolStripMenuItem";
-            this.amountsEditorToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.amountsEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.amountsEditorToolStripMenuItem.Text = "Amounts";
             this.amountsEditorToolStripMenuItem.Click += new System.EventHandler(this.amountsEditorToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
@@ -236,6 +240,20 @@ namespace MajPAbGr_project
             this.lbl_add.Text = "add new";
             this.lbl_add.Click += new System.EventHandler(this.lbl_add_Click);
             // 
+            // helpOnlineToolStripMenuItem
+            // 
+            this.helpOnlineToolStripMenuItem.Name = "helpOnlineToolStripMenuItem";
+            this.helpOnlineToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.helpOnlineToolStripMenuItem.Text = "Help online";
+            this.helpOnlineToolStripMenuItem.Click += new System.EventHandler(this.helpOnlineToolStripMenuItem_Click);
+            // 
+            // onlineCalculatorToolStripMenuItem
+            // 
+            this.onlineCalculatorToolStripMenuItem.Name = "onlineCalculatorToolStripMenuItem";
+            this.onlineCalculatorToolStripMenuItem.Size = new System.Drawing.Size(109, 23);
+            this.onlineCalculatorToolStripMenuItem.Text = "Online calculator";
+            this.onlineCalculatorToolStripMenuItem.Click += new System.EventHandler(this.onlineCalculatorToolStripMenuItem_Click);
+            // 
             // Categories
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -284,5 +302,7 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.Label lbl_add;
+        private System.Windows.Forms.ToolStripMenuItem helpOnlineToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem onlineCalculatorToolStripMenuItem;
     }
 }

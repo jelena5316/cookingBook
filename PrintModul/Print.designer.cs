@@ -31,6 +31,8 @@ namespace MajPAbGr_project
         {
             this.components = new System.ComponentModel.Container();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cntxt_item_ingr = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -39,8 +41,6 @@ namespace MajPAbGr_project
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.button3 = new System.Windows.Forms.Button();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cntxt_item_ingr = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,6 +53,20 @@ namespace MajPAbGr_project
             this.richTextBox1.Size = new System.Drawing.Size(511, 476);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cntxt_item_ingr});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 26);
+            // 
+            // cntxt_item_ingr
+            // 
+            this.cntxt_item_ingr.Name = "cntxt_item_ingr";
+            this.cntxt_item_ingr.Size = new System.Drawing.Size(172, 22);
+            this.cntxt_item_ingr.Text = "Add to Ingredients";
+            this.cntxt_item_ingr.Click += new System.EventHandler(this.cntxt_item_ingr_Click);
             // 
             // button1
             // 
@@ -118,20 +132,6 @@ namespace MajPAbGr_project
             this.button3.Text = "Print";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cntxt_item_ingr});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
-            // 
-            // cntxt_item_ingr
-            // 
-            this.cntxt_item_ingr.Name = "cntxt_item_ingr";
-            this.cntxt_item_ingr.Size = new System.Drawing.Size(180, 22);
-            this.cntxt_item_ingr.Text = "Add to Ingredients";
-            this.cntxt_item_ingr.Click += new System.EventHandler(this.cntxt_item_ingr_Click);
             // 
             // Print
             // 

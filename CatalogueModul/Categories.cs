@@ -460,5 +460,18 @@ namespace MajPAbGr_project
 			frm.cmbCat_IndexChange(temp);			
 			Reload();
 		}
-	}
+
+        private void helpOnlineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			string path = "https://github.com/jelena5316/cookingBook/blob/master/CookingBook/man/user_manul_en.txt";			
+			System.Diagnostics.Process.Start(path);
+		}
+
+        private void onlineCalculatorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			//string path = "C:\\Users\\user\\Documents\\instalacija.odt";
+			string path = "https://www.thecalculatorsite.com/conversions/massandweight.php";
+			System.Diagnostics.Process.Start(path);
+		}
+    }
 }
