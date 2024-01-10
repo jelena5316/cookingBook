@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace MajPAbGr_project
@@ -145,6 +146,13 @@ namespace MajPAbGr_project
             {
                 editPath_Click(sender, e);
             }
+        }
+
+        private void lbl_db_Click(object sender, EventArgs e)
+        {
+            Process.Start(@"C:\\Users\\user\\Documents\\SQLiteStudio\\SQLiteStudio.exe", "db\\CookingBook");
+            this.Dispose();
+            this.Close();
         }
     }
 }

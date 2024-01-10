@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace MajPAbGr_project
 {
@@ -121,6 +122,21 @@ namespace MajPAbGr_project
         private void cmbCat_SelectedIndexChanged(object sender, EventArgs e)
         {
             tbCat.setSelected(cmbCat.SelectedIndex);
+        }
+
+        private void lbl_open_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txbURL.Text))
+                return;
+            string PATH = txbURL.Text;            
+            try            {
+                
+                Process.Start(PATH);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}");                
+            }          
         }
 
         public void cmbCat_IndexChange(int id)

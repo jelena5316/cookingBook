@@ -46,6 +46,7 @@ namespace MajPAbGr_project
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.lbl_open = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txbRecepture
@@ -213,11 +214,23 @@ namespace MajPAbGr_project
             this.label7.TabIndex = 42;
             this.label7.Text = "Choose technology";
             // 
+            // lbl_open
+            // 
+            this.lbl_open.AutoSize = true;
+            this.lbl_open.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_open.Location = new System.Drawing.Point(485, 371);
+            this.lbl_open.Name = "lbl_open";
+            this.lbl_open.Size = new System.Drawing.Size(84, 20);
+            this.lbl_open.TabIndex = 43;
+            this.lbl_open.Text = "see in web";
+            this.lbl_open.Click += new System.EventHandler(this.lbl_open_Click);
+            // 
             // NewRecepture
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(597, 749);
+            this.Controls.Add(this.lbl_open);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -264,5 +277,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lbl_open;
     }
 }

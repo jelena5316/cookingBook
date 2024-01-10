@@ -32,6 +32,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.box = new System.Windows.Forms.ComboBox();
+            this.lbl_db = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBox1
@@ -74,11 +75,23 @@
             this.box.TabIndex = 4;
             this.box.SelectedIndexChanged += new System.EventHandler(this.box_ChangeIndex);
             // 
+            // lbl_db
+            // 
+            this.lbl_db.AutoSize = true;
+            this.lbl_db.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+            this.lbl_db.Location = new System.Drawing.Point(458, 186);
+            this.lbl_db.Name = "lbl_db";
+            this.lbl_db.Size = new System.Drawing.Size(91, 17);
+            this.lbl_db.TabIndex = 5;
+            this.lbl_db.Text = "Sqlite_Studio";
+            this.lbl_db.Click += new System.EventHandler(this.lbl_db_Click);
+            // 
             // EditDB
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(566, 244);
+            this.Controls.Add(this.lbl_db);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
@@ -99,5 +112,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ComboBox box;
+        private System.Windows.Forms.Label lbl_db;
     }
 }
