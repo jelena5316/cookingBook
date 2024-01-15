@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 
 namespace MajPAbGr_project
@@ -145,97 +146,40 @@ namespace MajPAbGr_project
             }
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-            EditDB frm = new EditDB("Data Source = db\\CookingBook; Mode=ReadWrite");
-            frm.Show();
-        }
-
         private void exportTablescsvToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (cmb_tables.Items.Count < 1) return;
-            if (cmb_tables.SelectedItem == null) return;
-
-            const string format = "csv", fpath = @"C:\Users\user\Desktop";
+            if (cmb_tables.SelectedItem == null) return;            
             
             string fname, table = cmb_tables.SelectedItem.ToString();                
             DateTime date = System.DateTime.Now;
             List<object[]> data;
             string[] lines;
 
+            EditDBController cntrl = new EditDBController();
+
             /*
              * reading data from data base
              * query: select * from table_name;
              */
             //connection with data base test
-            ReadAllFields(table, out data);
+            data = cntrl.ReadAllFields(table);
+            if (data == null)
+                return;
 
             /*
              * convert read data to strings of commat separeted values
              */
-            lines = ConvertData(data);
+            lines = cntrl.ConvertData(data);
 
             /*
              * writting into file with stream testing
              */
             fname = cmb_tables.Text;
-            WriteToFile(fpath, fname, lines);
-        }
+            cntrl.WriteToFile(fname, lines);
 
-        private void ReadAllFields(string table, out List<object[]> data)
-        {
-            data = null;          
-            if (db == null)
-                return;
-            if (!db.testConnection())
-                return;
-            data = ReadData(table);
-
-        }
-
-        private List<object[]> ReadData(string table)
-        {
-            string query = $"select * from {table}";
-            return db.dbReadData(query);
-        }
-
-        private string[] ConvertData(List <object[]> data)
-        {
-            int arr_length = data.Count;
-            string[] lines = new string [arr_length];
-
-            //converting
-            int k, q = 0;
-            for(k=0; k<arr_length; k++)
-            {
-                lines[k] = "";
-                for(q=0; q<data[k].Length-1; q++)
-                {
-                    if (data[k][q].ToString() == "") // if fields value was null
-                        data[k][q] = "null";
-                    lines[k] += data[k][q].ToString() + ",";
-                }
-                lines[k] += data [k][q].ToString();
-            }
-            return lines;
-        }
-
-        private void WriteToFile(string path, string fname, string [] lines)
-        {
-            // will add a test
-            WriteData(path, fname, lines);
-        }
-
-        private void WriteData(string path, string fname, string[] lines)
-        {
-            using (System.IO.StreamWriter wr = new System.IO.StreamWriter(path + "\\" + fname + ".csv", false))
-            {
-                for (int k = 0; k < lines.Length; k++)
-                {
-                    wr.WriteLine(lines[k]);
-                }
-            }
-        }
+            MessageBox.Show("Exporting table...");
+        }     
   
         private void lbl_db_Click(object sender, EventArgs e)
         {
@@ -243,7 +187,6 @@ namespace MajPAbGr_project
             this.Dispose();
             this.Close();
         }
-
 
         private void EditDB_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -262,8 +205,71 @@ namespace MajPAbGr_project
         List<string> views, tables;
         int result;
 
-        public EditDBController() { }
+        public EditDBController()
+        {
+            db = new dbController();
+        }
 
+        public List <object[]> ReadAllFields(string table)
+        {
+            if (!db.testConnection())
+                return null;
+            return ReadData(table);
+
+        }
+
+        private List<object[]> ReadData(string table)
+        {
+            string query = $"select * from {table}";
+            return db.dbReadData(query);
+        }
+
+        public string[] ConvertData(List<object[]> data)
+        {
+            int arr_length = data.Count;
+            string[] lines = new string[arr_length];
+
+            //converting
+            int k, q = 0;
+            for (k = 0; k < arr_length; k++)
+            {
+                lines[k] = "";
+                for (q = 0; q < data[k].Length - 1; q++)
+                {
+                    if (data[k][q].ToString() == "") // if fields value was null
+                        data[k][q] = "null";
+                    lines[k] += data[k][q].ToString() + ",";
+                }
+                lines[k] += data[k][q].ToString();
+            }
+            return lines;
+        }
+
+        public void WriteToFile(string fname, string[] lines)
+        {
+            const string format = "csv", fpath = @"C:\Users\user\Desktop\Tables";
+
+            // will add a test
+            if (lines == null || lines.Length < 1) //it is some data for writting there
+                return;
+            if (string.IsNullOrEmpty(fname)) //file name exists
+                return;
+            if (!Directory.Exists(fpath))
+                Directory.CreateDirectory(fpath);
+
+            WriteData(fpath, fname, format, lines);
+        }
+
+        private void WriteData(string path, string fname, string format, string[] lines)
+        {
+            using (System.IO.StreamWriter wr = new System.IO.StreamWriter(path + "\\" + fname + "." + format, false))
+            {
+                for (int k = 0; k < lines.Length; k++)
+                {
+                    wr.WriteLine(lines[k]);
+                }
+            }
+        }
 
     }
 }

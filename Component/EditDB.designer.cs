@@ -38,7 +38,6 @@
             this.exportTablescsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cmb_tables = new System.Windows.Forms.ToolStripComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -121,7 +120,7 @@
             // cmb_tables
             // 
             this.cmb_tables.Name = "cmb_tables";
-            this.cmb_tables.Size = new System.Drawing.Size(121, 23);           
+            this.cmb_tables.Size = new System.Drawing.Size(121, 23);
             // 
             // label1
             // 
@@ -133,22 +132,11 @@
             this.label1.TabIndex = 7;
             this.label1.Text = "Input code and output";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(501, 38);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 20);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Test";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
-            // 
             // EditDB
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(558, 288);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lbl_db);
             this.Controls.Add(this.button2);
@@ -181,6 +169,5 @@
         private System.Windows.Forms.ToolStripMenuItem exportTablescsvToolStripMenuItem;
         private System.Windows.Forms.ToolStripComboBox cmb_tables;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
     }
 }
