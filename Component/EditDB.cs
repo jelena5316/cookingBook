@@ -16,16 +16,20 @@ namespace MajPAbGr_project
         dbController db;
         tbController tb;
         string query="";
-        List<string> views;
+        List<string> views, tables;
         int result;
         
         public EditDB()
         {
             InitializeComponent();
             db = new dbController();            
-            views = db.dbReader("SELECT name FROM sqlite_schema WHERE type = 'view';");            
+            views = db.dbReader("SELECT name FROM sqlite_schema WHERE type = 'view';");
+            tables = db.dbReader("SELECT name FROM sqlite_schema WHERE type = 'table';");
             box.Items.AddRange(views.ToArray());
             box.Text = "view list";
+            cmb_tables.Items.AddRange(tables.ToArray());
+            if(cmb_tables.Items.Count > 0)
+                cmb_tables.SelectedIndex = 0;
         }
 
         public EditDB(string connectionStringPath)
@@ -33,10 +37,11 @@ namespace MajPAbGr_project
             InitializeComponent();            
             textBox1.Text = connectionStringPath;
             button1.Enabled = false;
-            button2.Enabled = false;
+            button1.Visible = false;
+            button2.Enabled = false;           
             box.Enabled = false;
             Button editPath = new Button();
-            editPath.Location = new System.Drawing.Point(469, 178);
+            editPath.Location = new System.Drawing.Point(14, 219);//size 112, 35
             editPath.Text = "Edit path";
             this.Controls.Add(editPath);
             editPath.Click += new System.EventHandler(editPath_Click);
@@ -140,6 +145,106 @@ namespace MajPAbGr_project
             }
         }
 
+        private void label2_Click(object sender, EventArgs e)
+        {
+            EditDB frm = new EditDB("Data Source = db\\CookingBook; Mode=ReadWrite");
+            frm.Show();
+        }
+
+        private void exportTablescsvToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (cmb_tables.Items.Count < 1) return;
+            if (cmb_tables.SelectedItem == null) return;
+
+            const string format = "csv", fpath = @"C:\Users\user\Desktop";
+            
+            string fname, table = cmb_tables.SelectedItem.ToString();                
+            DateTime date = System.DateTime.Now;
+            List<object[]> data;
+            string[] lines;
+
+            /*
+             * reading data from data base
+             * query: select * from table_name;
+             */
+            //connection with data base test
+            ReadAllFields(table, out data);
+
+            /*
+             * convert read data to strings of commat separeted values
+             */
+            lines = ConvertData(data);
+
+            /*
+             * writting into file with stream testing
+             */
+            fname = cmb_tables.Text;
+            WriteToFile(fpath, fname, lines);
+        }
+
+        private void ReadAllFields(string table, out List<object[]> data)
+        {
+            data = null;          
+            if (db == null)
+                return;
+            if (!db.testConnection())
+                return;
+            data = ReadData(table);
+
+        }
+
+        private List<object[]> ReadData(string table)
+        {
+            string query = $"select * from {table}";
+            return db.dbReadData(query);
+        }
+
+        private string[] ConvertData(List <object[]> data)
+        {
+            int arr_length = data.Count;
+            string[] lines = new string [arr_length];
+
+            //converting
+            int k, q = 0;
+            for(k=0; k<arr_length; k++)
+            {
+                lines[k] = "";
+                for(q=0; q<data[k].Length-1; q++)
+                {
+                    if (data[k][q].ToString() == "") // if fields value was null
+                        data[k][q] = "null";
+                    lines[k] += data[k][q].ToString() + ",";
+                }
+                lines[k] += data [k][q].ToString();
+            }
+            return lines;
+        }
+
+        private void WriteToFile(string path, string fname, string [] lines)
+        {
+            // will add a test
+            WriteData(path, fname, lines);
+        }
+
+        private void WriteData(string path, string fname, string[] lines)
+        {
+            using (System.IO.StreamWriter wr = new System.IO.StreamWriter(path + "\\" + fname + ".csv", false))
+            {
+                for (int k = 0; k < lines.Length; k++)
+                {
+                    wr.WriteLine(lines[k]);
+                }
+            }
+        }
+  
+        private void lbl_db_Click(object sender, EventArgs e)
+        {
+            Process.Start(@"C:\\Users\\user\\Documents\\SQLiteStudio\\SQLiteStudio.exe", "db\\CookingBook");
+            this.Dispose();
+            this.Close();
+        }
+
+
         private void EditDB_FormClosed(object sender, FormClosedEventArgs e)
         {
             if(result == 1)
@@ -147,12 +252,18 @@ namespace MajPAbGr_project
                 editPath_Click(sender, e);
             }
         }
+    }
 
-        private void lbl_db_Click(object sender, EventArgs e)
-        {
-            Process.Start(@"C:\\Users\\user\\Documents\\SQLiteStudio\\SQLiteStudio.exe", "db\\CookingBook");
-            this.Dispose();
-            this.Close();
-        }
+    public class EditDBController
+    {
+        dbController db;
+        tbController tb;
+        string query = "";
+        List<string> views, tables;
+        int result;
+
+        public EditDBController() { }
+
+
     }
 }
