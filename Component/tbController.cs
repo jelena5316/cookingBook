@@ -267,21 +267,7 @@ namespace MajPAbGr_project
 			}
 		}
 
-		public void DataViewsList(List<string> views, List<object[]> data)
-		{
-			string view = "";
-			for (int k = 0; k < data.Count; k++)
-			{
-				object[] arr = data[k];
-				view += arr[0].ToString();
-				for (int q = 1; q < arr.Length; q++)
-				{
-					view += " " + arr[q].ToString();
-				}
-				views.Add(view);
-				view = "";
-			}
-		}
+		
 
 		//public List<string> DataStringList(string query)
   //      {

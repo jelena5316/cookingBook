@@ -301,7 +301,7 @@ namespace MajPAbGr_project
 
 		private void openDbEditorToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			EditDB frm = new EditDB();
+			EditDB frm = new EditDB(new EditDBController());
 			frm.Show();
 		}             
 

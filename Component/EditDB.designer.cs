@@ -109,6 +109,7 @@
             this.backupDbToolStripMenuItem.Name = "backupDbToolStripMenuItem";
             this.backupDbToolStripMenuItem.Size = new System.Drawing.Size(75, 23);
             this.backupDbToolStripMenuItem.Text = "Backup db";
+            this.backupDbToolStripMenuItem.Click += new System.EventHandler(this.backupDbToolStripMenuItem_Click);
             // 
             // exportTablescsvToolStripMenuItem
             // 

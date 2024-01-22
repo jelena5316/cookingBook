@@ -28,6 +28,8 @@ namespace MajPAbGr_project
 			connection = new SqliteConnection(connectionString);            
 		}
 
+		public AnswerInfo getInfo() { return Info; }
+
 		/*
 		 * Testing conection with data base file for class Program
 		 */
@@ -43,6 +45,7 @@ namespace MajPAbGr_project
 				return connectionString.ToString();
 			} 
 		}
+
 		public bool testConnection()
 		{
 			string message = "";
@@ -283,13 +286,23 @@ namespace MajPAbGr_project
 
 		public int Edit(string query)
 		{
-			int ind;            
+			int ind; //to store the number of rows inserted, updated, or deleted. 
 			using (connection)
 			{
 				command = new SqliteCommand(query, connection);
-				connection.Open();                
-				ind = command.ExecuteNonQuery();
-				connection.Close();
+                connection.Open();
+				try
+				{
+					ind = command.ExecuteNonQuery();
+				}
+                catch
+                {
+					ind = 0; // -1 for 'select' statements
+                }
+                finally
+                {
+					connection.Close();
+                }				
 			}
 			return ind;
 		}
