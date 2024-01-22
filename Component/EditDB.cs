@@ -66,9 +66,12 @@ namespace MajPAbGr_project
 
 		private void box_ChangeIndex(object sender, EventArgs e)
 		{
-			textBox1.Text = $"select * from '{box.Items[box.SelectedIndex].ToString()}'";
-		}        
-		
+			if (box.SelectedIndex < 0)
+				return;
+			cntrl.setViewStatement(box.SelectedIndex);
+			textBox1.Text = cntrl.Query;
+		}
+	
 		private void button2_Click(object sender, EventArgs e)
 		{
 			DisplayView();			
@@ -76,7 +79,7 @@ namespace MajPAbGr_project
 
 		private void DisplayView()
         {
-			cntrl.Query = textBox1.Text;
+			//cntrl.Query = textBox1.Text;
 			textBox1.Lines = cntrl.ReadView();			
         }
 
@@ -227,6 +230,7 @@ namespace MajPAbGr_project
 		public string Query
         {
 			set { query = value; }
+			get { return query; }
         }
 		public List<string> Views
 		{
@@ -243,6 +247,23 @@ namespace MajPAbGr_project
 			get { return result; }
             set { result = value; }
         }
+
+
+		/*
+		 * set and get statement for view reading from data base
+		 */
+
+		public void setViewStatement(int num)
+        {
+			if (views.Count < num+1)
+				return;
+			query = getViewStatement(num);
+        }
+		
+		private string getViewStatement(int num)
+		{
+			return $"select * from '{views[num]}'";
+		}
 
 		/*
 		* exsporting data table in text file (csv)
@@ -344,7 +365,10 @@ namespace MajPAbGr_project
         {
 			Status status;						
 			List<object[]> objects;
-			
+
+			if (string.IsNullOrEmpty(query))
+				return new string[] { "Empty statement!" };
+
 			objects = db.dbReadData(query);
 			status = ExecutedReaderResult(db.getInfo().err_code);
 			data = OutputView (objects, status);
@@ -410,7 +434,7 @@ namespace MajPAbGr_project
 		private string WRONG_message()
 		{
 			string message = "Oops! Something wrong!";
-			if (db != null && string.IsNullOrEmpty(db.getInfo().err_message))
+			if (db != null && !string.IsNullOrEmpty(db.getInfo().err_message))
 				message =  db.getInfo().err_message;
 			if (!string.IsNullOrEmpty(this.err_message))
 				message = this.err_message;
