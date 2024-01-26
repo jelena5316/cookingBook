@@ -66,6 +66,11 @@ namespace MajPAbGr_project
 
 		private void box_ChangeIndex(object sender, EventArgs e)
 		{
+			SelectView();
+		}
+
+		private void SelectView()
+        {
 			if (box.SelectedIndex < 0)
 				return;
 			cntrl.setViewStatement(box.SelectedIndex);
@@ -146,35 +151,11 @@ namespace MajPAbGr_project
 		private void exportTablescsvToolStripMenuItem_Click(object sender, EventArgs e)
 		{           
 			if (cmb_tables.Items.Count < 1) return;
-			if (cmb_tables.SelectedItem == null) return;            
-			
-			string fname, table = cmb_tables.SelectedItem.ToString();                
-			DateTime date = System.DateTime.Now;
-			List<object[]> data;
-			string[] lines;
-
-			EditDBController cntrl = new EditDBController();
-
-			/*
-			 * reading data from data base
-			 * query: select * from table_name;
-			 */
-			//connection with data base test
-			data = cntrl.ReadAllFields(table);
-			if (data == null)
-				return;
-
-			/*
-			 * convert read data to strings of commat separeted values
-			 */
-			lines = cntrl.ConvertData(data);
-
-			/*
-			 * writting into file with stream testing
-			 */
-			fname = cmb_tables.Text;
-			cntrl.WriteToFile(fname, lines);
-
+			if (cmb_tables.SelectedItem == null) return; 
+			//string fname = cmb_tables.Text,
+			//	table = cmb_tables.SelectedItem.ToString();
+			int table = cmb_tables.SelectedIndex;
+			cntrl.ExportTableDataToFile(table);
 			MessageBox.Show("Exporting table...");
 		}     
   
@@ -185,14 +166,10 @@ namespace MajPAbGr_project
 			this.Close();
 		}
 
-        private void exportTablescsvToolStripMenuItem_MouseEnter(object sender, EventArgs e)
-        {
-			label1.FlatStyle = FlatStyle.Popup;
-        }
-
         private void backupDbToolStripMenuItem_Click(object sender, EventArgs e)
         {
 			//will save data base file in files system
+			cntrl.CopyPasteDB();
         }
 
         private void EditDB_FormClosed(object sender, FormClosedEventArgs e)
@@ -202,6 +179,7 @@ namespace MajPAbGr_project
 				editPath_Click(sender, e);
 			}
 		}
+	
 	}
 
 
@@ -266,8 +244,59 @@ namespace MajPAbGr_project
 		}
 
 		/*
+		 * back up data base file
+		 */
+
+		public void CopyPasteDB()
+        {
+			string fname = "CookingBook",
+				path = @"db\CookingBook",
+				des_path = @"C:\Users\user\Desktop";
+			
+			des_path = des_path+@"\"+fname;			
+			FileInfo fileInf = new FileInfo(path);
+			if (fileInf.Exists)
+			{
+				fileInf.CopyTo(des_path, true);
+				// альтернатива с помощью класса File
+				// File.Copy(path, newPath, true);
+			}
+		}
+
+		/*
 		* exsporting data table in text file (csv)
 		*/
+
+		public void ExportTableDataToFile(int index)
+        {
+			string table, fname;			
+			DateTime date = System.DateTime.Now;
+			List<object[]> data;
+			string[] lines;
+
+			table = tables[index];
+			fname = table + date.ToString();
+
+			/*
+			 * reading data from data base
+			 * query: select * from table_name;
+			 */
+			//connection with data base test
+			data = ReadAllFields(table);
+			if (data == null)
+				return;
+
+			/*
+			 * convert read data to strings of commat separeted values
+			 */
+			lines = ConvertData(data);
+
+			/*
+			 * writting into file with stream testing
+			 */			
+			WriteToFile(fname, lines);			
+		}
+
 		public List <object[]> ReadAllFields(string table)
 		{
 			if (!db.testConnection())
