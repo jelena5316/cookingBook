@@ -1,5 +1,5 @@
 # Home cooking book system
-# Absrtact
+# Abstract
   - Bachelor’s thesis is the “Home cooking system”.
   - Author: Jeļena IVANOVA.
   - Goal of the work: to develop “Home cooking system”.
