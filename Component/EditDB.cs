@@ -151,12 +151,11 @@ namespace MajPAbGr_project
 		private void exportTablescsvToolStripMenuItem_Click(object sender, EventArgs e)
 		{           
 			if (cmb_tables.Items.Count < 1) return;
-			if (cmb_tables.SelectedItem == null) return; 
-			//string fname = cmb_tables.Text,
-			//	table = cmb_tables.SelectedItem.ToString();
+			if (cmb_tables.SelectedItem == null) return;			
 			int table = cmb_tables.SelectedIndex;
-			cntrl.ExportTableDataToFile(table);
-			MessageBox.Show("Exporting table...");
+			string  message = cntrl.ExportTableDataToFile(table);
+			//MessageBox.Show("Exporting table...");
+			textBox1.Text = message;
 		}     
   
 		private void lbl_db_Click(object sender, EventArgs e)
@@ -226,6 +225,10 @@ namespace MajPAbGr_project
             set { result = value; }
         }
 
+		private void Reset_err_message()
+        {
+			err_message = "Oops! Something wrong!";
+		}
 
 		/*
 		 * set and get statement for view reading from data base
@@ -267,34 +270,57 @@ namespace MajPAbGr_project
 		* exsporting data table in text file (csv)
 		*/
 
-		public void ExportTableDataToFile(int index)
+		public string ExportTableDataToFile(int index)
         {
-			string table, fname;			
-			DateTime date = System.DateTime.Now;
+			string table, fname, message;
+			//DateTime today; 
 			List<object[]> data;
 			string[] lines;
 
+			/*
+			 * checking conditions
+			 */
+			if (tables.Count <= index || index < 0)
+				return "";
+			if (string.IsNullOrWhiteSpace(tables[index]))
+				return "";
+
+			/*
+			 * creating file name
+			 */
 			table = tables[index];
-			fname = table + date.ToString();
+			//today = DateTime.Now;
+			//fname = table + today.ToString(); // not supported format for writting into file system
+			fname = table;
 
 			/*
 			 * reading data from data base
-			 * query: select * from table_name;
+			 * query: "select * from table_name;"
 			 */
 			//connection with data base test
 			data = ReadAllFields(table);
 			if (data == null)
-				return;
+            {
+				message = "";
+				AnswerInfo info = db.getInfo();
+				Status status = ExecutedReaderResult(info.err_code);
+				if (status == Status.WRONG)				
+					 message = WRONG_message();
+				info.err_code = -1;
+				info.err_message = "";
+				return message;
+            }
 
 			/*
-			 * convert read data to strings of commat separeted values
+			 * convert read data to strings of commat separeted values format
 			 */
 			lines = ConvertData(data);
 
 			/*
 			 * writting into file with stream testing
 			 */			
-			WriteToFile(fname, lines);			
+			message = WriteToFile(fname, lines);
+			return message;
 		}
 
 		public List <object[]> ReadAllFields(string table)
@@ -302,7 +328,6 @@ namespace MajPAbGr_project
 			if (!db.testConnection())
 				return null;
 			return ReadData(table);
-
 		}
 
 		private List<object[]> ReadData(string table)
@@ -332,30 +357,65 @@ namespace MajPAbGr_project
 			return lines;
 		}
 
-		public void WriteToFile(string fname, string[] lines)
+		public string WriteToFile(string fname, string[] lines)
 		{
 			const string format = "csv", fpath = @"C:\Users\user\Desktop\Tables";
+			string message;
 
 			// will add a test
 			if (lines == null || lines.Length < 1) //it is some data for writting there
-				return;
+				return "";
 			if (string.IsNullOrEmpty(fname)) //file name exists
-				return;
+				return "";
 			if (!Directory.Exists(fpath))
 				Directory.CreateDirectory(fpath);
 
-			WriteData(fpath, fname, format, lines);
+			Status status = WriteData(fpath, fname, format, lines);
+			switch (status)
+            {
+				case Status.OK:
+					{
+						message = fpath;
+						break;
+					}
+                case Status.WRONG:
+                    {
+						message = WRONG_message();
+						Reset_err_message();
+						break;
+                    }
+                default:
+                    {
+						message = err_message;
+						break;
+                    }
+            }
+			return message;
 		}
 
-		private void WriteData(string path, string fname, string format, string[] lines)
+		private Status WriteData(string path, string fname, string format, string[] lines)
 		{
-			using (System.IO.StreamWriter wr = new System.IO.StreamWriter(path + "\\" + fname + "." + format, false))
-			{
-				for (int k = 0; k < lines.Length; k++)
+			Status status;
+			try
+            {
+				using (System.IO.StreamWriter wr = new System.IO.StreamWriter(path + "\\" + fname + "." + format, false))
 				{
-					wr.WriteLine(lines[k]);
+					for (int k = 0; k < lines.Length; k++)
+					{
+						wr.WriteLine(lines[k]);
+					}
 				}
-			}
+            }
+            catch(Exception ex)
+            {
+				err_message = ex.Message;
+				status = Status.WRONG;
+            }
+            finally
+            {
+				status = Status.OK;
+            }
+			return status;
 		}
 
 		/*
