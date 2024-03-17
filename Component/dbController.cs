@@ -10,7 +10,255 @@ using Microsoft.Data.Sqlite;
 
 namespace MajPAbGr_project
 { 
-		public class dbController /*access data base*/
+	public abstract class ADataBaseCreator
+    {
+		//tables
+		protected string TABLE_INGREDIENTS;
+		protected string TABLE_CATEGORIES;
+		protected string TABLE_CARDS;
+		protected string TABLE_TEHNOLOGY;
+		protected string TABLE_CHAINS;
+		protected string TABLE_RECEPTURE;
+		protected string TABLE_AMOUNTS;
+		protected string TABLE_RECIPE; 
+		// table "Recipe" store coefficients
+		// and futher will be used short name "COEF"
+		// as part of name for variables storing it's columns` names
+
+
+		//columns in table "Ingredients"
+		protected string INGR_COL_ID;
+		protected string INGR_COL_NAME;
+
+		//columns in table "Categories"
+		protected string CAT_COL_ID;
+		protected string CAT_COL_NAME;
+
+		//columns in table "Technology_card"
+		protected string CARD_COL_ID;
+		protected string CARD_COL_NAME;
+		protected string CARD_COL_DESCRIPTION;
+		protected string CARD_COL_TECHNOLOGY;
+
+		//columns in table "Technology"
+		protected string TECHN_COL_ID;
+		protected string TECHN_COL_NAME;
+		protected string TECHN_COL_DESCRIPTION;
+
+		//columns in table "Technology_chain"
+		protected string CHAIN_COL_ID;
+		protected string CHAIN_COL_TECHN;
+		protected string CHAIN_COL_CARD;
+
+		//columns in table "Recepture"
+		protected string REC_COL_ID;
+		protected string REC_COL_NAME;
+		protected string REC_COL_CAT;
+		protected string REC_COL_TECHN;
+		protected string REC_COL_INGR;
+		protected string REC_COL_DESCRIPTION;
+		protected string REC_COL_SOURCE;
+		protected string REC_COL_AUTOR;
+		protected string REC_COL_URL;
+
+		//columns in table "Amount"
+		protected string AM_COL_ID;		
+		protected string AM_COL_REC;		
+		protected string AM_COL_INGR;
+		protected string AM_COL_AMOUNTS;
+
+		//columns in table "Recipe"
+		protected string COEF_COL_ID;
+		protected string COEF_COL_NAME;
+		protected string COEF_COL_REC;		
+		protected string COEF_COL_COEFFICIENT;
+
+		protected abstract void setTablesColumnsNames(Tables tbs);		
+		protected abstract string[] createQueries();
+
+		public abstract TablesCreator CreateDataBaseTables(dbController db);
+	}
+
+	public class DataBaseCreator : ADataBaseCreator
+	{
+		private static int version = 0;
+		protected string[] pragmaQuery = new string[]
+		{
+			"pragma user_version;",
+			 $"pragma user_version = {version};",
+		};
+
+		public string PragmaQuery(int new_version, int action)
+		{
+			// 0 - get version reading it in data base
+			// 1 - set new data base
+			if (action == 0)
+			{
+				return pragmaQuery[0];
+			}
+			else
+			{
+				version = new_version;
+				string query = pragmaQuery[1];
+				version = 0;
+				return query;
+			}
+		}
+
+		protected override void setTablesColumnsNames(Tables tbs)
+		{
+			//define the fields						
+			Table[] tables = tbs.getTables;
+			for (int k = 0; k < tables.Length; k++)
+				setNames(tables[k]);
+		}
+
+		private void setNames(Table table)
+		{
+			int title = table.Title;
+			switch (title)
+			{
+				case 0: // ingredients
+					{
+						TABLE_INGREDIENTS = table.Name;
+						INGR_COL_ID = table.Columns[0];
+						INGR_COL_NAME = table.Columns[1];
+						break;
+					}
+				case 1: // categories
+					{
+						TABLE_CATEGORIES = table.Name;
+						CAT_COL_ID = table.Columns[0];
+						CAT_COL_NAME = table.Columns[1];
+						break;
+					}
+				case 2: // cards
+					{
+						TABLE_CARDS = table.Name;
+						CARD_COL_ID = table.Columns[0];
+						CARD_COL_NAME = table.Columns[1];
+						CARD_COL_DESCRIPTION = table.Columns[2];
+						CARD_COL_TECHNOLOGY = table.Columns[3];
+						break;
+					}
+				case 3: // technology
+					{
+						TABLE_TEHNOLOGY = table.Name;
+						TECHN_COL_ID = table.Columns[0];
+						TECHN_COL_NAME = table.Columns[1];
+						TECHN_COL_DESCRIPTION = table.Columns[2];
+						break;
+					}
+				case 4: // chains
+					{
+						TABLE_CHAINS = table.Name;
+						CHAIN_COL_ID = table.Columns[0];
+						CHAIN_COL_TECHN = table.Columns[1];
+						CHAIN_COL_CARD = table.Columns[2];
+						break;
+					}
+				case 5: // recepture
+					{
+						TABLE_RECEPTURE = table.Name;
+						REC_COL_ID = table.Columns[0];
+						REC_COL_NAME = table.Columns[1];
+						REC_COL_CAT = table.Columns[2];
+						REC_COL_TECHN = table.Columns[3];
+						REC_COL_INGR = table.Columns[4];
+						REC_COL_DESCRIPTION = table.Columns[5];
+						REC_COL_SOURCE = table.Columns[6];
+						REC_COL_AUTOR = table.Columns[7];
+						REC_COL_URL = table.Columns[8];
+						break;
+					}
+				case 6: // amounts
+					{
+						TABLE_AMOUNTS = table.Name;
+						AM_COL_ID = table.Columns[0];
+						AM_COL_REC = table.Columns[1];
+						AM_COL_INGR = table.Columns[2];
+						AM_COL_AMOUNTS = table.Columns[3];
+						break;
+					}
+				case 7: // recipe
+					{
+						TABLE_RECIPE = table.Name;
+						COEF_COL_ID = table.Columns[0];
+						COEF_COL_NAME = table.Columns[1];
+						COEF_COL_REC = table.Columns[2];
+						COEF_COL_COEFFICIENT = table.Columns[3];
+						break;
+					}
+				default: break;
+			}
+		}
+
+		protected override string[] createQueries()
+		{
+			//set queries for database creating
+			return new string[]
+			{
+				IngredientsQ(), CategoriesQ(), CardsQ(),
+				TechnologyQ(), ChainsQ()
+				//, ReceptureQ(),
+				//AmountsQ(), RecipeQ()
+				};
+		}
+
+		public virtual void onRun() { }
+
+		private string IngredientsQ() => $"CREATE TABLE IF NOT EXISTS {TABLE_INGREDIENTS}(" +
+										$" {INGR_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+										$"{INGR_COL_NAME} VARCHAR UNIQUE NOT NULL " +
+										$"CHECK ({INGR_COL_NAME} != \"\" AND length({INGR_COL_NAME}) <= 20));";
+
+		private string CategoriesQ() => $"CREATE TABLE IF NOT EXISTS {TABLE_CATEGORIES}(" +
+										$"{INGR_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+										$"{INGR_COL_NAME} VARCHAR UNIQUE NOT NULL " +
+										$"CHECK({CAT_COL_NAME} != \"\" AND length({CAT_COL_NAME}) <= 20));";
+
+		private string CardsQ() => $"CREATE TABLE IF NOT EXISTS {TABLE_CARDS}(" +
+									$"{CARD_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+									$"{CARD_COL_NAME} VARCHAR NOT NULL, " +
+									$"{CARD_COL_DESCRIPTION} VARCHAR, " +
+									$"{CARD_COL_TECHNOLOGY} VARCHAR NOT NULL " +
+									$"CHECK(({CARD_COL_NAME} != \"\") " +
+									$"AND ({CARD_COL_DESCRIPTION} != \"\") " +
+									$"AND ({CARD_COL_TECHNOLOGY} != \"\") " +
+									$"AND length({CARD_COL_NAME}) <= 30 " +
+									$"AND length({CARD_COL_DESCRIPTION}) <= 250 " +
+									$"AND length({CARD_COL_TECHNOLOGY}) <= 500));";
+
+		private string TechnologyQ() => $"CREATE TABLE IF NOT EXISTS {TABLE_TEHNOLOGY}(" +
+										$"{TECHN_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+										$"{TECHN_COL_NAME} VARCHAR NOT NULL, " +
+										$"{TECHN_COL_DESCRIPTION} VARCHAR, " +
+										$"CHECK(({TECHN_COL_NAME} != \"\") " +
+										$"AND	({TECHN_COL_DESCRIPTION} != \"\")" +
+										$"AND length({TECHN_COL_NAME}) <= 30 " +
+										$"AND length({TECHN_COL_DESCRIPTION}) <= 150));";
+
+		private string ChainsQ() => $"CREATE TABLE {TABLE_CHAINS}(" +
+									$"{CHAIN_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+									$"{CHAIN_COL_TECHN} NOT NULL, " +
+									$"{CHAIN_COL_CARD} NOT NULL REFERENCES {TABLE_CARDS}({CARD_COL_ID}) ON DELETE CASCADE, " +
+									$"FOREIGN KEY({CHAIN_COL_TECHN})	" +
+									$"REFERENCES {TABLE_TEHNOLOGY}({TECHN_COL_ID}) ON DELETE CASCADE," +
+									$"FOREIGN KEY({CHAIN_COL_CARD}) REFERENCES {TABLE_CARDS}({CARD_COL_ID}) ON DELETE CASCADE);";
+
+		private string ReceptureQ() => "creating table `Recepture`";
+
+		private string AmountsQ() => "creating table `Recepture`";
+
+		private string RecipeQ() => "creating table `Recepture`";
+
+		public override TablesCreator CreateDataBaseTables(dbController db)
+		{
+			return new TablesCreator(createQueries(), db);
+		}
+	}
+
+	public class dbController :DataBaseCreator /*access data base*/
 	{
 		private string connectionString;
 		private SqliteConnection connection;
@@ -20,7 +268,6 @@ namespace MajPAbGr_project
 		protected int error_code = 0;
 		protected string error_message="";
 		protected AnswerInfo Info;
-		
 
 		public dbController ()
 		{
@@ -67,11 +314,23 @@ namespace MajPAbGr_project
 			}
 		}
 
-		/*
+		public void createTables()
+        {
+            int result = 0;
+            string query = "";
+
+            using (connection)
+            {
+                result = Edit(query);
+                connection.Close();
+            }
+        }
+
+        /*
 		 * 'select'
 		 */
 
-		public List<Item> Catalog (string query) //int, string
+        public List<Item> Catalog (string query) //int, string
 		{
 			Item item;
 			List<Item> list = new List<Item>();
@@ -327,4 +586,325 @@ namespace MajPAbGr_project
 		}
 
 	}
+
+
+	
+
+	
+
+	/*
+	 * Querie`s creators for table`s creating
+	 */
+	/*
+	public class IngredientsQ: TableQueries
+    {
+		string query;
+		public IngredientsQ(): base () {}
+		public override void setNames(Table_v1 table)
+        {
+			TABLE_INGREDIENTS = table.setName;
+			INGR_COL_ID = table.getColumns[0];
+			INGR_COL_NAME = table.getColumns[1];
+        }
+
+		public override string createQuery()
+        {
+			query = $"CREATE TABLE {TABLE_INGREDIENTS}"+
+					$" ({ INGR_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+					$"{INGR_COL_NAME} VARCHAR UNIQUE NOT NULL" +
+					$"CHECK ({INGR_COL_NAME} != \"\" AND length(name) <= 20);";
+			return query;
+		}
+	}
+
+	public class CategoriesQ : TableQueries
+	{
+		string query;
+		public CategoriesQ() : base() { }
+		public override void setNames(Table_v1 table)
+		{
+			TABLE_CATEGORIES = table.setName;
+			CAT_COL_ID = table.getColumns[0];
+			CAT_COL_NAME = table.getColumns[1];			
+		}
+
+		public override string createQuery()
+		{
+			query = $"CREATE TABLE {TABLE_CATEGORIES}"+
+				    $"({INGR_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT " +
+				    $"NOT NULL {INGR_COL_NAME} VARCHAR UNIQUE NOT NULL " +
+				    $"CHECK({CAT_COL_NAME} != \"\" AND length({CAT_COL_NAME}) <= 20);";
+			return query;
+		}
+	}
+
+	public class CardsQ : TableQueries
+	{
+		string query;
+		public CardsQ() : base() { }
+		public override void setNames(Table_v1 table)
+		{
+			TABLE_CARDS = table.setName;
+			CARD_COL_ID = table.getColumns[0];
+			CARD_COL_NAME = table.getColumns[1];
+			CARD_COL_DESCRIPTION = table.getColumns[2];
+			CARD_COL_DESCRIPTION = table.getColumns[3];
+		}
+
+		public override string createQuery()
+		{
+			query = $"CREATE TABLE {TABLE_CARDS} (" +
+				$"{CARD_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+				$"{CARD_COL_NAME}  VARCHAR NOT NULL, " +
+				$"{CARD_COL_DESCRIPTION} VARCHAR, " +
+				$"{CARD_COL_TECHNOLOGY}  VARCHAR NOT NULL " +
+				$"CHECK(length({CARD_COL_TECHNOLOGY}) <= 500), " +
+				$"CHECK(({CARD_COL_NAME} != \"\") " +
+				$"AND ({CARD_COL_DESCRIPTION} != \"\") " +
+				$"AND ({CARD_COL_DESCRIPTION} != \"\") " +
+				$"AND 	length({CARD_COL_TECHNOLOGY}) <= 30 " +
+				$"AND length({CARD_COL_DESCRIPTION}) <= 250 " +
+				$"AND length({CARD_COL_TECHNOLOGY}) <= 500));";
+			return query;
+		}
+	}
+
+	public class TechnologyQ: TableQueries
+	{
+		string query;
+		public TechnologyQ() : base() { }
+
+		public override void setNames(Table_v1 table)
+		{
+			TECHN_COL_ID = table.setName;
+			TECHN_COL_NAME = table.getColumns[0];
+			TECHN_COL_DESCRIPTION = table.getColumns[1];
+		}
+		public override string createQuery()
+        {
+			query = $"CREATE TABLE {TABLE_TEHNOLOGY}("+
+					$"{TECHN_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "+
+					$"{TECHN_COL_NAME} VARCHAR NOT NULL, "+
+					$"{TECHN_COL_DESCRIPTION} VARCHAR, "+
+					$"CHECK(({TECHN_COL_NAME} != \"\") "+
+					$"AND	({TECHN_COL_DESCRIPTION} != \"\")"+
+					$"AND length({TECHN_COL_NAME}) <= 30 "+
+					$"AND length({TECHN_COL_DESCRIPTION}) <= 150));";
+
+			return query;
+        }
+	}
+
+	public class ChainsQ : TableQueries
+    {
+		string query;
+		public ChainsQ() : base() { }
+		
+		public override void setNames(Table_v1 table)
+		{
+			CHAIN_COL_ID = table.setName;
+			CHAIN_COL_TECHN = table.getColumns[0];
+			CHAIN_COL_CARD = table.getColumns[1];
+		}
+
+		public override string createQuery() 
+		{
+			query = $"CREATE TABLE {TABLE_CHAINS}(" +
+					$"{CHAIN_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+					$"{CHAIN_COL_TECHN} NOT NULL, " +
+					$"{CHAIN_COL_CARD} NOT NULL REFERENCES {TABLE_CARDS}({CARD_COL_ID}) ON DELETE CASCADE, " +
+					$"FOREIGN KEY({CHAIN_COL_TECHN})	" +
+					$"REFERENCES {TABLE_TEHNOLOGY}({TECHN_COL_ID}) ON DELETE CASCADE," +
+					$"FOREIGN KEY(id_card{CHAIN_COL_CARD}) REFERENCES {TABLE_CARDS}({CARD_COL_ID}) ON DELETE CASCADE);";
+			return query;
+		}
+	}
+
+	public class ReceptureQ : TableQueries
+	{
+		string query;
+		public ReceptureQ() : base() { }
+
+		public override void setNames(Table_v1 table)
+		{
+			REC_COL_ID = table.setName;
+			REC_COL_NAME = table.getColumns[0];
+			REC_COL_CAT = table.getColumns[1];
+			REC_COL_TECHN = table.getColumns[2];
+			REC_COL_INGR = table.getColumns[3];
+			REC_COL_DESCRIPTION = table.getColumns[4];
+			REC_COL_SOURCE = table.getColumns[5];
+			REC_COL_AUTOR = table.getColumns[6];
+			REC_COL_URL = table.getColumns[7];
+		}
+		public override string createQuery()
+		{
+			query = "";
+			return query;
+		}
+	}
+	*/
+
+	
+
+	
+	public enum Titles
+	{
+		INGR,
+		CAT,
+		CARD,
+		TECHN,
+		CHAIN,
+		REC,
+		AM,
+		COEF
+	}
+
+
+	public class Table
+	{
+		int title;
+		string name;
+		string[] columns;
+		public Table() { }
+
+		public int Title { set; get; }
+		public string Name { set; get; }
+		public string[] Columns { set; get; }
+	}
+
+	public class Tables
+	{
+		Table[] tables;
+
+		public Tables()
+		{
+			tables = new Table[]
+			{
+				createIngr(), createCat(),
+				createCard(), createTech(), createChain(),
+				createRec(), createAm(), createCoef()
+			};
+		}
+
+		public Table[] getTables
+		{
+			get { return this.tables; }
+		}
+
+		private Table createIngr()
+		{
+			Table tb = new Table();
+			tb.Title = (int)Titles.INGR;
+			tb.Name = "Ingredients";
+			tb.Columns = new string[] { "id", "name" };
+			return tb;
+		}
+
+		private Table createCat()
+		{
+			Table tb = new Table();
+			tb.Title = (int)Titles.CAT;
+			tb.Name = "Categories";
+			tb.Columns = new string[] { "id", "name" };
+			return tb;
+		}
+
+		private Table createCard()
+		{
+			Table tb = new Table();
+			tb.Title = (int)Titles.CARD;
+			tb.Name = "Technology_card";
+			tb.Columns = new string[] { "id", "name", "description", "technology" };
+			return tb;
+		}
+
+		private Table createTech()
+		{
+			Table tb = new Table();
+			tb.Title = (int)Titles.TECHN;
+			tb.Name = "Technology";
+			tb.Columns = new string[] { "id", "name", "technology" };
+			return tb;
+		}
+
+		private Table createChain()
+		{
+			Table tb = new Table();
+			tb.Title = (int)Titles.CHAIN;
+			tb.Name = "Technology_chain";
+			tb.Columns = new string[] { "id", "id_technology", "id_card" };
+			return tb;
+		}
+
+		private Table createRec()
+		{
+			Table tb = new Table();
+			tb.Title = (int)Titles.REC;
+			tb.Name = "Recepture";
+			tb.Columns = new string[] {"id", "name",
+										  "id_technology", "id_main",
+										  "id_category", "description",
+										   "source", "author", "URL"};
+			return tb;
+		}
+
+		private Table createAm()
+		{
+			Table tb = new Table();
+			tb.Title = (int)Titles.AM;
+			tb.Name = "Amounts";
+			tb.Columns = new string[] {"id", "id_recepture",
+										  "id_ingredients", "amounts",};
+			return tb;
+		}
+
+		private Table createCoef()
+		{
+			Table tb = new Table();
+			tb.Title = (int)Titles.COEF;
+			tb.Name = "Recipe";
+			tb.Columns = new string[] {"id", "name",
+										   "id_recepture","Coefficient",};
+			return tb;
+		}
+	}
+
+	public class TablesCreator
+	{
+		dbController db;
+		string[] queries;
+
+		public TablesCreator(string[] queries, dbController db)
+		{
+			this.db = db;
+			this.queries = queries;
+		}
+
+		public int createTable()
+		{
+			int count, k;
+			count = queries.Length;
+			//count = 0;
+
+
+			for (k = 0; k < queries.Length; k++)
+			{
+				try
+				{
+					//count += db.Edit(queries[k]);
+					db.Edit(queries[k]);
+					Console.WriteLine(queries[k]);
+					Console.WriteLine("\n***\n");
+				}
+				catch
+				{
+					count--;
+				}
+
+			}
+			return count;
+		}
+	}
 }
+
