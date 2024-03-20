@@ -242,15 +242,30 @@ namespace MajPAbGr_project
 									$"{CHAIN_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
 									$"{CHAIN_COL_TECHN} NOT NULL, " +
 									$"{CHAIN_COL_CARD} NOT NULL REFERENCES {TABLE_CARDS}({CARD_COL_ID}) ON DELETE CASCADE, " +
-									$"FOREIGN KEY({CHAIN_COL_TECHN})	" +
+									$"FOREIGN KEY({CHAIN_COL_TECHN}) " +
 									$"REFERENCES {TABLE_TEHNOLOGY}({TECHN_COL_ID}) ON DELETE CASCADE," +
 									$"FOREIGN KEY({CHAIN_COL_CARD}) REFERENCES {TABLE_CARDS}({CARD_COL_ID}) ON DELETE CASCADE);";
 
-		private string ReceptureQ() => "creating table `Recepture`";
+		private string ReceptureQ() => $"CREATE TABLE {TABLE_RECEPTURE}(" +
+										$"{REC_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+										$"{REC_COL_NAME} VARCHAR UNIQUE NOT NULL " +
+										$"CHECK({REC_COL_NAME} != \"\" AND length({REC_COL_NAME}) <= 25), " +
+										$"{REC_COL_TECHN} INTEGER, " +
+										$"{REC_COL_INGR} INTEGER REFERENCES {TABLE_INGREDIENTS}({INGR_COL_ID}) ON DELETE NO ACTION, " +
+										$"{REC_COL_CAT} INTEGER NOT NULL DEFAULT 1, " +
+										$"{REC_COL_DESCRIPTION} VARCHAR CHECK({REC_COL_DESCRIPTION} != \"\" AND length({REC_COL_DESCRIPTION}) <= 300), " +
+										$"{REC_COL_SOURCE} VARCHAR CHECK({REC_COL_SOURCE} != \"\" AND length({REC_COL_SOURCE}) <= 20), " + 
+										$"{REC_COL_AUTOR} VARCHAR CHECK({REC_COL_AUTOR} != \"\" AND length({REC_COL_AUTOR}) <= 25), " +
+										$"{REC_COL_URL} VARCHAR CHECK({REC_COL_URL} != \"\" AND length({REC_COL_URL}) <= 200), " +
+										$"FOREIGN KEY({REC_COL_TECHN}) " + 
+										$"REFERENCES {TABLE_TEHNOLOGY}({TECHN_COL_ID}) ON DELETE SET NULL, " + 
+										$"FOREIGN KEY({REC_COL_CAT}) " +
+										$"REFERENCES {TABLE_CATEGORIES}({INGR_COL_ID}) ON DELETE SET DEFAULT);";
 
-		private string AmountsQ() => "creating table `Recepture`";
 
-		private string RecipeQ() => "creating table `Recepture`";
+		private string AmountsQ() => "creating table `Amounts`";
+
+		private string RecipeQ() => "creating table `Recipe`";
 
 		public override TablesCreator CreateDataBaseTables(dbController db)
 		{
