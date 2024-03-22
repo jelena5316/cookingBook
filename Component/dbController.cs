@@ -61,7 +61,7 @@ namespace MajPAbGr_project
 		protected string REC_COL_AUTOR;
 		protected string REC_COL_URL;
 
-		//columns in table "Amount"
+		//columns in table "Amounts"
 		protected string AM_COL_ID;		
 		protected string AM_COL_REC;		
 		protected string AM_COL_INGR;
@@ -162,9 +162,9 @@ namespace MajPAbGr_project
 						TABLE_RECEPTURE = table.Name;
 						REC_COL_ID = table.Columns[0];
 						REC_COL_NAME = table.Columns[1];
-						REC_COL_CAT = table.Columns[2];
-						REC_COL_TECHN = table.Columns[3];
-						REC_COL_INGR = table.Columns[4];
+						REC_COL_TECHN = table.Columns[2];
+						REC_COL_INGR = table.Columns[3];
+						REC_COL_CAT = table.Columns[4];
 						REC_COL_DESCRIPTION = table.Columns[5];
 						REC_COL_SOURCE = table.Columns[6];
 						REC_COL_AUTOR = table.Columns[7];
@@ -199,9 +199,8 @@ namespace MajPAbGr_project
 			return new string[]
 			{
 				IngredientsQ(), CategoriesQ(), CardsQ(),
-				TechnologyQ(), ChainsQ()
-				//, ReceptureQ(),
-				//AmountsQ(), RecipeQ()
+				TechnologyQ(), ChainsQ(), ReceptureQ(),
+				AmountsQ(), RecipeQ()
 				};
 		}
 
@@ -263,9 +262,22 @@ namespace MajPAbGr_project
 										$"REFERENCES {TABLE_CATEGORIES}({INGR_COL_ID}) ON DELETE SET DEFAULT);";
 
 
-		private string AmountsQ() => "creating table `Amounts`";
+		private string AmountsQ() => $"CREATE TABLE {TABLE_AMOUNTS} ( " +
+									$"{AM_COL_ID} INTEGER  PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, " +
+									$"{AM_COL_REC}   INTEGER NOT NULL " +
+									$"CONSTRAINT[привязка к рецептуре] REFERENCES Recepture({REC_COL_ID}) ON DELETE CASCADE, " +
+									$"{AM_COL_INGR} INTEGER  NOT NULL " +
+									$"CONSTRAINT[имя сырья] REFERENCES Ingredients({INGR_COL_ID}) ON DELETE CASCADE, " +
+									$"{AM_COL_AMOUNTS} REAL(6) NOT NULL DEFAULT 0 " +
+									$"CHECK({ AM_COL_AMOUNTS} > 0));";
 
-		private string RecipeQ() => "creating table `Recipe`";
+		private string RecipeQ() => $"CREATE TABLE {TABLE_RECIPE} ( " +
+									$"{COEF_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+									$"{COEF_COL_NAME} VARCHAR NOT NULL " +
+									$"CHECK({COEF_COL_NAME} != \"\" AND length({COEF_COL_NAME}) <= 20), " +
+									$"{COEF_COL_REC} INTEGER NOT NULL, " +
+									$"{COEF_COL_COEFFICIENT}  REAL NOT NULL DEFAULT 1, " +
+									$"FOREIGN KEY({COEF_COL_REC}) REFERENCES Recepture({REC_COL_ID}) ON DELETE CASCADE);";
 
 		public override TablesCreator CreateDataBaseTables(dbController db)
 		{
