@@ -107,11 +107,11 @@ namespace MajPAbGr_project
 			{
 				number = 0;
 				field = "unknown";
-				//List <Item> list = db.Catalog(query);
-				List<object[]> data = tb.dbReadData(query);
-				List<Item> list = new List<Item>();				
-				tb.DataItemsList(list, data);
-				data.Clear();
+				List <Item> list = tb.Catalog(query);
+				//List<object[]> data = tb.dbReadData(query);
+				//List<Item> list = new List<Item>();				
+				//tb.DataItemsList(list, data);
+				//data.Clear();
 				if (list.Count > 0)
 				{
 					item = list[0];

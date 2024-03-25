@@ -34,18 +34,22 @@ namespace MajPAbGr_project
 
 		public void setCatalog()
 		{
-			List<object[]> data;			
+			//List<object[]> data;			
 
 			if (catalog.Count > 0)
 			{
 				catalog.Clear();
 			}
 
-			query = "select id, name from " + table + ";";			
-			data = dbReadData(query);
-			DataItemsList(catalog, data);
+			query = "select id, name from " + table + ";";
+			catalog = Catalog(query);
 			count = catalog.Count;
-			data.Clear();
+
+			//query = "select id, name from " + table + ";";			
+			//data = dbReadData(query);
+			//DataItemsList(catalog, data);
+			//count = catalog.Count;
+			//data.Clear();
 		}
 
 		public List<Item> getCatalog() { return catalog; }
@@ -59,22 +63,33 @@ namespace MajPAbGr_project
 
 		public List<Item> setSubCatalog(string subtable, string column) //Recipe, id_recepture
 		{
-			List<object[]> data;			
-			
 			query = $"select id, name from {subtable} where {column} = "
 				+ selected + ";";
 
-			if (subcatalog.Count > 0)
-			{
-				subcatalog.Clear();
-			}	
+            if (subcatalog.Count > 0)
+            {
+                subcatalog.Clear();
+            }
 
-			data = dbReadData(query);
-			DataItemsList(subcatalog, data);// convert data to list of Item enstance
-			data.Clear();
-
-			count = catalog.Count;
+            subcatalog = Catalog(query);
 			return subcatalog;
+
+			//List<object[]> data;			
+
+			//query = $"select id, name from {subtable} where {column} = "
+			//	+ selected + ";";
+
+			//if (subcatalog.Count > 0)
+			//{
+			//	subcatalog.Clear();
+			//}	
+
+			//data = dbReadData(query);
+			//DataItemsList(subcatalog, data);// convert data to list of Item enstance
+			//data.Clear();
+
+			//count = catalog.Count;
+			//return subcatalog;
 		}
 
 		/*

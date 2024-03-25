@@ -351,7 +351,7 @@ namespace MajPAbGr_project
                 result = Edit(query);
                 connection.Close();
             }
-        }
+        } // old version, unusing
 
         /*
 		 * 'select'
@@ -382,6 +382,7 @@ namespace MajPAbGr_project
 						}
 					}
 					connection.Close();
+					Info = new AnswerInfo(0, "", query, connectionString);
 					return list;
 				}
 				catch (SqliteException ex)
