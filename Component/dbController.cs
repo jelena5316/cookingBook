@@ -440,26 +440,37 @@ namespace MajPAbGr_project
 			using (connection)
 			{
 				command = new SqliteCommand(query, connection);
-				connection.Open();
-				using (reader = command.ExecuteReader())
+				try
 				{
-					if (reader.HasRows)
+					connection.Open();
+					using (reader = command.ExecuteReader())
 					{
-						while (reader.Read())
+						if (reader.HasRows)
 						{
-							element = new Element();
-							var id_ingr = reader.GetValue(0);
-							string name = reader.GetValue(1).ToString();
-							var amounts = reader.GetValue(2);
-							element.Name = name;
-							element.Id = int.Parse(id_ingr.ToString());
-							element.Amounts = double.Parse(amounts.ToString());
-							list.Add(element);
+							while (reader.Read())
+							{
+								element = new Element();
+								var id_ingr = reader.GetValue(0);
+								string name = reader.GetValue(1).ToString();
+								var amounts = reader.GetValue(2);
+								element.Name = name;
+								element.Id = int.Parse(id_ingr.ToString());
+								element.Amounts = double.Parse(amounts.ToString());
+								list.Add(element);
+							}
 						}
-					}                 
+					}
+					connection.Close();
+					Info = new AnswerInfo(0, "", query, connectionString);
+					return list;
 				}
-			 connection.Close();  
-				return list;
+				catch (SqliteException ex)
+				{
+					error_code = ex.SqliteErrorCode; // получаем код ошибки
+					error_message = ex.Message; // получаем сообщение об ошибке                   
+					Program.cook_error($"{System.DateTime.Now} {ex.Message}");
+					return list;
+				}
 			}
 		}
 

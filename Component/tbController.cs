@@ -171,9 +171,10 @@ namespace MajPAbGr_project
 					break;
 			}
 
-			List <object[]> data = dbReadData(query);
-			el = new List<Element>();
-			DataElementsList(el, data);			
+			//List <object[]> data = dbReadData(query);
+			//el = new List<Element>();
+			//DataElementsList(el, data);
+			el = dbReadElement(query);			
 			return el;
 		}
 
