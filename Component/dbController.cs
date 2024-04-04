@@ -298,8 +298,10 @@ namespace MajPAbGr_project
 
 		public dbController ()
 		{
+			Tables tbs = new Tables();
+			setTablesColumnsNames(tbs);
 			connectionString = Program.connectionStringPath;
-			connection = new SqliteConnection(connectionString);            
+			connection = new SqliteConnection(connectionString);
 		}
 
 		public AnswerInfo getInfo() { return Info; }
@@ -318,6 +320,11 @@ namespace MajPAbGr_project
 			{ 
 				return connectionString.ToString();
 			} 
+		}
+
+		public void resetConnecting()
+        {
+			connection = new SqliteConnection(connectionString);
 		}
 
 		public bool testConnection()
@@ -339,6 +346,14 @@ namespace MajPAbGr_project
 					return false;
 				}
 			}
+		}
+
+		public override TablesCreator CreateDataBaseTables(dbController db)
+		{
+			TablesCreator tc = base.CreateDataBaseTables(this);
+			int result = tc.createTable();
+			Console.WriteLine($"Created tables number is {result}");
+			return tc;
 		}
 
 		public void createTables()

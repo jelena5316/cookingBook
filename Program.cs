@@ -10,11 +10,13 @@ namespace MajPAbGr_project
 	static class Program
 	{
 
-		//public static string connectionStringPath = "Data Source = db\\CookingBook; Mode=ReadWrite";
-		//public static string connectionStringPath = "Data Source = db\\CookingBoo; Mode=ReadWrite;"; // for debugging
-		public static string connectionStringPath = "";
+        public static string connectionStringPath = "Data Source = db\\CookingBook; Mode=ReadWrite";
 		private static bool  connectionStringIsCorrect = true;
 		private static string PATH = "C:\\Users\\user\\source\\repos\\MajPavGr_project1\\Config.txt"; // stores a coonection string
+
+        //public static string connectionStringPath = "Data Source = db\\CookingBoo; Mode=ReadWrite;"; // for debugging      
+		//public static string connectionStringPath = "";
+		
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -26,16 +28,49 @@ namespace MajPAbGr_project
 			/*
 			 * Reading connection string from config file
 			 */
-			using (StreamReader reader = new StreamReader(PATH))
-			{
-				connectionStringPath = reader.ReadLine();
-				reader.Close();
+			//using (StreamReader reader = new StreamReader(PATH))
+			//{
+			//	connectionStringPath = reader.ReadLine();
+			//	reader.Close();
+			//}
+
+			dbController dbTest = new dbController();
+            if (!dbTest.testConnection())
+            {
+				string message = $"Unable to open data base file, connection string: {dbTest.ConnectionString}.\n" +
+					$"Do you want create a data base?";
+				DialogResult answer = MessageBox.Show(
+					message,
+					"Connection test",
+					MessageBoxButtons.YesNo,
+					MessageBoxIcon.Question,
+					MessageBoxDefaultButton.Button1
+					);
+
+				if (answer == DialogResult.Yes)
+				{
+					connectionStringPath = @"Data Source = db\CookingBook; Mode=ReadWriteCreate";
+					Tables tbs = new Tables();					
+					dbTest.ConnectionString = @"Data Source = db\CookingBook; Mode=ReadWriteCreate";
+					dbTest.resetConnecting();
+					dbTest.CreateDataBaseTables(dbTest);
+					//creating db file and tables
+					return;
+
+					/*
+					* Starting application
+					*/
+					//Application.EnableVisualStyles();
+					//Application.SetCompatibleTextRenderingDefault(false);
+					//Application.Run(new Categories());		
+				}
 			}
 
-				/*
-				 * Checking connection, links https://marketsplash.com/tutorials/c-sharp/csharp-how-to-use-sqlite/#link7
-				 */
-				dbController db = new dbController();
+
+			/*
+			* Checking connection, links https://marketsplash.com/tutorials/c-sharp/csharp-how-to-use-sqlite/#link7
+			*/
+			dbController db = new dbController();
 			if (!db.testConnection())
 			{
 				string message = $"Unable to open data base file, connection string: {db.ConnectionString}.\n" +
