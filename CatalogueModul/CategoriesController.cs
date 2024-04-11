@@ -365,5 +365,12 @@ namespace MajPAbGr_project
             frm = new Technology(id_technology);
             frm.Show();
         }
+
+        public void openFormToSimpleTable(int opt)
+        {
+            tbIngredientsController cntrl = new tbIngredientsController(opt);
+            Ingredients frm = new Ingredients(cntrl);
+            frm.Show();
+        }
     }   
 }

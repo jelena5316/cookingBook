@@ -124,9 +124,10 @@ namespace MajPAbGr_project
 
 		private void SimpleTable(int opt)
 		{
-			tbIngredientsController cntrl = new tbIngredientsController(opt);
-			Ingredients frm = new Ingredients(cntrl);
-			frm.Show();
+			controller.openFormToSimpleTable(opt);
+			//tbIngredientsController cntrl = new tbIngredientsController(opt);
+			//Ingredients frm = new Ingredients(cntrl);
+			//frm.Show();
 		}
 
 		private void Reload()
