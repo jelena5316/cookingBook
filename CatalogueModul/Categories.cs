@@ -400,12 +400,7 @@ namespace MajPAbGr_project
 
 		private void helpToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Print frm = new Print();
-			frm.Show();
-
-			const string PATH = "man\\user_manul_en.txt";
-			frm.OpenFile1(PATH, "user_manual");
-			frm.Button3_Enabled_status(false);
+			controller.openManual();
 		}
 
 		private void openReceptureEditor()

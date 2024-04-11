@@ -392,5 +392,15 @@ namespace MajPAbGr_project
             ReceptureStruct.Clear();
             setFields();
         }
+
+        public void openManual()
+        {
+            Print frm = new Print();
+            frm.Show();
+
+            const string PATH = "man\\user_manul_en.txt";
+            frm.OpenFile1(PATH, "user_manual");
+            frm.Button3_Enabled_status(false);
+        }
     }   
 }
