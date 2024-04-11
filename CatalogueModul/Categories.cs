@@ -125,22 +125,23 @@ namespace MajPAbGr_project
 		private void SimpleTable(int opt)
 		{
 			controller.openFormToSimpleTable(opt);
-			//tbIngredientsController cntrl = new tbIngredientsController(opt);
-			//Ingredients frm = new Ingredients(cntrl);
-			//frm.Show();
 		}
 
 		private void Reload()
 		{
-			tbIngredientsController tbCat = controller.TbCat;
-			tbCat.resetCatalog();
-			controller.Categories = tbCat.getCatalog();
+			//to replace into controller
+			//tbIngredientsController tbCat = controller.TbCat;
+			//tbCat.resetCatalog();
+			//controller.Categories = tbCat.getCatalog();			
+
+			//controller.setReceptures();
+			//controller.ReceptureStruct.Clear();
+			//controller.setFields();
+
+			controller.ReloadData();
+
+			//do not replase
 			FormFunction.setBox(controller.Categories, cmb_categories);
-
-			controller.setReceptures();
-			controller.ReceptureStruct.Clear();
-			controller.setFields();
-
 			seeAll();
 			AutoCompleteRecepture(controller.Receptures);		
 		}
@@ -356,12 +357,9 @@ namespace MajPAbGr_project
 
 		private void AmountsTable()
 		{
-			if (tbMain.getSelected() == 0) return;
 			int index = lv_recepture.SelectedItems[0].Index;
-			AmountsController cntrl = new AmountsController(tbMain);
-			cntrl.Info = controller.ReceptureStruct[index];
-			InsertAmounts frm = new InsertAmounts(cntrl);
-			frm.ShowDialog();
+
+			controller.openAmountsForm(index);
 			Reload();
 		}
 

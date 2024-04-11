@@ -372,5 +372,25 @@ namespace MajPAbGr_project
             Ingredients frm = new Ingredients(cntrl);
             frm.Show();
         }
+
+        public void openAmountsForm(int index)
+        {
+            if (tb.getSelected() == 0) return;
+            //int index = lv_recepture.SelectedItems[0].Index;
+            AmountsController cntrl = new AmountsController(tb);
+            cntrl.Info = ReceptureStruct[index];
+            InsertAmounts frm = new InsertAmounts(cntrl);
+            frm.ShowDialog();            
+        }
+
+        public void ReloadData()
+        {
+            tbCat.resetCatalog();
+            Categories = tbCat.getCatalog();
+
+            setReceptures();
+            ReceptureStruct.Clear();
+            setFields();
+        }
     }   
 }
