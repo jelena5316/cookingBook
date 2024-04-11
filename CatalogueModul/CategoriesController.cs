@@ -10,16 +10,20 @@ using System.Linq;
 
 namespace MajPAbGr_project
 {
-    class CategoriesController
+    public class CategoriesController
     {
         List<int> receptures_id;
         List<Item> categories, receptures;
-        List<ReceptureStruct> rec_struct;  
-        
-        
+        List<ReceptureStruct> rec_struct;
+
         tbReceptureController tb;
         tbIngredientsController tbCat;   
         TechnologyController tbTech;
+
+        //from class `Categories`
+        bool exist_selected = false;
+        int selected_recepture = -1;
+        List<ReceptureStruct> full;
 
         public CategoriesController()        
         {
@@ -43,6 +47,9 @@ namespace MajPAbGr_project
             setFields();
         }
 
+        /*
+         * Properties
+         */
         public List<ReceptureStruct> ReceptureStruct
         {
             get { return rec_struct; }
@@ -69,6 +76,15 @@ namespace MajPAbGr_project
             get { return tbCat; }
         }
 
+        public bool ExistsSelected
+        {
+            get {return exist_selected; }
+            set { exist_selected = value; }
+        }
+
+        /*
+         * Methods
+         */
         public int getMinIdOfReceptures()
         {
             string minid =  tb.dbReader("select min(id) from Recepture;")[0];
@@ -295,6 +311,31 @@ namespace MajPAbGr_project
                 rec += $"{el[k].Name} {amount}.";
             }          
             return rec;
-        }  
+        }
+
+        /*
+         * Open other forms
+         */
+        private int CheckTbSelected(int min)
+        {
+            if (tb.Selected > 0)
+            {
+                return tb.Selected;
+            }
+            else
+            {
+                tb.Selected = min;
+                return min;
+            }
+        }
+
+        public void OpenRecipesForm()
+        {
+            if (!exist_selected) return;
+            int id = CheckTbSelected(getMinIdOfReceptures());
+            if (id == 0) return;
+            Recipes frm = new Recipes(tb.Selected);
+            frm.Show();
+        }
     }   
 }

@@ -23,6 +23,13 @@ namespace MajPAbGr_project
 			tbMain = controller.TbMain;			
 		}
 
+		public Categories(CategoriesController cntrl)
+		{
+			InitializeComponent();
+			controller = cntrl;
+			tbMain = controller.TbMain;
+		}
+
 		private void Categories_Load(object sender, EventArgs e)
 		{
 			lv_recepture.Columns.Add("Name");
@@ -81,11 +88,7 @@ namespace MajPAbGr_project
 
 		private void openRecipesEditor()
 		{
-			if (!exist_selected) return;
-			int id = CheckTbMainSelected(controller.getMinIdOfReceptures());
-			if (id == 0) return;            
-			Recipes frm = new Recipes(tbMain.Selected);
-			frm.Show();
+			controller.OpenRecipesForm();			
 		}
 
 		private void openTechnology()
@@ -147,11 +150,13 @@ namespace MajPAbGr_project
 		private void lv_recepture_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (lv_recepture.Items.Count < 0)
-				exist_selected = false;
+				controller.ExistsSelected = false;
+				//exist_selected = false;
 			if (lv_recepture.SelectedItems.Count < 1)
 			{
 				selected_recepture = 0;
-				exist_selected = false;
+				controller.ExistsSelected = false;
+				//exist_selected = false;
 				return;
 			}
 
@@ -179,7 +184,8 @@ namespace MajPAbGr_project
 
 				}
 			}
-			exist_selected = true;
+			controller.ExistsSelected = true;
+			//exist_selected = true;
 		}
 
 		private void cmb_categories_SelectedIndexChanged(object sender, EventArgs e)
