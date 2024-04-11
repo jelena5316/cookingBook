@@ -82,6 +82,13 @@ namespace MajPAbGr_project
             set { exist_selected = value; }
         }
 
+        public int SelectedRecepture
+        {
+            get { return selected_recepture; }
+            set { selected_recepture = value; }
+        }
+
+
         /*
          * Methods
          */
@@ -335,6 +342,27 @@ namespace MajPAbGr_project
             int id = CheckTbSelected(getMinIdOfReceptures());
             if (id == 0) return;
             Recipes frm = new Recipes(tb.Selected);
+            frm.Show();
+        }
+
+        public void openTechnologyForm()
+        {
+            int selected, id_technology;
+
+            // check selected item of list
+            selected = CheckTbSelected(getMinIdOfReceptures());
+            Technology frm;
+
+            //id_technology
+            int index = selected_recepture == -1 ? 0 : selected_recepture;
+
+            if (ReceptureStruct.Count < 1)
+                id_technology = 0;
+            else
+                id_technology = ReceptureStruct[index].getIds()[1];
+            id_technology = id_technology < 0 ? 0 : id_technology;
+
+            frm = new Technology(id_technology);
             frm.Show();
         }
     }   

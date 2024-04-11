@@ -150,42 +150,39 @@ namespace MajPAbGr_project
 		private void lv_recepture_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (lv_recepture.Items.Count < 0)
-				controller.ExistsSelected = false;
-				//exist_selected = false;
+				controller.ExistsSelected = false;				
 			if (lv_recepture.SelectedItems.Count < 1)
 			{
-				selected_recepture = 0;
-				controller.ExistsSelected = false;
-				//exist_selected = false;
+				controller.SelectedRecepture = 0;
+				controller.ExistsSelected = false;				
 				return;
 			}
 
 			if (full == null)
 			{
 				tbMain.setSelected(lv_recepture.SelectedItems[0].Index);
-				selected_recepture = lv_recepture.SelectedItems[0].Index;
+				controller.SelectedRecepture = lv_recepture.SelectedItems[0].Index;
 			}
 			else
 			{
 				if (textBox1.Text != "")
 				{
 					string name = textBox1.Text;
-					selected_recepture = controller.indexOfSelectedByName(name);
+					controller.SelectedRecepture = controller.indexOfSelectedByName(name);
 				}
 				else
 				{
 					int index = lv_recepture.SelectedItems[0].Index;
 					if (controller.Categories.Count > 0)
 					{
-						selected_recepture = controller.indexOfSelectedByCategory(index, cmb_categories.SelectedIndex);
+						controller.SelectedRecepture = controller.indexOfSelectedByCategory(index, cmb_categories.SelectedIndex);
 					}
 					else
 						return;
 
 				}
 			}
-			controller.ExistsSelected = true;
-			//exist_selected = true;
+			controller.ExistsSelected = true;			
 		}
 
 		private void cmb_categories_SelectedIndexChanged(object sender, EventArgs e)
@@ -353,7 +350,7 @@ namespace MajPAbGr_project
 
 		private void tecnologyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			openTechnology();
+			controller.openTechnologyForm();
 		}
 
 		private void AmountsTable()
