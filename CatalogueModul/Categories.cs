@@ -469,9 +469,7 @@ namespace MajPAbGr_project
 
         private void onlineCalculatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-			//string path = "C:\\Users\\user\\Documents\\instalacija.odt";
-			string path = "https://www.thecalculatorsite.com/conversions/massandweight.php";
-			System.Diagnostics.Process.Start(path);
+			controller.openOnlineCalculator();			
 		}
     }
 }

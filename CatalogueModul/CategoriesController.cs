@@ -22,7 +22,7 @@ namespace MajPAbGr_project
 
         //from class `Categories`
         bool exist_selected = false;
-        int selected_recepture = -1;
+        int selected_rec_index = -1;
         List<ReceptureStruct> full;
 
         public CategoriesController()        
@@ -84,8 +84,8 @@ namespace MajPAbGr_project
 
         public int SelectedRecepture
         {
-            get { return selected_recepture; }
-            set { selected_recepture = value; }
+            get { return selected_rec_index; }
+            set { selected_rec_index = value; }
         }
 
 
@@ -354,7 +354,7 @@ namespace MajPAbGr_project
             Technology frm;
 
             //id_technology
-            int index = selected_recepture == -1 ? 0 : selected_recepture;
+            int index = selected_rec_index == -1 ? 0 : selected_rec_index;
 
             if (ReceptureStruct.Count < 1)
                 id_technology = 0;
@@ -420,7 +420,7 @@ namespace MajPAbGr_project
             if (id == 0)
                 return false;
 
-            id = ReceptureStruct[selected_recepture].getId();
+            id = ReceptureStruct[selected_rec_index].getId();
 
             if (tb.Selected != id)
             {
@@ -429,10 +429,19 @@ namespace MajPAbGr_project
 
             tb.Id = id;
             NewReceptureController rec = new NewReceptureController(tb);
-            rec.ReceptureInfo = ReceptureStruct[selected_recepture];
+            rec.ReceptureInfo = ReceptureStruct[selected_rec_index];
             NewRecepture frm = new NewRecepture(rec);
             frm.ShowDialog();
             return true;
         }
+
+        public void openOnlineCalculator()
+        {
+            //string path = "C:\\Users\\user\\Documents\\instalacija.odt";
+            string path = "https://www.thecalculatorsite.com/conversions/massandweight.php";
+            System.Diagnostics.Process.Start(path);
+        }
+
+
     }   
 }
