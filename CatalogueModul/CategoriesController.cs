@@ -442,6 +442,12 @@ namespace MajPAbGr_project
             System.Diagnostics.Process.Start(path);
         }
 
+        public void openManualOnline()
+        {
+            string path = "https://github.com/jelena5316/cookingBook/blob/master/CookingBook/man/user_manul_en.txt";
+            System.Diagnostics.Process.Start(path);
+        }
+
 
     }   
 }

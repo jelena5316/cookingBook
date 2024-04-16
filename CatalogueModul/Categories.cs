@@ -463,8 +463,7 @@ namespace MajPAbGr_project
 
         private void helpOnlineToolStripMenuItem_Click(object sender, EventArgs e)
         {
-			string path = "https://github.com/jelena5316/cookingBook/blob/master/CookingBook/man/user_manul_en.txt";			
-			System.Diagnostics.Process.Start(path);
+			controller.openManualOnline();
 		}
 
         private void onlineCalculatorToolStripMenuItem_Click(object sender, EventArgs e)
