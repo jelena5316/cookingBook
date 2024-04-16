@@ -114,11 +114,12 @@ namespace MajPAbGr_project
 
 		private void addNew()
 		{
-			NewReceptureController rec = new NewReceptureController();
-			ReceptureStruct info = new ReceptureStruct(0);
-			rec.ReceptureInfo = info;
-			NewRecepture frm = new NewRecepture(tbMain, rec);
-			frm.ShowDialog();
+			//NewReceptureController rec = new NewReceptureController();
+			//ReceptureStruct info = new ReceptureStruct(0);
+			//rec.ReceptureInfo = info;
+			//NewRecepture frm = new NewRecepture(tbMain, rec);
+			//frm.ShowDialog();
+			controller.addNewRec();
 			Reload();
 		}
 

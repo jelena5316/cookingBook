@@ -402,5 +402,14 @@ namespace MajPAbGr_project
             frm.OpenFile1(PATH, "user_manual");
             frm.Button3_Enabled_status(false);
         }
+
+        public void addNewRec()
+        {
+            NewReceptureController rec = new NewReceptureController();
+            ReceptureStruct info = new ReceptureStruct(0);
+            rec.ReceptureInfo = info;
+            NewRecepture frm = new NewRecepture(tb, rec);
+            frm.ShowDialog();         
+        }
     }   
 }
