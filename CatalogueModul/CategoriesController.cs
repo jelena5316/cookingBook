@@ -411,5 +411,28 @@ namespace MajPAbGr_project
             NewRecepture frm = new NewRecepture(tb, rec);
             frm.ShowDialog();         
         }
+
+        public bool editRec()
+        {
+            if (!exist_selected)
+                return false;
+            int id = CheckTbSelected(getMinIdOfReceptures());
+            if (id == 0)
+                return false;
+
+            id = ReceptureStruct[selected_recepture].getId();
+
+            if (tb.Selected != id)
+            {
+                tb.Selected = id;
+            }
+
+            tb.Id = id;
+            NewReceptureController rec = new NewReceptureController(tb);
+            rec.ReceptureInfo = ReceptureStruct[selected_recepture];
+            NewRecepture frm = new NewRecepture(rec);
+            frm.ShowDialog();
+            return true;
+        }
     }   
 }

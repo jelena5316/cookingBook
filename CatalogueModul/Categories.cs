@@ -113,12 +113,7 @@ namespace MajPAbGr_project
 		}
 
 		private void addNew()
-		{
-			//NewReceptureController rec = new NewReceptureController();
-			//ReceptureStruct info = new ReceptureStruct(0);
-			//rec.ReceptureInfo = info;
-			//NewRecepture frm = new NewRecepture(tbMain, rec);
-			//frm.ShowDialog();
+		{ 
 			controller.addNewRec();
 			Reload();
 		}
@@ -406,28 +401,35 @@ namespace MajPAbGr_project
 
 		private void openReceptureEditor()
 		{
-			int id = 0; //id_recepture			
+			//int id = 0; //id_recepture			
 
-			if (lv_recepture.SelectedItems.Count < 1) return;
-			if (exist_selected)
-			{
-				id = controller.ReceptureStruct[selected_recepture].getId();				
-				if (tbMain.Selected != id)
-				{
-					tbMain.Selected = id;
-				}
-			}
-			else
-			{
+			//if (lv_recepture.SelectedItems.Count < 1) return;
+			//if (exist_selected)
+			//{
+			//	id = controller.ReceptureStruct[selected_recepture].getId();				
+			//	if (tbMain.Selected != id)
+			//	{
+			//		tbMain.Selected = id;
+			//	}
+			//}
+			//else
+			//{
+			//	MessageBox.Show("Please, select any recepture from list");
+			//	return;
+			//}
+			//tbMain.Id = id;
+			//NewReceptureController rec = new NewReceptureController(tbMain);
+			//rec.ReceptureInfo = controller.ReceptureStruct[selected_recepture];
+			//NewRecepture frm = new NewRecepture(rec);
+
+			//frm.ShowDialog();
+
+			bool result = controller.editRec();
+			if (!result)
+            {
 				MessageBox.Show("Please, select any recepture from list");
 				return;
 			}
-			tbMain.Id = id;
-			NewReceptureController rec = new NewReceptureController(tbMain);
-			rec.ReceptureInfo = controller.ReceptureStruct[selected_recepture];
-			NewRecepture frm = new NewRecepture(rec);
-
-			frm.ShowDialog();
 			Reload();
 		}
 
