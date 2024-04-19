@@ -24,6 +24,7 @@ namespace MajPAbGr_project
         bool exist_selected = false;
         int selected_rec_index = -1;
         List<ReceptureStruct> full;
+        List<ReceptureStruct> selectedByNameOrCategory;
 
         public CategoriesController()        
         {
@@ -482,6 +483,44 @@ namespace MajPAbGr_project
             System.Diagnostics.Process.Start(path);
         }
 
+        /*
+         *  Search by name or category:
+         *  -- select items by name or categories
+         *  -- display selected items
+         *  -- dislplay again all items  
+         */
 
-    }   
+        // for event 'textBox1_TextChanged' handler 
+        public List<ReceptureStruct> SearchByName(string textbox_text)
+        {
+            if (textbox_text == "")
+            {
+                full = null;
+                return ReceptureStruct;
+            }
+            else
+            {
+                full = ReceptureStruct;
+                return selectByName(textbox_text);
+            }
+        }
+
+        // for event 'textBox1_TextChanged' handler
+        public List<ReceptureStruct> SearchByCategory(int index)
+        {
+            // do to checking do has list 'categories' values or not
+            
+            full = ReceptureStruct;
+            return selectByCategory(index);
+        }
+
+        //for form method 'SeeAll()'
+        public List<ReceptureStruct> DisplayAll()
+        {
+            full = null;
+            return ReceptureStruct;
+        }
+
+
+    }
 }

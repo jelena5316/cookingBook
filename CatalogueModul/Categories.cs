@@ -188,17 +188,21 @@ namespace MajPAbGr_project
 			if (cmb_categories.Items.Count < 1) return;
 			textBox1.Text = "";
 			if (cmb_categories.SelectedIndex == -1) return;
-			int index = cmb_categories.SelectedIndex, id = controller.Categories[index].id;
-			List<ReceptureStruct> selected = new List<ReceptureStruct>();
+			int index = cmb_categories.SelectedIndex;
 
-			full = controller.ReceptureStruct;
-			selected = controller.selectByCategory(index);
+			//List<ReceptureStruct> selected = new List<ReceptureStruct>();
 
-			resetRecepturesList(selected);
+			//full = controller.ReceptureStruct;
+			//selected = controller.selectByCategory(index);
+
+			//resetRecepturesList(selected);
+
+			resetRecepturesList(controller.SearchByCategory(index));
+
 			if (lv_recepture.Items.Count > 0)
 				lv_recepture.Items[0].Selected = true;
 			else
-				exist_selected = false;
+				controller.ExistsSelected = false;
 		}
 
 		private void resetRecepturesList(List<ReceptureStruct> list)
@@ -223,28 +227,19 @@ namespace MajPAbGr_project
 		private void seeAll()
 		{
 			cmb_categories.SelectedIndex = 0;
-			resetRecepturesList(full);
+			//resetRecepturesList(full);
+			resetRecepturesList(controller.DisplayAll());
 			full = null;
 			cmb_categories.Text = "all";
 			textBox1.Text = "";
 			if (lv_recepture.Items.Count > 0)
-				lv_recepture.Items[0].Selected = true;			
+				lv_recepture.Items[0].Selected = true;	
 		}
 
 		private void textBox1_TextChanged(object sender, EventArgs e)
 		{
+			resetRecepturesList(controller.SearchByName(textBox1.Text));
 
-			if (textBox1.Text == "")
-			{
-				resetRecepturesList(full);
-				full = null;
-			}
-			else
-			{
-				full = controller.ReceptureStruct;
-				List<ReceptureStruct> selected = controller.selectByName(textBox1.Text);	
-				resetRecepturesList(selected);
-			}
 			if (lv_recepture.Items.Count > 0)
 				lv_recepture.Items[0].Selected = true;			
 		}
