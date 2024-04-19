@@ -377,21 +377,23 @@ namespace MajPAbGr_project
 
 		private void printToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			int option, index;
-			option = toolStripCmbPrint.SelectedIndex;
-			index = -1;
-			
-			if (option == 0)
-			{
-				if (lv_recepture.Items.Count > 0)
-				{
-					index = lv_recepture.SelectedItems[0].Index;
-					if (index < 0) option = 1;
-				}
-				else
-					option = 1;
-			}
-			controller.Print(index, option);
+            int option, index;
+            option = toolStripCmbPrint.SelectedIndex;
+            //index = -1;
+
+            //if (option == 0)
+            //{
+            //	if (lv_recepture.Items.Count > 0)
+            //	{
+            //		index = lv_recepture.SelectedItems[0].Index;
+            //		if (index < 0)
+            //			option = 1;
+            //	}
+            //	else
+            //		option = 1;
+            //}
+            //controller.Print(index, option);
+            controller.PrintInto(option);
 		}
 
 		private void helpToolStripMenuItem_Click(object sender, EventArgs e)

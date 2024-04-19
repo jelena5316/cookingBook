@@ -320,6 +320,40 @@ namespace MajPAbGr_project
             return rec;
         }
 
+        public void PrintInto(int pr_option)
+        {
+            int option, index;
+            option = pr_option;
+            index = -1;
+            
+            if (option < 0 || option > 1) return;
+            // option {0, 1}
+                     
+            //exist_selected = false;
+            //selected_rec_index = -1;
+            //receptures.Clear();
+            //receptures = null;
+            //// for testing 
+            
+            if (option == 0) // recepture`s printing
+            {
+                if (receptures == null)
+                {
+                    option = 1; // statistic outputing
+                }   
+                else
+                {
+                    if (receptures.Count == 0 || exist_selected == false)
+                        option = 1; //statistic outputing
+                    else
+                        index = (selected_rec_index > -1) ? index = selected_rec_index : 0;
+     
+                }
+            }
+            Print(index, option);
+        }
+
+
         /*
          * Open other forms
          */
