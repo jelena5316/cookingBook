@@ -484,6 +484,37 @@ namespace MajPAbGr_project
         }
 
         /*
+         * Select recepture
+         */
+        
+        // for event 'lv_recepture_SelectedIndexChanged' handler
+        public void SelectRecepture(int index, string name, int categories_index)
+        {
+            if (full == null)
+            {
+                tb.setSelected(index);
+                SelectedRecepture = index;
+            }
+            else
+            {
+                if (name != "")
+                {
+                    SelectedRecepture = indexOfSelectedByName(name);
+                }
+                else
+                {
+                    if (Categories.Count > 0)
+                    {
+                        SelectedRecepture = indexOfSelectedByCategory(index, categories_index);
+                    }
+                    else
+                        return;
+                }
+            }
+            ExistsSelected = true;
+        }
+
+        /*
          *  Search by name or category:
          *  -- select items by name or categories
          *  -- display selected items
@@ -505,7 +536,7 @@ namespace MajPAbGr_project
             }
         }
 
-        // for event 'textBox1_TextChanged' handler
+        // for event 'cmb_categories_SelectedIndexChanged' handler
         public List<ReceptureStruct> SearchByCategory(int index)
         {
             // do to checking do has list 'categories' values or not
@@ -521,6 +552,7 @@ namespace MajPAbGr_project
             return ReceptureStruct;
         }
 
+        
 
     }
 }

@@ -155,32 +155,11 @@ namespace MajPAbGr_project
 				controller.ExistsSelected = false;				
 				return;
 			}
-
-			if (full == null)
-			{
-				tbMain.setSelected(lv_recepture.SelectedItems[0].Index);
-				controller.SelectedRecepture = lv_recepture.SelectedItems[0].Index;
-			}
-			else
-			{
-				if (textBox1.Text != "")
-				{
-					string name = textBox1.Text;
-					controller.SelectedRecepture = controller.indexOfSelectedByName(name);
-				}
-				else
-				{
-					int index = lv_recepture.SelectedItems[0].Index;
-					if (controller.Categories.Count > 0)
-					{
-						controller.SelectedRecepture = controller.indexOfSelectedByCategory(index, cmb_categories.SelectedIndex);
-					}
-					else
-						return;
-
-				}
-			}
-			controller.ExistsSelected = true;			
+			controller.SelectRecepture(
+				lv_recepture.SelectedItems[0].Index,
+				textBox1.Text,
+				cmb_categories.SelectedIndex
+				);		
 		}
 
 		private void cmb_categories_SelectedIndexChanged(object sender, EventArgs e)
