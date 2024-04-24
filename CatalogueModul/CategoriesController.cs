@@ -24,7 +24,7 @@ namespace MajPAbGr_project
         bool exist_selected = false;
         int selected_rec_index = -1;
         List<ReceptureStruct> full;
-        List<ReceptureStruct> selectedByNameOrCategory;
+        List<ReceptureStruct> selected;
 
         public CategoriesController()        
         {
@@ -123,7 +123,7 @@ namespace MajPAbGr_project
 
          public List<ReceptureStruct> selectByCategory(int index)
          {
-            List<ReceptureStruct> selected;            
+            //List<ReceptureStruct> selected;            
             selected = rec_struct.FindAll(p => p.getCategory() == categories[index].name);
             tbCat.setSelected(index);
             return selected;
@@ -133,11 +133,11 @@ namespace MajPAbGr_project
         {
             try
             {
-                string name;
-                List<ReceptureStruct> selected;
+                //string name;
+                //List<ReceptureStruct> selected;
 
-                name = tbCat.getName(category);
-                selected = rec_struct.FindAll(p => p.getCategory() == name);
+                //name = tbCat.getName(category);
+                //selected = rec_struct.FindAll(p => p.getCategory() == name);
                 tb.Id = selected[index].getId();
                 index = rec_struct.FindIndex(p => p.getId() == tb.Id);
                 tb.setSelected(index);
@@ -151,7 +151,7 @@ namespace MajPAbGr_project
 
         public List<ReceptureStruct> selectByName(string name)
         {
-            List<ReceptureStruct> selected;
+            //List<ReceptureStruct> selected;
             selected = rec_struct.FindAll(p => p.getName().Contains(name));
             return selected;
         }
@@ -549,6 +549,7 @@ namespace MajPAbGr_project
         public List<ReceptureStruct> DisplayAll()
         {
             full = null;
+            selected = null;
             return ReceptureStruct;
         }
 
