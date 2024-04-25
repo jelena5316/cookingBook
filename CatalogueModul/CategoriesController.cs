@@ -10,6 +10,107 @@ using System.Linq;
 
 namespace MajPAbGr_project
 {
+    
+    public class RecCatalog
+    {
+        List<ReceptureStruct> rec_struct, full, selected, displayed;
+        List<Item> categories;
+        tbIngredientsController tbCat;
+
+        public RecCatalog (List<ReceptureStruct> list)
+        {
+            rec_struct = list;
+            full = null;
+            selected = null;
+            displayed = null;
+            categories = null;
+        }
+
+        public RecCatalog()
+        {
+            full = null;
+            selected = null;
+            displayed = null;
+            categories = null;
+        }
+
+        //Properties
+        public List<ReceptureStruct> Receptures
+        {
+            get { return rec_struct; }
+        }
+
+        public List<Item> Categories
+        {
+            get { return categories; }
+            set { categories = value; }
+        }
+
+        public tbIngredientsController TbCat
+        {
+            get { return tbCat; }
+            set { tbCat = value; }
+        }
+
+        public List <ReceptureStruct> setDisplayed
+        {
+            get { return displayed; }
+            set { displayed = value; }
+        }
+
+        public List<ReceptureStruct> setFull
+        {
+            set { full = value; }
+        }
+
+        public List<ReceptureStruct> setSelected
+        {
+            get { return selected; }
+            set { selected = value; }
+        }
+
+        //Methods
+        public void ReadCatalog(List <Item> receptures)
+        {
+            int id;
+            ReceptureStruct rec;
+
+            rec_struct = new List<ReceptureStruct>();
+            for (int k = 0; k < receptures.Count; k++)
+            {
+                id = receptures[k].id;
+                rec = new ReceptureStruct(id);
+                rec.setData();
+                rec_struct.Add(rec);
+            }
+        }
+
+        public List<ReceptureStruct> selectByCategory(int index)
+        {
+            tbCat.setSelected(index);
+            string name = categories[index].name;
+            selected = rec_struct.FindAll(p => p.getCategory() == name);
+            return selected;
+        }
+
+        public int indexOfSelectedByCategory(tbReceptureController tb,  int index)
+        {
+            try
+            {
+                tb.Id = selected[index].getId();
+                index = rec_struct.FindIndex(p => p.getId() == tb.Id);
+                tb.setSelected(index);
+                return index;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+    }
+    
+    
     public class CategoriesController
     {
         List<int> receptures_id;
@@ -26,16 +127,28 @@ namespace MajPAbGr_project
         List<ReceptureStruct> full;
         List<ReceptureStruct> selected;
 
+        //new fields
+        private RecCatalog rec_catalog;
+
         public CategoriesController()        
         {
-            tbCat = new tbIngredientsController(2);
-            tbCat.setCatalog();            
-            categories = tbCat.getCatalog();            
-
             tb = new tbReceptureController("Recepture");
             tb.setCatalog();
-            receptures = tb.getCatalog();
+            receptures = tb.getCatalog();            
             
+            //with new field 'RecCatalog'
+            rec_catalog = new RecCatalog();
+            setFields();            
+            rec_struct = ReceptureStruct;            
+
+            //for new field RecCatalog
+            tbCat = new tbIngredientsController(2);
+            rec_catalog.TbCat = tbCat;
+            tbCat.setCatalog(); 
+            rec_catalog.Categories = tbCat.getCatalog();
+            categories = rec_catalog.Categories;            
+
+            //others
             receptures_id = new List<int>();
             for (int k = 0; k < receptures.Count; k++)
             {
@@ -44,8 +157,6 @@ namespace MajPAbGr_project
             
             tbTech = new TechnologyController(1);
             tbTech.Receptures = this.receptures;
-            rec_struct = new List<ReceptureStruct>();
-            setFields();
         }
 
         /*
@@ -53,7 +164,8 @@ namespace MajPAbGr_project
          */
         public List<ReceptureStruct> ReceptureStruct
         {
-            get { return rec_struct; }
+            //get { return rec_struct; }
+            get { return rec_catalog.Receptures; }
         }
 
         public List<Item> Categories
@@ -110,38 +222,24 @@ namespace MajPAbGr_project
 
         public void setFields()
         {
-            int id;            
-            ReceptureStruct rec;
-            for (int k = 0; k < receptures.Count; k++)
-            {
-                id = receptures[k].id;
-                rec = new ReceptureStruct(id);
-                rec.setData();               
-                rec_struct.Add(rec);
-            }
+            rec_catalog.ReadCatalog(receptures);            
         }
 
-         public List<ReceptureStruct> selectByCategory(int index)
+         // methods for receptures searching
+        public List<ReceptureStruct> selectByCategory(int index)
          {
-            //List<ReceptureStruct> selected;            
-            selected = rec_struct.FindAll(p => p.getCategory() == categories[index].name);
-            tbCat.setSelected(index);
-            return selected;
+            //tbCat.setSelected(index);
+            //string name = categories[index].name;
+            //selected = rec_struct.FindAll(p => p.getCategory() == name);            
+            //return selected;
+            return rec_catalog.selectByCategory(index);
          }
 
         public int indexOfSelectedByCategory(int index, int category)
         {
             try
             {
-                //string name;
-                //List<ReceptureStruct> selected;
-
-                //name = tbCat.getName(category);
-                //selected = rec_struct.FindAll(p => p.getCategory() == name);
-                tb.Id = selected[index].getId();
-                index = rec_struct.FindIndex(p => p.getId() == tb.Id);
-                tb.setSelected(index);
-                return index;
+                return rec_catalog.indexOfSelectedByCategory(tb, index);
             }
             catch
             {
@@ -499,13 +597,13 @@ namespace MajPAbGr_project
             {
                 if (name != "")
                 {
-                    SelectedRecepture = indexOfSelectedByName(name);
+                    SelectedRecepture = indexOfSelectedByName(name);                    
                 }
                 else
                 {
                     if (Categories.Count > 0)
                     {
-                        SelectedRecepture = indexOfSelectedByCategory(index, categories_index);
+                        SelectedRecepture = indexOfSelectedByCategory(index, categories_index);                        
                     }
                     else
                         return;
@@ -552,8 +650,5 @@ namespace MajPAbGr_project
             selected = null;
             return ReceptureStruct;
         }
-
-        
-
     }
 }

@@ -125,18 +125,8 @@ namespace MajPAbGr_project
 
 		private void Reload()
 		{
-			//to replace into controller
-			//tbIngredientsController tbCat = controller.TbCat;
-			//tbCat.resetCatalog();
-			//controller.Categories = tbCat.getCatalog();			
-
-			//controller.setReceptures();
-			//controller.ReceptureStruct.Clear();
-			//controller.setFields();
-
 			controller.ReloadData();
-
-			//do not replase
+			
 			FormFunction.setBox(controller.Categories, cmb_categories);
 			seeAll();
 			AutoCompleteRecepture(controller.Receptures);		
@@ -167,15 +157,8 @@ namespace MajPAbGr_project
 			if (cmb_categories.Items.Count < 1) return;
 			textBox1.Text = "";
 			if (cmb_categories.SelectedIndex == -1) return;
+
 			int index = cmb_categories.SelectedIndex;
-
-			//List<ReceptureStruct> selected = new List<ReceptureStruct>();
-
-			//full = controller.ReceptureStruct;
-			//selected = controller.selectByCategory(index);
-
-			//resetRecepturesList(selected);
-
 			resetRecepturesList(controller.SearchByCategory(index));
 
 			if (lv_recepture.Items.Count > 0)
@@ -206,8 +189,8 @@ namespace MajPAbGr_project
 		private void seeAll()
 		{
 			cmb_categories.SelectedIndex = 0;
-			//resetRecepturesList(full);
-			resetRecepturesList(controller.DisplayAll());
+			full = controller.DisplayAll();
+			resetRecepturesList(full);
 			full = null;
 			cmb_categories.Text = "all";
 			textBox1.Text = "";
@@ -347,26 +330,13 @@ namespace MajPAbGr_project
 		private void aboutReceptureToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			openReceptureEditor();
+			//при закрытие формы вылетает ошибка, так как  CategoriesController.categories.Count = 0
 		}
 
 		private void printToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-            int option, index;
-            option = toolStripCmbPrint.SelectedIndex;
-            //index = -1;
-
-            //if (option == 0)
-            //{
-            //	if (lv_recepture.Items.Count > 0)
-            //	{
-            //		index = lv_recepture.SelectedItems[0].Index;
-            //		if (index < 0)
-            //			option = 1;
-            //	}
-            //	else
-            //		option = 1;
-            //}
-            //controller.Print(index, option);
+            int option;
+            option = toolStripCmbPrint.SelectedIndex;            
             controller.PrintInto(option);
 		}
 
