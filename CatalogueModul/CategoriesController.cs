@@ -37,7 +37,7 @@ namespace MajPAbGr_project
         }
 
         //Properties
-        public List<ReceptureStruct> Receptures
+        public List<ReceptureStruct> ReceptureStruct
         {
             get { return rec_struct; }
         }
@@ -71,6 +71,17 @@ namespace MajPAbGr_project
             set { selected = value; }
         }
 
+        public int SelectedRecepture
+        {
+            get { return selected_rec_index; }
+            set { selected_rec_index = value; }
+        }
+        public bool ExistsSelected
+        {
+            get { return exist_selected; }
+            set { exist_selected = value; }
+        }
+
         //Methods
         public void ReadCatalog(List <Item> receptures)
         {
@@ -90,7 +101,7 @@ namespace MajPAbGr_project
         public List<ReceptureStruct> selectByCategory(int index)
         {
             tbCat.setSelected(index);
-            string name = categories[index].name;
+            string name = categories[index].name;            
             selected = rec_struct.FindAll(p => p.getCategory() == name);
             return selected;
         }
@@ -132,6 +143,38 @@ namespace MajPAbGr_project
             }
         }
 
+        public void SelectRecepture(tbReceptureController tb, int index, string name)
+        {
+            if (full == null)
+            {
+                tb.setSelected(index);
+                selected_rec_index = index;
+            }
+            else
+            {
+                if (name != "")
+                {
+                    selected_rec_index = indexOfSelectedByName(tb, name);
+                }
+                else
+                {
+                    if (Categories.Count > 0)
+                    {
+                        selected_rec_index = indexOfSelectedByCategory(tb, index);
+                    }
+                    else
+                        return;
+                }
+            }
+            exist_selected = true;
+        }
+
+        public List<ReceptureStruct> DisplayAll()
+        {
+            full = null;
+            selected = null;            
+            return ReceptureStruct;
+        }
     }
     
     
@@ -189,7 +232,7 @@ namespace MajPAbGr_project
         public List<ReceptureStruct> ReceptureStruct
         {
             //get { return rec_struct; }
-            get { return rec_catalog.Receptures; }
+            get { return rec_catalog.ReceptureStruct; }
         }
 
         public List<Item> Categories
@@ -259,7 +302,7 @@ namespace MajPAbGr_project
             return rec_catalog.selectByCategory(index);
          }
 
-        public int indexOfSelectedByCategory(int index, int category)
+        public int indexOfSelectedByCategory(int index)
         {
             try
             {
@@ -273,9 +316,6 @@ namespace MajPAbGr_project
 
         public List<ReceptureStruct> selectByName(string name)
         {
-            //List<ReceptureStruct> selected;
-            //selected = rec_struct.FindAll(p => p.getName().Contains(name));
-            //return selected;
             return rec_catalog.selectByName(name);
         }
 
@@ -492,7 +532,8 @@ namespace MajPAbGr_project
 
         public void OpenRecipesForm()
         {
-            if (!exist_selected) return;
+            if (!exist_selected) return;           
+
             int id = CheckTbSelected(getMinIdOfReceptures());
             if (id == 0) return;
             Recipes frm = new Recipes(tb.Selected);
@@ -501,10 +542,10 @@ namespace MajPAbGr_project
 
         public void openTechnologyForm()
         {
-            int selected, id_technology;
+            int id, id_technology;
 
             // check selected item of list
-            selected = CheckTbSelected(getMinIdOfReceptures());
+            id = CheckTbSelected(getMinIdOfReceptures());
             Technology frm;
 
             //id_technology
@@ -607,30 +648,11 @@ namespace MajPAbGr_project
          */
         
         // for event 'lv_recepture_SelectedIndexChanged' handler
-        public void SelectRecepture(int index, string name, int categories_index)
+        public void SelectRecepture(int index, string name)
         {
-            if (full == null)
-            {
-                tb.setSelected(index);
-                SelectedRecepture = index;
-            }
-            else
-            {
-                if (name != "")
-                {
-                    SelectedRecepture = indexOfSelectedByName(name);                    
-                }
-                else
-                {
-                    if (Categories.Count > 0)
-                    {
-                        SelectedRecepture = indexOfSelectedByCategory(index, categories_index);                        
-                    }
-                    else
-                        return;
-                }
-            }
-            ExistsSelected = true;
+            rec_catalog.SelectRecepture(tb, index, name);
+            SelectedRecepture = rec_catalog.SelectedRecepture;
+            ExistsSelected = rec_catalog.ExistsSelected;
         }
 
         /*
@@ -646,11 +668,13 @@ namespace MajPAbGr_project
             if (textbox_text == "")
             {
                 full = null;
+                rec_catalog.setFull = full;
                 return ReceptureStruct;
             }
             else
             {
                 full = ReceptureStruct;
+                rec_catalog.setFull = full;
                 return selectByName(textbox_text);
             }
         }
@@ -661,6 +685,7 @@ namespace MajPAbGr_project
             // do to checking do has list 'categories' values or not
             
             full = ReceptureStruct;
+            rec_catalog.setFull = full;
             return selectByCategory(index);
         }
 
@@ -669,7 +694,7 @@ namespace MajPAbGr_project
         {
             full = null;
             selected = null;
-            return ReceptureStruct;
+            return rec_catalog.DisplayAll();
         }
     }
 }

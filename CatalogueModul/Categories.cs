@@ -147,8 +147,8 @@ namespace MajPAbGr_project
 			}
 			controller.SelectRecepture(
 				lv_recepture.SelectedItems[0].Index,
-				textBox1.Text,
-				cmb_categories.SelectedIndex
+				textBox1.Text
+				//cmb_categories.SelectedIndex
 				);		
 		}
 
