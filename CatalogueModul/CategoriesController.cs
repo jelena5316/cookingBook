@@ -16,6 +16,8 @@ namespace MajPAbGr_project
         List<ReceptureStruct> rec_struct, full, selected, displayed;
         List<Item> categories;
         tbIngredientsController tbCat;
+        bool exist_selected = false;
+        int selected_rec_index = -1;
 
         public RecCatalog (List<ReceptureStruct> list)
         {
@@ -99,6 +101,28 @@ namespace MajPAbGr_project
             {
                 tb.Id = selected[index].getId();
                 index = rec_struct.FindIndex(p => p.getId() == tb.Id);
+                tb.setSelected(index);
+                return index;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        public List<ReceptureStruct> selectByName(string name)
+        {
+            selected = rec_struct.FindAll(p => p.getName().Contains(name));
+            return selected;
+        }
+
+        public int indexOfSelectedByName(tbReceptureController tb, string name)
+        {
+            int index;
+            try
+            {
+                tb.Id = rec_struct.Find(p => p.getName().Contains(name)).getId();
+                index = rec_struct.FindIndex(p => p.getName().Contains(name));
                 tb.setSelected(index);
                 return index;
             }
@@ -250,19 +274,16 @@ namespace MajPAbGr_project
         public List<ReceptureStruct> selectByName(string name)
         {
             //List<ReceptureStruct> selected;
-            selected = rec_struct.FindAll(p => p.getName().Contains(name));
-            return selected;
+            //selected = rec_struct.FindAll(p => p.getName().Contains(name));
+            //return selected;
+            return rec_catalog.selectByName(name);
         }
 
         public int indexOfSelectedByName(string name)
         {
-            int index;
             try
             {
-                tb.Id = rec_struct.Find(p => p.getName().Contains(name)).getId();
-                index = rec_struct.FindIndex(p => p.getName().Contains(name));           
-                tb.setSelected(index);
-                return index;
+                return rec_catalog.indexOfSelectedByName(tb, name);
             }
             catch
             {
