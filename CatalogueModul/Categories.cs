@@ -11,8 +11,7 @@ namespace MajPAbGr_project
 	public partial class Categories : Form
 	{
 		bool exist_selected = false;
-		int selected_recepture = -1;		
-		List<ReceptureStruct> full;
+		int selected_recepture = -1;
 		CategoriesController controller;
 		tbReceptureController tbMain; // pointer at controller.TbMain
 
@@ -46,8 +45,7 @@ namespace MajPAbGr_project
 			toolStripCmbPrint.SelectedIndex = 0;//print	
 			FormFunction.setBox(controller.Categories, cmb_categories);
 			cmb_categories.Text = "all";
-			resetRecepturesList(controller.ReceptureStruct);			
-			full = null;
+			resetRecepturesList(controller.ReceptureStruct);				
 			if (lv_recepture.Items.Count > 0)
 				lv_recepture.Items[0].Selected = true;
 			AutoCompleteRecepture(controller.Receptures);
@@ -154,9 +152,11 @@ namespace MajPAbGr_project
 
 		private void cmb_categories_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (cmb_categories.Items.Count < 1) return;
-			textBox1.Text = "";
-			if (cmb_categories.SelectedIndex == -1) return;
+			if (cmb_categories.Items.Count < 1)
+				return;
+			if (cmb_categories.SelectedIndex == -1)
+				return;
+			textBox1.Text = "";			
 
 			int index = cmb_categories.SelectedIndex;
 			resetRecepturesList(controller.SearchByCategory(index));
@@ -189,11 +189,13 @@ namespace MajPAbGr_project
 		private void seeAll()
 		{
 			cmb_categories.SelectedIndex = 0;
-			full = controller.DisplayAll();
-			resetRecepturesList(full);
-			full = null;
 			cmb_categories.Text = "all";
 			textBox1.Text = "";
+
+			//List <ReceptureStruct> full = controller.DisplayAll(); // controller.full == null
+			List<ReceptureStruct> full = controller.DisplayAll;
+			resetRecepturesList(full);			
+			
 			if (lv_recepture.Items.Count > 0)
 				lv_recepture.Items[0].Selected = true;	
 		}
@@ -203,7 +205,9 @@ namespace MajPAbGr_project
 			resetRecepturesList(controller.SearchByName(textBox1.Text));
 
 			if (lv_recepture.Items.Count > 0)
-				lv_recepture.Items[0].Selected = true;			
+				lv_recepture.Items[0].Selected = true;
+			else
+				controller.ExistsSelected = false;
 		}
 
 		/*

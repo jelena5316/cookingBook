@@ -638,7 +638,6 @@ namespace MajPAbGr_project
 			}
 			return count;
 		}
-
 	}
 
 

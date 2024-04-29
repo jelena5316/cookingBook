@@ -61,6 +61,16 @@ namespace MajPAbGr_project
                 return false;
         }
 
+        public bool IfRecordIs(int id)
+        {
+            query = $"select count(*) from Recepture where id ='{id}';";
+            string recepture = Count(query);
+            if (recepture != "0")
+                return true;
+            else
+                return false;
+        }
+
         public void InsertNewRecord(string name, int category)
         {
             string query = $"insert into Recepture (name, id_category) " +
