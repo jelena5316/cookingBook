@@ -101,11 +101,6 @@ namespace MajPAbGr_project
 
         public List<ReceptureStruct> selectByCategory(int index)
         {
-            //tbCat.setSelected(index);
-            //string name = categories[index].name;            
-            //selected = rec_struct.FindAll(p => p.getCategory() == name);
-            //return selected;
-
             tbCat.setSelected(index);
             selected = rec_struct.FindAll(p => p.getIds()[0] == tbCat.getSelected());
             return selected;

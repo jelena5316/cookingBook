@@ -252,7 +252,7 @@ namespace MajPAbGr_project
             this.lbl_add.Size = new System.Drawing.Size(69, 20);
             this.lbl_add.TabIndex = 13;
             this.lbl_add.Text = "add new";
-            this.lbl_add.Click += new System.EventHandler(this.lbl_add_Click);
+            //this.lbl_add.Click += new System.EventHandler(this.lbl_add_Click);
             // 
             // Categories
             // 

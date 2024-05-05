@@ -10,7 +10,7 @@ namespace MajPAbGr_project
 {
 	public partial class Categories : Form
 	{
-		bool exist_selected = false;
+		bool exist_selected = false, reload_cat_mode = true, reload_rec_mode = true;
 		int selected_recepture = -1;
 		CategoriesController controller;
 		tbReceptureController tbMain; // pointer at controller.TbMain
@@ -42,10 +42,12 @@ namespace MajPAbGr_project
 			lv_recepture.Columns.Add("Source");
 			lv_recepture.Columns[4].Width = 250;
 
-			toolStripCmbPrint.SelectedIndex = 0;//print	
+			toolStripCmbPrint.SelectedIndex = 0;//print
 			FormFunction.setBox(controller.Categories, cmb_categories);
+			reload_cat_mode = false;
 			cmb_categories.Text = "all";
-			resetRecepturesList(controller.ReceptureStruct);				
+			resetRecepturesList(controller.ReceptureStruct);
+			reload_rec_mode = false;
 			if (lv_recepture.Items.Count > 0)
 				lv_recepture.Items[0].Selected = true;
 			AutoCompleteRecepture(controller.Receptures);
@@ -124,9 +126,11 @@ namespace MajPAbGr_project
 		private void Reload()
 		{
 			controller.ReloadData();
-			
+
+			reload_cat_mode = true;
 			FormFunction.setBox(controller.Categories, cmb_categories);
-			seeAll();
+			reload_cat_mode = false;			
+			seeAll();			
 			AutoCompleteRecepture(controller.Receptures);		
 		}
 
@@ -135,6 +139,8 @@ namespace MajPAbGr_project
 		 */
 		private void lv_recepture_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			if (reload_rec_mode)
+				return;
 			if (lv_recepture.Items.Count < 0)
 				controller.ExistsSelected = false;				
 			if (lv_recepture.SelectedItems.Count < 1)
@@ -152,6 +158,8 @@ namespace MajPAbGr_project
 
 		private void cmb_categories_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			if (reload_cat_mode)
+				return;
 			if (cmb_categories.Items.Count < 1)
 				return;
 			if (cmb_categories.SelectedIndex == -1)
@@ -169,6 +177,7 @@ namespace MajPAbGr_project
 
 		private void resetRecepturesList(List<ReceptureStruct> list)
 		{
+			reload_rec_mode = true;
 			if (list == null) return;
 			lv_recepture.Items.Clear();
 			ListViewItem items;
@@ -184,6 +193,7 @@ namespace MajPAbGr_project
 				}
 				lv_recepture.Items.Add(items);
 			}
+			reload_rec_mode = false;
 		}
 
 		private void seeAll()
@@ -191,8 +201,7 @@ namespace MajPAbGr_project
 			cmb_categories.SelectedIndex = 0;
 			cmb_categories.Text = "all";
 			textBox1.Text = "";
-
-			//List <ReceptureStruct> full = controller.DisplayAll(); // controller.full == null
+			
 			List<ReceptureStruct> full = controller.DisplayAll;
 			resetRecepturesList(full);			
 			
@@ -229,78 +238,78 @@ namespace MajPAbGr_project
 			SimpleTable(2);			
 		}
 
-		private void lbl_add_Click(object sender, EventArgs e) // add category
-		{
-			int rec_index = lv_recepture.SelectedItems[0].Index, num;
-			string new_category = "", t = lbl_add.Text;
+		//private void lbl_add_Click(object sender, EventArgs e) // add category
+		//{
+		//	int rec_index = lv_recepture.SelectedItems[0].Index, num;
+		//	string new_category = "", t = lbl_add.Text;
 
-			if (t == "add new")
-            {
-				//change GUI for input of new category item
-				cmb_categories.DropDownStyle = ComboBoxStyle.Simple;
-				cmb_categories.Text = "";
-				label3.Text = "Type a name";
-				lbl_add.Text = "insert";
-			}
-            else
-            {
-				if (t == "insert")
-                {
-					DialogResult result1 = MessageBox.Show
-						(
-						"Want you insert new category?",
-						"Quetion",
-						MessageBoxButtons.YesNo,
-						0
-						);
+		//	if (t == "add new")
+  //          {
+		//		//change GUI for input of new category item
+		//		cmb_categories.DropDownStyle = ComboBoxStyle.Simple;
+		//		cmb_categories.Text = "";
+		//		label3.Text = "Type a name";
+		//		lbl_add.Text = "insert";
+		//	}
+  //          else
+  //          {
+		//		if (t == "insert")
+  //              {
+		//			DialogResult result1 = MessageBox.Show
+		//				(
+		//				"Want you insert new category?",
+		//				"Quetion",
+		//				MessageBoxButtons.YesNo,
+		//				0
+		//				);
 
-					if (cmb_categories.Text != "" && result1 == DialogResult.Yes)
-                    {
-                        new_category = cmb_categories.Text;
-                        num = controller.TbCat.AddItem(new_category);					
+		//			if (cmb_categories.Text != "" && result1 == DialogResult.Yes)
+  //                  {
+  //                      new_category = cmb_categories.Text;
+  //                      num = controller.TbCat.AddItem(new_category);					
 						
-						FormFunction.setBox(controller.Categories, cmb_categories);
-						//cmb_categories.Text = "all";
-						seeAll();
-						lv_recepture.Items[lv_recepture.SelectedItems[0].Index].Selected = false;
-						lv_recepture.Items[rec_index].Selected = true;
+		//				FormFunction.setBox(controller.Categories, cmb_categories);
+		//				//cmb_categories.Text = "all";
+		//				seeAll();
+		//				lv_recepture.Items[lv_recepture.SelectedItems[0].Index].Selected = false;
+		//				lv_recepture.Items[rec_index].Selected = true;
 
-						DialogResult result2 = MessageBox.Show
-						(
-						"Want you change category of selected recipe?",
-						"Quetion",
-						MessageBoxButtons.YesNo,
-						0
-						);
+		//				DialogResult result2 = MessageBox.Show
+		//				(
+		//				"Want you change category of selected recipe?",
+		//				"Quetion",
+		//				MessageBoxButtons.YesNo,
+		//				0
+		//				);
 
-						//id of new category
-						int temp = controller.TbCat.getCatalog().
-							FindIndex(n => n.name == new_category);						
-						controller.TbCat.Selected = controller.TbCat.getCatalog()[temp].id;
+		//				//id of new category
+		//				int temp = controller.TbCat.getCatalog().
+		//					FindIndex(n => n.name == new_category);						
+		//				controller.TbCat.Selected = controller.TbCat.getCatalog()[temp].id;
 
-						if (result2 == DialogResult.Yes)
-						{
-							num = controller.changeCategoryToAdded(controller.TbCat.Selected);							
-							if (num != 0)
-							{
-								MessageBox.Show("Category is changed");
-							}
-							else
-							{
-								MessageBox.Show("Category is NOT changed");
-							}
-							Reload();
-						}
-					}					
+		//				if (result2 == DialogResult.Yes)
+		//				{
+		//					num = controller.changeCategoryToAdded(controller.TbCat.Selected);							
+		//					if (num != 0)
+		//					{
+		//						MessageBox.Show("Category is changed");
+		//					}
+		//					else
+		//					{
+		//						MessageBox.Show("Category is NOT changed");
+		//					}
+		//					Reload();
+		//				}
+		//			}					
                     
-					//change GUI for input of new category item
-                    cmb_categories.DropDownStyle = ComboBoxStyle.DropDown;
-					label3.Text = "Categories` list";
-					lbl_add.Text = "add_new";
-					seeAll();
-				}
-            }
-		}
+		//			//change GUI for input of new category item
+  //                  cmb_categories.DropDownStyle = ComboBoxStyle.DropDown;
+		//			label3.Text = "Categories` list";
+		//			lbl_add.Text = "add_new";
+		//			seeAll();
+		//		}
+  //          }
+		//}
 
 		private void ingredientsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
