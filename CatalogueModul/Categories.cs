@@ -43,23 +43,37 @@ namespace MajPAbGr_project
 			lv_recepture.Columns[4].Width = 250;
 
 			toolStripCmbPrint.SelectedIndex = 0;//print
-			FormFunction.setBox(controller.Categories, cmb_categories);
+
+			FormFunction.setBox(controller.Categories, cmb_categories); //categories` list
 			reload_cat_mode = false;
 			cmb_categories.Text = "all";
-			resetRecepturesList(controller.ReceptureStruct);
+			cmb_categories.SelectedIndex = 0;
+			
+			resetRecepturesList(controller.ReceptureStruct); //receptures` list
 			reload_rec_mode = false;
 			if (lv_recepture.Items.Count > 0)
 				lv_recepture.Items[0].Selected = true;
 			AutoCompleteRecepture(controller.Receptures);
 
-			if(tbMain.Err_code > 0)
+			if(tbMain.Err_code > 0) //database error handling
 			{
 				MessageBox.Show($"{tbMain.Err_message}");
 				tbMain.ResetErr_info();
 			}
 		}
 
-		private void AutoCompleteRecepture(List<Item> rec)
+		private void Reload()
+		{
+			controller.ReloadData();
+
+			reload_cat_mode = true;
+			FormFunction.setBox(controller.Categories, cmb_categories);
+			reload_cat_mode = false;
+			seeAll();
+			AutoCompleteRecepture(controller.Receptures);
+		}
+
+		private void AutoCompleteRecepture(List<Item> rec) // for form load both reload
 		{
 			AutoCompleteStringCollection source = new AutoCompleteStringCollection();
 			foreach (Item item in rec)
@@ -69,10 +83,157 @@ namespace MajPAbGr_project
 			textBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
 		}
 
+		private void resetRecepturesList(List<ReceptureStruct> list) //for loading both reloading list of receptures
+		{
+			reload_rec_mode = true;
+			if (list == null) return;
+			lv_recepture.Items.Clear();
+			ListViewItem items;
+			for (int k = 0; k < list.Count; k++)
+			{
+				string[] arr = list[k].getData();
+				items = new ListViewItem(arr[0]);
+				items.Tag = list[k].getId();
+
+				for (int q = 1; q < arr.Length; q++)
+				{
+					items.SubItems.Add(arr[q]);
+				}
+				lv_recepture.Items.Add(items);
+			}
+			reload_rec_mode = false;
+		}
+		
+		private void seeAll() //for reloading list of receptures, used in method 'reload()' 
+		{
+			cmb_categories.SelectedIndex = 0;
+			cmb_categories.Text = "all";
+			textBox1.Text = "";
+
+			List<ReceptureStruct> full = controller.DisplayAll;
+			resetRecepturesList(full);
+
+			if (lv_recepture.Items.Count > 0)
+				lv_recepture.Items[0].Selected = true;
+		}
+
+
 		/*
-		 * Methods for events handlers
+		 *  For items from lists selecting and filtring: 'recepture' and 'categories' -- by user
 		 */
 
+		//combo box with lists of categories
+		private void cmb_categories_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (reload_cat_mode)
+				return;
+			if (cmb_categories.Items.Count < 1)
+				return;
+			if (cmb_categories.SelectedIndex == -1)
+				return;
+			textBox1.Text = "";
+
+			int index = cmb_categories.SelectedIndex;
+			resetRecepturesList(controller.SearchByCategory(index));
+
+			if (lv_recepture.Items.Count > 0)
+				lv_recepture.Items[0].Selected = true;
+			else
+				controller.ExistsSelected = false;
+		}
+
+		//text box for pattern of receptures name input
+		private void textBox1_TextChanged(object sender, EventArgs e)
+		{
+			resetRecepturesList(controller.SearchByName(textBox1.Text));
+
+			if (lv_recepture.Items.Count > 0)
+				lv_recepture.Items[0].Selected = true;
+			else
+				controller.ExistsSelected = false;
+		}
+
+		//list view for list of receptures
+		private void lv_recepture_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (reload_rec_mode)
+				return;
+			if (lv_recepture.Items.Count < 0)
+				controller.ExistsSelected = false;
+			if (lv_recepture.SelectedItems.Count < 1)
+			{
+				controller.SelectedRecepture = 0;
+				controller.ExistsSelected = false;
+				return;
+			}
+			controller.SelectRecepture(
+				lv_recepture.SelectedItems[0].Index,
+				textBox1.Text
+				//cmb_categories.SelectedIndex
+				);
+		}
+
+		/*
+		 * Methods for works with recepture card
+		 */
+
+		//for editing selected item
+		private void openReceptureEditor()
+		{
+			bool result = controller.editRec();
+			if (!result)
+			{
+				MessageBox.Show("Please, select any recepture from list");
+				return;
+			}
+			Reload();
+		}
+
+		//private void aboutReceptureToolStripMenuItem_Click(object sender, EventArgs e)
+		//{
+		//	openReceptureEditor();
+		//	//при закрытие формы вылетает ошибка, так как  CategoriesController.categories.Count = 0
+		//}
+
+		private void openReceptureEditor(int temp)
+		{
+			int id = 0; //id_recepture			
+
+			if (lv_recepture.SelectedItems.Count < 1) return;
+			if (exist_selected)
+			{
+				id = controller.ReceptureStruct[selected_recepture].getId();
+				if (tbMain.Selected != id)
+				{
+					tbMain.Selected = id;
+				}
+			}
+			else
+			{
+				MessageBox.Show("Please, select any recepture from list");
+				return;
+			}
+			tbMain.Id = id;
+			NewReceptureController rec = new NewReceptureController(tbMain);
+			rec.ReceptureInfo = controller.ReceptureStruct[selected_recepture];
+			NewRecepture frm = new NewRecepture(rec);
+
+			frm.Show();
+			frm.cmbCat_IndexChange(temp);
+			Reload();
+		}
+
+		//for adding new item
+		private void addNew()
+		{
+			controller.addNewRec();
+			Reload();
+		}
+
+
+		/*
+		 * Methods for other events handlers
+		 */
 		private int CheckTbMainSelected(int min)
 		{
 			if (tbMain.Selected > 0)
@@ -112,121 +273,27 @@ namespace MajPAbGr_project
 			frm.Show();
 		}
 
-		private void addNew()
-		{ 
-			controller.addNewRec();
-			Reload();
-		}
-
 		private void SimpleTable(int opt)
 		{
 			controller.openFormToSimpleTable(opt);
 		}
 
-		private void Reload()
+		private void AmountsTable()
 		{
-			controller.ReloadData();
+			int index = lv_recepture.SelectedItems[0].Index;
 
-			reload_cat_mode = true;
-			FormFunction.setBox(controller.Categories, cmb_categories);
-			reload_cat_mode = false;			
-			seeAll();			
-			AutoCompleteRecepture(controller.Receptures);		
+			controller.openAmountsForm(index);
+			Reload();
 		}
+
 
 		/*
-		 * Events handlers
-		 */
-		private void lv_recepture_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (reload_rec_mode)
-				return;
-			if (lv_recepture.Items.Count < 0)
-				controller.ExistsSelected = false;				
-			if (lv_recepture.SelectedItems.Count < 1)
-			{
-				controller.SelectedRecepture = 0;
-				controller.ExistsSelected = false;				
-				return;
-			}
-			controller.SelectRecepture(
-				lv_recepture.SelectedItems[0].Index,
-				textBox1.Text
-				//cmb_categories.SelectedIndex
-				);		
-		}
-
-		private void cmb_categories_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (reload_cat_mode)
-				return;
-			if (cmb_categories.Items.Count < 1)
-				return;
-			if (cmb_categories.SelectedIndex == -1)
-				return;
-			textBox1.Text = "";			
-
-			int index = cmb_categories.SelectedIndex;
-			resetRecepturesList(controller.SearchByCategory(index));
-
-			if (lv_recepture.Items.Count > 0)
-				lv_recepture.Items[0].Selected = true;
-			else
-				controller.ExistsSelected = false;
-		}
-
-		private void resetRecepturesList(List<ReceptureStruct> list)
-		{
-			reload_rec_mode = true;
-			if (list == null) return;
-			lv_recepture.Items.Clear();
-			ListViewItem items;
-			for (int k = 0; k < list.Count; k++)
-			{
-				string[] arr = list[k].getData();
-				items = new ListViewItem(arr[0]);
-				items.Tag = list[k].getId();
-
-				for (int q = 1; q < arr.Length; q++)
-				{
-					items.SubItems.Add(arr[q]);
-				}
-				lv_recepture.Items.Add(items);
-			}
-			reload_rec_mode = false;
-		}
-
-		private void seeAll()
-		{
-			cmb_categories.SelectedIndex = 0;
-			cmb_categories.Text = "all";
-			textBox1.Text = "";
-			
-			List<ReceptureStruct> full = controller.DisplayAll;
-			resetRecepturesList(full);			
-			
-			if (lv_recepture.Items.Count > 0)
-				lv_recepture.Items[0].Selected = true;	
-		}
-
-		private void textBox1_TextChanged(object sender, EventArgs e)
-		{
-			resetRecepturesList(controller.SearchByName(textBox1.Text));
-
-			if (lv_recepture.Items.Count > 0)
-				lv_recepture.Items[0].Selected = true;
-			else
-				controller.ExistsSelected = false;
-		}
-
-		/*
-		 * Others controls: buttons, menu strip items
+		 * Events handlers. Others controls: buttons, menu strip items
 		 */
 		private void button1_Click(object sender, EventArgs e) // recipes editor
 		{
 			addNew();
 		}
-
 
 		private void recipeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -321,14 +388,6 @@ namespace MajPAbGr_project
 			controller.openTechnologyForm();
 		}
 
-		private void AmountsTable()
-		{
-			int index = lv_recepture.SelectedItems[0].Index;
-
-			controller.openAmountsForm(index);
-			Reload();
-		}
-
 		private void amountsEditorToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (lv_recepture.SelectedItems.Count < 1) return;
@@ -358,67 +417,10 @@ namespace MajPAbGr_project
 			controller.openManual();
 		}
 
-		private void openReceptureEditor()
-		{
-			//int id = 0; //id_recepture			
-
-			//if (lv_recepture.SelectedItems.Count < 1) return;
-			//if (exist_selected)
-			//{
-			//	id = controller.ReceptureStruct[selected_recepture].getId();				
-			//	if (tbMain.Selected != id)
-			//	{
-			//		tbMain.Selected = id;
-			//	}
-			//}
-			//else
-			//{
-			//	MessageBox.Show("Please, select any recepture from list");
-			//	return;
-			//}
-			//tbMain.Id = id;
-			//NewReceptureController rec = new NewReceptureController(tbMain);
-			//rec.ReceptureInfo = controller.ReceptureStruct[selected_recepture];
-			//NewRecepture frm = new NewRecepture(rec);
-
-			//frm.ShowDialog();
-
-			bool result = controller.editRec();
-			if (!result)
-            {
-				MessageBox.Show("Please, select any recepture from list");
-				return;
-			}
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 			Reload();
-		}
-
-		private void openReceptureEditor(int temp)
-		{
-			int id = 0; //id_recepture			
-
-			if (lv_recepture.SelectedItems.Count < 1) return;
-			if (exist_selected)
-			{
-				id = controller.ReceptureStruct[selected_recepture].getId();
-				if (tbMain.Selected != id)
-				{
-					tbMain.Selected = id;
-				}
-			}
-			else
-			{
-				MessageBox.Show("Please, select any recepture from list");
-				return;
-			}
-			tbMain.Id = id;
-			NewReceptureController rec = new NewReceptureController(tbMain);
-			rec.ReceptureInfo = controller.ReceptureStruct[selected_recepture];
-			NewRecepture frm = new NewRecepture(rec);		
-			
-			frm.Show();
-			frm.cmbCat_IndexChange(temp);			
-			Reload();
-		}
+        }
 
         private void helpOnlineToolStripMenuItem_Click(object sender, EventArgs e)
         {
