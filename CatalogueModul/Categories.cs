@@ -44,10 +44,11 @@ namespace MajPAbGr_project
 
 			toolStripCmbPrint.SelectedIndex = 0;//print
 
-			FormFunction.setBox(controller.Categories, cmb_categories); //categories` list
-			reload_cat_mode = false;
+			FormFunction.setBox(controller.Categories, cmb_categories); //categories` list			
+			cmb_categories.SelectedIndex = 0;			
+			//cmb_categories.SelectedIndex = -1; // when index is equel -1, then the text is empty string
 			cmb_categories.Text = "all";
-			cmb_categories.SelectedIndex = 0;
+			reload_cat_mode = false;
 			
 			resetRecepturesList(controller.ReceptureStruct); //receptures` list
 			reload_rec_mode = false;
@@ -129,18 +130,20 @@ namespace MajPAbGr_project
 				return;
 			if (cmb_categories.Items.Count < 1)
 				return;
-			if (cmb_categories.SelectedIndex == -1)
-				return;
-			textBox1.Text = "";
+    //        if (cmb_categories.SelectedIndex == -1)
+				//return;   
+           
+            textBox1.Text = "";
+			this.Text += "*";
 
-			int index = cmb_categories.SelectedIndex;
-			resetRecepturesList(controller.SearchByCategory(index));
+            int index = cmb_categories.SelectedIndex;
+            resetRecepturesList(controller.SearchByCategory(index));
 
-			if (lv_recepture.Items.Count > 0)
-				lv_recepture.Items[0].Selected = true;
-			else
-				controller.ExistsSelected = false;
-		}
+            if (lv_recepture.Items.Count > 0)
+                lv_recepture.Items[0].Selected = true;
+            else
+                controller.ExistsSelected = false;
+        }
 
 		//text box for pattern of receptures name input
 		private void textBox1_TextChanged(object sender, EventArgs e)
