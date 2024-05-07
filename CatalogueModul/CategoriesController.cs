@@ -17,7 +17,9 @@ namespace MajPAbGr_project
         List<Item> categories;
         tbIngredientsController tbCat;
         bool exist_selected = false;
-        int selected_rec_index = -1;
+        int selected_rec_index = -1, selected_cat_index = -1, selected_item_index = -1;
+        // 'selected_item_index' -- an index of recepture in a current list, full or selected
+
 
         public RecCatalog (List<ReceptureStruct> list)
         {
@@ -83,6 +85,16 @@ namespace MajPAbGr_project
             set { exist_selected = value; }
         }
 
+        public int SelectedCategory
+        {
+            get { return selected_cat_index; }
+            set 
+            { 
+                selected_cat_index = value;
+                tbCat.setSelected(selected_cat_index);
+            }
+        }
+
         //Methods
         public void ReadCatalog(List <Item> receptures)
         {
@@ -101,12 +113,15 @@ namespace MajPAbGr_project
 
         public List<ReceptureStruct> selectByCategory(int index)
         {
+            selected_cat_index = index;
             tbCat.setSelected(index);
             selected = rec_struct.FindAll(p => p.getIds()[0] == tbCat.getSelected());
+            if (selected.Count < 1)
+                exist_selected = false;
             return selected;
         }
 
-        public int indexOfSelectedByCategory(tbReceptureController tb,  int index)
+        private int indexOfSelectedByCategory(tbReceptureController tb,  int index)
         {
             try
             {
@@ -124,10 +139,12 @@ namespace MajPAbGr_project
         public List<ReceptureStruct> selectByName(string name)
         {
             selected = rec_struct.FindAll(p => p.getName().Contains(name));
+            if (selected.Count < 1)
+                exist_selected = false;
             return selected;
         }
 
-        public int indexOfSelectedByName(tbReceptureController tb, string name)
+        private int indexOfSelectedByName(tbReceptureController tb, string name)
         {
             int index;
             try
@@ -143,8 +160,9 @@ namespace MajPAbGr_project
             }
         }
 
-        public void SelectRecepture(tbReceptureController tb, int index, string name)
+        public void SelectRecepture(tbReceptureController tb, int index, string text)
         {
+            selected_item_index = index;
             if (full == null)
             {
                 tb.setSelected(index);
@@ -152,9 +170,9 @@ namespace MajPAbGr_project
             }
             else
             {
-                if (name != "")
+                if (text != "")
                 {
-                    selected_rec_index = indexOfSelectedByName(tb, name);
+                    selected_rec_index = indexOfSelectedByName(tb, text);
                 }
                 else
                 {
@@ -262,6 +280,11 @@ namespace MajPAbGr_project
             set { rec_catalog.SelectedRecepture = value; }
         }
 
+        public int SelectedCategory
+        {
+            get { return rec_catalog.SelectedCategory; }
+            set { rec_catalog.SelectedCategory = value; }
+        }
 
         /*
          * Methods

@@ -49,14 +49,14 @@ namespace MajPAbGr_project
 			//cmb_categories.SelectedIndex = -1; // when index is equel -1, then the text is empty string
 			cmb_categories.Text = "all";
 			reload_cat_mode = false;
-			
-			resetRecepturesList(controller.ReceptureStruct); //receptures` list
-			reload_rec_mode = false;
-			if (lv_recepture.Items.Count > 0)
-				lv_recepture.Items[0].Selected = true;
-			AutoCompleteRecepture(controller.Receptures);
 
-			if(tbMain.Err_code > 0) //database error handling
+            resetRecepturesList(controller.ReceptureStruct); //receptures` list
+            reload_rec_mode = false;
+            if (lv_recepture.Items.Count > 0)
+                lv_recepture.Items[0].Selected = true;
+            AutoCompleteRecepture(controller.Receptures);
+
+            if (tbMain.Err_code > 0) //database error handling
 			{
 				MessageBox.Show($"{tbMain.Err_message}");
 				tbMain.ResetErr_info();
@@ -130,51 +130,51 @@ namespace MajPAbGr_project
 				return;
 			if (cmb_categories.Items.Count < 1)
 				return;
-    //        if (cmb_categories.SelectedIndex == -1)
-				//return;   
-           
-            textBox1.Text = "";
-			this.Text += "*";
-
+            if (cmb_categories.SelectedIndex == -1)
+                return;
+			
             int index = cmb_categories.SelectedIndex;
             resetRecepturesList(controller.SearchByCategory(index));
 
             if (lv_recepture.Items.Count > 0)
                 lv_recepture.Items[0].Selected = true;
-            else
-                controller.ExistsSelected = false;
+
+			reload_rec_mode = true;
+			textBox1.Text = "";
+			reload_rec_mode = false;
         }
 
 		//text box for pattern of receptures name input
 		private void textBox1_TextChanged(object sender, EventArgs e)
 		{
+			if (reload_rec_mode)
+				return;
 			resetRecepturesList(controller.SearchByName(textBox1.Text));
 
 			if (lv_recepture.Items.Count > 0)
-				lv_recepture.Items[0].Selected = true;
-			else
-				controller.ExistsSelected = false;
+				lv_recepture.Items[0].Selected = true;			
 		}
 
 		//list view for list of receptures
 		private void lv_recepture_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (reload_rec_mode)
-				return;
-			if (lv_recepture.Items.Count < 0)
-				controller.ExistsSelected = false;
-			if (lv_recepture.SelectedItems.Count < 1)
-			{
-				controller.SelectedRecepture = 0;
-				controller.ExistsSelected = false;
-				return;
-			}
-			controller.SelectRecepture(
-				lv_recepture.SelectedItems[0].Index,
-				textBox1.Text
-				//cmb_categories.SelectedIndex
-				);
-		}
+            if (reload_rec_mode)
+                return;
+
+            controller.SelectedRecepture = -1;
+			controller.ExistsSelected = false;
+
+            //if (lv_recepture.Items.Count < 0)
+            //    return;
+
+            if (lv_recepture.SelectedItems.Count < 1)
+                return;
+
+            controller.SelectRecepture(
+                lv_recepture.SelectedItems[0].Index,
+                textBox1.Text
+                );
+        }
 
 		/*
 		 * Methods for works with recepture card
