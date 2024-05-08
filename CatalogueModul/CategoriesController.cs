@@ -154,14 +154,15 @@ namespace MajPAbGr_project
             }
         }
 
-        private int indexOfSelectedByName(tbReceptureController tb, string name)
+        private int indexOfSelectedByName(tbReceptureController tb, int index)
         {
-            int index;
+            //int index;
             try
             {
-                tb.Id = rec_struct.Find(p => p.getName().Contains(name)).getId();
-                index = rec_struct.FindIndex(p => p.getName().Contains(name));
+                int id = selected[index].getId();
+                index = rec_struct.FindIndex(p => p.getId() == id);
                 tb.setSelected(index);
+                tb.Id = id;
                 return index;
             }
             catch
@@ -182,7 +183,7 @@ namespace MajPAbGr_project
             {
                 if (text != "")
                 {
-                    selected_rec_index = indexOfSelectedByName(tb, text);
+                    selected_rec_index = indexOfSelectedByName(tb, index);
                 }
                 else
                 {
