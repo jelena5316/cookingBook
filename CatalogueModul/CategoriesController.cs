@@ -113,6 +113,7 @@ namespace MajPAbGr_project
 
         public List<ReceptureStruct> selectByCategory(int index)
         {
+            full = rec_struct;
             selected_cat_index = index;
             tbCat.setSelected(index);
             selected = rec_struct.FindAll(p => p.getIds()[0] == tbCat.getSelected());
@@ -138,10 +139,19 @@ namespace MajPAbGr_project
 
         public List<ReceptureStruct> selectByName(string name)
         {
-            selected = rec_struct.FindAll(p => p.getName().Contains(name));
-            if (selected.Count < 1)
-                exist_selected = false;
-            return selected;
+            if (name == "")
+            {
+                Full = null;
+                return ReceptureStruct;
+            }
+            else
+            {
+                Full = ReceptureStruct;
+                selected = rec_struct.FindAll(p => p.getName().Contains(name));
+                if (selected.Count < 1)
+                    exist_selected = false;
+                return selected;
+            }
         }
 
         private int indexOfSelectedByName(tbReceptureController tb, string name)
@@ -176,7 +186,7 @@ namespace MajPAbGr_project
                 }
                 else
                 {
-                    if (Categories.Count > 0)
+                    if (categories.Count > 0)
                     {
                         selected_rec_index = indexOfSelectedByCategory(tb, index);
                     }
@@ -597,6 +607,7 @@ namespace MajPAbGr_project
         {
             tbCat.resetCatalog();
             Categories = tbCat.getCatalog();
+            rec_catalog.Categories = Categories;
 
             setReceptures();
             ReceptureStruct.Clear();
@@ -691,23 +702,13 @@ namespace MajPAbGr_project
         // for event 'textBox1_TextChanged' handler 
         public List<ReceptureStruct> SearchByName(string textbox_text)
         {
-            if (textbox_text == "")
-            {
-                rec_catalog.Full = null;
-                return ReceptureStruct;
-            }
-            else
-            {
-                rec_catalog.Full = ReceptureStruct;
-                return rec_catalog.selectByName(textbox_text);
-            }
+            return rec_catalog.selectByName(textbox_text);
         }
 
         // for event 'cmb_categories_SelectedIndexChanged' handler
         public List<ReceptureStruct> SearchByCategory(int index)
         {
             // do to checking do has list 'categories' values or not
-            rec_catalog.Full = ReceptureStruct;
             return rec_catalog.selectByCategory(index);
         }
 
@@ -716,12 +717,6 @@ namespace MajPAbGr_project
         {
             return tb.UpdateReceptureOrCards("id_category", category.ToString(), tb.Selected);
         }
-
-        //for form method 'SeeAll()'
-        //public List<ReceptureStruct> DisplayAll()
-        //{
-        //    
-        //}
 
         public List<ReceptureStruct> DisplayAll
         {
