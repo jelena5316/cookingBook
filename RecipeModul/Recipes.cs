@@ -42,6 +42,11 @@ namespace MajPAbGr_project
 			list = listView1;
 		}
 
+		public Recipes()
+        {
+			InitializeComponent();
+		}
+
 		private void AutocompleteRecipeName()
 		{
 			AutoCompleteStringCollection source = new AutoCompleteStringCollection();

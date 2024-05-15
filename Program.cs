@@ -10,11 +10,11 @@ namespace MajPAbGr_project
 	static class Program
 	{
 
-        public static string connectionStringPath = "Data Source = db\\CookingBook; Mode=ReadWrite";
+		public static string connectionStringPath = "Data Source = db\\CookingBook; Mode=ReadWrite";
 		private static bool  connectionStringIsCorrect = true;
 		private static string PATH = "C:\\Users\\user\\source\\repos\\MajPavGr_project1\\Config.txt"; // stores a coonection string
 
-        //public static string connectionStringPath = "Data Source = db\\CookingBoo; Mode=ReadWrite;"; // for debugging      
+		//public static string connectionStringPath = "Data Source = db\\CookingBoo; Mode=ReadWrite;"; // for debugging      
 		//public static string connectionStringPath = "";
 		
 		/// <summary>
@@ -35,8 +35,8 @@ namespace MajPAbGr_project
 			//}
 
 			dbController dbTest = new dbController();
-            if (!dbTest.testConnection())
-            {
+			if (!dbTest.testConnection())
+			{
 				string message = $"Unable to open data base file, connection string: {dbTest.ConnectionString}.\n" +
 					$"Do you want create a data base?";
 				DialogResult answer = MessageBox.Show(
@@ -105,11 +105,11 @@ namespace MajPAbGr_project
 				}
 			}
 
-            /*
+			/*
 			 * Starting application
 			 */
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
 
 			if (!connectionStringIsCorrect) //connection string is wrong; 'false'
 				Application.Run(new EditDB(connectionStringPath)); // connection string editing
@@ -120,7 +120,13 @@ namespace MajPAbGr_project
 			 * In case connection string is changed, but stay incorrect, this variable stay unchanged too -- 'false'.
 			 */
 			if (connectionStringIsCorrect) //connection string is correct; 'true'
-				Application.Run(new Categories());
+										   
+			{
+				Component.FormCreator creator = new Component.FormCreator();
+				//Application.Run(new Categories());
+				Application.Run(creator.categories());
+			}
+				
 			else //connection string is wrong; 'false'
 				MessageBox.Show("Thank you for using our application!");
 				Application.Exit(); //connection string is wrong
@@ -142,13 +148,13 @@ namespace MajPAbGr_project
 		}
 
 		public static bool ConnectionStringIsCorrect
-        {		
+		{		
 			set {connectionStringIsCorrect = value;	}
 			get { return connectionStringIsCorrect; }
-        }
+		}
 
 		public static void StoreConnectionString()
-        {
+		{
 			using (StreamWriter stream = new StreamWriter(PATH))
 			{
 				if (!File.Exists(PATH))

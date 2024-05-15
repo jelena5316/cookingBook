@@ -514,6 +514,15 @@ namespace MajPAbGr_project
             }
         }
 
+        private bool CheckTbSelected()
+        {
+            if (tb.Selected > 0)
+                return true;
+            else
+                return false;  
+            
+        }
+
         private bool CheckCatalogSelected()
         {
             /*
@@ -524,44 +533,86 @@ namespace MajPAbGr_project
              */
 
             /*1. Проверить, выбран ли какой - либо рецепт*/
-            if (rec_catalog.ExistsSelected)
+            if (!rec_catalog.ExistsSelected)
                 return false;
 
             /*2. Проверить, попадает ли его индекс в диапазон*/
-            if (rec_catalog.SelectedRecepture < -1
-                || rec_catalog.SelectedRecepture > rec_catalog.ReceptureStruct.Count - 1)
+            if (rec_catalog.SelectedRecepture < 0 || rec_catalog.SelectedRecepture > rec_catalog.ReceptureStruct.Count - 1)
             {
-                int index = rec_catalog.SelectedRecepture == -1 ? 0 : rec_catalog.SelectedRecepture;
-                // return false;
-            }
-  
-            /* 3. Проверить, получен ли его номер (id) в базе*/
-            int id = rec_catalog.ReceptureStruct[rec_catalog.SelectedRecepture].getId();
-                if (tb.Selected != id)
-                {
-                    tb.Selected = id;
-                }
-            if (tb.getSelected() < 1)
+                //int index = rec_catalog.SelectedRecepture == -1 ? 0 : rec_catalog.SelectedRecepture;
                 return false;
+            }
+
+            /* 3. Проверить, получен ли его номер (id) в базе*/
+            int id1, id2;
+            bool ind = CheckTbSelected();
 
             /* 4. Проверить, есть ли в базе запись с таким номером (id)*/
-            if (!tb.IfRecordIs(tb.getSelected()))
+            if (!ind)
             {
-                id = CheckTbSelected(getMinIdOfReceptures());
-                if (id == 0)
-                    return false;
+                id1 = ReceptureStruct[SelectedRecepture].getId();
+                id2 = tb.getCatalog()[SelectedRecepture].id;
+                if (id1 > 0 && tb.IfRecordIs(id1))
+                {
+                    tb.Selected = id1;
+                    return true;
+                }
+                else if (id2 > 0 && tb.IfRecordIs(id2))
+                    return true;
+
+                /* 5. Проверить, есть ли в базе запись с таким наименованием*/
+                string id = tb.Count($"select id, name from {tb.getTable()} where name = '{tb.getCatalog()[SelectedRecepture].name}';");
+                if (id == "0" || id == "")
+                    return false;             
+                return false;
             }
+                          
+
+            //int id = rec_catalog.ReceptureStruct[rec_catalog.SelectedRecepture].getId();
+            //    if (tb.Selected != id)
+            //    {
+            //        tb.Selected = id;
+            //    }
+            //if (tb.getSelected() < 1)
+            //    return false;
+
+            /* 4. Проверить, есть ли в базе запись с таким номером (id)*/
+            //if (!tb.IfRecordIs(tb.getSelected()))
+            //{
+            //    id = CheckTbSelected(getMinIdOfReceptures());
+            //    if (id == 0)
+            //        return false;
+            //}
             return true;
         }
 
         public void OpenRecipesForm()
         {
-            if (!ExistsSelected) return;           
+            //if (!ExistsSelected) return;
+            //int id = CheckTbSelected(getMinIdOfReceptures());
+            //if (id == 0) return;
 
-            int id = CheckTbSelected(getMinIdOfReceptures());
-            if (id == 0) return;
-            Recipes frm = new Recipes(tb.Selected); // id is not corect anyever
-            frm.Show();
+            /*1. Проверить, выбран ли какой-либо рецепт*/
+            //ExistsSelected = false;
+
+            /*2. Проверить, попадает ли его индекс в диапазон*/
+            //SelectedRecepture = -1;
+            //SelectedRecepture = rec_catalog.ReceptureStruct.Count;
+
+            /* 3. Проверить, получен ли его номер (id) в базе*/
+            tb.Selected = 0;
+            
+            bool ind = CheckCatalogSelected();
+
+            if (!ind)
+                System.Windows.Forms.MessageBox.Show("Yohoo");
+            else
+            {
+                Recipes frm = new Recipes(tb.Selected); // id is not corect anyever
+                frm.Text += " *SelectedRecepture = -1";
+                frm.Show();
+            }
+            
         }
 
         public void openTechnologyForm()

@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="AmountModul\AmountsController.cs" />
     <Compile Include="CatalogueModul\NewReceptureController.cs" />
+    <Compile Include="Component\FormCreator.cs" />
     <Compile Include="PrintModul\PrintController.cs" />
     <Compile Include="AmountModul\tbAmountsController.cs" />
     <Compile Include="RecipeModul\RecipesController.cs" />
