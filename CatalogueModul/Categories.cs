@@ -174,6 +174,7 @@ namespace MajPAbGr_project
                 lv_recepture.SelectedItems[0].Index,
                 textBox1.Text
                 );
+			//this.Text = controller.Catalog.SelectedRecIndex.ToString();
         }
 
 		/*

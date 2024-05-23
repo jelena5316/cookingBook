@@ -16,6 +16,7 @@ namespace MajPAbGr_project
 		private List<Element> elements; // ingredients
 		tbReceptureController tb; // formulation
 		tbRecipeController tbCoeff; // recipes (coefficients)
+		RecCatalog rec_catalog; // list of RecepturesStruct items, contains data about receptures
 
 		// calculations
 		CalcBase calcBase = 0;
@@ -52,6 +53,11 @@ namespace MajPAbGr_project
 			get { return elements; }
 		}
 
+		public RecCatalog RecCatalog
+        {
+			set { rec_catalog = value; }
+        }
+
 		public string AboutRecepture(int index)
 		{
 			int category;
@@ -60,14 +66,14 @@ namespace MajPAbGr_project
 			category = int.Parse(tb.getById("id_category", selected));
 			info = $"{tb.getName(index)}: id {tb.getSelected()}, category ({category})\n";
 
-			if (recipes.Count > 0)
-			{
-				info += $"recipes \n";
-				for (int k = 0; k < recipes.Count; k++)
-				{
-					info += $"  {recipes[k].Name} ({recipes[k].Amounts}) \n";
-				}
-			}
+			//if (recipes.Count > 0)
+			//{
+			//	info += $"recipes \n";
+			//	for (int k = 0; k < recipes.Count; k++)
+			//	{
+			//		info += $"  {recipes[k].Name} ({recipes[k].Amounts}) \n";
+			//	}
+			//}
 			return info;
 		}
 

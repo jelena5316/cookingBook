@@ -72,10 +72,10 @@ namespace MajPAbGr_project
             this.columnHeader3});
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(38, 77);
+            this.listView1.Location = new System.Drawing.Point(458, 154);
             this.listView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(428, 447);
+            this.listView1.Size = new System.Drawing.Size(428, 431);
             this.listView1.TabIndex = 3;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -177,7 +177,7 @@ namespace MajPAbGr_project
             // lbl_info
             // 
             this.lbl_info.AutoSize = true;
-            this.lbl_info.Location = new System.Drawing.Point(34, 538);
+            this.lbl_info.Location = new System.Drawing.Point(48, 63);
             this.lbl_info.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_info.Name = "lbl_info";
             this.lbl_info.Size = new System.Drawing.Size(116, 20);
@@ -189,16 +189,16 @@ namespace MajPAbGr_project
             this.comboBox1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.comboBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(543, 97);
+            this.comboBox1.Location = new System.Drawing.Point(458, 88);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(354, 28);
+            this.comboBox1.Size = new System.Drawing.Size(312, 28);
             this.comboBox1.TabIndex = 4;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(543, 248);
+            this.button3.Location = new System.Drawing.Point(47, 231);
             this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(96, 35);
@@ -220,7 +220,7 @@ namespace MajPAbGr_project
             this.cmbCoeff.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cmbCoeff.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbCoeff.FormattingEnabled = true;
-            this.cmbCoeff.Location = new System.Drawing.Point(543, 174);
+            this.cmbCoeff.Location = new System.Drawing.Point(47, 157);
             this.cmbCoeff.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbCoeff.Name = "cmbCoeff";
             this.cmbCoeff.Size = new System.Drawing.Size(222, 28);
@@ -239,7 +239,7 @@ namespace MajPAbGr_project
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(795, 171);
+            this.button1.Location = new System.Drawing.Point(299, 154);
             this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(96, 32);
@@ -262,7 +262,7 @@ namespace MajPAbGr_project
             // lbl_koef
             // 
             this.lbl_koef.AutoSize = true;
-            this.lbl_koef.Location = new System.Drawing.Point(836, 208);
+            this.lbl_koef.Location = new System.Drawing.Point(340, 191);
             this.lbl_koef.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_koef.Name = "lbl_koef";
             this.lbl_koef.Size = new System.Drawing.Size(45, 20);
@@ -287,7 +287,7 @@ namespace MajPAbGr_project
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(548, 149);
+            this.label3.Location = new System.Drawing.Point(52, 132);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(71, 20);
@@ -303,7 +303,7 @@ namespace MajPAbGr_project
             this.groupBox1.Controls.Add(this.txb_new_recipe);
             this.groupBox1.Controls.Add(this.txb_coeff);
             this.groupBox1.Controls.Add(this.btn_insert);
-            this.groupBox1.Location = new System.Drawing.Point(543, 360);
+            this.groupBox1.Location = new System.Drawing.Point(47, 313);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -336,7 +336,7 @@ namespace MajPAbGr_project
             // 
             // btn_edit
             // 
-            this.btn_edit.Location = new System.Drawing.Point(664, 248);
+            this.btn_edit.Location = new System.Drawing.Point(168, 231);
             this.btn_edit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_edit.Name = "btn_edit";
             this.btn_edit.Size = new System.Drawing.Size(100, 35);
@@ -347,7 +347,7 @@ namespace MajPAbGr_project
             // 
             // txbRecipe
             // 
-            this.txbRecipe.Location = new System.Drawing.Point(543, 211);
+            this.txbRecipe.Location = new System.Drawing.Point(47, 194);
             this.txbRecipe.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txbRecipe.Name = "txbRecipe";
             this.txbRecipe.Size = new System.Drawing.Size(222, 26);
@@ -356,12 +356,13 @@ namespace MajPAbGr_project
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(548, 72);
+            this.label4.Location = new System.Drawing.Point(463, 63);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(137, 20);
+            this.label4.Size = new System.Drawing.Size(162, 20);
             this.label4.TabIndex = 27;
-            this.label4.Text = "Recipes\' list (in %)";
+            this.label4.Text = "Receptures\' list (in %)";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // Recipes
             // 

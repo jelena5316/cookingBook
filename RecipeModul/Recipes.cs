@@ -47,6 +47,11 @@ namespace MajPAbGr_project
 			InitializeComponent();
 		}
 
+		public RecipesController Controller
+        {
+			get { return controller; }
+        }
+
 		private void AutocompleteRecipeName()
 		{
 			AutoCompleteStringCollection source = new AutoCompleteStringCollection();
@@ -128,12 +133,14 @@ namespace MajPAbGr_project
 
 		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			int index, count;			
+            if (combo.SelectedIndex < 0)
+                return;
+
+            int index, count;			
 			List<string> amounts;
 
 			txbRecipe.Text = "";			
 			index = combo.SelectedIndex;
-
             amounts = controller.changeSubcatalog(index);
 			elements = controller.Amounts; // amounts
 	
@@ -396,5 +403,10 @@ namespace MajPAbGr_project
 		{
 		   controller.CalcBase = (CalcBase)cmb_option.SelectedIndex;
 		}
-	}
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+			//
+        }
+    }
 }

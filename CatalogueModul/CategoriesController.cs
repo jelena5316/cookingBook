@@ -74,7 +74,7 @@ namespace MajPAbGr_project
             set { selected = value; }
         }
 
-        public int SelectedRecepture
+        public int SelectedRecIndex
         {
             get { return selected_rec_index; }
             set { selected_rec_index = value; }
@@ -252,6 +252,11 @@ namespace MajPAbGr_project
         /*
          * Properties
          */
+        public RecCatalog Catalog
+        {
+            get { return rec_catalog; }
+        }
+
         public List<ReceptureStruct> ReceptureStruct
         {
             //get { return rec_struct; }
@@ -287,8 +292,8 @@ namespace MajPAbGr_project
 
         public int SelectedRecepture
         {
-            get { return rec_catalog.SelectedRecepture; }
-            set { rec_catalog.SelectedRecepture = value; }
+            get { return rec_catalog.SelectedRecIndex; }
+            set { rec_catalog.SelectedRecIndex = value; }
         }
 
         public int SelectedCategory
@@ -537,7 +542,7 @@ namespace MajPAbGr_project
                 return false;
 
             /*2. Проверить, попадает ли его индекс в диапазон*/
-            if (rec_catalog.SelectedRecepture < 0 || rec_catalog.SelectedRecepture > rec_catalog.ReceptureStruct.Count - 1)
+            if (rec_catalog.SelectedRecIndex < 0 || rec_catalog.SelectedRecIndex > rec_catalog.ReceptureStruct.Count - 1)
             {
                 //int index = rec_catalog.SelectedRecepture == -1 ? 0 : rec_catalog.SelectedRecepture;
                 return false;
@@ -591,6 +596,8 @@ namespace MajPAbGr_project
             //if (!ExistsSelected) return;
             //int id = CheckTbSelected(getMinIdOfReceptures());
             //if (id == 0) return;
+            //Recipes frm = (new Component.FormCreator()).recipes(Catalog);
+            //frm.Show();
 
             /*1. Проверить, выбран ли какой-либо рецепт*/
             //ExistsSelected = false;
@@ -600,19 +607,19 @@ namespace MajPAbGr_project
             //SelectedRecepture = rec_catalog.ReceptureStruct.Count;
 
             /* 3. Проверить, получен ли его номер (id) в базе*/
-            tb.Selected = 0;
-            
+            //tb.Selected = 0;
+
             bool ind = CheckCatalogSelected();
 
             if (!ind)
                 System.Windows.Forms.MessageBox.Show("Yohoo");
             else
             {
-                Recipes frm = new Recipes(tb.Selected); // id is not corect anyever
-                frm.Text += " *SelectedRecepture = -1";
+                Recipes frm = (new Component.FormCreator()).recipes(Catalog);
+                //Recipes frm = new Recipes(tb.Selected); // id is not correct anyever
+                //frm.Text += " *SelectedRecepture = -1";
                 frm.Show();
             }
-            
         }
 
         public void openTechnologyForm()
