@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MajPAbGr_project
-{
+{	
 	static class Program
 	{
 
@@ -16,7 +16,7 @@ namespace MajPAbGr_project
 
 		//public static string connectionStringPath = "Data Source = db\\CookingBoo; Mode=ReadWrite;"; // for debugging      
 		//public static string connectionStringPath = "";
-		
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -123,8 +123,13 @@ namespace MajPAbGr_project
 										   
 			{
 				Component.FormCreator creator = new Component.FormCreator();
-				//Application.Run(new Categories());
-				Application.Run(creator.categories());
+				//Application.Run(new Categories()); // old version
+				//Application.Run(creator.categories());
+
+				//other form is opened as start page
+				CategoriesController controller = new CategoriesController();
+				controller.Catalog.SelectedRecIndex = 0;
+				Application.Run(creator.recipes(controller.Catalog));
 			}
 				
 			else //connection string is wrong; 'false'
