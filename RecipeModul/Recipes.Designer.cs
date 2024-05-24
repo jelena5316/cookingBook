@@ -59,6 +59,8 @@ namespace MajPAbGr_project
             this.btn_edit = new System.Windows.Forms.Button();
             this.txbRecipe = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.cmbCat = new System.Windows.Forms.ComboBox();
+            this.lbl_SeeAll = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -145,21 +147,21 @@ namespace MajPAbGr_project
             // uSToolStripMenuItem
             // 
             this.uSToolStripMenuItem.Name = "uSToolStripMenuItem";
-            this.uSToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
+            this.uSToolStripMenuItem.Size = new System.Drawing.Size(101, 26);
             this.uSToolStripMenuItem.Text = "US";
             this.uSToolStripMenuItem.Click += new System.EventHandler(this.uSToolStripMenuItem_Click);
             // 
             // lVToolStripMenuItem
             // 
             this.lVToolStripMenuItem.Name = "lVToolStripMenuItem";
-            this.lVToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
+            this.lVToolStripMenuItem.Size = new System.Drawing.Size(101, 26);
             this.lVToolStripMenuItem.Text = "LV";
             this.lVToolStripMenuItem.Click += new System.EventHandler(this.lVToolStripMenuItem_Click);
             // 
             // rUToolStripMenuItem
             // 
             this.rUToolStripMenuItem.Name = "rUToolStripMenuItem";
-            this.rUToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
+            this.rUToolStripMenuItem.Size = new System.Drawing.Size(101, 26);
             this.rUToolStripMenuItem.Text = "RU";
             this.rUToolStripMenuItem.Click += new System.EventHandler(this.rUToolStripMenuItem_Click);
             // 
@@ -364,11 +366,36 @@ namespace MajPAbGr_project
             this.label4.Text = "Receptures\' list (in %)";
             this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
+            // cmbCat
+            // 
+            this.cmbCat.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cmbCat.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbCat.FormattingEnabled = true;
+            this.cmbCat.Location = new System.Drawing.Point(47, 88);
+            this.cmbCat.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cmbCat.Name = "cmbCat";
+            this.cmbCat.Size = new System.Drawing.Size(134, 28);
+            this.cmbCat.TabIndex = 28;
+            // 
+            // lbl_SeeAll
+            // 
+            this.lbl_SeeAll.AutoSize = true;
+            this.lbl_SeeAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_SeeAll.Location = new System.Drawing.Point(189, 96);
+            this.lbl_SeeAll.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbl_SeeAll.Name = "lbl_SeeAll";
+            this.lbl_SeeAll.Size = new System.Drawing.Size(51, 20);
+            this.lbl_SeeAll.TabIndex = 29;
+            this.lbl_SeeAll.Text = "select";
+            this.lbl_SeeAll.Click += new System.EventHandler(this.lbl_SeeAll_Click);
+            // 
             // Recipes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(950, 665);
+            this.Controls.Add(this.lbl_SeeAll);
+            this.Controls.Add(this.cmbCat);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txbRecipe);
             this.Controls.Add(this.btn_edit);
@@ -429,6 +456,8 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txbRecipe;
         private System.Windows.Forms.Label label4;
+        public System.Windows.Forms.ComboBox cmbCat;
+        private System.Windows.Forms.Label lbl_SeeAll;
     }
 }
 

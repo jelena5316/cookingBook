@@ -129,7 +129,8 @@ namespace MajPAbGr_project
 				//other form is opened as start page
 				CategoriesController controller = new CategoriesController();
 				controller.Catalog.SelectedRecIndex = 0;
-				Application.Run(creator.recipes(controller.Catalog));
+				//Application.Run(creator.recipes(controller.Catalog));
+				Application.Run(creator.recipes(controller));
 			}
 				
 			else //connection string is wrong; 'false'

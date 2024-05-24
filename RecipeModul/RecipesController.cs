@@ -16,7 +16,9 @@ namespace MajPAbGr_project
 		private List<Element> elements; // ingredients
 		tbReceptureController tb; // formulation
 		tbRecipeController tbCoeff; // recipes (coefficients)
+
 		RecCatalog rec_catalog; // list of RecepturesStruct items, contains data about receptures
+		CategoriesController categories; //list of categories (id, name) contained in 'tbCat.catelog', for selecting by category; 
 
 		// calculations
 		CalcBase calcBase = 0;
@@ -56,6 +58,12 @@ namespace MajPAbGr_project
 		public RecCatalog RecCatalog
         {
 			set { rec_catalog = value; }
+        }
+
+		public CategoriesController CategoriesController
+        {
+			get { return categories; }
+			set { categories = value; }
         }
 
 		public string AboutRecepture(int index)

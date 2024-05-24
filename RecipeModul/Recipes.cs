@@ -24,6 +24,7 @@ namespace MajPAbGr_project
 
 		ComboBox combo;
 		ComboBox recipe;
+		ComboBox categories;
 		ListView list;
 
 		CultureInfo current;       
@@ -39,6 +40,7 @@ namespace MajPAbGr_project
 
 			combo = comboBox1;
 			recipe = cmbCoeff;
+			categories = cmbCat;
 			list = listView1;
 		}
 
@@ -69,8 +71,12 @@ namespace MajPAbGr_project
 			FormFunction.setBox(controller.getCatalog(), combo);
 			combo.SelectedIndex = index;
 
-			//lokalization setting
-			current = controller.Current();            
+            // list of categories	
+            List<Item> category = controller.CategoriesController.TbCat.getCatalog();
+            FormFunction.setBox(category, categories);
+
+            //lokalization setting
+            current = controller.Current();            
 			this.Text += " " + controller.InfoLocal();            
 
 			btn_insert.Enabled = false;
@@ -407,6 +413,11 @@ namespace MajPAbGr_project
         private void label4_Click(object sender, EventArgs e)
         {
 			//
+        }
+
+        private void lbl_SeeAll_Click(object sender, EventArgs e)
+        {
+			lbl_SeeAll.Text = "all";
         }
     }
 }
