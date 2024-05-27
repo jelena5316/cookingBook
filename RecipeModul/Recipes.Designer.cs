@@ -376,6 +376,7 @@ namespace MajPAbGr_project
             this.cmbCat.Name = "cmbCat";
             this.cmbCat.Size = new System.Drawing.Size(134, 28);
             this.cmbCat.TabIndex = 28;
+            this.cmbCat.SelectedIndexChanged += new System.EventHandler(this.cmbCat_SelectedIndexChanged);
             // 
             // lbl_SeeAll
             // 

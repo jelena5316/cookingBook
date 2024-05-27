@@ -68,10 +68,16 @@ namespace MajPAbGr_project
 
 		public string AboutRecepture(int index)
 		{
-			int category;
+			int category, cat_index; // id, index
 			string info;
 			
-			category = int.Parse(tb.getById("id_category", selected));
+			//get info about category of selected recepture to ouput into combobox
+			category = int.Parse(tb.getById("id_category", selected)); 
+
+			//cat_index = FormFunction.ChangeIndex(categories.TbCat.getCatalog(), category);
+			//categories.TbCat.Selected = category;
+
+			//build string with other info
 			info = $"{tb.getName(index)}: id {tb.getSelected()}, category ({category})\n";
 
 			//if (recipes.Count > 0)
@@ -83,6 +89,16 @@ namespace MajPAbGr_project
 			//	}
 			//}
 			return info;
+		}
+
+		public int cmbCatIndex(int index)
+        {
+			int id, cat_index;
+
+			id = rec_catalog.ReceptureStruct[index].getIds()[0];
+			categories.TbCat.Selected = id;
+			cat_index = FormFunction.ChangeIndex(categories.TbCat.getCatalog(), id);
+			return cat_index;
 		}
 
 		public List<string> changeSubcatalog(int index)
@@ -217,6 +233,12 @@ namespace MajPAbGr_project
 			tbCoeff.Selected = id;
 			return ind;
 		}
+
+		public int cmbCat_onSelectedIndexChanged(int category) // index
+        {
+			rec_catalog.SelectedCatIndex = category;
+			return 0;
+        }
 	}
 
 }

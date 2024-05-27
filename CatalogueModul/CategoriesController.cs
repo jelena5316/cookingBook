@@ -85,7 +85,7 @@ namespace MajPAbGr_project
             set { exist_selected = value; }
         }
 
-        public int SelectedCategory
+        public int SelectedCatIndex
         {
             get { return selected_cat_index; }
             set 
@@ -298,8 +298,8 @@ namespace MajPAbGr_project
 
         public int SelectedCategory
         {
-            get { return rec_catalog.SelectedCategory; }
-            set { rec_catalog.SelectedCategory = value; }
+            get { return rec_catalog.SelectedCatIndex; }
+            set { rec_catalog.SelectedCatIndex = value; }
         }
 
         /*

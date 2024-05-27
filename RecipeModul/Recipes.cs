@@ -163,6 +163,10 @@ namespace MajPAbGr_project
 
 			//Output info about recepture			
 			lbl_info.Text = controller.AboutRecepture(index);
+			int cat_index = controller.cmbCatIndex(combo.SelectedIndex);
+
+			if (cmbCat.Items.Count > cat_index)
+				cmbCat.SelectedIndex = cat_index;
 		}
 		
 
@@ -419,5 +423,12 @@ namespace MajPAbGr_project
         {
 			lbl_SeeAll.Text = "all";
         }
+
+        private void cmbCat_SelectedIndexChanged(object sender, EventArgs e)
+        {
+			controller.cmbCat_onSelectedIndexChanged(cmbCat.SelectedIndex);
+			//controller.CategoriesController.Catalog.SelectedCatIndex = cmbCat.SelectedIndex;
+			//this.Text = controller.CategoriesController.Catalog.SelectedCatIndex.ToString();			
+		}
     }
 }
