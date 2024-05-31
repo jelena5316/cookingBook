@@ -239,6 +239,26 @@ namespace MajPAbGr_project
 			rec_catalog.SelectedCatIndex = category;
 			return 0;
         }
+
+		public List <Item> SelectByCategory(int index)
+        {
+			List<ReceptureStruct> rec = rec_catalog.selectByCategory(index);
+			List<Item> selected = new List<Item>();
+			int k = 0;
+			for ( k = 0; k < rec.Count; k++)
+            {
+				Item item = new Item();
+				item.createItem(rec[k].getId(), rec[k].getName());
+				selected.Add(item);
+            }
+			categories.TbCat.Subcatalog = selected;
+			return selected;
+        }
+
+		public int ImpoveIndex (int index)
+        {
+			return 0;
+        }
 	}
 
 }

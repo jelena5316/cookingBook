@@ -145,7 +145,9 @@ namespace MajPAbGr_project
             int index, count;			
 			List<string> amounts;
 
-			txbRecipe.Text = "";			
+			txbRecipe.Text = "";	
+			
+
 			index = combo.SelectedIndex;
             amounts = controller.changeSubcatalog(index);
 			elements = controller.Amounts; // amounts
@@ -164,7 +166,6 @@ namespace MajPAbGr_project
 			//Output info about recepture			
 			lbl_info.Text = controller.AboutRecepture(index);
 			int cat_index = controller.cmbCatIndex(combo.SelectedIndex);
-
 			if (cmbCat.Items.Count > cat_index)
 				cmbCat.SelectedIndex = cat_index;
 		}
@@ -421,7 +422,22 @@ namespace MajPAbGr_project
 
         private void lbl_SeeAll_Click(object sender, EventArgs e)
         {
-			lbl_SeeAll.Text = "all";
+			if (lbl_SeeAll.Text == "select")
+            {
+				lbl_SeeAll.Text = "all";
+				controller.SelectByCategory(cmbCat.SelectedIndex);
+				List<Item> list = controller.CategoriesController.TbCat.Subcatalog;
+				FormFunction.FillCombo(list, combo);
+				if (combo.Items.Count > 0)
+					combo.SelectedIndex = 0;
+            }
+            else
+            {
+				lbl_SeeAll.Text = "select";
+				FormFunction.FillCombo(controller.getCatalog(), combo);
+				if (combo.Items.Count > 0)
+					combo.SelectedIndex = 0;
+			}
         }
 
         private void cmbCat_SelectedIndexChanged(object sender, EventArgs e)

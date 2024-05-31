@@ -27,6 +27,20 @@ namespace MajPAbGr_project
 			subcatalog = new List<Item>();
 		}
 
+		/*
+		 * Properties
+		 */
+		public int Selected
+		{
+			set { selected = value; }
+			get { return selected; }
+		}
+
+		public List<Item> Subcatalog
+		{
+			set { subcatalog = value; }	
+			get { return subcatalog; }
+		}
 
 		/*
 		 * set and get catalog and subcatalog
@@ -105,12 +119,6 @@ namespace MajPAbGr_project
 		public int getSelected()
 		{
 			return selected;
-		}
-
-		public int Selected
-		{
-			set { selected = value; }
-			get { return selected; }
 		}
 
 
