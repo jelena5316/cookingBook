@@ -145,10 +145,12 @@ namespace MajPAbGr_project
             int index, count;			
 			List<string> amounts;
 
-			txbRecipe.Text = "";	
-			
-
+			txbRecipe.Text = "";
 			index = combo.SelectedIndex;
+
+			if (lbl_SeeAll.Text == "all")
+				index = controller.ImpoveIndex(index);
+			
             amounts = controller.changeSubcatalog(index);
 			elements = controller.Amounts; // amounts
 	
