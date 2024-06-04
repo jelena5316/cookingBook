@@ -13,7 +13,9 @@ using System.Globalization;
 namespace MajPAbGr_project
 {
 	public partial class Recipes : Form
-	{  
+	{
+		bool load_mode;
+		
 		private List<Item> receptures; // formulation
 		public List<Element> recipes;  // recipes (coeifficients)
 		public List <Element> elements;
@@ -27,7 +29,7 @@ namespace MajPAbGr_project
 		ComboBox categories;
 		ListView list;
 
-		CultureInfo current;       
+		CultureInfo current;
 
 		public Recipes(int id)
 		{
@@ -65,18 +67,20 @@ namespace MajPAbGr_project
 
 		private void Form1_Load(object sender, EventArgs e) 
 		{
+			load_mode = true;
 			// list of receptures setting            
 			tbCoeff.Recepture = tb.Selected;
 			int index = FormFunction.ChangeIndex(controller.getCatalog(), tb.Selected);
 			FormFunction.setBox(controller.getCatalog(), combo);
-			combo.SelectedIndex = index;
 
             // list of categories	
             List<Item> category = controller.CategoriesController.TbCat.getCatalog();
             FormFunction.setBox(category, categories);
+			load_mode = false;
+			combo.SelectedIndex = index;
 
-            //lokalization setting
-            current = controller.Current();            
+			//lokalization setting
+			current = controller.Current();            
 			this.Text += " " + controller.InfoLocal();            
 
 			btn_insert.Enabled = false;
@@ -139,7 +143,9 @@ namespace MajPAbGr_project
 
 		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-            if (combo.SelectedIndex < 0)
+			if (load_mode == true)
+				return;
+			if (combo.SelectedIndex < 0)
                 return;
 
             int index, count;			
@@ -148,7 +154,7 @@ namespace MajPAbGr_project
 			txbRecipe.Text = "";
 			index = combo.SelectedIndex;
 
-			if (lbl_SeeAll.Text == "all")
+			if(lbl_SeeAll.Text == "all")
 				index = controller.ImpoveIndex(index);
 			
             amounts = controller.changeSubcatalog(index);
@@ -167,7 +173,7 @@ namespace MajPAbGr_project
 
 			//Output info about recepture			
 			lbl_info.Text = controller.AboutRecepture(index);
-			int cat_index = controller.cmbCatIndex(combo.SelectedIndex);
+			int cat_index = controller.cmbCatIndex(index);
 			if (cmbCat.Items.Count > cat_index)
 				cmbCat.SelectedIndex = cat_index;
 		}
@@ -432,13 +438,16 @@ namespace MajPAbGr_project
 				FormFunction.FillCombo(list, combo);
 				if (combo.Items.Count > 0)
 					combo.SelectedIndex = 0;
+				cmbCat.Enabled = false;
             }
             else
             {
 				lbl_SeeAll.Text = "select";
+				controller.UnDoSelectingByCategory();
 				FormFunction.FillCombo(controller.getCatalog(), combo);
 				if (combo.Items.Count > 0)
 					combo.SelectedIndex = 0;
+				cmbCat.Enabled = true;
 			}
         }
 

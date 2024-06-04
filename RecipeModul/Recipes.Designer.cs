@@ -457,8 +457,8 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txbRecipe;
         private System.Windows.Forms.Label label4;
-        public System.Windows.Forms.ComboBox cmbCat;
         private System.Windows.Forms.Label lbl_SeeAll;
+        private System.Windows.Forms.ComboBox cmbCat;
     }
 }
 

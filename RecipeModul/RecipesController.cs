@@ -258,13 +258,23 @@ namespace MajPAbGr_project
 		public int ImpoveIndex (int index)
         {
 			int new_index;
+			if (rec_catalog.Full == null)
+				return index;
 
-			rec_catalog.Full = rec_catalog.ReceptureStruct;
+			//rec_catalog.Full = rec_catalog.ReceptureStruct; // is already done
 			rec_catalog.SelectRecepture(categories.TbMain, index, "");
 			new_index = rec_catalog.SelectedRecIndex;
-			rec_catalog.Full = null;
+			//rec_catalog.Full = null; // will be done in other place
+            return new_index;
+        }
 
-			return new_index;
+		public int UnDoSelectingByCategory()
+        {
+			rec_catalog.Full = null;
+			rec_catalog.SelectedRec.Clear();
+			rec_catalog.SelectedRec = null;
+			categories.TbMain.Subcatalog.Clear();			
+			return 0;
         }
 	}
 
