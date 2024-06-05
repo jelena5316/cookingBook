@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Globalization;
 
+
 namespace MajPAbGr_project
 {
 	public partial class Recipes : Form
@@ -456,6 +457,13 @@ namespace MajPAbGr_project
 			controller.cmbCat_onSelectedIndexChanged(cmbCat.SelectedIndex);
 			//controller.CategoriesController.Catalog.SelectedCatIndex = cmbCat.SelectedIndex;
 			//this.Text = controller.CategoriesController.Catalog.SelectedCatIndex.ToString();			
+		}
+
+        private void lbl_info_Click(object sender, EventArgs e)
+        {
+			bool result = controller.AboutRecepture();
+			if (!result)
+				MessageBox.Show("Error!");			
 		}
     }
 }

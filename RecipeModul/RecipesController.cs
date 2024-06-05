@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using MajPAbGr_project.Component;
 
 namespace MajPAbGr_project
 {
@@ -18,7 +19,7 @@ namespace MajPAbGr_project
 		tbRecipeController tbCoeff; // recipes (coefficients)
 
 		RecCatalog rec_catalog; // list of RecepturesStruct items, contains data about receptures
-		CategoriesController categories; //list of categories (id, name) contained in 'tbCat.catelog', for selecting by category; 
+		CategoriesController categories; //list of categories (id, name) contained in 'tbCat.catalog', for selecting by category; 
 
 		// calculations
 		CalcBase calcBase = 0;
@@ -276,6 +277,55 @@ namespace MajPAbGr_project
 			categories.TbMain.Subcatalog.Clear();			
 			return 0;
         }
-	}
+
+		public bool AboutRecepture()
+        {
+			int index;
+			ReceptureStruct rec;
+			FormCreator creator;
+			NewRecepture frm;
+
+			if (!rec_catalog.ExistsSelected)
+				return false;
+
+            index = rec_catalog.SelectedRecIndex;
+            rec = rec_catalog.ReceptureStruct[index];
+			tb.Selected = rec.getId();
+			tb.Id = rec.getId();
+
+            creator = new FormCreator();
+            frm = creator.recepture(tb, rec);
+            frm.ShowDialog();
+            return true;
+
+
+            /* FormCreator.recepture() */
+            //	NewReceptureController cntrl = new NewReceptureController(tb);
+            //	cntrl.ReceptureInfo = rec;
+            //	return new NewRecepture(cntrl);
+
+            /*CategoriesController.editRec()*/
+            //if (!ExistsSelected)
+            //	return false;
+            //int id = CheckTbSelected(getMinIdOfReceptures());
+            //if (id == 0)
+            //	return false;
+
+            //id = ReceptureStruct[SelectedRecepture].getId();
+
+            //if (tb.Selected != id)
+            //{
+            //	tb.Selected = id;
+            //}
+
+            ////проверить, есть ли запись с таким номером
+            //tb.Id = id;
+            //NewReceptureController rec = new NewReceptureController(tb);
+            //rec.ReceptureInfo = ReceptureStruct[SelectedRecepture];
+            //NewRecepture frm = new NewRecepture(rec);
+            //frm.ShowDialog();
+            //return true;
+        }
+    }
 
 }

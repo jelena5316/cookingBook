@@ -185,6 +185,7 @@ namespace MajPAbGr_project
             this.lbl_info.Size = new System.Drawing.Size(116, 20);
             this.lbl_info.TabIndex = 20;
             this.lbl_info.Text = "Recepture Info";
+            this.lbl_info.Click += new System.EventHandler(this.lbl_info_Click);
             // 
             // comboBox1
             // 
