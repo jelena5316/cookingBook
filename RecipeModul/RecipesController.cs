@@ -291,7 +291,7 @@ namespace MajPAbGr_project
             index = rec_catalog.SelectedRecIndex;
             rec = rec_catalog.ReceptureStruct[index];
 			tb.Selected = rec.getId();
-			tb.Id = rec.getId();
+			tb.Id = rec.getId(); // зачем мне "Id"?
 
             creator = new FormCreator();
             frm = creator.recepture(tb, rec);

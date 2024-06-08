@@ -70,15 +70,16 @@ namespace MajPAbGr_project
 		{
 			load_mode = true;
 			// list of receptures setting            
-			tbCoeff.Recepture = tb.Selected;
+			tbCoeff.Recepture = tb.Selected;			
 			int index = FormFunction.ChangeIndex(controller.getCatalog(), tb.Selected);
 			FormFunction.setBox(controller.getCatalog(), combo);
 
             // list of categories	
             List<Item> category = controller.CategoriesController.TbCat.getCatalog();
             FormFunction.setBox(category, categories);
-			load_mode = false;
+			load_mode = false;			
 			combo.SelectedIndex = index;
+			controller.CategoriesController.ExistsSelected = true;
 
 			//lokalization setting
 			current = controller.Current();            
@@ -146,7 +147,7 @@ namespace MajPAbGr_project
 		{
 			if (load_mode == true)
 				return;
-			if (combo.SelectedIndex < 0)
+            if (combo.SelectedIndex < 0)
                 return;
 
             int index, count;			
@@ -155,8 +156,10 @@ namespace MajPAbGr_project
 			txbRecipe.Text = "";
 			index = combo.SelectedIndex;
 
-			if(lbl_SeeAll.Text == "all")
+			if (lbl_SeeAll.Text == "all")
 				index = controller.ImpoveIndex(index);
+			else
+				controller.CategoriesController.ExistsSelected = true;
 			
             amounts = controller.changeSubcatalog(index);
 			elements = controller.Amounts; // amounts
@@ -268,6 +271,58 @@ namespace MajPAbGr_project
 			FormFunction.setBox(tb.getCatalog(), combo);
 			comboBox1.SelectedIndex = temp;
 			columnHeader2.Text = "Amounts (%)";
+
+			/*From Categories.cs*/
+
+			//controller.ReloadData();
+
+			//reload_cat_mode = true;
+			//FormFunction.setBox(controller.Categories, cmb_categories);
+			//reload_cat_mode = false;
+			//seeAll(); // similar method is a method 'lbl_SeeAll_Click()'
+			//AutoCompleteRecepture(controller.Receptures);
+
+
+			/*ReloadData()*/
+
+			//	tbCat.resetCatalog();
+			//	Categories = tbCat.getCatalog();
+			//	rec_catalog.Categories = Categories;
+
+			//	setReceptures(); // tb.setCatalog(); receptures = tb.getCatalog();
+			//	ReceptureStruct.Clear();
+			//	setFields();
+
+
+			/*
+			 * setFields() => rec_catalog.ReadCatalog(receptures);
+			 */
+
+			/*ReadCatalog()*/
+
+			//int id;
+			//ReceptureStruct rec;
+
+			//rec_struct = new List<ReceptureStruct>();
+			//for (int k = 0; k < receptures.Count; k++)
+			//{
+			//	id = receptures[k].id;
+			//	rec = new ReceptureStruct(id);
+			//	rec.setData();
+			//	rec_struct.Add(rec);
+
+
+			/*SeeAll()*/
+
+			//cmb_categories.SelectedIndex = 0;
+			//cmb_categories.Text = "all";
+			//textBox1.Text = "";
+
+			//List<ReceptureStruct> full = controller.DisplayAll;
+			//resetRecepturesList(full);
+
+			//if (lv_recepture.Items.Count > 0)
+			//	lv_recepture.Items[0].Selected = true;
 		}
 
 
