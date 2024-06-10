@@ -158,8 +158,12 @@ namespace MajPAbGr_project
 
 			if (lbl_SeeAll.Text == "all")
 				index = controller.ImpoveIndex(index);
-			else
+            else
+            {
 				controller.CategoriesController.ExistsSelected = true;
+				controller.CategoriesController.SelectedRecepture = index;
+            }
+				
 			
             amounts = controller.changeSubcatalog(index);
 			elements = controller.Amounts; // amounts
@@ -266,11 +270,59 @@ namespace MajPAbGr_project
 
 		private void Reload()
 		{
-			int temp = comboBox1.SelectedIndex;
-			tb.setCatalog();
-			FormFunction.setBox(tb.getCatalog(), combo);
-			comboBox1.SelectedIndex = temp;
-			columnHeader2.Text = "Amounts (%)";
+			/*Прочитать из базы данных обновленные данные (вместе со старыми)*/
+			// 1. из таблицы рецептур: номера и наименования;
+			// номер и наименования с номерами категорий, технологий, главного вида сырья,
+			// наименования автора и источника, адреса в сети, описание каждой рецептуре
+			// 2. из прочих таблиц -- наименования категории, технологии, вида сырья
+			// 3. из таблиц категорий рецептур -- их номера и наименования
+
+			/*Сохранить в соответствующих переменных, структурах и объектах*/
+			// 1. Списки рецептур и их категорий -- структура Item: номера и наименования
+			// 2. Список структур ReceptureStruct в объектах класса RecStruct -- см. п. 1 в первом абзаце.
+
+			/*Переменные и методы или указатели на них в классе Recipes*/
+			// 1. tb, controller.TbMain -- содержит методы и поля для чтения из базы данных -- setCatalog() и resetCatalog() -- 
+			// и хранения прочитанных данных -- поле catalog, свойство getCatalog(), структуры Item
+			// 2.controller.CategoriesController.TbCat -- доступ к методам контроллера таблицы категорий
+			// 3. controller.CategoriesController.Catalog -- содержит методы и поля для работы со списком
+			// одноименных структур в объекте класса RecCatalog и свойство для доступа к объекту, методы
+			// 4. ReceptureStruct, ReadCatalog () -- свойство со списком структур ReceptureStruct
+			// и метод для чтения из данных из базы данных
+			// 5. controller.CategoriesController.Catalog.Categories  -- свойство,
+			// помогает сохранить обновлённый список категорий в поле класса RecCatalog
+
+			/*
+			 * Загрузить обновленные данные
+			 * в комбинированный поля в режиме load_mode
+			 * и  выбрать нужный пункт;
+			 * обновить прочие данные, выводимые в форме, если такове есть
+			 */
+
+			/*
+			 * Разобраться, что делать, если отображалась выборка
+			 * и если число категорий или рецептур изменилось
+			 */
+
+			int temp = comboBox1.SelectedIndex; // will be checked range in case recepture would be deleted
+
+			tb.setCatalog(); // read data: id, name -- from data base
+			controller.ReloadReceptures();
+			controller.CategoriesController.ReloadData();
+
+			load_mode = true;
+			FormFunction.setBox(tb.getCatalog(), combo); // getting data from table controller, outputing
+			FormFunction.setBox(controller.CategoriesController.TbCat.getCatalog(), cmbCat);			
+			load_mode = false;
+			// output into comboboxes
+
+			if (temp < combo.Items.Count)
+				combo.SelectedIndex = temp; 
+			else if (combo.Items.Count > 0)
+				combo.SelectedIndex = 0;
+			// select recepture after range checking
+
+			columnHeader2.Text = "Amounts (%)"; // refreshing other form data
 
 			/*From Categories.cs*/
 
@@ -324,7 +376,6 @@ namespace MajPAbGr_project
 			//if (lv_recepture.Items.Count > 0)
 			//	lv_recepture.Items[0].Selected = true;
 		}
-
 
 		/*
 		 * Print to file 
@@ -516,6 +567,8 @@ namespace MajPAbGr_project
 
         private void lbl_info_Click(object sender, EventArgs e)
         {
+			int index = combo.SelectedIndex;
+			//controller.CategoriesController.SelectedRecepture = index;
 			bool result = controller.AboutRecepture();
 			if (!result)
 				MessageBox.Show("Error!");			

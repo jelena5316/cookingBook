@@ -80,6 +80,9 @@ namespace MajPAbGr_project
 
 			//build string with other info
 			info = $"{tb.getName(index)}: id {tb.getSelected()}, category ({category})\n";
+			// for Reload() testing
+			//string author = rec_catalog.ReceptureStruct[index].getData()[3];
+			//info += " " + author;
 
 			//if (recipes.Count > 0)
 			//{
@@ -102,10 +105,16 @@ namespace MajPAbGr_project
 			return cat_index;
 		}
 
+        public void ReloadReceptures()
+        {
+			receptures = tb.getCatalog();
+        }
+
 		public List<string> changeSubcatalog(int index)
 		{
 			//Coefficients
 			selected = getCatalog()[index].id;
+			//selected = receptures[index].id;
 			tbCoeff.Recepture = getCatalog()[index].id;            
 			subcatalog = tbCoeff.setSubCatalog();
 			recipes = tbCoeff.readElement(2);
