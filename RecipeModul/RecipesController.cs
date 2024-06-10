@@ -105,11 +105,6 @@ namespace MajPAbGr_project
 			return cat_index;
 		}
 
-        public void ReloadReceptures()
-        {
-			receptures = tb.getCatalog();
-        }
-
 		public List<string> changeSubcatalog(int index)
 		{
 			//Coefficients
@@ -335,6 +330,15 @@ namespace MajPAbGr_project
             //frm.ShowDialog();
             //return true;
         }
-    }
+
+		public List<Item> ReloadData()
+        {
+			tb.setCatalog(); // read data: id, name -- from data base
+			receptures = tb.getCatalog();
+			categories.ReloadData();
+			return receptures;
+		}
+
+	}
 
 }

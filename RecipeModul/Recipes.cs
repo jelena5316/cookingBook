@@ -304,15 +304,16 @@ namespace MajPAbGr_project
 			 * и если число категорий или рецептур изменилось
 			 */
 
+			List<Item> rec, cat;
 			int temp = comboBox1.SelectedIndex; // will be checked range in case recepture would be deleted
 
-			tb.setCatalog(); // read data: id, name -- from data base
-			controller.ReloadReceptures();
-			controller.CategoriesController.ReloadData();
+			
+			//rec = controller.ReloadData();
+			cat = controller.CategoriesController.TbCat.getCatalog();
 
 			load_mode = true;
-			FormFunction.setBox(tb.getCatalog(), combo); // getting data from table controller, outputing
-			FormFunction.setBox(controller.CategoriesController.TbCat.getCatalog(), cmbCat);			
+			FormFunction.setBox(controller.ReloadData(), combo); // getting data from table controller, outputing
+			FormFunction.setBox(cat, cmbCat);			
 			load_mode = false;
 			// output into comboboxes
 
