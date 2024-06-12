@@ -367,11 +367,11 @@ namespace MajPAbGr_project
 			int temp = combo.SelectedIndex; // will be checked range in case recepture would be deleted
 
 			
-			//rec = controller.ReloadData();
+			rec = controller.ReloadData();
 			cat = controller.CategoriesController.TbCat.getCatalog();
 
 			load_mode = true;
-			FormFunction.setBox(controller.ReloadData(), combo); // getting data from table controller, outputing
+			FormFunction.setBox(rec, combo); // getting data from table controller, outputing
 			FormFunction.setBox(cat, cmbCat);			
 			load_mode = false;
             // output into comboboxes
