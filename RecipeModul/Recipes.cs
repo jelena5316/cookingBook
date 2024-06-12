@@ -143,49 +143,77 @@ namespace MajPAbGr_project
 			return recipes.Count;            
 		}
 
-		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+
+		/*
+		 * Recepture's selecting: index checking, data about recepture and formulation showing
+		 */
+		private bool setSelectedIndex(bool mode, int rec_index)
 		{
-			if (load_mode == true)
-				return;
-            if (combo.SelectedIndex < 0)
-                return;
+			if (mode == true)
+				return mode;
 
-            int index, count;			
-			List<string> amounts;
-
-			txbRecipe.Text = "";
-			index = combo.SelectedIndex;
+			rec_index = combo.SelectedIndex;
 
 			if (lbl_SeeAll.Text == "all")
-				index = controller.ImpoveIndex(index);
-            else
-            {
+				rec_index = controller.ImpoveIndex(rec_index);
+			else
+			{
 				controller.CategoriesController.ExistsSelected = true;
-				controller.CategoriesController.SelectedRecepture = index;
-            }
-				
-			
-            amounts = controller.changeSubcatalog(index);
+				controller.CategoriesController.SelectedRecepture = rec_index;
+			}
+			return mode;
+		}
+
+		private string OutputIngredients(int rec_index) // ingredients: formulation
+		{
+			int count;
+			string text = "";
+			List<string> amounts;
+
+			amounts = controller.changeSubcatalog(rec_index);
 			elements = controller.Amounts; // amounts
-	
+
 			//Output recepture and recipes;
 			FormFunction.FillListView(elements, amounts, listView1);
 			count = fillSubCatalog(); // fill the combobox2   
 			if (count == 0)
 			{
 				calc.Coefficient = 1;
-				lbl_koef.Text = "1";
+				text = "1";
 			}
 			columnHeader2.Text = "Amounts (%)";
-			AutocompleteRecipeName(); // table Recipe 
+			return text;
+		}
 
-			//Output info about recepture			
-			lbl_info.Text = controller.AboutRecepture(index);
-			int cat_index = controller.cmbCatIndex(index);
+		private void OutputInfoAboutRecepture(int rec_index)
+		{
+			//Output info about recepture
+			txbRecipe.Text = "";
+			lbl_info.Text = controller.AboutRecepture(rec_index);
+			int cat_index = controller.cmbCatIndex(rec_index);
 			if (cmbCat.Items.Count > cat_index)
 				cmbCat.SelectedIndex = cat_index;
 		}
-		
+
+		private void combo_onReceptureSelected(int index) // used for form loading and reloading too
+		{
+			index = controller.CategoriesController.SelectedRecepture;
+			lbl_koef.Text = OutputIngredients(index);
+			OutputInfoAboutRecepture(index);
+			AutocompleteRecipeName(); // table Recipe 
+		}
+
+		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			bool result = true;
+			int index = -1;
+
+			result = setSelectedIndex(load_mode, index);
+			if (result == true)
+				return;
+
+			combo_onReceptureSelected(index);
+		}
 
 		private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -305,7 +333,7 @@ namespace MajPAbGr_project
 			 */
 
 			List<Item> rec, cat;
-			int temp = comboBox1.SelectedIndex; // will be checked range in case recepture would be deleted
+			int temp = combo.SelectedIndex; // will be checked range in case recepture would be deleted
 
 			
 			//rec = controller.ReloadData();

@@ -107,9 +107,8 @@ namespace MajPAbGr_project
 
 		public List<string> changeSubcatalog(int index)
 		{
-			//Coefficients
-			selected = getCatalog()[index].id;
-			//selected = receptures[index].id;
+			//Coefficients			
+			selected = receptures[index].id;
 			tbCoeff.Recepture = getCatalog()[index].id;            
 			subcatalog = tbCoeff.setSubCatalog();
 			recipes = tbCoeff.readElement(2);
