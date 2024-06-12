@@ -81,6 +81,12 @@ namespace MajPAbGr_project
 			combo.SelectedIndex = index;
 			controller.CategoriesController.ExistsSelected = true;
 
+			bool result = setSelectedIndex(load_mode, index);
+			if (result == true)
+				return;
+			combo_onReceptureSelected(index);
+
+
 			//lokalization setting
 			current = controller.Current();            
 			this.Text += " " + controller.InfoLocal();            
@@ -124,30 +130,30 @@ namespace MajPAbGr_project
 		}
 
 		/*
-		 * End of lokalization's setting
+		 * Categories of receptures
 		 */
 
-		public int fillSubCatalog()  // recipes of recepture, combobox
+		private void cmbCat_SelectedIndexChanged(object sender, EventArgs e) // categories of recepture selecting
 		{
-			recipes = controller.Recipes;
-			FormFunction.FillCombo(recipes, recipe);            
-			if (recipe.Items.Count > 0)
-			{
-				recipe.SelectedIndex = 0;                
-			}
-			else
-			{
-				recipe.Text = "add recepture (g)";
-				lbl_koef.Text = calc.Coefficient.ToString();
-			}            
-			return recipes.Count;            
+			controller.cmbCat_onSelectedIndexChanged(cmbCat.SelectedIndex);
+			//controller.CategoriesController.Catalog.SelectedCatIndex = cmbCat.SelectedIndex;
+			//this.Text = controller.CategoriesController.Catalog.SelectedCatIndex.ToString();			
+		}
+
+		private void lbl_info_Click(object sender, EventArgs e) // new form with info about selected recepture
+		{
+			int index = combo.SelectedIndex;
+			//controller.CategoriesController.SelectedRecepture = index;
+			bool result = controller.AboutRecepture();
+			if (!result)
+				MessageBox.Show("Error!");
 		}
 
 
 		/*
 		 * Recepture's selecting: index checking, data about recepture and formulation showing
 		 */
-		private bool setSelectedIndex(bool mode, int rec_index)
+		private bool setSelectedIndex(bool mode, int rec_index) // improving index in case list is not full
 		{
 			if (mode == true)
 				return mode;
@@ -164,6 +170,22 @@ namespace MajPAbGr_project
 			return mode;
 		}
 
+		public int fillSubCatalog()  // recipes of recepture, combobox 'cmbCoef'
+		{
+			recipes = controller.Recipes;
+			FormFunction.FillCombo(recipes, recipe);
+			if (recipe.Items.Count > 0)
+			{
+				recipe.SelectedIndex = 0;				
+			}
+			else
+			{
+				recipe.Text = "add recepture (g)";
+				lbl_koef.Text = calc.Coefficient.ToString();
+			}
+			return recipes.Count;
+		}
+
 		private string OutputIngredients(int rec_index) // ingredients: formulation
 		{
 			int count;
@@ -175,7 +197,7 @@ namespace MajPAbGr_project
 
 			//Output recepture and recipes;
 			FormFunction.FillListView(elements, amounts, listView1);
-			count = fillSubCatalog(); // fill the combobox2   
+			count = fillSubCatalog(); // fill the 'cmbCoef'
 			if (count == 0)
 			{
 				calc.Coefficient = 1;
@@ -203,6 +225,10 @@ namespace MajPAbGr_project
 			AutocompleteRecipeName(); // table Recipe 
 		}
 
+
+		/*
+		 * Receptures (formulation) and recipes of selected receptures selecting using comboboxes
+		 */
 		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			bool result = true;
@@ -229,6 +255,11 @@ namespace MajPAbGr_project
 				lbl_koef.Text = string.Format("{0:f2}", calc.Coefficient);                
 			}
 		}
+
+
+		/*
+		 * Works with selected data
+		 */
 
 		private void button1_Click(object sender, EventArgs e) // recalc recepture
 		{
@@ -343,68 +374,21 @@ namespace MajPAbGr_project
 			FormFunction.setBox(controller.ReloadData(), combo); // getting data from table controller, outputing
 			FormFunction.setBox(cat, cmbCat);			
 			load_mode = false;
-			// output into comboboxes
+            // output into comboboxes
 
-			if (temp < combo.Items.Count)
-				combo.SelectedIndex = temp; 
-			else if (combo.Items.Count > 0)
-				combo.SelectedIndex = 0;
-			// select recepture after range checking
+            if (temp < combo.Items.Count)
+                combo.SelectedIndex = temp;
+            else if (combo.Items.Count > 0)
+                combo.SelectedIndex = 0;
+            // select recepture after range checking
 
-			columnHeader2.Text = "Amounts (%)"; // refreshing other form data
+            columnHeader2.Text = "Amounts (%)"; // refreshing other form data
 
-			/*From Categories.cs*/
-
-			//controller.ReloadData();
-
-			//reload_cat_mode = true;
-			//FormFunction.setBox(controller.Categories, cmb_categories);
-			//reload_cat_mode = false;
-			//seeAll(); // similar method is a method 'lbl_SeeAll_Click()'
-			//AutoCompleteRecepture(controller.Receptures);
-
-
-			/*ReloadData()*/
-
-			//	tbCat.resetCatalog();
-			//	Categories = tbCat.getCatalog();
-			//	rec_catalog.Categories = Categories;
-
-			//	setReceptures(); // tb.setCatalog(); receptures = tb.getCatalog();
-			//	ReceptureStruct.Clear();
-			//	setFields();
-
-
-			/*
-			 * setFields() => rec_catalog.ReadCatalog(receptures);
-			 */
-
-			/*ReadCatalog()*/
-
-			//int id;
-			//ReceptureStruct rec;
-
-			//rec_struct = new List<ReceptureStruct>();
-			//for (int k = 0; k < receptures.Count; k++)
-			//{
-			//	id = receptures[k].id;
-			//	rec = new ReceptureStruct(id);
-			//	rec.setData();
-			//	rec_struct.Add(rec);
-
-
-			/*SeeAll()*/
-
-			//cmb_categories.SelectedIndex = 0;
-			//cmb_categories.Text = "all";
-			//textBox1.Text = "";
-
-			//List<ReceptureStruct> full = controller.DisplayAll;
-			//resetRecepturesList(full);
-
-			//if (lv_recepture.Items.Count > 0)
-			//	lv_recepture.Items[0].Selected = true;
-		}
+            bool result = setSelectedIndex(load_mode, temp);
+            if (result == true)
+                return;
+            combo_onReceptureSelected(temp);
+        }
 
 		/*
 		 * Print to file 
@@ -587,20 +571,5 @@ namespace MajPAbGr_project
 			}
         }
 
-        private void cmbCat_SelectedIndexChanged(object sender, EventArgs e)
-        {
-			controller.cmbCat_onSelectedIndexChanged(cmbCat.SelectedIndex);
-			//controller.CategoriesController.Catalog.SelectedCatIndex = cmbCat.SelectedIndex;
-			//this.Text = controller.CategoriesController.Catalog.SelectedCatIndex.ToString();			
-		}
-
-        private void lbl_info_Click(object sender, EventArgs e)
-        {
-			int index = combo.SelectedIndex;
-			//controller.CategoriesController.SelectedRecepture = index;
-			bool result = controller.AboutRecepture();
-			if (!result)
-				MessageBox.Show("Error!");			
-		}
     }
 }
