@@ -265,10 +265,8 @@ namespace MajPAbGr_project
 			if (rec_catalog.Full == null)
 				return index;
 
-			//rec_catalog.Full = rec_catalog.ReceptureStruct; // is already done
 			rec_catalog.SelectRecepture(categories.TbMain, index, "");
-			new_index = rec_catalog.SelectedRecIndex;
-			//rec_catalog.Full = null; // will be done in other place
+			new_index = rec_catalog.SelectedRecIndex;			
             return new_index;
         }
 

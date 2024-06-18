@@ -77,10 +77,8 @@ namespace MajPAbGr_project
             // list of categories	
             List<Item> category = controller.CategoriesController.TbCat.getCatalog();
             FormFunction.setBox(category, categories);
-			load_mode = false;			
-			//combo.SelectedIndex = index;
-			//controller.CategoriesController.ExistsSelected = true;
-
+			load_mode = false;
+			
 			bool result = setSelectedIndex(load_mode, index);
 			if (result == true)
 				return;
@@ -140,8 +138,7 @@ namespace MajPAbGr_project
 
 		private void lbl_info_Click(object sender, EventArgs e) // new form with info about selected recepture
 		{
-			int index = combo.SelectedIndex;
-			//controller.CategoriesController.SelectedRecepture = index;
+			int index = combo.SelectedIndex;			
 			bool result = controller.AboutRecepture();
 			if (!result)
 				MessageBox.Show("Error!");
