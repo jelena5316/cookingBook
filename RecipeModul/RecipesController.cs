@@ -300,34 +300,6 @@ namespace MajPAbGr_project
             frm = creator.recepture(tb, rec);
             frm.ShowDialog();
             return true;
-
-
-            /* FormCreator.recepture() */
-            //	NewReceptureController cntrl = new NewReceptureController(tb);
-            //	cntrl.ReceptureInfo = rec;
-            //	return new NewRecepture(cntrl);
-
-            /*CategoriesController.editRec()*/
-            //if (!ExistsSelected)
-            //	return false;
-            //int id = CheckTbSelected(getMinIdOfReceptures());
-            //if (id == 0)
-            //	return false;
-
-            //id = ReceptureStruct[SelectedRecepture].getId();
-
-            //if (tb.Selected != id)
-            //{
-            //	tb.Selected = id;
-            //}
-
-            ////проверить, есть ли запись с таким номером
-            //tb.Id = id;
-            //NewReceptureController rec = new NewReceptureController(tb);
-            //rec.ReceptureInfo = ReceptureStruct[SelectedRecepture];
-            //NewRecepture frm = new NewRecepture(rec);
-            //frm.ShowDialog();
-            //return true;
         }
 
 		public List<Item> ReloadData()

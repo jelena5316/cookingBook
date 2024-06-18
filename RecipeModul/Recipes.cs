@@ -78,8 +78,8 @@ namespace MajPAbGr_project
             List<Item> category = controller.CategoriesController.TbCat.getCatalog();
             FormFunction.setBox(category, categories);
 			load_mode = false;			
-			combo.SelectedIndex = index;
-			controller.CategoriesController.ExistsSelected = true;
+			//combo.SelectedIndex = index;
+			//controller.CategoriesController.ExistsSelected = true;
 
 			bool result = setSelectedIndex(load_mode, index);
 			if (result == true)
@@ -135,9 +135,7 @@ namespace MajPAbGr_project
 
 		private void cmbCat_SelectedIndexChanged(object sender, EventArgs e) // categories of recepture selecting
 		{
-			controller.cmbCat_onSelectedIndexChanged(cmbCat.SelectedIndex);
-			//controller.CategoriesController.Catalog.SelectedCatIndex = cmbCat.SelectedIndex;
-			//this.Text = controller.CategoriesController.Catalog.SelectedCatIndex.ToString();			
+			controller.cmbCat_onSelectedIndexChanged(cmbCat.SelectedIndex);					
 		}
 
 		private void lbl_info_Click(object sender, EventArgs e) // new form with info about selected recepture
@@ -329,44 +327,10 @@ namespace MajPAbGr_project
 
 		private void Reload()
 		{
-			/*Прочитать из базы данных обновленные данные (вместе со старыми)*/
-			// 1. из таблицы рецептур: номера и наименования;
-			// номер и наименования с номерами категорий, технологий, главного вида сырья,
-			// наименования автора и источника, адреса в сети, описание каждой рецептуре
-			// 2. из прочих таблиц -- наименования категории, технологии, вида сырья
-			// 3. из таблиц категорий рецептур -- их номера и наименования
-
-			/*Сохранить в соответствующих переменных, структурах и объектах*/
-			// 1. Списки рецептур и их категорий -- структура Item: номера и наименования
-			// 2. Список структур ReceptureStruct в объектах класса RecStruct -- см. п. 1 в первом абзаце.
-
-			/*Переменные и методы или указатели на них в классе Recipes*/
-			// 1. tb, controller.TbMain -- содержит методы и поля для чтения из базы данных -- setCatalog() и resetCatalog() -- 
-			// и хранения прочитанных данных -- поле catalog, свойство getCatalog(), структуры Item
-			// 2.controller.CategoriesController.TbCat -- доступ к методам контроллера таблицы категорий
-			// 3. controller.CategoriesController.Catalog -- содержит методы и поля для работы со списком
-			// одноименных структур в объекте класса RecCatalog и свойство для доступа к объекту, методы
-			// 4. ReceptureStruct, ReadCatalog () -- свойство со списком структур ReceptureStruct
-			// и метод для чтения из данных из базы данных
-			// 5. controller.CategoriesController.Catalog.Categories  -- свойство,
-			// помогает сохранить обновлённый список категорий в поле класса RecCatalog
-
-			/*
-			 * Загрузить обновленные данные
-			 * в комбинированный поля в режиме load_mode
-			 * и  выбрать нужный пункт;
-			 * обновить прочие данные, выводимые в форме, если такове есть
-			 */
-
-			/*
-			 * Разобраться, что делать, если отображалась выборка
-			 * и если число категорий или рецептур изменилось
-			 */
-
+			
 			List<Item> rec, cat;
 			int temp = combo.SelectedIndex; // will be checked range in case recepture would be deleted
 
-			
 			rec = controller.ReloadData();
 			cat = controller.CategoriesController.TbCat.getCatalog();
 
@@ -380,7 +344,7 @@ namespace MajPAbGr_project
                 combo.SelectedIndex = temp;
             else if (combo.Items.Count > 0)
                 combo.SelectedIndex = 0;
-            // select recepture after range checking
+            //select recepture after range checking
 
             columnHeader2.Text = "Amounts (%)"; // refreshing other form data
 

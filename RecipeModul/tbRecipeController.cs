@@ -36,29 +36,6 @@ namespace MajPAbGr_project
             subcatalog = Catalog(query);
             catalog = subcatalog;
             return subcatalog;
-
-            //List<object[]> data;
-
-            //query = $"select id, name from {table} where id_recepture = {recepture};";
-            //// 'table' -- 'Recipe'
-
-            //if (subcatalog.Count > 0)
-            //{
-            //    subcatalog.Clear();
-            //}
-
-            //if (catalog.Count > 0)
-            //{
-            //    catalog.Clear();
-            //}
-
-            //data = dbReadData(query);
-            //DataItemsList(subcatalog, data);// convert data to list of Item enstance
-            //data.Clear();
-
-            //catalog = subcatalog;
-            //count = catalog.Count;            
-            //return subcatalog;
         }
 
         public override List<Element> readElement(int opt)
