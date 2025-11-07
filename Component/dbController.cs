@@ -20,11 +20,15 @@ namespace MajPAbGr_project
 		protected string TABLE_CHAINS;
 		protected string TABLE_RECEPTURE;
 		protected string TABLE_AMOUNTS;
-		protected string TABLE_RECIPE; 
+		protected string TABLE_RECIPE;
 		// table "Recipe" store coefficients
 		// and futher will be used short name "COEF"
 		// as part of name for variables storing it's columns` names
-
+		//further three tables storing congiguration data
+		protected string TABLE_VERSION;
+		protected string TABLE_DB;		
+		protected string TABLE_TB;
+		protected string TABLE_COL;		
 
 		//columns in table "Ingredients"
 		protected string INGR_COL_ID;
@@ -72,6 +76,34 @@ namespace MajPAbGr_project
 		protected string COEF_COL_NAME;
 		protected string COEF_COL_REC;		
 		protected string COEF_COL_COEFFICIENT;
+
+		//columns int table "db_version"
+		protected string V_COL_ID;
+		protected string V_COL_NUM;
+		protected string V_COL_NAME;
+		protected string V_COL_DATE;
+		protected string V_COL_TABLES;
+		protected string V_COL_COLS;
+		protected string V_COL_CONTROL;
+
+		//columns in table "db_config" 
+		protected string DB_COL_ID;
+		protected string DB_COL_NAME;
+		protected string DB_COL_V;
+		protected string DB_COL_CON;
+
+		//columns in table "db_tables"
+		protected string TB_COL_ID;
+		protected string TB_COL_V;
+		protected string TB_COL_DEF_NAME; // default name
+		protected string TB_COL_CUR_NAME; // current name
+
+		//columns in table "db_columns"
+		protected string COl_COL_ID;
+		protected string COL_COL_V;
+		protected string COl_COL_TABLE;  // table id
+		protected string COL_COL_DEF_NAME; // default name
+		protected string COL_COL_CUR_NAME; //current name
 
 		protected abstract void setTablesColumnsNames(Tables tbs);		
 		protected abstract string[] createQueries();
@@ -189,6 +221,46 @@ namespace MajPAbGr_project
 						COEF_COL_COEFFICIENT = table.Columns[3];
 						break;
 					}
+				case 8: // data base version
+                    {
+                        TABLE_VERSION = table.Name;
+                        V_COL_ID = table.Columns[0];
+                        V_COL_NUM = table.Columns[1];
+                        V_COL_NAME = table.Columns[2];
+                        V_COL_DATE = table.Columns[3];
+                        V_COL_TABLES = table.Columns[4];
+                        V_COL_COLS = table.Columns[5];
+                        V_COL_CONTROL = table.Columns[6];
+                        break;
+                    }
+				case 9: // data base configs
+                    {
+						TABLE_DB = table.Name;
+						DB_COL_ID = table.Columns[0];
+						DB_COL_NAME = table.Columns[1];
+						DB_COL_V = table.Columns[2];
+						DB_COL_CON = table.Columns[3];
+						break;
+                    }
+				case 10: // data base tables
+                    {
+						TABLE_TB = table.Name;
+						TB_COL_ID = table.Columns[0];
+						TB_COL_V = table.Columns[1];
+						TB_COL_DEF_NAME = table.Columns[2];
+						TB_COL_CUR_NAME = table.Columns[3];
+						break;
+                    }
+				case 11: // data base columns
+                    {
+						TABLE_COL = table.Name;
+						COl_COL_ID = table.Columns[0];
+						COL_COL_V = table.Columns[1];
+						COl_COL_TABLE = table.Columns[2];
+						COL_COL_DEF_NAME = table.Columns[3];
+						COL_COL_CUR_NAME = table.Columns[4];
+						break;
+                    }
 				default: break;
 			}
 		}
@@ -200,7 +272,8 @@ namespace MajPAbGr_project
 			{
 				IngredientsQ(), CategoriesQ(), CardsQ(),
 				TechnologyQ(), ChainsQ(), ReceptureQ(),
-				AmountsQ(), RecipeQ()
+				AmountsQ(), RecipeQ(),
+				DbVersionQ(), DbConfigQ(), DbTablesQ(), DbColumnsQ()
 				};
 		}
 
@@ -237,7 +310,7 @@ namespace MajPAbGr_project
 										$"AND length({TECHN_COL_NAME}) <= 30 " +
 										$"AND length({TECHN_COL_DESCRIPTION}) <= 150));";
 
-		private string ChainsQ() => $"CREATE TABLE {TABLE_CHAINS}(" +
+		private string ChainsQ() => $"CREATE TABLE IF NOT EXISTS {TABLE_CHAINS}(" +
 									$"{CHAIN_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
 									$"{CHAIN_COL_TECHN} NOT NULL, " +
 									$"{CHAIN_COL_CARD} NOT NULL REFERENCES {TABLE_CARDS}({CARD_COL_ID}) ON DELETE CASCADE, " +
@@ -262,7 +335,7 @@ namespace MajPAbGr_project
 										$"REFERENCES {TABLE_CATEGORIES}({INGR_COL_ID}) ON DELETE SET DEFAULT);";
 
 
-		private string AmountsQ() => $"CREATE TABLE {TABLE_AMOUNTS} ( " +
+		private string AmountsQ() => $"CREATE TABLE IF NOT EXISTS {TABLE_AMOUNTS} ( " +
 									$"{AM_COL_ID} INTEGER  PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, " +
 									$"{AM_COL_REC}   INTEGER NOT NULL " +
 									$"CONSTRAINT[привязка к рецептуре] REFERENCES Recepture({REC_COL_ID}) ON DELETE CASCADE, " +
@@ -271,13 +344,40 @@ namespace MajPAbGr_project
 									$"{AM_COL_AMOUNTS} REAL(6) NOT NULL DEFAULT 0 " +
 									$"CHECK({ AM_COL_AMOUNTS} > 0));";
 
-		private string RecipeQ() => $"CREATE TABLE {TABLE_RECIPE} ( " +
+		private string RecipeQ() => $"CREATE TABLE IF NOT EXISTS  NOT EXISTS {TABLE_RECIPE} ( " +
 									$"{COEF_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
 									$"{COEF_COL_NAME} VARCHAR NOT NULL " +
 									$"CHECK({COEF_COL_NAME} != \"\" AND length({COEF_COL_NAME}) <= 20), " +
 									$"{COEF_COL_REC} INTEGER NOT NULL, " +
 									$"{COEF_COL_COEFFICIENT}  REAL NOT NULL DEFAULT 1, " +
 									$"FOREIGN KEY({COEF_COL_REC}) REFERENCES Recepture({REC_COL_ID}) ON DELETE CASCADE);";
+
+		private string DbVersionQ() =>  $"CREATE TABLE IF NOT EXISTS {TABLE_VERSION} ( " +
+										$"{V_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+										$"{V_COL_NUM} INTEGER," +
+										$"{V_COL_NAME} VARCHAR," +
+										$"{V_COL_DATE} TEXT," +
+										$"{V_COL_TABLES} INT," +
+										$"{V_COL_COLS} INT," +
+										$"{V_COL_CONTROL} INT);";
+
+		private string DbConfigQ() =>	$"CREATE TABLE IF NOT EXISTS {TABLE_DB} ( " +
+										$"{DB_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+										$"{DB_COL_NAME} STRING, " +
+										$"{DB_COL_V} INT REFERENCES {TABLE_VERSION}({V_COL_ID}), " +
+										$"{DB_COL_CON} STRING);";
+
+		private string DbTablesQ() =>	$"CREATE TABLE IF NOT EXISTS {TABLE_TB} ( " +
+										$"{TB_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+										$"{TB_COL_V} INT REFERENCES {TABLE_DB}({DB_COL_V}), " +
+										$"{TB_COL_DEF_NAME} STRING, " +
+										$"{TB_COL_CUR_NAME} STRING);";
+
+		private string DbColumnsQ() =>  $"CREATE TABLE IF NOT EXISTS {TABLE_COL} ( " +
+										$"{COl_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+										$"{COl_COL_TABLE} INT REFERENCES {TABLE_TB}({TB_COL_ID}), " +
+										$"{COL_COL_DEF_NAME} STRING, " +
+										$"{COL_COL_CUR_NAME} STRING);";
 
 		public override TablesCreator CreateDataBaseTables(dbController db)
 		{
@@ -298,8 +398,8 @@ namespace MajPAbGr_project
 
 		public dbController ()
 		{
-			Tables tbs = new Tables();
-			setTablesColumnsNames(tbs);
+			//Tables tbs = new Tables();
+			//setTablesColumnsNames(tbs);
 			connectionString = Program.connectionStringPath;
 			connection = new SqliteConnection(connectionString);
 		}
@@ -810,7 +910,11 @@ namespace MajPAbGr_project
 		CHAIN,
 		REC,
 		AM,
-		COEF
+		COEF,
+		DB_VERS,
+		DB_CONFIGS,
+		DB_TBLS,
+		DB_COL
 	}
 
 
@@ -836,7 +940,9 @@ namespace MajPAbGr_project
 			{
 				createIngr(), createCat(),
 				createCard(), createTech(), createChain(),
-				createRec(), createAm(), createCoef()
+				createRec(), createAm(), createCoef(),
+				createVers(), createConf(), createTables(),
+				createCol()
 			};
 		}
 
@@ -919,6 +1025,48 @@ namespace MajPAbGr_project
 			tb.Name = "Recipe";
 			tb.Columns = new string[] {"id", "name",
 										   "id_recepture","Coefficient",};
+			return tb;
+		}
+
+		private Table createVers()
+        {
+			Table tb = new Table();
+			tb.Title = (int)Titles.DB_VERS;
+			tb.Name = "db_version";
+			tb.Columns = new string[] {"id", "number", "name",
+											"date", "tables",
+											"columns", "control" };
+
+			return tb;
+		}
+
+		private Table createConf()
+        {
+			Table tb = new Table();
+			tb.Title = (int)Titles.DB_CONFIGS;
+			tb.Name = "db_config";
+			tb.Columns = new string[] {"id", "name", "version",
+											"connection" };
+			return tb;
+		}
+
+		private Table createTables()
+		{
+			Table tb = new Table();
+			tb.Title = (int)Titles.DB_TBLS;
+			tb.Name = "db_tables";
+			tb.Columns = new string[] {"id", "version",
+									   "default_name", "current_name" };
+			return tb;
+		}
+
+		private Table createCol()
+        {
+			Table tb = new Table();
+			tb.Title = (int)Titles.DB_COL;
+			tb.Name = "db_columns";
+			tb.Columns = new string[] {"id", "version", "id_table",
+									   "default_name", "current_name" };
 			return tb;
 		}
 	}

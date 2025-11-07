@@ -10,6 +10,7 @@ namespace MajPAbGr_project
 	static class Program
 	{
 
+		//public static string connectionStringPath = "Data Source = db\\CookingBook; Mode=ReadWrite";
 		public static string connectionStringPath = "Data Source = db\\CookingBook; Mode=ReadWrite";
 		private static bool  connectionStringIsCorrect = true;
 		private static string PATH = "C:\\Users\\user\\source\\repos\\MajPavGr_project1\\Config.txt"; // stores a coonection string
@@ -34,6 +35,17 @@ namespace MajPAbGr_project
 			//	reader.Close();
 			//}
 
+			/*
+			 * Проверки:
+			 * -- есть ли конфигурационный файл
+			 * -- есть ли в нём строка подключения к базе данных
+			 * -- есть ли база данных в указанном к строке подключения адресе (уже есть)
+			 * -- соответсвует ли структура базы данных программной (на будущее)
+			 * Подумать:
+			 * -- с какой проверки предлагать создать базу данных с нуля
+			 * -- нужна ли перед этим дополнительная проверка
+			 */	
+			
 			dbController dbTest = new dbController();
 			if (!dbTest.testConnection())
 			{
@@ -112,19 +124,25 @@ namespace MajPAbGr_project
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			if (!connectionStringIsCorrect) //connection string is wrong; 'false'
-				Application.Run(new EditDB(connectionStringPath)); // connection string editing
+				Application.Run(new EditDB(connectionStringPath));
+			// connection string editing
 			/* if a connection string is succesefully corrected, then a variable, what is used as condition, is equel 'true'
 			 * else it is equel 'false'.
 			 * Value of this variable will be changed in case the connection string is changed AND it is correct -- 'true'.
 			 * In case connection string is neither not changed or not correct this variable will be not changed -- 'false'.
 			 * In case connection string is changed, but stay incorrect, this variable stay unchanged too -- 'false'.
 			 */
+
 			if (connectionStringIsCorrect) //connection string is correct; 'true'
 										   
 			{
 				Component.FormCreator creator = new Component.FormCreator();
 				//Application.Run(new Categories()); // old version
 				//Application.Run(creator.categories());
+
+
+				db.CreateDataBaseTables(db);
+
 
 				//other form is opened as start page
 				CategoriesController controller = new CategoriesController();
