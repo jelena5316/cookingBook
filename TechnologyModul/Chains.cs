@@ -85,13 +85,16 @@ namespace MajPAbGr_project
 
         private void setListBoxCards()
         {
+            int count = 0;
             string description;
-            List<string> names;            
+            List<Item> names;            
             listBox_cards.Items.Clear();            
-            names = controller.Names(chains.CardsInTechnology(techn.Selected));
+            names = controller.Cards(techn.Selected, out count);
 
+            if (names == null)
+                return;
             for (int k = 0; k < names.Count; k++)
-                listBox_cards.Items.Add(names[k]); // is a name unique?
+                listBox_cards.Items.Add(names[k].name); // is a name unique?
 
             if (listBox_cards.Items.Count != 0)
                 listBox_cards.SelectedIndex = 0;

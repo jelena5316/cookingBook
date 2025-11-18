@@ -265,6 +265,8 @@ namespace MajPAbGr_project
 			}
 		}
 
+		public string TechnologiesQuery => createQueries()[3];
+
 		protected override string[] createQueries()
 		{
 			//set queries for database creating
@@ -385,6 +387,8 @@ namespace MajPAbGr_project
 		}
 	}
 
+
+
 	public class dbController :DataBaseCreator /*access data base*/
 	{
 		private string connectionString;
@@ -392,19 +396,41 @@ namespace MajPAbGr_project
 		private SqliteDataReader reader;
 		private SqliteCommand command;
 
+
+
 		protected int error_code = 0;
 		protected string error_message="";
 		protected AnswerInfo Info;
 
 		public dbController ()
 		{
-			//Tables tbs = new Tables();
-			//setTablesColumnsNames(tbs);
+			Tables tbs = new Tables();
+			setTablesColumnsNames(tbs);
 			connectionString = Program.connectionStringPath;
 			connection = new SqliteConnection(connectionString);
 		}
 
-		public AnswerInfo getInfo() { return Info; }
+
+        /*
+         * From Formtest_EF
+         */
+       
+        public SqliteConnection Connection => connection;
+        public SqliteDataReader Reader
+        {
+            get { return reader; }
+            set { reader = value; }
+        }
+        public SqliteCommand Command
+        {
+            get { return command; }
+            set { command = value; }
+        }
+		/*
+		 * End
+		 */
+
+        public AnswerInfo getInfo() { return Info; }
 
 		/*
 		 * Testing conection with data base file for class Program
@@ -456,17 +482,51 @@ namespace MajPAbGr_project
 			return tc;
 		}
 
-		public void createTables()
-        {
-            int result = 0;
-            string query = "";
 
+        /*
+		 * 'update', 'delete', 'insert'
+		 */
+        public int Edit(string query)
+        {
+            int ind; //to store the number of rows inserted, updated, or deleted. 
             using (connection)
             {
-                result = Edit(query);
+                command = new SqliteCommand(query, connection);
+                connection.Open();
+                try
+                {
+                    ind = command.ExecuteNonQuery();
+                }
+                catch
+                {
+                    ind = 0; // -1 for 'select' statements
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return ind;
+        }
+
+
+        /*
+		 * insert and get id of last inserted row; 'select' with function return a number
+		 */
+
+        public string Count(string query)
+        {
+            string count = "";
+            using (connection)
+            {
+                command = new SqliteCommand(query, connection);
+                connection.Open();
+                var num = command.ExecuteScalar();
+                count = num.ToString();
                 connection.Close();
             }
-        } // old version, unusing
+            return count;
+        }
 
         /*
 		 * 'select'
@@ -647,12 +707,12 @@ namespace MajPAbGr_project
 			int length = 0;
 			//DBAnswer answer;
 			List<object[]> data = new List<object[]>();
-			using (connection)
+
+			try
 			{
-				command = new SqliteCommand(query, connection);
-				try
+				connection.Open();
+				using (command = new SqliteCommand(query, connection))
 				{
-					connection.Open();
 					using (reader = command.ExecuteReader())
 					{
 						length = reader.FieldCount;
@@ -665,9 +725,9 @@ namespace MajPAbGr_project
 								data.Add(arr);
 							}
 						}
-					}
-					connection.Close();
-
+					}				
+				}
+			
 					//answer = new DBAnswer(0, "", query, connectionString, data);
 					//Info = answer.getInfo;					
 					//return answer.getData;
@@ -690,54 +750,42 @@ namespace MajPAbGr_project
 					Info = new AnswerInfo(error_code, error_message, query, connectionString);
 					return data;
 				}
-			}
-		}
-
-		/*
-		 * 'update', 'delete', 'insert'
-		 */
-
-		public int Edit(string query)
-		{
-			int ind; //to store the number of rows inserted, updated, or deleted. 
-			using (connection)
-			{
-				command = new SqliteCommand(query, connection);
-                connection.Open();
-				try
+				finally
 				{
-					ind = command.ExecuteNonQuery();
-				}
-                catch
-                {
-					ind = 0; // -1 for 'select' statements
+                    connection.Close();
                 }
-                finally
-                {
-					connection.Close();
-                }				
-			}
-			return ind;
 		}
 
 
 		/*
-		 * insert and get id of last inserted row; 'select' with function return a number
+		 * Methods will be replaced in subclasses
 		 */
-
-		public string Count(string query)
+		public List<FormEF_test.Technology> DbReadTech(string query)
 		{
-			string count="";
-			using (connection)
-			{
-				command = new SqliteCommand(query, connection);
-				connection.Open();                
-				var num = command.ExecuteScalar();
-				count = num.ToString();
-				connection.Close();                              
-			}
-			return count;
-		}
+			List<FormEF_test.Technology> cards = new List<FormEF_test.Technology>();
+            using (connection)
+            {
+                command = new SqliteCommand(query, connection);
+                connection.Open();
+                using (reader = command.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+							FormEF_test.Technology tech = new FormEF_test.Technology();
+							tech.Id = int.Parse(reader.GetValue(0).ToString());
+                            tech.Name = reader.GetValue(1).ToString();
+                            tech.Note =  reader.GetValue(2).ToString();
+                            cards.Add(tech);
+                        }
+                    }
+                }
+                connection.Close();
+            }
+            return cards;
+        }
+
 	}
 
 

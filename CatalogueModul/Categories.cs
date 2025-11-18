@@ -262,7 +262,7 @@ namespace MajPAbGr_project
 
 			// check selected item of list
 			selected = CheckTbMainSelected(controller.getMinIdOfReceptures());
-			Technology frm;
+			TechnologyForm frm;
 
 			//id_technology
 			int index = selected_recepture == -1 ? 0 : selected_recepture;
@@ -273,7 +273,7 @@ namespace MajPAbGr_project
 				id_technology = controller.ReceptureStruct[index].getIds()[1];
 			id_technology = id_technology < 0 ? 0 : id_technology;
 
-			frm = new Technology(id_technology);
+			frm = new TechnologyForm(id_technology);
 			frm.Show();
 		}
 

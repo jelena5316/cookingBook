@@ -3,8 +3,10 @@
  * and methods of classes tbChainController, tbTechnologyController and tbTechnologyCardsController
  */
 
+using FormEF_test;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,15 +64,13 @@ namespace MajPAbGr_project
             }
         }
 
-        public List <string> Names(List<string> ids)
+        public List <Item> Cards(int selected_techn, out int count)
         {
-            List<string> list = new List<string>();            
-            for (int k = 0; k < ids.Count; k++)
-            {
-                list.Add
-                    (tbCards.dbReader($"select name from {tbCards.getTable()} where id = {ids[k]};")[0]);
-            }
-            return list;
+            count = tbChain.CardsInTechnologyCount(selected_techn);
+            if (count > 0)
+                return tbChain.CardsInTechnologyAsSubcatalog("Technology_card", "id_technology", selected_techn);
+            else
+                return null;           
         }
         
         public tbTechnologyCardsController tbCardsController

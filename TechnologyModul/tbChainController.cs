@@ -60,6 +60,12 @@ namespace MajPAbGr_project
         {
             query = $"select id_card from {table} where id_technology = {id};";
             return dbReader(query);
+        }       
+
+        public List<Item> CardsInTechnologyAsSubcatalog(string subtable, string column, int id)
+        {
+            query = $"select id, name from {subtable} where id in (select id_card from {table} where {column} = {id});";            
+            return Catalog(query);
         }
 
 

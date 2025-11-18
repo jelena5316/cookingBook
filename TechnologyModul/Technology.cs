@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace MajPAbGr_project
 {
-	public partial class Technology : Form
+	public partial class TechnologyForm : Form
 	{
 		int id_technology, // tooken id, will be changed updating and creating
 			selected_tech; // id of selected from list technology, is used for updating and deleting
@@ -17,7 +17,7 @@ namespace MajPAbGr_project
 		TechnologyController controller;
 		tbController tbRec;
 
-		public Technology(int technology)
+		public TechnologyForm(int technology)
 		{
 			InitializeComponent();
 
@@ -72,7 +72,7 @@ namespace MajPAbGr_project
 
 		private string OutTechnology() //outputting into textbox
 		{
-			string[] arr = controller.OutTechnology(selected_tech);
+			string[] arr = controller.getTbController().OutTechnology();
 			textBox1.Text = arr[0];
 			textBox3.Text = arr[1];
 			return arr[0] + ": " + arr[1];
@@ -81,22 +81,22 @@ namespace MajPAbGr_project
 		private int fillCatalogCards(int selected) // cards subcatalog
         {
 			int count = 0;
-			List<string> cards_id, names;			
+			List<Item> cards_id;
+			//List<string> cards_id, names;
 
 			if (listBox_cards.Items.Count > 0)
 			{
 				listBox_cards.Items.Clear();
 			}	
 
-			cards_id = controller.Cards(selected, out count);
+			cards_id = controller.Cards(selected, out count); //controller.Cards
 
 			if (cards_id != null)
 			{
-				int k;				
-				names = controller.Names(cards_id);
+				int k;
 				for (k = 0; k < cards_id.Count; k++)
 				{
-					listBox_cards.Items.Add(names[k]);
+					listBox_cards.Items.Add(cards_id[k].name);
 				}
 			}
 			return count;
@@ -106,7 +106,10 @@ namespace MajPAbGr_project
 		{
 			if (comboBox2.SelectedIndex > -1)
                 {
-				int count = 0, index = comboBox2.SelectedIndex, selected = tb.setSelected(index);			
+				int count = 0,
+					index = comboBox2.SelectedIndex,
+					selected = tb.setSelected(index);
+				controller.getTbController().setCurrent();
 				selected_tech = selected;
 				id_technology = selected;
 			

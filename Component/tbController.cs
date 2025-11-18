@@ -3,6 +3,7 @@
  */
 
 using System.Collections.Generic;
+using FormEF_test;
 
 namespace MajPAbGr_project
 {
@@ -17,15 +18,17 @@ namespace MajPAbGr_project
 
 		public tbController() : base()
 		{
-			selected = 0;
+			selected = 0;			
 		}
+
+
 		public tbController(string table)
 		{
 			selected = 0;
 			this.table = table;
 			catalog = new List<Item>();
-			subcatalog = new List<Item>();
-		}
+			subcatalog = new List<Item>();            
+        }
 
 		/*
 		 * Properties
@@ -58,12 +61,6 @@ namespace MajPAbGr_project
 			query = "select id, name from " + table + ";";
 			catalog = Catalog(query);
 			count = catalog.Count;
-
-			//query = "select id, name from " + table + ";";			
-			//data = dbReadData(query);
-			//DataItemsList(catalog, data);
-			//count = catalog.Count;
-			//data.Clear();
 		}
 
 		public List<Item> getCatalog() { return catalog; }
@@ -87,23 +84,6 @@ namespace MajPAbGr_project
 
             subcatalog = Catalog(query);
 			return subcatalog;
-
-			//List<object[]> data;			
-
-			//query = $"select id, name from {subtable} where {column} = "
-			//	+ selected + ";";
-
-			//if (subcatalog.Count > 0)
-			//{
-			//	subcatalog.Clear();
-			//}	
-
-			//data = dbReadData(query);
-			//DataItemsList(subcatalog, data);// convert data to list of Item enstance
-			//data.Clear();
-
-			//count = catalog.Count;
-			//return subcatalog;
 		}
 
 		/*
@@ -122,30 +102,40 @@ namespace MajPAbGr_project
 		}
 
 
-		/*
+        /*
 		 * get fields values
 		 */
 
-		public string getName(int index)
+        public string getTable()
+        {
+            return table;
+        }
+
+        public string getById(string column, int id) // for Recepture and others
+        {
+            query = $"select {column} from {table} where id = " + id + ";";
+            List<string> id_list = dbReader(query);
+            if (id_list.Count > 0)
+                return id_list[0];
+            else
+                return "0";
+        }
+
+        public string getName(int index)
 		{
 			return catalog[index].name;
 		}
 
-		public string getTable()
+		public List<string> getNamesFromDB()
 		{
-			return table;
+			return dbReader($"select name from {table}");
 		}
 
-		public string getById(string column, int id) // for Recepture and others
+		public List<string> getNamesFromDB(string subtable)
 		{
-			query = $"select {column} from {table} where id = " + id + ";";
-			List<string> id_list = dbReader(query);
-			if (id_list.Count > 0)
-				return id_list[0];
-			else
-				return "0";
-		}
-
+            return dbReader($"select name from {subtable}");
+        }
+				
 		/*
 		 * checking selected item use count
 		 */
@@ -177,14 +167,12 @@ namespace MajPAbGr_project
 					" FROM Recipe WHERE id_recepture = "
 					+ selected + ";";
 					break;
-			}
-
-			//List <object[]> data = dbReadData(query);
-			//el = new List<Element>();
-			//DataElementsList(el, data);
+			}			
 			el = dbReadElement(query);			
 			return el;
 		}
+
+
 
 		/*
 		 * Operation with data
@@ -239,69 +227,5 @@ namespace MajPAbGr_project
 			Info.query = "";
 			Info.database = "";
 		}
-
-		/*
-		 * methods to convert data from list of objects` arrays getted from data base (getValues() in dbDataReader()) to wanted type;
-		 */
-
-		public void DataItemsList(List<Item> items, List<object[]> data) // to have exchange dbController.Catalog()
-		{
-			for (int k = 0; k < data.Count; k++)
-			{
-				Item item = new Item();
-				object[] arr = data[k];
-				int id = (int)(long)arr[0];
-				string name = arr[1].ToString();
-				item.createItem(id, name);
-				items.Add(item);
-			}
-		}
-
-		public void DataElementsList(List<Element> elements, List<object[]> data) // to have change dbController.dbReadElement()
-		{
-			for (int k = 0; k < data.Count; k++)
-			{
-				object[] arr = data[k];
-				int id = (int)(long)arr[0];
-				string name = arr[1].ToString();
-				double num = (double)arr[2];
-				Element el = new Element(id, name, num);
-				elements.Add(el);
-			}
-		}
-
-		public void DataNamesList(List<string> names, List<object[]> data) // to have change dbController.dbReader()
-		{
-			for (int k = 0; k < data.Count; k++)
-			{
-				object[] arr = data[k];
-				string name = arr[0].ToString();
-				names.Add(name);
-			}
-		}
-
-		public void DataTechnologiesList(List<string> cards, List<object[]> data)
-		{
-			for (int k = 0; k < data.Count; k++)
-			{
-				object[] arr = data[k];
-				string technology = arr[0].ToString();
-				technology += "*" + arr[1].ToString();
-				cards.Add(technology);
-			}
-		}
-
-		
-
-		//public List<string> DataStringList(string query)
-  //      {
-		//	List<object[]> data = dbReadData(query);
-		//	List<string> list = new List<string>();
-		//	for (int k = 0; k < data.Count; k++)
-  //          {
-		//		list.Add(data[k][0].ToString());
-  //          }
-		//	return list;
-  //      }
 	}
 }

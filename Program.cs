@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace MajPAbGr_project
 {	
@@ -44,8 +46,24 @@ namespace MajPAbGr_project
 			 * Подумать:
 			 * -- с какой проверки предлагать создать базу данных с нуля
 			 * -- нужна ли перед этим дополнительная проверка
-			 */	
+			 */
+
+			//dbController dbGetables = new dbController();
+			//List<object[]> result = dbGetables.dbReadData("SELECT name FROM sqlite_schema WHERE type = 'table';"); // LIKE '%pattern'
+
+			//for (int k = 0; k < result.Count; k++)
+			//{
+			//	string message = "";
+			//	for (int q = 0; q < result[k].Count(); q++)
+			//	{
+			//		message+= " " + result[k][q].ToString();
+			//		System.Diagnostics.Debug.WriteLine(message);
+			//	}
+								
+			//}
+
 			
+
 			dbController dbTest = new dbController();
 			if (!dbTest.testConnection())
 			{
@@ -148,13 +166,16 @@ namespace MajPAbGr_project
 				CategoriesController controller = new CategoriesController();
 				controller.Catalog.SelectedRecIndex = 0;
 				//Application.Run(creator.recipes(controller.Catalog));
-				Application.Run(creator.recipes(controller));
+				//Application.Run(creator.recipes(controller));
+				Application.Run(new Categories());
 			}
 				
 			else //connection string is wrong; 'false'
 				MessageBox.Show("Thank you for using our application!");
 				Application.Exit(); //connection string is wrong
 		}
+
+
 
 		public static void cook_error(string message)
 		{

@@ -1,6 +1,6 @@
 ﻿namespace MajPAbGr_project
 {
-    partial class Technology
+    partial class TechnologyForm
     {
         /// <summary>
         /// Required designer variable.

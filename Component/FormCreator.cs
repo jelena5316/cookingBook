@@ -45,7 +45,7 @@ namespace MajPAbGr_project.Component
 
 		Categories categories(CategoriesController cntrl) => new Categories(cntrl); // for any case
 
-		Technology technology(int technology) => new Technology(technology);
+		TechnologyForm technology(int technology) => new TechnologyForm(technology);
 
 		Ingredients simpletable(int opt) => new Ingredients(new tbIngredientsController(opt));
 

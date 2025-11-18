@@ -411,7 +411,7 @@ namespace MajPAbGr_project
             {
                 tehn = new TechnologyController(id_technology);
                 tehn.setReceptures();                
-                arr = tehn.OutTechnology(id_technology);
+                arr = tehn.getTbController().OutTechnology();
                 return arr;
             }
         }
@@ -628,7 +628,7 @@ namespace MajPAbGr_project
 
             // check selected item of list
             id = CheckTbSelected(getMinIdOfReceptures());
-            Technology frm;
+            TechnologyForm frm;
 
             //id_technology
             // а может, просто проверить и если нет выбранной рецептуры,
@@ -641,7 +641,7 @@ namespace MajPAbGr_project
                 id_technology = ReceptureStruct[index].getIds()[1];
             id_technology = id_technology < 0 ? 0 : id_technology;
 
-            frm = new Technology(id_technology);
+            frm = new TechnologyForm(id_technology);
             frm.Show();
         }
 

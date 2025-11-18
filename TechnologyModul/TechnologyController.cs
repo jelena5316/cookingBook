@@ -38,38 +38,19 @@ namespace MajPAbGr_project
 		{
 			return tbRec;
 		}
-		
-		public string [] OutTechnology(int selected) //into textbox
+
+		public List<Item> Cards(int selected, out int count)
 		{
-			string query, technology = "";
-			string[] arr = null;
+            tbChainController chains;
+            chains = new tbChainController("Technology_chain");
+            count = chains.CardsInTechnologyCount(selected);
 
-			query = $"select name, description from Technology where id = {selected};"; //id			
-			technology = tb.dbReadTechnology(query)[0];			
-			arr = technology.Split('*');
-			return arr;
-		}
 
-		public List<string> Names(List <string> cards_id)
-        {
-			int k;
-			string range = "";
-			for (k = 0; k < cards_id.Count - 1; k++)
-				range += $"{cards_id[k]}, ";
-			range += cards_id[k];		
-			return tb.dbReader($"select name from Technology_card where id in ({range})");
-		}
-
-		public List <string> Cards (int selected, out int count)
-        {
-			tbChainController chains;
-			chains = new tbChainController("Technology_chain");
-			count = chains.CardsInTechnologyCount(selected);
 			if (count > 0)
-				return chains.CardsInTechnology(selected);
+				return chains.CardsInTechnologyAsSubcatalog("Technology_card", "id_technology", selected);
 			else
 				return null;
-		}
+        }
 
 		public List<Item> setReceptures()
         {

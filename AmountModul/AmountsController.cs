@@ -33,7 +33,7 @@ namespace MajPAbGr_project
 
             tbIngred = new tbIngredientsController(1);
             tbIngred.setCatalog();
-            ingredients = tbIngred.getCatalog();            
+            ingredients = tbIngred.getCatalog();           
 
             this.mode = (elements.Count < 1) ? Mode.Create : Mode.Edit;
             // mode autodetector
@@ -55,8 +55,11 @@ namespace MajPAbGr_project
         public List <string> getRecipesNames()
         {
             try
-            {            
-                List <string> names = tbAmount.dbReader($"select name from Recipe;");
+            {
+                tbRecipeController tbRec = new tbRecipeController("Recipe"); // ? Recipe?              
+
+                List<string> names = tbRec.getNamesFromDB();
+                
                 if (names.Count > 1)
                     return names;
                 else
