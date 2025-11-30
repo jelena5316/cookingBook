@@ -4,6 +4,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Windows.Forms;
 
 namespace MajPAbGr_project
 {
@@ -160,6 +162,10 @@ namespace MajPAbGr_project
 		}
 	}
 
+
+	/*
+	 * For error handling
+	 */
 	public struct AnswerInfo
     {
 		public int err_code;
@@ -177,6 +183,26 @@ namespace MajPAbGr_project
 			query = queryText;
 			database = address;
 		}
+
+		public void setErrInfo(int code, string message)
+		{
+            err_code = code;
+            err_message = message;
+        }
+
+		public void setQueryInfo(string queryText, string address)
+		{
+			query = queryText;
+            database = address;            
+        }
+
+		public void Clear()
+		{
+            err_code = 0;
+            err_message = "";
+            query = "";
+            database = "";
+        }
     }
 
 	public class DBAnswer
