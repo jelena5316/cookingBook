@@ -14,6 +14,8 @@ namespace MajPAbGr_project
        
         public tbChainController(string table) : base(table) {}
 
+
+
         /************************************************************************
          Read data from table
          ************************************************************************/

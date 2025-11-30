@@ -17,42 +17,31 @@ namespace MajPAbGr_project
     {
         string used = "0";
         FormEF_test.Technology current;
-        List<FormEF_test.Technology> technologies = new List<FormEF_test.Technology>();
+        List<Item> receptures;
+        List<Card> cards;
 
-        
+
         public tbTechnologyController(string table) : base(table)
         {
-            //TECHN_COL_ID = "id";
-            //TECHN_COL_NAME = "name";
-            //TECHN_COL_DESCRIPTION = "description";
+           cards = new List<Card>();
         }
 
-        public void readAllTechsByQuery()
+        public FormEF_test.Technology Current
         {
-            List<object[]> list;
-
-            if (technologies.Count > 0)
-                technologies.Clear();            
-
-            query = $"Select id, name, description from {table}";
-            list = dbReadData(query);
-            
-            foreach (object[] item in list)
-            {
-                technologies.Add(new FormEF_test.Technology
-                    (
-                    (int)item[0],
-                    item[1].ToString(),
-                    item[2].ToString()
-                    ));
-            }      
+            get { return current; }
         }
+
+
+        public List<Item> RecepturesOfTechnology
+        {
+            get { return receptures; }
+        }
+
 
         public void setCurrent()
         {
-            object[] technology = null;            
-
-            query = $"select name, description from Technology where id = {selected};"; //id			
+            object[] technology = null;
+            query = $"select name, description from {table} where id = {selected};"; //id			
             technology = dbReadData(query)[0];
             current = new Technology
                 (
@@ -60,20 +49,15 @@ namespace MajPAbGr_project
                 technology[0].ToString(),
                 technology[1].ToString() 
                 );
+            setUsed();
+            receptures = setSubCatalog("Recepture", "id_technology");            
+            //subcatalog = CardsInTechnologyAsSubcatalog();
         }
 
-        public string[] OutTechnology() //into textbox
-        {           
-            return new string[] { current.Name, current.Note };
-        }
 
-        public override void setUsed()
-        {
-            query = $"select count (*) from Recepture where id_technology = {selected};";
-            used = Count(query);
-        }
-
-        public override string getUsed() { return used; }
+        /*
+         * Statistics data
+         */
 
         public string Statistic
         {
@@ -84,13 +68,23 @@ namespace MajPAbGr_project
             }
         }
 
-        public string Statisic_cards
+        public override void setUsed()
         {
-            get
-            {
-                query = $"select count (*) from Technology_card";
-                return Count(query);
-            }
+            query = $"select count (*) from Recepture where id_technology = {selected};";
+            used = Count(query);
+        }
+
+
+        public override string getUsed() { return used; }
+
+
+        /*
+         *  Technologies
+         */
+
+        public string[] OutTechnology() //into textbox
+        {
+            return new string[] { current.Name, current.Note };
         }
 
         public List <Item> getTechnologiesIdsByName(string name)
@@ -112,10 +106,52 @@ namespace MajPAbGr_project
             return Count(query);
         }
 
+        /*
+         * Cards
+         */
+
+        public string Statisic_cards
+        {
+            get
+            {
+                query = $"select count (*) from Technology_card";
+                return Count(query);
+            }
+        }
+
+        public int CardsInTechnologyCount()
+        {
+            int count = 0;
+            query = $"select count (*) from {TABLE_CHAINS} where id_technology = {selected};";
+            count = int.Parse(Count(query));
+            return count;
+        }
+
         public List<Item> CardsInTechnologyAsSubcatalog()
         {
             query = $"select id, name from {TABLE_CARDS} where id in (select id_card from {TABLE_CHAINS} where {CHAIN_COL_TECHN} = {selected});";
             return Catalog(query);
         }
+
+
+        /*
+         * Chains: add and remove technologies card
+         */
+        
+        public /* FormEF_test.Chains */ string AddCardsToTechnology(Item card)
+        {
+            query = $"insert into {TABLE_CHAINS}" +
+                    $" ({CHAIN_COL_CARD}, {CHAIN_COL_TECHN})" +
+                    $" values ({card.id}, {selected});";
+            return Count(query);
+        }
+
+        public string RemoveCardsFromTechnology(Item card)
+        {
+            query = $"remove from {TABLE_CHAINS}" +
+                $" where {CHAIN_COL_CARD} = {card.id}" +
+                $" and {CHAIN_COL_TECHN} = {selected};";
+            return Count(query);
+        }
     }
-}
+} 

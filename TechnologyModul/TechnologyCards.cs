@@ -15,7 +15,7 @@ namespace MajPAbGr_project
     
 
         List <Item> cards;
-        tbTechnologyCardsController tb;
+        tbCardsController tb;
         TechnologyCardsController controller;
 
 

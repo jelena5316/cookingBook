@@ -11,7 +11,7 @@ namespace MajPAbGr_project
     {
 		int id_card;
 		List<Item> cards;
-		tbTechnologyCardsController tb;
+		tbCardsController tb;
 		ChainsController chains;
 
 		public TechnologyCardsController(ChainsController cntrl)
@@ -32,7 +32,7 @@ namespace MajPAbGr_project
 			get { return chains;  }
         }
 
-		public tbTechnologyCardsController getTbController()
+		public tbCardsController getTbController()
 		{
 			return tb;
 		}

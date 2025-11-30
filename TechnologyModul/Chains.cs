@@ -11,7 +11,7 @@ namespace MajPAbGr_project
     public partial class Chains : Form
     {
         ChainsController controller;
-        tbTechnologyCardsController cards;
+        tbCardsController cards;
         tbTechnologyController techn;
         tbChainController chains;
 

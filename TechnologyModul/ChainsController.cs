@@ -17,14 +17,14 @@ namespace MajPAbGr_project
     {
         int id_technology = 0,
             id_card = 0; // id of the first cards of a selected technology             
-        tbTechnologyCardsController tbCards;
+        tbCardsController tbCards;
         tbTechnologyController tbTech;
         tbChainController tbChain;
 
         public ChainsController()
         {
             tbChain = new tbChainController("Technology_chain");
-            tbCards = new tbTechnologyCardsController("Technology_card");
+            tbCards = new tbCardsController("Technology_card");
             tbCards.setCatalog();
             tbTech = new tbTechnologyController("Technology");
             tbTech.setCatalog();
@@ -66,14 +66,14 @@ namespace MajPAbGr_project
 
         public List <Item> Cards(int selected_techn, out int count)
         {
-            count = tbChain.CardsInTechnologyCount(selected_techn);
+            count = tbTech.CardsInTechnologyCount();
             if (count > 0)
-                return tbChain.CardsInTechnologyAsSubcatalog("Technology_card", "id_technology", selected_techn);
+                return tbTech.CardsInTechnologyAsSubcatalog();
             else
                 return null;           
         }
         
-        public tbTechnologyCardsController tbCardsController
+        public tbCardsController tbCardsController
         {
             get { return tbCards; }
         }

@@ -15,6 +15,9 @@ namespace MajPAbGr_project
 		List<Item> receptures;
         tbTechnologyController tb;
         tbController tbRec;
+		tbCardsController tbCard;
+		tbChainController tbChain;
+
 
 		public TechnologyController (int technology)
 		{
@@ -29,40 +32,49 @@ namespace MajPAbGr_project
 			id = technology;
 		}
 		
+
+		/*
+		 *  Properties
+		 */
 		public tbTechnologyController getTbController()
         {
 			return tb;
         }
 
-		public tbController getRecTbController()
+		public tbController getTbRecController()
 		{
 			return tbRec;
 		}
 
-		public List<Item> Cards(int selected, out int count)
-		{
-            tbChainController chains;
-            chains = new tbChainController("Technology_chain");
-            count = chains.CardsInTechnologyCount(selected);
+        public List<Item> Receptures
+        {
+            set { receptures = value; }
+            get { return receptures; }
+        }
 
+
+		/*
+		 * Methods
+		 */
+        public List<Item> Cards(int selected, out int count)
+		{
+			count = tb.CardsInTechnologyCount();
 
 			if (count > 0)
-				return chains.CardsInTechnologyAsSubcatalog("Technology_card", "id_technology", selected);
+			{
+				return tb.CardsInTechnologyAsSubcatalog();
+			}
+				
 			else
 				return null;
         }
 
 		public List<Item> setReceptures()
         {
-			receptures = tb.setSubCatalog("Recepture", "id_technology");
+			receptures = tb.RecepturesOfTechnology;				
 			return receptures;
         }
 
-		public List <Item> Receptures
-        {
-			set { receptures = value; }
-			get { return receptures; }
-        }
 
 		public string Submit(string name, string description, int techn_id)
         {

@@ -23,7 +23,7 @@ namespace MajPAbGr_project
 
 			controller = new TechnologyController(technology);
 			tb = controller.getTbController();
-			tbRec = controller.getRecTbController();			
+			tbRec = controller.getTbRecController();			
 
 			if (technology < 0) technology = 0;
 			id_technology = technology;
@@ -60,7 +60,8 @@ namespace MajPAbGr_project
 
 		private void fillCatalogRec() // recepture
 		{
-			receptures = controller.setReceptures(); // set subcatalog
+			//receptures = controller.setReceptures(); // set subcatalog
+			receptures = tb.RecepturesOfTechnology;
 			if (listBox_rec.Items.Count > 0)
 				listBox_rec.Items.Clear();
 			if(receptures.Count > 0)
@@ -81,15 +82,14 @@ namespace MajPAbGr_project
 		private int fillCatalogCards(int selected) // cards subcatalog
         {
 			int count = 0;
-			List<Item> cards_id;
-			//List<string> cards_id, names;
+			List<Item> cards_id;			
 
 			if (listBox_cards.Items.Count > 0)
 			{
 				listBox_cards.Items.Clear();
 			}	
 
-			cards_id = controller.Cards(selected, out count); //controller.Cards
+			cards_id = controller.Cards(selected, out count);
 
 			if (cards_id != null)
 			{
@@ -115,7 +115,7 @@ namespace MajPAbGr_project
 			
 				OutTechnology();
 				fillCatalogRec();
-				tb.setUsed();
+				//tb.setUsed();
 				lbl_rec.Text = $"Is used in {receptures.Count} recipes";
 
 				count = fillCatalogCards(selected);
