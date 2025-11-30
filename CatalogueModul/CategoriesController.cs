@@ -220,6 +220,8 @@ namespace MajPAbGr_project
         //new fields
         private RecCatalog rec_catalog;
 
+
+
         public CategoriesController()        
         {
             tb = new tbReceptureController("Recepture");
@@ -421,7 +423,7 @@ namespace MajPAbGr_project
             int id_technology, k=0;       
             string[] arr;
             List<string> steps;
-            tbTechnologyCardsController cards;
+            tbCardsController cards;
 
             id_technology = ReceptureStruct[index].getIds()[1];
 
@@ -429,7 +431,7 @@ namespace MajPAbGr_project
                 return new string[] { "has no cards" };
             else
             {
-                cards = new tbTechnologyCardsController("Technology_card");
+                cards = new tbCardsController("Technology_card");
             }
 
             steps = cards.SeeOtherCardsFull(id_technology);
