@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Configuration;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -12,13 +13,9 @@ namespace MajPAbGr_project
 	static class Program
 	{
 
-		//public static string connectionStringPath = "Data Source = db\\CookingBook; Mode=ReadWrite";
 		public static string connectionStringPath = "Data Source = db\\CookingBook; Mode=ReadWrite";
 		private static bool  connectionStringIsCorrect = true;
 		private static string PATH = "C:\\Users\\user\\source\\repos\\MajPavGr_project1\\Config.txt"; // stores a coonection string
-
-		//public static string connectionStringPath = "Data Source = db\\CookingBoo; Mode=ReadWrite;"; // for debugging      
-		//public static string connectionStringPath = "";
 
 		/// <summary>
 		/// The main entry point for the application.
@@ -28,43 +25,52 @@ namespace MajPAbGr_project
 
 		static void Main()
 		{
-			/*
+            /*
+			 * Проверки
+			 *	есть ли файл и строка в нём
+			 *	соответсвует ли структура базы данных программной (на будущее)
+			 */
+
+
+            /*
+			 * Чтение из App.config
+			 */
+            //connectionStringPath = ConfigurationManager.ConnectionStrings["SQLiteDB"].ToString();
+
+
+            /*
 			 * Reading connection string from config file
 			 */
-			//using (StreamReader reader = new StreamReader(PATH))
-			//{
-			//	connectionStringPath = reader.ReadLine();
-			//	reader.Close();
-			//}
+            //using (StreamReader reader = new StreamReader(PATH))
+            //{
+            //	connectionStringPath = reader.ReadLine();
+            //	reader.Close();
+            //}
 
-			/*
-			 * Проверки:
-			 * -- есть ли конфигурационный файл
-			 * -- есть ли в нём строка подключения к базе данных
-			 * -- есть ли база данных в указанном к строке подключения адресе (уже есть)
-			 * -- соответсвует ли структура базы данных программной (на будущее)
-			 * Подумать:
-			 * -- с какой проверки предлагать создать базу данных с нуля
-			 * -- нужна ли перед этим дополнительная проверка
+
+            /*
+			 * Testing connection string
 			 */
+            //int result = new dbController(connectionStringPath).testConnectionStringPCL();
 
-			//dbController dbGetables = new dbController();
-			//List<object[]> result = dbGetables.dbReadData("SELECT name FROM sqlite_schema WHERE type = 'table';"); // LIKE '%pattern'
 
-			//for (int k = 0; k < result.Count; k++)
-			//{
-			//	string message = "";
-			//	for (int q = 0; q < result[k].Count(); q++)
-			//	{
-			//		message+= " " + result[k][q].ToString();
-			//		System.Diagnostics.Debug.WriteLine(message);
-			//	}
-								
-			//}
+            /*
+			 * Get data base schema using patterns (debugging)
+			 */
+            //dbController dbGetables = new dbController();
+            //List<object[]> result = dbGetables.dbReadData("SELECT name FROM sqlite_schema WHERE type = 'table';"); // LIKE '%pattern'
+            //for (int k = 0; k < result.Count; k++)
+            //{
+            //	string message = "";
+            //	for (int q = 0; q < result[k].Count(); q++)
+            //	{
+            //		message+= " " + result[k][q].ToString();
+            //		System.Diagnostics.Debug.WriteLine(message);
+            //	}
+            //}
 
-			
 
-			dbController dbTest = new dbController();
+            dbController dbTest = new dbController();
 			if (!dbTest.testConnection())
 			{
 				string message = $"Unable to open data base file, connection string: {dbTest.ConnectionString}.\n" +
@@ -85,14 +91,7 @@ namespace MajPAbGr_project
 					dbTest.resetConnecting();
 					dbTest.CreateDataBaseTables(dbTest);
 					//creating db file and tables
-					return;
-
-					/*
-					* Starting application
-					*/
-					//Application.EnableVisualStyles();
-					//Application.SetCompatibleTextRenderingDefault(false);
-					//Application.Run(new Categories());		
+					return;	
 				}
 			}
 
@@ -151,8 +150,7 @@ namespace MajPAbGr_project
 			 * In case connection string is changed, but stay incorrect, this variable stay unchanged too -- 'false'.
 			 */
 
-			if (connectionStringIsCorrect) //connection string is correct; 'true'
-										   
+			if (connectionStringIsCorrect) //connection string is correct; 'true'										   
 			{
 				Component.FormCreator creator = new Component.FormCreator();
 				//Application.Run(new Categories()); // old version
