@@ -66,19 +66,21 @@ using Microsoft.Extensions.Logging; // loggings` levels
 using Microsoft.EntityFrameworkCore; // data base
 */
 
-using System;
-using System.IO;
+using MajPAbGr_project;
 using Microsoft.Data.Sqlite;
-using System.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations; // [Annotation]
 using System.ComponentModel.DataAnnotations.Schema;
-using MajPAbGr_project;
 using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices; // [Tables, Columns]
 
 namespace FormEF_test //EFSqlite_test
 {
+
+
     public class Technology
     {
         public Technology() { }
@@ -132,8 +134,18 @@ namespace FormEF_test //EFSqlite_test
         public string Description { get; set; }       
     }
 
+
     public class Chains
     {
+
+        public Chains() { }
+
+        public Chains (Card card, Technology technology)
+        {
+            TechnologyId = technology.Id;
+            CardId = card.Id;
+        }
+        
         public string Id { get; set; }
         public int TechnologyId { get; set; }       
         public int CardId { get; set; }
@@ -142,6 +154,15 @@ namespace FormEF_test //EFSqlite_test
 
         public Technology Technology { get; set; }
         public Card Card { get; set; }
+
+        public string AddToTechnologyQuery(int technology, int card)
+        {
+            Table chains = new Tables().getTables[4];
+
+            string table = chains.Name;
+            string[] fields = chains.Columns; // id, id_technology, id_card
+            return $"insert to ({fields[1]}, {fields[2]}) values ({technology}, {card});";
+        }
 
     }
     
