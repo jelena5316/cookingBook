@@ -41,7 +41,14 @@ namespace MajPAbGr_project
 
 		public List<Item> Subcatalog
 		{
-			set { subcatalog = value; }	
+			set 
+			{
+                if (subcatalog.Count > 0)
+                {
+                    subcatalog.Clear();
+                }
+                subcatalog = value;
+			}	
 			get { return subcatalog; }
 		}
 
@@ -74,16 +81,8 @@ namespace MajPAbGr_project
 
 		public List<Item> setSubCatalog(string subtable, string column) //Recipe, id_recepture
 		{
-			query = $"select id, name from {subtable} where {column} = "
-				+ selected + ";";
-
-            if (subcatalog.Count > 0)
-            {
-                subcatalog.Clear();
-            }
-
-            subcatalog = Catalog(query);
-			return subcatalog;
+			query = $"select id, name from {subtable} where {column} = {selected};";
+			return Catalog(query);
 		}
 
 		/*
@@ -212,20 +211,20 @@ namespace MajPAbGr_project
 			error_message = "";
 		}
 
-		public  int Error_code { get { return Info.err_code; } }
+		public  int Error_code { get { return info.err_code; } }
 
-		public string Error_message { get { return Info.err_message; } }
+		public string Error_message { get { return info.err_message; } }
 
-		public string LastQuery { get { return Info.query; } }
+		public string LastQuery { get { return info.query; } }
 
-		public string DataBaseName { get { return Info.database; } }
+		public string DataBaseName { get { return info.database; } }
 
 		public void ResetError_info()
 		{
-			Info.err_code = 0;
-			Info.err_message = "";
-			Info.query = "";
-			Info.database = "";
+			info.err_code = 0;
+			info.err_message = "";
+			info.query = "";
+			info.database = "";
 		}
 	}
 }
