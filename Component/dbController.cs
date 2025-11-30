@@ -2,16 +2,19 @@
  * to provide accessig to data base
  */
 
+using Microsoft.Data.Sqlite;
+using SQLitePCL;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data;
-using Microsoft.Data.Sqlite;
+using System.IO;
+using System.Linq;
+
 
 namespace MajPAbGr_project
-{ 
+{
 	public abstract class ADataBaseCreator
-    {
+	{
 		//tables
 		protected string TABLE_INGREDIENTS;
 		protected string TABLE_CATEGORIES;
@@ -26,9 +29,9 @@ namespace MajPAbGr_project
 		// as part of name for variables storing it's columns` names
 		//further three tables storing congiguration data
 		protected string TABLE_VERSION;
-		protected string TABLE_DB;		
+		protected string TABLE_DB;
 		protected string TABLE_TB;
-		protected string TABLE_COL;		
+		protected string TABLE_COL;
 
 		//columns in table "Ingredients"
 		protected string INGR_COL_ID;
@@ -66,15 +69,15 @@ namespace MajPAbGr_project
 		protected string REC_COL_URL;
 
 		//columns in table "Amounts"
-		protected string AM_COL_ID;		
-		protected string AM_COL_REC;		
+		protected string AM_COL_ID;
+		protected string AM_COL_REC;
 		protected string AM_COL_INGR;
 		protected string AM_COL_AMOUNTS;
 
 		//columns in table "Recipe"
 		protected string COEF_COL_ID;
 		protected string COEF_COL_NAME;
-		protected string COEF_COL_REC;		
+		protected string COEF_COL_REC;
 		protected string COEF_COL_COEFFICIENT;
 
 		//columns int table "db_version"
@@ -105,11 +108,12 @@ namespace MajPAbGr_project
 		protected string COL_COL_DEF_NAME; // default name
 		protected string COL_COL_CUR_NAME; //current name
 
-		protected abstract void setTablesColumnsNames(Tables tbs);		
+		protected abstract void setTablesColumnsNames(Tables tbs);
 		protected abstract string[] createQueries();
 
 		public abstract TablesCreator CreateDataBaseTables(dbController db);
 	}
+
 
 	public class DataBaseCreator : ADataBaseCreator
 	{
@@ -222,37 +226,37 @@ namespace MajPAbGr_project
 						break;
 					}
 				case 8: // data base version
-                    {
-                        TABLE_VERSION = table.Name;
-                        V_COL_ID = table.Columns[0];
-                        V_COL_NUM = table.Columns[1];
-                        V_COL_NAME = table.Columns[2];
-                        V_COL_DATE = table.Columns[3];
-                        V_COL_TABLES = table.Columns[4];
-                        V_COL_COLS = table.Columns[5];
-                        V_COL_CONTROL = table.Columns[6];
-                        break;
-                    }
+					{
+						TABLE_VERSION = table.Name;
+						V_COL_ID = table.Columns[0];
+						V_COL_NUM = table.Columns[1];
+						V_COL_NAME = table.Columns[2];
+						V_COL_DATE = table.Columns[3];
+						V_COL_TABLES = table.Columns[4];
+						V_COL_COLS = table.Columns[5];
+						V_COL_CONTROL = table.Columns[6];
+						break;
+					}
 				case 9: // data base configs
-                    {
+					{
 						TABLE_DB = table.Name;
 						DB_COL_ID = table.Columns[0];
 						DB_COL_NAME = table.Columns[1];
 						DB_COL_V = table.Columns[2];
 						DB_COL_CON = table.Columns[3];
 						break;
-                    }
+					}
 				case 10: // data base tables
-                    {
+					{
 						TABLE_TB = table.Name;
 						TB_COL_ID = table.Columns[0];
 						TB_COL_V = table.Columns[1];
 						TB_COL_DEF_NAME = table.Columns[2];
 						TB_COL_CUR_NAME = table.Columns[3];
 						break;
-                    }
+					}
 				case 11: // data base columns
-                    {
+					{
 						TABLE_COL = table.Name;
 						COl_COL_ID = table.Columns[0];
 						COL_COL_V = table.Columns[1];
@@ -260,7 +264,7 @@ namespace MajPAbGr_project
 						COL_COL_DEF_NAME = table.Columns[3];
 						COL_COL_CUR_NAME = table.Columns[4];
 						break;
-                    }
+					}
 				default: break;
 			}
 		}
@@ -328,11 +332,11 @@ namespace MajPAbGr_project
 										$"{REC_COL_INGR} INTEGER REFERENCES {TABLE_INGREDIENTS}({INGR_COL_ID}) ON DELETE NO ACTION, " +
 										$"{REC_COL_CAT} INTEGER NOT NULL DEFAULT 1, " +
 										$"{REC_COL_DESCRIPTION} VARCHAR CHECK({REC_COL_DESCRIPTION} != \"\" AND length({REC_COL_DESCRIPTION}) <= 300), " +
-										$"{REC_COL_SOURCE} VARCHAR CHECK({REC_COL_SOURCE} != \"\" AND length({REC_COL_SOURCE}) <= 20), " + 
+										$"{REC_COL_SOURCE} VARCHAR CHECK({REC_COL_SOURCE} != \"\" AND length({REC_COL_SOURCE}) <= 20), " +
 										$"{REC_COL_AUTOR} VARCHAR CHECK({REC_COL_AUTOR} != \"\" AND length({REC_COL_AUTOR}) <= 25), " +
 										$"{REC_COL_URL} VARCHAR CHECK({REC_COL_URL} != \"\" AND length({REC_COL_URL}) <= 200), " +
-										$"FOREIGN KEY({REC_COL_TECHN}) " + 
-										$"REFERENCES {TABLE_TEHNOLOGY}({TECHN_COL_ID}) ON DELETE SET NULL, " + 
+										$"FOREIGN KEY({REC_COL_TECHN}) " +
+										$"REFERENCES {TABLE_TEHNOLOGY}({TECHN_COL_ID}) ON DELETE SET NULL, " +
 										$"FOREIGN KEY({REC_COL_CAT}) " +
 										$"REFERENCES {TABLE_CATEGORIES}({INGR_COL_ID}) ON DELETE SET DEFAULT);";
 
@@ -344,7 +348,7 @@ namespace MajPAbGr_project
 									$"{AM_COL_INGR} INTEGER  NOT NULL " +
 									$"CONSTRAINT[имя сырья] REFERENCES Ingredients({INGR_COL_ID}) ON DELETE CASCADE, " +
 									$"{AM_COL_AMOUNTS} REAL(6) NOT NULL DEFAULT 0 " +
-									$"CHECK({ AM_COL_AMOUNTS} > 0));";
+									$"CHECK({AM_COL_AMOUNTS} > 0));";
 
 		private string RecipeQ() => $"CREATE TABLE IF NOT EXISTS  NOT EXISTS {TABLE_RECIPE} ( " +
 									$"{COEF_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
@@ -354,7 +358,7 @@ namespace MajPAbGr_project
 									$"{COEF_COL_COEFFICIENT}  REAL NOT NULL DEFAULT 1, " +
 									$"FOREIGN KEY({COEF_COL_REC}) REFERENCES Recepture({REC_COL_ID}) ON DELETE CASCADE);";
 
-		private string DbVersionQ() =>  $"CREATE TABLE IF NOT EXISTS {TABLE_VERSION} ( " +
+		private string DbVersionQ() => $"CREATE TABLE IF NOT EXISTS {TABLE_VERSION} ( " +
 										$"{V_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
 										$"{V_COL_NUM} INTEGER," +
 										$"{V_COL_NAME} VARCHAR," +
@@ -363,19 +367,19 @@ namespace MajPAbGr_project
 										$"{V_COL_COLS} INT," +
 										$"{V_COL_CONTROL} INT);";
 
-		private string DbConfigQ() =>	$"CREATE TABLE IF NOT EXISTS {TABLE_DB} ( " +
+		private string DbConfigQ() => $"CREATE TABLE IF NOT EXISTS {TABLE_DB} ( " +
 										$"{DB_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
 										$"{DB_COL_NAME} STRING, " +
 										$"{DB_COL_V} INT REFERENCES {TABLE_VERSION}({V_COL_ID}), " +
 										$"{DB_COL_CON} STRING);";
 
-		private string DbTablesQ() =>	$"CREATE TABLE IF NOT EXISTS {TABLE_TB} ( " +
+		private string DbTablesQ() => $"CREATE TABLE IF NOT EXISTS {TABLE_TB} ( " +
 										$"{TB_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
 										$"{TB_COL_V} INT REFERENCES {TABLE_DB}({DB_COL_V}), " +
 										$"{TB_COL_DEF_NAME} STRING, " +
 										$"{TB_COL_CUR_NAME} STRING);";
 
-		private string DbColumnsQ() =>  $"CREATE TABLE IF NOT EXISTS {TABLE_COL} ( " +
+		private string DbColumnsQ() => $"CREATE TABLE IF NOT EXISTS {TABLE_COL} ( " +
 										$"{COl_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
 										$"{COl_COL_TABLE} INT REFERENCES {TABLE_TB}({TB_COL_ID}), " +
 										$"{COL_COL_DEF_NAME} STRING, " +
@@ -388,53 +392,38 @@ namespace MajPAbGr_project
 	}
 
 
+	/*
+	 *  dataController -- connection, reading and affect data
+	 */
 
-	public class dbController :DataBaseCreator /*access data base*/
+	public class dbController : DataBaseCreator /*access data base*/
 	{
 		private string connectionString;
 		private SqliteConnection connection;
 		private SqliteDataReader reader;
 		private SqliteCommand command;
 
-
-
 		protected int error_code = 0;
-		protected string error_message="";
-		protected AnswerInfo Info;
+		protected string error_message = "";
+		protected AnswerInfo info;
 
-		public dbController ()
+
+
+		public dbController()
 		{
 			Tables tbs = new Tables();
 			setTablesColumnsNames(tbs);
 			connectionString = Program.connectionStringPath;
 			connection = new SqliteConnection(connectionString);
-		}
-
-
-        /*
-         * From Formtest_EF
-         */
-       
-        public SqliteConnection Connection => connection;
-        public SqliteDataReader Reader
-        {
-            get { return reader; }
-            set { reader = value; }
+			setInitialInfo();
         }
-        public SqliteCommand Command
-        {
-            get { return command; }
-            set { command = value; }
+
+		public dbController(string connectionStr)
+		{
+			connectionString = connectionStr;
+			setInitialInfo();
+
         }
-		/*
-		 * End
-		 */
-
-        public AnswerInfo getInfo() { return Info; }
-
-		/*
-		 * Testing conection with data base file for class Program
-		 */
 
 		public string ConnectionString
 		{
@@ -443,20 +432,84 @@ namespace MajPAbGr_project
 				connectionString = value;
 			}
 			get
-			{ 
+			{
 				return connectionString.ToString();
-			} 
+			}
 		}
 
-		public void resetConnecting()
-        {
-			connection = new SqliteConnection(connectionString);
+		private void setInitialInfo()
+		{ 
+			info = new AnswerInfo
+            {
+                err_code = error_code,
+                err_message = error_message,
+                query = "",
+                database = ""
+            };
+        }
+
+		private void resetInitialInfo()
+		{
+			info.err_code = error_code;
+			info.err_message = error_message;
+			info.query = "";
+			info.database = "";
+		}
+
+		public AnswerInfo Info
+		{
+			get { return info; }
+			set { info = value; }
+		}
+
+		public AnswerInfo getInfo() { return info; }
+
+
+		/*
+		 * Testing conection with data base file for class Program
+		 */
+
+		public int testConnectionStringPCL()
+		{
+			int flags = 0;
+			string filename = "";
+
+			if (connection == null)
+				connection = new SqliteConnection(connectionString);
+
+			flags |= raw.SQLITE_OPEN_URI;
+			flags |= raw.SQLITE_OPEN_READWRITE | raw.SQLITE_OPEN_CREATE;
+
+			filename = connection.DataSource;
+			var dataDirectory = AppDomain.CurrentDomain.GetData("DataDirectory") as string;
+			if (!string.IsNullOrEmpty(dataDirectory)
+					&& (flags & raw.SQLITE_OPEN_URI) == 0
+					&& !filename.Equals(":memory:", StringComparison.OrdinalIgnoreCase))
+			{
+				if (filename.StartsWith("|DataDirectory|", StringComparison.InvariantCultureIgnoreCase))
+				{
+					filename = Path.Combine(dataDirectory, filename.Substring("|DataDirectory|".Length));
+				}
+				else if (!Path.IsPathRooted(filename))
+				{
+					filename = Path.Combine(dataDirectory, filename);
+				}
+			}
+
+			sqlite3 _db = connection.Handle;
+			int rc = raw.sqlite3_open_v2(filename, out _db, flags, vfs: null);
+
+			_db.Dispose();
+			_db = null;
+
+			return rc;
 		}
 
 		public bool testConnection()
 		{
 			string message = "";
-			using (connection)
+
+			using (connection = new SqliteConnection(connectionString))
 			{
 				try
 				{
@@ -464,15 +517,38 @@ namespace MajPAbGr_project
 					connection.Close();
 					return true;
 				}
-				catch(SqliteException ex) // https://marketsplash.com/tutorials/c-sharp/csharp-how-to-use-sqlite/#link7
+				catch (SqliteException ex) // https://marketsplash.com/tutorials/c-sharp/csharp-how-to-use-sqlite/#link7
 				{
 					if (ex.SqliteErrorCode == 14)
 						message = $"{System.DateTime.Now} {ex.Message} {connectionString}";
-						Program.cook_error(message);
+					Program.cook_error(message);
 					return false;
 				}
 			}
 		}
+
+
+
+		public void OpenConnection()
+		{
+			if (connection.State != ConnectionState.Open)
+			{
+				connection.Open();				
+			}
+		}
+
+		public void CloseConnection()
+		{
+			if (connection.State == ConnectionState.Open)
+				connection.Close();
+		}
+
+
+		public void resetConnecting()
+		{
+			connection = new SqliteConnection(connectionString);
+		}
+
 
 		public override TablesCreator CreateDataBaseTables(dbController db)
 		{
@@ -483,128 +559,199 @@ namespace MajPAbGr_project
 		}
 
 
+        /*******************************************
+		 ACCESS DATA BASE: CRUD, CONNECTION ERR
+		*******************************************/
+
+        /*
+         *  Execute Commamd Report (sqlite3 errors, current statments, connectionString)
+         */
+		private void setAnswerInfo(SqliteCommand cmd)
+        {
+			error_code = 0;
+			error_message = "";
+			resetInitialInfo();
+            info.setQueryInfo(cmd.CommandText, cmd.Connection.ConnectionString);
+        }
+
+		private void setAnswerInfo(string query, SqliteConnection con)
+		{
+            error_code = 0;
+            error_message = "";
+            resetInitialInfo();
+            info.setQueryInfo(query, con.ConnectionString);
+        }
+
+        private void ConnectionERR(SqliteException ex)
+        {
+            error_code = ex.ErrorCode;
+            error_message = ex.Message;
+            info.setErrInfo(ex.ErrorCode, ex.Message);
+        }
+
+
         /*
 		 * 'update', 'delete', 'insert'
 		 */
         public int Edit(string query)
-        {
-            int ind; //to store the number of rows inserted, updated, or deleted. 
-            using (connection)
-            {
-                command = new SqliteCommand(query, connection);
-                connection.Open();
-                try
-                {
-                    ind = command.ExecuteNonQuery();
-                }
-                catch
-                {
-                    ind = 0; // -1 for 'select' statements
-                }
-                finally
-                {
-                    connection.Close();
-                }
-            }
-            return ind;
-        }
-
-
-        /*
-		 * insert and get id of last inserted row; 'select' with function return a number
-		 */
-
-        public string Count(string query)
-        {
-            string count = "";
-            using (connection)
-            {
-                command = new SqliteCommand(query, connection);
-                connection.Open();
-                var num = command.ExecuteScalar();
-                count = num.ToString();
-                connection.Close();
-            }
-            return count;
-        }
-
-        /*
-		 * 'select'
-		 */
-
-        public List<Item> Catalog (string query) //int, string
 		{
-			Item item;
-			List<Item> list = new List<Item>();
-			using (connection)
+			int rows = 0; //to store the number of rows inserted, updated, or deleted.
+			using (connection = new SqliteConnection(connectionString))
 			{
-				command = new SqliteCommand(query, connection);
 				try
 				{
-					connection.Open();
-					using (reader = command.ExecuteReader())
+					OpenConnection();
+					using (command = new SqliteCommand(query, connection))
 					{
-						if (reader.HasRows)
-						{
-							while (reader.Read())
-							{
-								int id = int.Parse(reader.GetValue(0).ToString());
-								string name = reader.GetValue(1).ToString();
-								item = new Item();
-								item.createItem(id, name);
-								list.Add(item);
-							}
-						}
+						rows = command.ExecuteNonQuery();
+						setAnswerInfo(command);
 					}
-					connection.Close();
-					Info = new AnswerInfo(0, "", query, connectionString);
-					return list;
 				}
 				catch (SqliteException ex)
 				{
-					error_code = ex.SqliteErrorCode; // получаем код ошибки
-					error_message = ex.Message; // получаем сообщение об ошибке                   
-					Program.cook_error($"{System.DateTime.Now} {ex.Message}");
-					return list;
-				}                                
-			}            
+					rows = 0; // -1 for 'select' statements	
+					setAnswerInfo(query, connection);
+					ConnectionERR(ex);
+				}
+				finally
+				{
+					CloseConnection();
+				}
+			}
+			return rows;
 		}
+
+
+		/*
+		 * 'insert' and get id of last inserted row;
+		 * 'select' with function 'count' (return a number)
+		 */
+
+		public string Count(string query)
+		{
+			string count = "";
+			using (connection = new SqliteConnection(connectionString))
+			{
+				try
+				{
+					OpenConnection();
+					using (command = new SqliteCommand(query, connection))
+					{
+						object num = command.ExecuteScalar();
+						count = num.ToString();
+						setAnswerInfo(command);
+					}
+				}
+				catch (SqliteException ex)
+				{
+                    setAnswerInfo(query, connection);
+                    ConnectionERR(ex);
+				}
+				finally
+				{
+					CloseConnection();
+				}
+			}
+			return count;
+		}
+
+		public long get_last_rowid(SqliteDataReader reader)
+		{
+			sqlite3 db = null;
+			db = connection.Handle;
+			long id = raw.sqlite3_last_insert_rowid(db);
+			return id;
+		}
+
+		/*
+		 * 'select'
+		 */
+
+		public List<Item> Catalog(string query) //int, string
+		{
+			Item item;
+			List<Item> list = new List<Item>();
+
+			using (connection = new SqliteConnection(connectionString))
+			{
+				try
+				{
+					OpenConnection();
+					using (command = new SqliteCommand(query, connection))
+					{
+						using (reader = command.ExecuteReader())
+						{
+							if (reader.HasRows)
+							{
+								while (reader.Read())
+								{
+									int id = reader.GetInt32(0);
+									string name = reader.GetName(1);
+									item = new Item();
+									item.createItem(id, name);
+									list.Add(item);
+								}
+							}
+						}
+						setAnswerInfo(command);
+					}
+				}
+				catch (SqliteException ex)
+				{
+                    setAnswerInfo(query, connection);
+                    ConnectionERR(ex);
+					Program.cook_error($"{System.DateTime.Now} {ex.Message}");
+				}
+				finally
+				{
+					CloseConnection();
+				}
+			}
+			return list;
+		}
+		//}
 		//was used in public List <Item> getTechnologiesIdsByName(string name) (tbTechnologyController.cs)
 		//was used in public void setData() (Element.cs)
+
 
 		public List<string> dbReader(string query)  // only strings   
 		{
 			List<string> list = new List<string>();
-			command = new SqliteCommand(query, connection);
-			try
+
+			using (connection = new SqliteConnection(connectionString))
 			{
-				connection.Open();
-				using (connection)
+				try
 				{
-				
-					using (reader = command.ExecuteReader())
+					OpenConnection();
+					using (command = new SqliteCommand(query, connection))
 					{
-						if (reader.HasRows)
+						using (reader = command.ExecuteReader())
 						{
-							while (reader.Read())
+							if (reader.HasRows)
 							{
-								var name = reader.GetValue(0);                           
-								list.Add(name.ToString());
+								while (reader.Read())
+								{
+									string name = reader.GetName(0);
+									list.Add(name);
+								}
 							}
-						}   
+						}
+						setAnswerInfo(command);
 					}
 				}
-			Info = new AnswerInfo(0, "", query, connectionString);
-			connection.Close();
-			return list;
-			}
-			catch (SqliteException ex)
-			{
-				Info = new AnswerInfo(ex.ErrorCode, ex.Message, query, connectionString);
-				connection.Close();
-				Program.cook_error($"{System.DateTime.Now} {ex.Message}");
+				catch (SqliteException ex)
+				{
+                    setAnswerInfo(query, connection);
+                    ConnectionERR(ex);
+					Program.cook_error($"{System.DateTime.Now} {ex.Message}");
+				}
+				finally
+				{
+					CloseConnection();
+				}
 				return list;
 			}
+
 		}
 		//was used in public void setData() (Element.cs) too
 
@@ -612,148 +759,173 @@ namespace MajPAbGr_project
 		{
 			List<Element> list = new List<Element>();
 			Element element;
-			using (connection)
+
+			using (connection = new SqliteConnection(ConnectionString))
 			{
-				command = new SqliteCommand(query, connection);
 				try
 				{
 					connection.Open();
-					using (reader = command.ExecuteReader())
+					using (command = new SqliteCommand(query, connection))
 					{
-						if (reader.HasRows)
+						using (reader = command.ExecuteReader())
 						{
-							while (reader.Read())
+							if (reader.HasRows)
 							{
-								element = new Element();
-								var id_ingr = reader.GetValue(0);
-								string name = reader.GetValue(1).ToString();
-								var amounts = reader.GetValue(2);
-								element.Name = name;
-								element.Id = int.Parse(id_ingr.ToString());
-								element.Amounts = double.Parse(amounts.ToString());
-								list.Add(element);
+								while (reader.Read())
+								{
+									int id = reader.GetInt32(0);
+									string name = reader.GetName(1);
+									double amounts = reader.GetDouble(2);
+									element = new Element(id, name, amounts);
+									list.Add(element);
+								}
 							}
 						}
+						setAnswerInfo(command);
 					}
-					connection.Close();
-					Info = new AnswerInfo(0, "", query, connectionString);
-					return list;
 				}
 				catch (SqliteException ex)
 				{
-					error_code = ex.SqliteErrorCode; // получаем код ошибки
-					error_message = ex.Message; // получаем сообщение об ошибке                   
+                    setAnswerInfo(query, connection);
+                    ConnectionERR(ex);
 					Program.cook_error($"{System.DateTime.Now} {ex.Message}");
-					return list;
+
+				}
+				finally
+				{
+					CloseConnection();
 				}
 			}
+			return list;
 		}
 
-		public List<String> dbReadTechnology(string query) // only strings
-		{
-			List <String> cards = new List<String>();
-			using (connection)
-			{
-				command = new SqliteCommand(query, connection);
-				connection.Open();
-				using (reader = command.ExecuteReader())
-				{
-					if (reader.HasRows)
-					{
-						while (reader.Read())
-						{
-							string technology = reader.GetValue(0).ToString();
-							technology += "*" + reader.GetValue(1).ToString();
-							cards.Add(technology);
-						}
-					}
-				}
-				connection.Close();
-			}
-			return cards;
-		}
-
-		public List<String> dbReadView(string query)
-		{
-			List<String> view_data = new List<String>();
-			using (connection)
-			{
-				command = new SqliteCommand(query, connection);
-				connection.Open();
-				using (reader = command.ExecuteReader())
-				{
-					string data = "";                    
-					if (reader.HasRows)
-					{                        
-						while (reader.Read())
-						{
-							data += reader.GetValue(0).ToString();
-							for (int k = 1; k < reader.FieldCount; k++)
-							{
-								data += " " + reader.GetValue(k).ToString();
-							}                           
-							view_data.Add(data);
-							data = "";
-						}
-					}
-				}
-				connection.Close();
-			}
-			return view_data;
-		}
 
 		public List<object[]> dbReadData(string query)
 		{
 			int length = 0;
-			//DBAnswer answer;
 			List<object[]> data = new List<object[]>();
 
-			try
+			using (connection = new SqliteConnection(ConnectionString))
 			{
-				connection.Open();
-				using (command = new SqliteCommand(query, connection))
+				try
 				{
-					using (reader = command.ExecuteReader())
+					OpenConnection();
+					using (command = new SqliteCommand(query, connection))
 					{
-						length = reader.FieldCount;
-						if (reader.HasRows)
+						using (reader = command.ExecuteReader())
 						{
-							while (reader.Read())
+							length = reader.FieldCount;
+							if (reader.HasRows)
 							{
-								object[] arr = new object[length];
-								reader.GetValues(arr);
-								data.Add(arr);
+								while (reader.Read())
+								{
+									object[] arr = new object[length];
+									reader.GetValues(arr);
+									data.Add(arr);
+								}
 							}
 						}
-					}				
-				}
-			
-					//answer = new DBAnswer(0, "", query, connectionString, data);
-					//Info = answer.getInfo;					
-					//return answer.getData;
-					
-					Info = new AnswerInfo(0, "", query, connectionString);
-					return data;
+						setAnswerInfo(command);
+					}
 				}
 				catch (SqliteException ex)
 				{
-					//error_code = ex.SqliteErrorCode; // получаем код ошибки
-					//error_message = ex.Message; // получаем сообщение об ошибке                   
-					//Program.cook_error($"{System.DateTime.Now} {ex.Message}");
-					//answer = new DBAnswer(error_code, error_message, query, connectionString, data);
-					//Info = answer.getInfo;					
-					//return answer.getData;
-
-					error_code = ex.SqliteErrorCode; // получаем код ошибки
-					error_message = ex.Message; // получаем сообщение об ошибке                   
+                    setAnswerInfo(query, connection);
+                    ConnectionERR(ex);
 					Program.cook_error($"{System.DateTime.Now} {ex.Message}");
-					Info = new AnswerInfo(error_code, error_message, query, connectionString);
-					return data;
 				}
 				finally
 				{
-                    connection.Close();
-                }
+					CloseConnection();
+				}
+			}
+			return data;
+		}
+
+
+
+		public List<String> dbReadTechnology(string query) // only strings
+		{
+			List<String> cards = new List<String>();
+
+			using (connection = new SqliteConnection(ConnectionString))
+			{
+				try
+				{
+					OpenConnection();
+					using (command = new SqliteCommand(query, connection))
+					{
+						using (reader = command.ExecuteReader())
+						{
+							if (reader.HasRows)
+							{
+								while (reader.Read())
+								{
+									string technology = reader.GetValue(0).ToString();
+									technology += "*" + reader.GetValue(1).ToString();
+									cards.Add(technology);
+								}
+							}
+						}
+						setAnswerInfo(command);
+					}
+				}
+				catch (SqliteException ex)
+				{
+					setAnswerInfo(query, connection);
+					ConnectionERR(ex);
+				}
+				finally
+				{
+					CloseConnection();
+				}
+			}
+			return cards;
+		}
+
+
+		public List<String> dbReadView(string query)
+		{
+			string data = "";
+			List<String> view_data = new List<String>();
+
+			using (connection = new SqliteConnection(connectionString))
+			{
+				try
+				{
+					OpenConnection();
+					using (command = new SqliteCommand(query, connection))
+					{
+						using (reader = command.ExecuteReader())
+						{
+							if (reader.HasRows)
+							{
+								while (reader.Read())
+								{
+									data += reader.GetValue(0).ToString();
+									for (int k = 1; k < reader.FieldCount; k++)
+									{
+										data += " " + reader.GetValue(k).ToString();
+									}
+									view_data.Add(data);
+									data = "";
+								}
+							}
+						}
+						setAnswerInfo(command);
+					}
+				}
+				catch (SqliteException ex)
+				{
+                    setAnswerInfo(query, connection);
+                    ConnectionERR(ex);
+				}
+				finally
+				{
+					CloseConnection();
+				}
+			}
+			return view_data;
 		}
 
 
@@ -763,55 +935,69 @@ namespace MajPAbGr_project
 		public List<FormEF_test.Technology> DbReadTech(string query)
 		{
 			List<FormEF_test.Technology> cards = new List<FormEF_test.Technology>();
-            using (connection)
-            {
-                command = new SqliteCommand(query, connection);
-                connection.Open();
-                using (reader = command.ExecuteReader())
-                {
-                    if (reader.HasRows)
+
+			using (connection = new SqliteConnection(ConnectionString))
+			{
+				try
+				{
+					OpenConnection();
+                    using (command = new SqliteCommand(query, connection))
                     {
-                        while (reader.Read())
+                        using (reader = command.ExecuteReader())
                         {
-							FormEF_test.Technology tech = new FormEF_test.Technology();
-							tech.Id = int.Parse(reader.GetValue(0).ToString());
-                            tech.Name = reader.GetValue(1).ToString();
-                            tech.Note =  reader.GetValue(2).ToString();
-                            cards.Add(tech);
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    FormEF_test.Technology tech = new FormEF_test.Technology();
+                                    tech.Id = int.Parse(reader.GetValue(0).ToString());
+                                    tech.Name = reader.GetValue(1).ToString();
+                                    tech.Note = reader.GetValue(2).ToString();
+                                    cards.Add(tech);
+                                }
+                            }
                         }
+                        setAnswerInfo(command);
                     }
                 }
-                connection.Close();
-            }
-            return cards;
-        }
-
+				catch (SqliteException ex)
+				{
+                    setAnswerInfo(query, connection);
+                    ConnectionERR(ex);
+				}
+				finally
+				{
+					CloseConnection();
+				}
+			}
+			return cards;
+		}
 	}
 
 
-	
 
-	
+
+
 
 	/*
 	 * Querie`s creators for table`s creating
 	 */
 	/*
-	public class IngredientsQ: TableQueries
-    {
+	public class IngredientsQ : TableQueries
+	{
 		string query;
-		public IngredientsQ(): base () {}
+		public IngredientsQ() : base() { }
 		public override void setNames(Table_v1 table)
-        {
+		{
 			TABLE_INGREDIENTS = table.setName;
 			INGR_COL_ID = table.getColumns[0];
 			INGR_COL_NAME = table.getColumns[1];
-        }
+		}
 
 		public override string createQuery()
-        {
-			query = $"CREATE TABLE {TABLE_INGREDIENTS}"+
-					$" ({ INGR_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+		{
+			query = $"CREATE TABLE {TABLE_INGREDIENTS}" +
+					$" ({INGR_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
 					$"{INGR_COL_NAME} VARCHAR UNIQUE NOT NULL" +
 					$"CHECK ({INGR_COL_NAME} != \"\" AND length(name) <= 20);";
 			return query;
@@ -826,15 +1012,15 @@ namespace MajPAbGr_project
 		{
 			TABLE_CATEGORIES = table.setName;
 			CAT_COL_ID = table.getColumns[0];
-			CAT_COL_NAME = table.getColumns[1];			
+			CAT_COL_NAME = table.getColumns[1];
 		}
 
 		public override string createQuery()
 		{
-			query = $"CREATE TABLE {TABLE_CATEGORIES}"+
-				    $"({INGR_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT " +
-				    $"NOT NULL {INGR_COL_NAME} VARCHAR UNIQUE NOT NULL " +
-				    $"CHECK({CAT_COL_NAME} != \"\" AND length({CAT_COL_NAME}) <= 20);";
+			query = $"CREATE TABLE {TABLE_CATEGORIES}" +
+					$"({INGR_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT " +
+					$"NOT NULL {INGR_COL_NAME} VARCHAR UNIQUE NOT NULL " +
+					$"CHECK({CAT_COL_NAME} != \"\" AND length({CAT_COL_NAME}) <= 20);";
 			return query;
 		}
 	}
@@ -870,7 +1056,7 @@ namespace MajPAbGr_project
 		}
 	}
 
-	public class TechnologyQ: TableQueries
+	public class TechnologyQ : TableQueries
 	{
 		string query;
 		public TechnologyQ() : base() { }
@@ -882,25 +1068,25 @@ namespace MajPAbGr_project
 			TECHN_COL_DESCRIPTION = table.getColumns[1];
 		}
 		public override string createQuery()
-        {
-			query = $"CREATE TABLE {TABLE_TEHNOLOGY}("+
-					$"{TECHN_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "+
-					$"{TECHN_COL_NAME} VARCHAR NOT NULL, "+
-					$"{TECHN_COL_DESCRIPTION} VARCHAR, "+
-					$"CHECK(({TECHN_COL_NAME} != \"\") "+
-					$"AND	({TECHN_COL_DESCRIPTION} != \"\")"+
-					$"AND length({TECHN_COL_NAME}) <= 30 "+
+		{
+			query = $"CREATE TABLE {TABLE_TEHNOLOGY}(" +
+					$"{TECHN_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+					$"{TECHN_COL_NAME} VARCHAR NOT NULL, " +
+					$"{TECHN_COL_DESCRIPTION} VARCHAR, " +
+					$"CHECK(({TECHN_COL_NAME} != \"\") " +
+					$"AND	({TECHN_COL_DESCRIPTION} != \"\")" +
+					$"AND length({TECHN_COL_NAME}) <= 30 " +
 					$"AND length({TECHN_COL_DESCRIPTION}) <= 150));";
 
 			return query;
-        }
+		}
 	}
 
 	public class ChainsQ : TableQueries
-    {
+	{
 		string query;
 		public ChainsQ() : base() { }
-		
+
 		public override void setNames(Table_v1 table)
 		{
 			CHAIN_COL_ID = table.setName;
@@ -908,7 +1094,7 @@ namespace MajPAbGr_project
 			CHAIN_COL_CARD = table.getColumns[1];
 		}
 
-		public override string createQuery() 
+		public override string createQuery()
 		{
 			query = $"CREATE TABLE {TABLE_CHAINS}(" +
 					$"{CHAIN_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
@@ -944,8 +1130,8 @@ namespace MajPAbGr_project
 			return query;
 		}
 	}
-	*/
 
+	*/
 	
 
 	
