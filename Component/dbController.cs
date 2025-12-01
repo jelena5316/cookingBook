@@ -408,7 +408,9 @@ namespace MajPAbGr_project
 		protected AnswerInfo info;
 
 
-
+		/*
+		 * Constructors
+		 */
 		public dbController()
 		{
 			Tables tbs = new Tables();
@@ -425,51 +427,53 @@ namespace MajPAbGr_project
 
         }
 
-		public string ConnectionString
-		{
-			set
-			{
-				connectionString = value;
-			}
-			get
-			{
-				return connectionString.ToString();
-			}
-		}
-
-		private void setInitialInfo()
-		{ 
-			info = new AnswerInfo
-            {
-                err_code = error_code,
-                err_message = error_message,
-                query = "",
-                database = ""
-            };
+		/*
+		 * Properties
+		 */
+        public AnswerInfo Info
+        {
+            get { return info; }
+            set { info = value; }
         }
 
-		private void resetInitialInfo()
-		{
-			info.err_code = error_code;
-			info.err_message = error_message;
-			info.query = "";
-			info.database = "";
-		}
-
-		public AnswerInfo Info
-		{
-			get { return info; }
-			set { info = value; }
-		}
-
-		public AnswerInfo getInfo() { return info; }
-
-
 		/*
+		 * Creating data base if not exists
+		 */
+        public override TablesCreator CreateDataBaseTables(dbController db)
+        {
+            TablesCreator tc = base.CreateDataBaseTables(this);
+            int result = tc.createTable();
+            Console.WriteLine($"Created tables number is {result}");
+            return tc;
+        }
+
+        /*
+		 * Connection
+		 */
+        public void OpenConnection()
+        {
+            if (connection.State != ConnectionState.Open)
+            {
+                connection.Open();
+            }
+        }
+
+        public void CloseConnection()
+        {
+            if (connection.State == ConnectionState.Open)
+                connection.Close();
+        }
+
+        public void resetConnecting()
+        {
+            connection = new SqliteConnection(connectionString);
+        }
+
+
+        /*
 		 * Testing conection with data base file for class Program
 		 */
-
-		public int testConnectionStringPCL()
+        public int testConnectionStringPCL()
 		{
 			int flags = 0;
 			string filename = "";
@@ -498,12 +502,15 @@ namespace MajPAbGr_project
 
 			sqlite3 _db = connection.Handle;
 			int rc = raw.sqlite3_open_v2(filename, out _db, flags, vfs: null);
+			SqliteException.ThrowExceptionForRC(rc, _db);	
+			System.Diagnostics.Debug.WriteLine("");
 
-			_db.Dispose();
+            _db.Dispose();
 			_db = null;
 
 			return rc;
 		}
+
 
 		public bool testConnection()
 		{
@@ -521,41 +528,10 @@ namespace MajPAbGr_project
 				{
 					if (ex.SqliteErrorCode == 14)
 						message = $"{System.DateTime.Now} {ex.Message} {connectionString}";
-					Program.cook_error(message);
+					Program.cook_error(message); 
 					return false;
 				}
 			}
-		}
-
-
-
-		public void OpenConnection()
-		{
-			if (connection.State != ConnectionState.Open)
-			{
-				connection.Open();				
-			}
-		}
-
-		public void CloseConnection()
-		{
-			if (connection.State == ConnectionState.Open)
-				connection.Close();
-		}
-
-
-		public void resetConnecting()
-		{
-			connection = new SqliteConnection(connectionString);
-		}
-
-
-		public override TablesCreator CreateDataBaseTables(dbController db)
-		{
-			TablesCreator tc = base.CreateDataBaseTables(this);
-			int result = tc.createTable();
-			Console.WriteLine($"Created tables number is {result}");
-			return tc;
 		}
 
 
@@ -566,7 +542,27 @@ namespace MajPAbGr_project
         /*
          *  Execute Commamd Report (sqlite3 errors, current statments, connectionString)
          */
-		private void setAnswerInfo(SqliteCommand cmd)
+
+        private void setInitialInfo()
+        {
+            info = new AnswerInfo
+            {
+                err_code = error_code,
+                err_message = error_message,
+                query = "",
+                database = ""
+            };
+        }
+
+        private void resetInitialInfo()
+        {
+            info.err_code = error_code;
+            info.err_message = error_message;
+            info.query = "";
+            info.database = "";
+        }
+
+        private void setAnswerInfo(SqliteCommand cmd)
         {
 			error_code = 0;
 			error_message = "";
@@ -605,6 +601,8 @@ namespace MajPAbGr_project
 					{
 						rows = command.ExecuteNonQuery();
 						setAnswerInfo(command);
+						System.Diagnostics.Debug.WriteLine("last rowid " + get_last_rowid().ToString());
+						
 					}
 				}
 				catch (SqliteException ex)
@@ -615,6 +613,7 @@ namespace MajPAbGr_project
 				}
 				finally
 				{
+										
 					CloseConnection();
 				}
 			}
@@ -655,18 +654,22 @@ namespace MajPAbGr_project
 			return count;
 		}
 
-		public long get_last_rowid(SqliteDataReader reader)
+
+		/*
+		 * 'last_rowid_insert', into other methods. b.e. into Edit()
+		 */
+		private long get_last_rowid() // 
 		{
+			long id = 0;
 			sqlite3 db = null;
-			db = connection.Handle;
-			long id = raw.sqlite3_last_insert_rowid(db);
+            db = connection.Handle;
+            id = raw.sqlite3_last_insert_rowid(db);           		
 			return id;
 		}
 
 		/*
 		 * 'select'
 		 */
-
 		public List<Item> Catalog(string query) //int, string
 		{
 			Item item;
@@ -681,16 +684,13 @@ namespace MajPAbGr_project
 					{
 						using (reader = command.ExecuteReader())
 						{
-							if (reader.HasRows)
+							while (reader.Read())
 							{
-								while (reader.Read())
-								{
-									int id = reader.GetInt32(0);
-									string name = reader.GetName(1);
-									item = new Item();
-									item.createItem(id, name);
-									list.Add(item);
-								}
+								int id = reader.GetInt32(0);
+								string name = reader.GetValue(1).ToString();
+								item = new Item();
+								item.createItem(id, name);
+								list.Add(item);
 							}
 						}
 						setAnswerInfo(command);
@@ -699,8 +699,7 @@ namespace MajPAbGr_project
 				catch (SqliteException ex)
 				{
                     setAnswerInfo(query, connection);
-                    ConnectionERR(ex);
-					Program.cook_error($"{System.DateTime.Now} {ex.Message}");
+                    ConnectionERR(ex);					
 				}
 				finally
 				{
@@ -727,14 +726,11 @@ namespace MajPAbGr_project
 					{
 						using (reader = command.ExecuteReader())
 						{
-							if (reader.HasRows)
-							{
-								while (reader.Read())
+							while (reader.Read())
 								{
-									string name = reader.GetName(0);
+								string name = reader.GetValue(0).ToString();
 									list.Add(name);
 								}
-							}
 						}
 						setAnswerInfo(command);
 					}
@@ -742,8 +738,7 @@ namespace MajPAbGr_project
 				catch (SqliteException ex)
 				{
                     setAnswerInfo(query, connection);
-                    ConnectionERR(ex);
-					Program.cook_error($"{System.DateTime.Now} {ex.Message}");
+                    ConnectionERR(ex);					
 				}
 				finally
 				{
@@ -755,12 +750,13 @@ namespace MajPAbGr_project
 		}
 		//was used in public void setData() (Element.cs) too
 
+
 		public List<Element> dbReadElement(string query) // int, string, double
 		{
-			List<Element> list = new List<Element>();
 			Element element;
+			List<Element> list = new List<Element>();			
 
-			using (connection = new SqliteConnection(ConnectionString))
+			using (connection = new SqliteConnection(connectionString))
 			{
 				try
 				{
@@ -769,17 +765,14 @@ namespace MajPAbGr_project
 					{
 						using (reader = command.ExecuteReader())
 						{
-							if (reader.HasRows)
-							{
-								while (reader.Read())
+							while (reader.Read())
 								{
 									int id = reader.GetInt32(0);
-									string name = reader.GetName(1);
+									string name = reader.GetString(1);
 									double amounts = reader.GetDouble(2);
 									element = new Element(id, name, amounts);
 									list.Add(element);
 								}
-							}
 						}
 						setAnswerInfo(command);
 					}
@@ -788,8 +781,6 @@ namespace MajPAbGr_project
 				{
                     setAnswerInfo(query, connection);
                     ConnectionERR(ex);
-					Program.cook_error($"{System.DateTime.Now} {ex.Message}");
-
 				}
 				finally
 				{
@@ -799,13 +790,12 @@ namespace MajPAbGr_project
 			return list;
 		}
 
-
 		public List<object[]> dbReadData(string query)
 		{
 			int length = 0;
 			List<object[]> data = new List<object[]>();
 
-			using (connection = new SqliteConnection(ConnectionString))
+			using (connection = new SqliteConnection(connectionString))
 			{
 				try
 				{
@@ -815,14 +805,11 @@ namespace MajPAbGr_project
 						using (reader = command.ExecuteReader())
 						{
 							length = reader.FieldCount;
-							if (reader.HasRows)
+							while (reader.Read())
 							{
-								while (reader.Read())
-								{
-									object[] arr = new object[length];
-									reader.GetValues(arr);
-									data.Add(arr);
-								}
+								object[] arr = new object[length];
+								reader.GetValues(arr);
+								data.Add(arr);
 							}
 						}
 						setAnswerInfo(command);
@@ -831,8 +818,7 @@ namespace MajPAbGr_project
 				catch (SqliteException ex)
 				{
                     setAnswerInfo(query, connection);
-                    ConnectionERR(ex);
-					Program.cook_error($"{System.DateTime.Now} {ex.Message}");
+                    ConnectionERR(ex);					
 				}
 				finally
 				{
@@ -843,12 +829,11 @@ namespace MajPAbGr_project
 		}
 
 
-
 		public List<String> dbReadTechnology(string query) // only strings
 		{
 			List<String> cards = new List<String>();
 
-			using (connection = new SqliteConnection(ConnectionString))
+			using (connection = new SqliteConnection(connectionString))
 			{
 				try
 				{
@@ -857,14 +842,11 @@ namespace MajPAbGr_project
 					{
 						using (reader = command.ExecuteReader())
 						{
-							if (reader.HasRows)
+							while (reader.Read())
 							{
-								while (reader.Read())
-								{
-									string technology = reader.GetValue(0).ToString();
-									technology += "*" + reader.GetValue(1).ToString();
-									cards.Add(technology);
-								}
+								string technology = reader.GetValue(0).ToString();
+								technology += "*" + reader.GetValue(1).ToString();
+								cards.Add(technology);
 							}
 						}
 						setAnswerInfo(command);
@@ -898,18 +880,15 @@ namespace MajPAbGr_project
 					{
 						using (reader = command.ExecuteReader())
 						{
-							if (reader.HasRows)
+							while (reader.Read())
 							{
-								while (reader.Read())
+								data += reader.GetValue(0).ToString();
+								for (int k = 1; k < reader.FieldCount; k++)
 								{
-									data += reader.GetValue(0).ToString();
-									for (int k = 1; k < reader.FieldCount; k++)
-									{
-										data += " " + reader.GetValue(k).ToString();
-									}
-									view_data.Add(data);
-									data = "";
+									data += " " + reader.GetValue(k).ToString();
 								}
+								view_data.Add(data);
+								data = "";
 							}
 						}
 						setAnswerInfo(command);
@@ -936,7 +915,7 @@ namespace MajPAbGr_project
 		{
 			List<FormEF_test.Technology> cards = new List<FormEF_test.Technology>();
 
-			using (connection = new SqliteConnection(ConnectionString))
+			using (connection = new SqliteConnection(connectionString))
 			{
 				try
 				{
@@ -945,16 +924,13 @@ namespace MajPAbGr_project
                     {
                         using (reader = command.ExecuteReader())
                         {
-                            if (reader.HasRows)
+                            while (reader.Read())
                             {
-                                while (reader.Read())
-                                {
-                                    FormEF_test.Technology tech = new FormEF_test.Technology();
-                                    tech.Id = int.Parse(reader.GetValue(0).ToString());
-                                    tech.Name = reader.GetValue(1).ToString();
-                                    tech.Note = reader.GetValue(2).ToString();
-                                    cards.Add(tech);
-                                }
+								FormEF_test.Technology tech = new FormEF_test.Technology();
+                                tech.Id = int.Parse(reader.GetValue(0).ToString());
+                                tech.Name = reader.GetValue(1).ToString();
+                                tech.Note = reader.GetValue(2).ToString();
+                                cards.Add(tech);
                             }
                         }
                         setAnswerInfo(command);
@@ -973,9 +949,6 @@ namespace MajPAbGr_project
 			return cards;
 		}
 	}
-
-
-
 
 
 
