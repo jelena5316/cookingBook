@@ -27,9 +27,10 @@ namespace MajPAbGr_project
 			if (technology < 0)
 				technology = 0;
 			id_technology = technology;
-			tb.setCatalog();
-			tb.Selected = technology;
 			id = technology;
+			//tb.setCatalogs(tb.readTechnologies());
+			//tb.Selected = technology;			  
+			
 		}
 		
 
@@ -41,16 +42,32 @@ namespace MajPAbGr_project
 			return tb;
         }
 
+		public void setTbController(int index)
+		{
+            tb.setCatalogs(tb.readTechnologies());
+			tb.setSelected(index);
+			tb.setCurrent(index);
+			if (tb.Selected != tb.Current.Id || tb.Selected != id)
+			{
+				tb.Selected = tb.Current.Id;
+			}
+			tb.Subcatalog = tb.CardsInTechnologyAsSubcatalog();
+        }
+
 		public tbController getTbRecController()
 		{
 			return tbRec;
 		}
+
+		
 
         public List<Item> Receptures
         {
             set { receptures = value; }
             get { return receptures; }
         }
+
+		
 
 
 		/*
@@ -74,6 +91,11 @@ namespace MajPAbGr_project
 			receptures = tb.RecepturesOfTechnology;				
 			return receptures;
         }
+
+		public bool NotUnique(string name)
+		{
+			return tb.Technologies.Exists(p => p.Name == name);
+		}
 
 
 		public string Submit(string name, string description, int techn_id)
@@ -120,5 +142,10 @@ namespace MajPAbGr_project
             }
 				
         }
+
+		public string[] OutTechnology()
+		{
+			return tb.AboutCurrent;
+		}
 	}
 }

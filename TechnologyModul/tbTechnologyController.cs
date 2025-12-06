@@ -7,6 +7,7 @@ using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
@@ -16,21 +17,38 @@ namespace MajPAbGr_project
     public class tbTechnologyController: tbController
     {
         string used = "0";
-        FormEF_test.Technology current;
+        Technology current;
         List<Item> receptures;
+        List<Technology> technologies;
         List<Card> cards;
 
 
         public tbTechnologyController(string table) : base(table)
         {
-           cards = new List<Card>();
+            technologies = new List<Technology>();
+            cards = new List<Card>();
+            receptures = new List<Item>();
+            current = null;
         }
 
-        public FormEF_test.Technology Current
+        /*
+         * Properties
+         */
+
+        public Technology Current
         {
             get { return current; }
         }
 
+        public string[] AboutCurrent //into textbox
+        {
+            get { return new string[] { current.Name, current.Note }; }
+        }
+
+        public List<Technology> Technologies
+        {
+            get { return technologies; }
+        }
 
         public List<Item> RecepturesOfTechnology
         {
@@ -38,7 +56,52 @@ namespace MajPAbGr_project
         }
 
 
-        public void setCurrent()
+        /*
+         * Methods (seed data)
+         */
+
+        public List<object[]> readTechnologies()
+        {
+            List<object[]> list;
+
+            if (technologies.Count > 0)
+                technologies.Clear();
+
+            query = $"Select id, name, description from {table}";
+            list = dbReadData(query);
+            return list;
+        }
+
+        public void setCatalogs(List <object[]> data)
+        {
+            foreach (object[] techn in data)
+            {
+                long id = (long)techn[0];  
+                string name = techn[1].ToString();
+                string note = techn[2].ToString();
+
+                Technology t = new Technology((int)id, name, note);  
+                technologies.Add(t);
+
+                Item item = new Item();
+                item.createItem((int)id, name);
+                catalog.Add(item);
+            }
+        }
+
+
+        public void setCurrent(int index)
+        {
+            current = technologies[index];
+
+            receptures.Clear();
+            receptures = setSubCatalog("Recepture", "id_technology");
+            used = receptures.Count().ToString();
+            subcatalog.Clear();
+            subcatalog = CardsInTechnologyAsSubcatalog();
+        }
+
+        public void getCurrentReadingFromDB()
         {
             object[] technology = null;
             query = $"select name, description from {table} where id = {selected};"; //id			
@@ -48,10 +111,10 @@ namespace MajPAbGr_project
                 selected,
                 technology[0].ToString(),
                 technology[1].ToString() 
-                );
-            setUsed();
-            receptures = setSubCatalog("Recepture", "id_technology");            
-            //subcatalog = CardsInTechnologyAsSubcatalog();
+                );    
+            
+            receptures = setSubCatalog("Recepture", "id_technology");
+            used = receptures.Count().ToString();
         }
 
 
@@ -82,23 +145,13 @@ namespace MajPAbGr_project
          *  Technologies
          */
 
-        public string[] OutTechnology() //into textbox
-        {
-            return new string[] { current.Name, current.Note };
-        }
-
         public List <Item> getTechnologiesIdsByName(string name)
         {            
             query = $"select id, name from Technology where name = '{name}';";
-            return Catalog(query);
+            return Catalog(query); // if name not unique -- will do nothing! No dialog!
         }
 
-        public string technologiesCount(string name)
-        {
-            query = $"select count(*) from Technology where name = '{name}';";            
-            return Count(query);
-        }
-
+        
         public string insertTechnology(string name, string description)
         {
             query = "insert into Technology (name, description)" +
@@ -114,7 +167,7 @@ namespace MajPAbGr_project
         {
             get
             {
-                query = $"select count (*) from Technology_card";
+                query = $"select count (*) from {TABLE_CARDS}";
                 return Count(query);
             }
         }

@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace MajPAbGr_project
@@ -26,15 +27,33 @@ namespace MajPAbGr_project
 			tbRec = controller.getTbRecController();			
 
 			if (technology < 0) technology = 0;
-			id_technology = technology;
-			tb.setCatalog();
+			id_technology = technology;					
 			technologies = tb.getCatalog();
 
 			selected_tech = technology;
 			tb.Selected = technology;			
 		}
 
-		private void Technology_Load(object sender, EventArgs e)
+        public TechnologyForm (List<ReceptureStruct> ReceptureStruct, int index)
+        {
+            InitializeComponent();
+
+			int technology = 0;
+			if (ReceptureStruct.Count < 1)
+                technology = 0;
+            else
+                technology = ReceptureStruct[index].getIds()[1];
+			selected_tech = technology; 
+
+            controller = new TechnologyController(technology);
+			controller.setTbController(index);
+				
+			tbRec = controller.getTbRecController(); // tbController
+			tb = controller.getTbController();
+            technologies = tb.getCatalog(); // T: Item    
+        }
+
+        private void Technology_Load(object sender, EventArgs e)
 		{
 			int index = FormFunction.ChangeIndex(technologies, tb.Selected);
 			FormFunction.FillCombo(technologies, comboBox2);
@@ -71,32 +90,32 @@ namespace MajPAbGr_project
             }
 		}
 
-		private string OutTechnology() //outputting into textbox
+		private string OutputTechnologyIntoForm( string[] info) //outputting into textbox
 		{
-			string[] arr = controller.getTbController().OutTechnology();
-			textBox1.Text = arr[0];
-			textBox3.Text = arr[1];
-			return arr[0] + ": " + arr[1];
+			
+			textBox1.Text = info[0];
+			textBox3.Text = info[1];
+			return info[0] + ": " + info[1];
 		}
 
 		private int fillCatalogCards(int selected) // cards subcatalog
         {
 			int count = 0;
-			List<Item> cards_id;			
+			List<Item> cards_items;			
 
 			if (listBox_cards.Items.Count > 0)
 			{
 				listBox_cards.Items.Clear();
 			}	
 
-			cards_id = controller.Cards(selected, out count);
+			cards_items = controller.Cards(selected, out count);
 
-			if (cards_id != null)
+			if (cards_items != null)
 			{
 				int k;
-				for (k = 0; k < cards_id.Count; k++)
+				for (k = 0; k < cards_items.Count; k++)
 				{
-					listBox_cards.Items.Add(cards_id[k].name);
+					listBox_cards.Items.Add(cards_items[k].name);
 				}
 			}
 			return count;
@@ -109,11 +128,12 @@ namespace MajPAbGr_project
 				int count = 0,
 					index = comboBox2.SelectedIndex,
 					selected = tb.setSelected(index);
-				controller.getTbController().setCurrent();
+				tb.setCurrent(index);
 				selected_tech = selected;
 				id_technology = selected;
-			
-				OutTechnology();
+
+                string[] arr = controller.OutTechnology();
+                OutputTechnologyIntoForm(arr);
 				fillCatalogRec();
 				//tb.setUsed();
 				lbl_rec.Text = $"Is used in {receptures.Count} recipes";
@@ -125,8 +145,9 @@ namespace MajPAbGr_project
 
 		private void button1_Click(object sender, EventArgs e) // submit inserting or updating (editing)
 		{
+			bool count;
 			int id_temp = id_technology;
-			string name, description, count, report = "";
+			string name, description, report = "";
 
 			if (string.IsNullOrEmpty(textBox1.Text)) return;
 			if (string.IsNullOrEmpty(textBox3.Text)) return;
@@ -134,27 +155,18 @@ namespace MajPAbGr_project
 			name = textBox1.Text;
 			description = textBox3.Text;
 
-			count = tb.technologiesCount(name); //count of technology with this name
-			if (id_temp == 0 && count != "0")
-			{
-				DialogResult rezult = MessageBox.Show
+			count = controller.NotUnique(name);
+			if (id_temp == 0 && count) // if name not unique -- will do nothing! No dialog!
+            {
+				MessageBox.Show
 					("Data base has {technology} technologies with this name. Want you it update?\n" +
 					"If you want update, than press 'Yes' then press 'Submit'!\n" +
 					"If you don't want, than press 'No' and type new name, then press 'submit'",
-					"Quation",
-					MessageBoxButtons.YesNo,
-					MessageBoxIcon.Question,
-					MessageBoxDefaultButton.Button2);
-				if (rezult == DialogResult.No)
-				{
-					textBox1.Focus();
-					return;
-				}
-				else
-				{
-					id_temp = tb.getTechnologiesIdsByName(name)[0].id;				
-				}
+					"Quation");
+				return;				
 			}
+
+
 			report = controller.Submit(name, description, id_temp);
 			MessageBox.Show(report);
 
@@ -176,8 +188,16 @@ namespace MajPAbGr_project
         {
 			openChainEditor();			
 		}
-        
-		private void openChainEditor()
+
+        private void new_tech_Click(object sender, EventArgs e)
+        {
+			textBox1.Clear();
+			textBox1.Focus();
+
+
+        }
+
+        private void openChainEditor()
         {
             Chains frm;
             ChainsController cntrl;  

@@ -43,6 +43,7 @@
             this.listBox_cards = new System.Windows.Forms.ListBox();
             this.listBox_rec = new System.Windows.Forms.ListBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.new_tech = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -140,6 +141,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.new_tech);
             this.groupBox2.Controls.Add(this.textBox1);
             this.groupBox2.Controls.Add(this.textBox3);
             this.groupBox2.Controls.Add(this.button3);
@@ -207,7 +209,17 @@
             this.label3.Text = "Apply or remove step to  chain";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
-            // Technology
+            // new_tech
+            // 
+            this.new_tech.AutoSize = true;
+            this.new_tech.Location = new System.Drawing.Point(225, 24);
+            this.new_tech.Name = "new_tech";
+            this.new_tech.Size = new System.Drawing.Size(81, 20);
+            this.new_tech.TabIndex = 7;
+            this.new_tech.Text = "insert new";
+            this.new_tech.Click += new System.EventHandler(this.new_tech_Click);
+            // 
+            // TechnologyForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -223,7 +235,7 @@
             this.Controls.Add(this.lbl_rec);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "Technology";
+            this.Name = "TechnologyForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Technology";
             this.Load += new System.EventHandler(this.Technology_Load);
@@ -251,5 +263,6 @@
         private System.Windows.Forms.ListBox listBox_cards;
         private System.Windows.Forms.ListBox listBox_rec;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label new_tech;
     }
 }
