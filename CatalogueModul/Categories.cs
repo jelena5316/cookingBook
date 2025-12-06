@@ -256,26 +256,26 @@ namespace MajPAbGr_project
 			controller.OpenRecipesForm();			
 		}
 
-		private void openTechnology()
-		{
-			int selected, id_technology;
+		//private void openTechnology()
+		//{
+		//	int selected, id_technology;
 
-			// check selected item of list
-			selected = CheckTbMainSelected(controller.getMinIdOfReceptures());
-			TechnologyForm frm;
+		//	// check selected item of list
+		//	selected = CheckTbMainSelected(controller.getMinIdOfReceptures());
+		//	TechnologyForm frm;
 
-			//id_technology
-			int index = selected_recepture == -1 ? 0 : selected_recepture;
+		//	//id_technology
+		//	int index = selected_recepture == -1 ? 0 : selected_recepture;
 
-			if (controller.ReceptureStruct.Count < 1)
-				id_technology = 0;
-			else
-				id_technology = controller.ReceptureStruct[index].getIds()[1];
-			id_technology = id_technology < 0 ? 0 : id_technology;
+		//	if (controller.ReceptureStruct.Count < 1)
+		//		id_technology = 0;
+		//	else
+		//		id_technology = controller.ReceptureStruct[index].getIds()[1];
+		//	id_technology = id_technology < 0 ? 0 : id_technology;
 
-			frm = new TechnologyForm(id_technology);
-			frm.Show();
-		}
+		//	frm = new TechnologyForm(id_technology);
+		//	frm.Show();
+		//}
 
 		private void SimpleTable(int opt)
 		{

@@ -402,20 +402,26 @@ namespace MajPAbGr_project
         public string[] PrintTechnology(int index)
         {
             int id_technology;
-            TechnologyController tehn;
             string[] arr;
+            tbTechnologyController tehn;
+            FormEF_test.Technology current;
 
             id_technology = ReceptureStruct[index].getIds()[1];
-
             if (id_technology < 1)
                 return new string[] { "has no tehnology" };
+
+
+            tehn = new tbTechnologyController("Technology");
+            tehn.Selected = id_technology; // for query statement
+            tehn.getCurrentReadingFromDB(); // reading
+            current = tehn.Current;
+
+            if (current == null)            
+                arr = new string[] { "has no tehnology" }; 
             else
-            {
-                tehn = new TechnologyController(id_technology);
-                tehn.setReceptures();                
-                arr = tehn.getTbController().OutTechnology();
-                return arr;
-            }
+                arr = new string[] { current.Name, current.Note };
+
+            return arr;
         }
 
         public string[] PrintCards(int index)
@@ -643,7 +649,7 @@ namespace MajPAbGr_project
                 id_technology = ReceptureStruct[index].getIds()[1];
             id_technology = id_technology < 0 ? 0 : id_technology;
 
-            frm = new TechnologyForm(id_technology);
+            frm = new TechnologyForm(ReceptureStruct, index);
             frm.Show();
         }
 
