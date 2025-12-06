@@ -57,20 +57,15 @@ namespace MajPAbGr_project
             /*
 			 * Get data base schema using patterns (debugging)
 			 */
-            //dbController dbGetables = new dbController();
-            //List<object[]> result = dbGetables.dbReadData("SELECT name FROM sqlite_schema WHERE type = 'table';"); // LIKE '%pattern'
-            //for (int k = 0; k < result.Count; k++)
-            //{
-            //	string message = "";
-            //	for (int q = 0; q < result[k].Count(); q++)
-            //	{
-            //		message+= " " + result[k][q].ToString();
-            //		System.Diagnostics.Debug.WriteLine(message);
-            //	}
-            //}
+           //"SELECT name FROM sqlite_schema WHERE type = 'table';"; // LIKE '%pattern' -- b.e. '%able'
+            //System.Diagnostics.Debug.WriteLine(message);
+           
 
-
-            dbController dbTest = new dbController();
+			/*
+			 * Creating new data base if not exists and mode ir ReadWrite
+			 */
+			/*
+            dbController dbTest = new dbController();			
 			if (!dbTest.testConnection())
 			{
 				string message = $"Unable to open data base file, connection string: {dbTest.ConnectionString}.\n" +
@@ -85,54 +80,19 @@ namespace MajPAbGr_project
 
 				if (answer == DialogResult.Yes)
 				{
-					connectionStringPath = @"Data Source = db\CookingBook; Mode=ReadWriteCreate";
-					Tables tbs = new Tables();					
+					Tables tbs = new Tables();
 					dbTest.ConnectionString = @"Data Source = db\CookingBook; Mode=ReadWriteCreate";
-					dbTest.resetConnecting();
+                    dbTest.resetConnecting();
 					dbTest.CreateDataBaseTables(dbTest);
-					//creating db file and tables
-					return;	
-				}
-			}
-
-
-			/*
-			* Checking connection, links https://marketsplash.com/tutorials/c-sharp/csharp-how-to-use-sqlite/#link7
-			*/
-			dbController db = new dbController();
-			if (!db.testConnection())
-			{
-				string message = $"Unable to open data base file, connection string: {db.ConnectionString}.\n" +
-					$"Do you want to continue?";
-				DialogResult answer = MessageBox.Show(
-					message,
-					"Connection test",
-					MessageBoxButtons.YesNo,
-					MessageBoxIcon.Question,
-					MessageBoxDefaultButton.Button1                   
-					);
-
-				if(answer == DialogResult.Yes)
-				{
-					message = "Want you to improve a database connecting string or to finish work?";
-					answer = MessageBox.Show(
-					message,
-					"Connection test",
-					MessageBoxButtons.YesNo,
-					MessageBoxIcon.Question,
-					MessageBoxDefaultButton.Button1
-					);
-
-					if (answer == DialogResult.Yes)
-						connectionStringIsCorrect = false;
-					else
-						return;
+					connectionStringIsCorrect = true;
+					//creating db file and tables						
 				}
 				else
 				{
-					return; 
+					connectionStringIsCorrect = false;
 				}
 			}
+			*/
 
 			/*
 			 * Starting application
@@ -140,9 +100,9 @@ namespace MajPAbGr_project
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			if (!connectionStringIsCorrect) //connection string is wrong; 'false'
+			if (!connectionStringIsCorrect)
 				Application.Run(new EditDB(connectionStringPath));
-			// connection string editing
+			 //Start with EditDB to edit (correct) connection string
 			/* if a connection string is succesefully corrected, then a variable, what is used as condition, is equel 'true'
 			 * else it is equel 'false'.
 			 * Value of this variable will be changed in case the connection string is changed AND it is correct -- 'true'.
@@ -150,27 +110,17 @@ namespace MajPAbGr_project
 			 * In case connection string is changed, but stay incorrect, this variable stay unchanged too -- 'false'.
 			 */
 
-			if (connectionStringIsCorrect) //connection string is correct; 'true'										   
-			{
-				Component.FormCreator creator = new Component.FormCreator();
-				//Application.Run(new Categories()); // old version
-				//Application.Run(creator.categories());
-
-
-				db.CreateDataBaseTables(db);
-
-
-				//other form is opened as start page
+			if (connectionStringIsCorrect)	
+			//Start applications works in case when connection string is corrected									   
+			{				
+				//db.CreateDataBaseTables(db); //???				
 				CategoriesController controller = new CategoriesController();
-				controller.Catalog.SelectedRecIndex = 0;
-				//Application.Run(creator.recipes(controller.Catalog));
-				//Application.Run(creator.recipes(controller));
+				controller.Catalog.SelectedRecIndex = 0;				
 				Application.Run(new Categories());
-			}
-				
+			}				
 			else //connection string is wrong; 'false'
 				MessageBox.Show("Thank you for using our application!");
-				Application.Exit(); //connection string is wrong
+				Application.Exit();
 		}
 
 
@@ -196,7 +146,7 @@ namespace MajPAbGr_project
 			get { return connectionStringIsCorrect; }
 		}
 
-		public static void StoreConnectionString()
+		public static void StoreConnectionString() // used in EditDB
 		{
 			using (StreamWriter stream = new StreamWriter(PATH))
 			{

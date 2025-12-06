@@ -302,7 +302,7 @@ namespace MajPAbGr_project
 			if (data == null)
             {
 				message = "";
-				AnswerInfo info = db.getInfo();
+				AnswerInfo info = db.Info;
 				Status status = ExecutedReaderResult(info.err_code);
 				if (status == Status.WRONG)				
 					 message = WRONG_message();
@@ -459,7 +459,7 @@ namespace MajPAbGr_project
 				return new string[] { "Empty statement!" };
 
 			objects = db.dbReadData(query);
-			status = ExecutedReaderResult(db.getInfo().err_code);
+			status = ExecutedReaderResult(db.Info.err_code);
 			data = OutputView (objects, status);
 			err_message = "";
 			query = "";
@@ -523,8 +523,8 @@ namespace MajPAbGr_project
 		private string WRONG_message()
 		{
 			string message = "Oops! Something wrong!";
-			if (db != null && !string.IsNullOrEmpty(db.getInfo().err_message))
-				message =  db.getInfo().err_message;
+			if (db != null && !string.IsNullOrEmpty(db.Info.err_message))
+				message =  db.Info.err_message;
 			if (!string.IsNullOrEmpty(this.err_message))
 				message = this.err_message;
 			return message;

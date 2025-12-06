@@ -1,5 +1,5 @@
 ﻿/*
- * read data from tables od data base and manage it
+ * read data from tables of data base and manage it
  */
 
 using System.Collections.Generic;
@@ -58,15 +58,13 @@ namespace MajPAbGr_project
 
 		public void setCatalog()
 		{
-			//List<object[]> data;			
-
 			if (catalog.Count > 0)
 			{
 				catalog.Clear();
 			}
 
 			query = "select id, name from " + table + ";";
-			catalog = Catalog(query);
+			catalog = Catalog(query); // connection open
 			count = catalog.Count;
 		}
 
@@ -76,13 +74,13 @@ namespace MajPAbGr_project
 		{
 			if (catalog.Count > 0)
 				catalog.Clear();
-			setCatalog();
+			setCatalog(); // connection open
 		}
 
 		public List<Item> setSubCatalog(string subtable, string column) //Recipe, id_recepture
 		{
 			query = $"select id, name from {subtable} where {column} = {selected};";
-			return Catalog(query);
+			return Catalog(query); // connection open
 		}
 
 		/*
@@ -113,7 +111,7 @@ namespace MajPAbGr_project
         public string getById(string column, int id) // for Recepture and others
         {
             query = $"select {column} from {table} where id = " + id + ";";
-            List<string> id_list = dbReader(query);
+            List<string> id_list = dbReader(query); // connectio open
             if (id_list.Count > 0)
                 return id_list[0];
             else
@@ -125,14 +123,14 @@ namespace MajPAbGr_project
 			return catalog[index].name;
 		}
 
-		public List<string> getNamesFromDB()
+		public List<string> getNamesFromDB() // for Amounts form, autocomplete
 		{
 			return dbReader($"select name from {table}");
 		}
 
 		public List<string> getNamesFromDB(string subtable)
 		{
-            return dbReader($"select name from {subtable}");
+            return dbReader($"select name from {subtable}"); // connection opne
         }
 				
 		/*
@@ -154,7 +152,6 @@ namespace MajPAbGr_project
 					" FROM Amounts AS am JOIN Ingredients AS ingr " +
 					"ON am.id_ingredients = ingr.id WHERE am.id_recepture = "
 					+ selected + ";";
-
 					break;
 				case 2: // recipe
 					query = "SELECT id, name, coefficient" +
@@ -167,7 +164,7 @@ namespace MajPAbGr_project
 					+ selected + ";";
 					break;
 			}			
-			el = dbReadElement(query);			
+			el = dbReadElement(query); // connection open
 			return el;
 		}
 
@@ -180,10 +177,15 @@ namespace MajPAbGr_project
 		//remove
 		public virtual int RemoveItem()
 		{
-			query = $"delete from {table} where id = {selected}";
-			int count = Edit(query);
-			if (count != 0) resetCatalog();
+			int count;
+
 			selected = 0;
+			query = $"delete from {table} where id = {selected}";
+			
+			count = Edit(query); // connection open
+			if (count != 0)
+				resetCatalog(); // connection open
+			
 			return count;
 		}
 
@@ -194,7 +196,7 @@ namespace MajPAbGr_project
 				query = $"update {table} set {column} = '{value}' where id = {id_recepture};";
 			else
 				query = $"update {table} set {column} = null where id = {id_recepture};";
-			ind = Edit(query);
+			ind = Edit(query); // connection open
 			return ind;
 		}
 
@@ -205,7 +207,7 @@ namespace MajPAbGr_project
 		public int Err_code { get { return error_code; } }
 		public string Err_message { get { return error_message; } }
 
-		public void ResetErr_info()
+		public void ResetErr_info() // see dbController too!!!
 		{
 			error_code = 0;
 			error_message = "";
