@@ -179,12 +179,12 @@ namespace MajPAbGr_project
 		{
 			int count;
 
-			selected = 0;
+			//selected = 0;
 			query = $"delete from {table} where id = {selected}";
 			
 			count = Edit(query); // connection open
-			if (count != 0)
-				resetCatalog(); // connection open
+			//if (count != 0)
+			//	resetCatalog(); // connection open
 			
 			return count;
 		}

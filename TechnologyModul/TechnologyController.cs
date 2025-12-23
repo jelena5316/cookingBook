@@ -3,15 +3,31 @@
  * and methods of classes tbTechnologyController and tbController
  */
 
+using FormEF_test;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Security.Policy;
+using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace MajPAbGr_project
 {
-    public class TechnologyController
-    {
+    public enum SubmitMode
+	{
+		INSERT = 0,
+		UPDATE = 1,
+		DELETE = 2
+	}
+	
+	public class TechnologyController
+    {	
 		int id_technology, //tooken id, will be changed updating and creating
-			id;			
+			id;
+		SubmitMode submitMode;
 		List<Item> receptures;
         tbTechnologyController tb;
         tbController tbRec;
@@ -59,15 +75,17 @@ namespace MajPAbGr_project
 			return tbRec;
 		}
 
-		
-
         public List<Item> Receptures
         {
             set { receptures = value; }
             get { return receptures; }
         }
 
-		
+		public SubmitMode Mode
+		{
+			get { return  submitMode; }
+			set { submitMode = value; }
+		}
 
 
 		/*
@@ -92,47 +110,137 @@ namespace MajPAbGr_project
 			return receptures;
         }
 
+		// CRUD
 		public bool NotUnique(string name)
 		{
 			return tb.Technologies.Exists(p => p.Name == name);
 		}
 
 
-		public string Submit(string name, string description, int techn_id)
-        {
-            int ind = 0, num, id = techn_id;
-            string count = "", query, report = "";
+		private void ChangeModelAfterInserting(int rowid, string name, string description)
+		{
+            Technology inserted = new Technology(rowid, name, description);
+            tb.Technologies.Add(inserted);
+            int tech = tb.Technologies.FindIndex(p => p == inserted);
+            tb.setCurrent(tech);
+            tb.getCatalog().Add(new Item() { id = rowid, name = name });
+            tb.Selected = rowid;
+        }
+		
 
-            if (techn_id == 0) // insert
+        public string InsertNew(string name, string description, int techn_id)
+		{
+			int rowid;
+			string count;
+			if (NotUnique(name))
             {
-				query = tb.insertTechnology(name, description);
-				count = tb.Count(query);
-				num = int.Parse(count);
-				if (num > 0)
-					tb.Selected = num;
-				techn_id = num;
-			}
+                return $"Data base has {name} technologies with this name.";
+            }
             else
             {
-				ind = tb.UpdateReceptureOrCards("name", name, techn_id);
-				ind += tb.UpdateReceptureOrCards("description", description, techn_id);
-			}
+                count = tb.insertTechnology(name, description);	
+                rowid = int.Parse(count);
+                if (rowid > 0)
+                    tb.Selected = rowid;
+				//techn_id = rowid;
 
-            tb.setCatalog();
-            report = techn_id == id ? "not inserted or updated" : "inserted";
-            report = ind > 0 ? "updated" : report;
-			return $"Technology {name} (id {tb.Selected}) is {report}";
+				ChangeModelAfterInserting(rowid, name, description);
+
+                //tb.setCatalog();
+                return $"Technology {name} (id {tb.Selected}) is inserted";
+            }
+        }
+
+		private void ChangeModelAfterUpdating(string name, string description, int index)
+		{
+			Item selected = tb.getCatalog()[index];
+			Technology current = tb.Technologies[index];
+			current.Name = name;
+			current.Note = description;
+			selected.name = name;
+
+			tb.getCatalog()[index] = selected;
+			tb.Technologies[index] = current;
+		}
+
+		public string UpdateExisted(string name, string description, int index)
+		{
+			int ind;
+			int techn_id = tb.setSelected(index);
+			
+
+			if (techn_id > 0)
+            {
+                ind = tb.UpdateReceptureOrCards("name", name, techn_id);
+                ind += tb.UpdateReceptureOrCards("description", description, techn_id);
+
+				if (ind == 2)
+				{
+					ChangeModelAfterUpdating(name, description, index);
+                }
+				
+                //tb.setCatalog();
+                return $"Technology {name} (id {tb.Selected}) is updated";
+            }
+            else
+            {
+				return $"Data base has no technologies with this id: id = {techn_id}";
+            }
+        }
+
+		public string Submit(string name, string description, int techn_id)
+        {
+            string report = "";
+
+			switch ((int)submitMode)
+			{
+				case 0:
+					report = InsertNew(name, description, techn_id);
+					break;
+				case 1:
+					report = UpdateExisted(name, description, techn_id);
+                    break;				
+				default:
+					report = "Something goes wrong";
+					break;
+            }
+			return report;
+
+			//         tb.setCatalog();
+			//         report = techn_id == id ? "not inserted or updated" : "inserted";
+			//         report = ind > 0 ? "updated" : report;
+			//return $"Technology {name} (id {tb.Selected}) is {report}";
+        }
+
+
+		private int ChangeModelAfterDeleting(int index) // removes Technology and Item, return new index
+		{
+            Technology deleted = tb.Technologies.First(p => p.Id == tb.Selected);
+            tb.Technologies.Remove(deleted);
+            Item item = tb.getCatalog().First(p => p.id == tb.Selected);
+            tb.getCatalog().Remove(item);
+
+            int count = tb.getCatalog().Count;
+
+            if (index == count) index--;			
+            //if (index == 0) index++; // ?!		
+			return index;
         }
 
 		public bool Remove(int index, out int new_index)
         {
-			int ind = 0, count = tb.getCatalog().Count;
+			int ind = 0;
+
+			if (tb.getUsed() != "0")
+			{
+				new_index = index;
+				return false;
+			}
+
 			ind = tb.RemoveItem();
 			if (ind > 0)
-			{
-				if (index == count - 1) index--;
-				if (index == 0) index++; // ?!				
-				new_index = index;
+			{		
+				new_index = ChangeModelAfterDeleting(index);
 				return true;
 			}
             else
@@ -140,7 +248,6 @@ namespace MajPAbGr_project
 				new_index = index;
 				return false;
             }
-				
         }
 
 		public string[] OutTechnology()

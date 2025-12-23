@@ -234,6 +234,9 @@ namespace MajPAbGr_project
 
 			// deleting
 			ind = tbCoeff.RemoveItem();
+			//if (ind > 0) tbCoeff.resetCatalog();
+			
+
 			tbCoeff.Selected = id;
 			return ind;
 		}

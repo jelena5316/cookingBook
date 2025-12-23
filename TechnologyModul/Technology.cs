@@ -47,6 +47,7 @@ namespace MajPAbGr_project
 
             controller = new TechnologyController(technology);
 			controller.setTbController(index);
+			controller.Mode = SubmitMode.UPDATE;
 				
 			tbRec = controller.getTbRecController(); // tbController
 			tb = controller.getTbController();
@@ -135,7 +136,9 @@ namespace MajPAbGr_project
                 string[] arr = controller.OutTechnology();
                 OutputTechnologyIntoForm(arr);
 				fillCatalogRec();
-				//tb.setUsed();
+				tb.setUsed();
+				this.Text = "Technologies: id " + tb.Selected + " is used in " + tb.getUsed() + " receptures";
+
 				lbl_rec.Text = $"Is used in {receptures.Count} recipes";
 
 				count = fillCatalogCards(selected);
@@ -143,37 +146,67 @@ namespace MajPAbGr_project
 			}			
 		}
 
-		private void button1_Click(object sender, EventArgs e) // submit inserting or updating (editing)
-		{
-			bool count;
-			int id_temp = id_technology;
-			string name, description, report = "";
 
-			if (string.IsNullOrEmpty(textBox1.Text)) return;
-			if (string.IsNullOrEmpty(textBox3.Text)) return;
+
+        private void new_tech_Click(object sender, EventArgs e) // insert mode
+        {
+			id_technology = 0;
+			textBox1.Clear();
+            textBox1.Focus();
+            comboBox2.Enabled = false;
+            button4.Enabled = false; // 'delete'
+            new_tech.Enabled = false;
+            button1.Text = "Insert";
+            controller.Mode = SubmitMode.INSERT;
+        }
+
+        private void button1_Click(object sender, EventArgs e) // submit inserting or updating (editing)
+		{
+			int id_temp = id_technology; // id_technology: tb.Selected after selected index of combobox2 is changed
+			string name, description, report = "", caption;            
+
+            if (string.IsNullOrEmpty(textBox1.Text))
+				return;
+			if (string.IsNullOrEmpty(textBox3.Text))
+				return;
 
 			name = textBox1.Text;
 			description = textBox3.Text;
+            caption = "Quation";
 
-			count = controller.NotUnique(name);
-			if (id_temp == 0 && count) // if name not unique -- will do nothing! No dialog!
+            switch ((int)controller.Mode)
             {
-				MessageBox.Show
-					("Data base has {technology} technologies with this name. Want you it update?\n" +
-					"If you want update, than press 'Yes' then press 'Submit'!\n" +
-					"If you don't want, than press 'No' and type new name, then press 'submit'",
-					"Quation");
-				return;				
-			}
+                case 0: // insert
+                    report = controller.InsertNew(name, description, id_temp);
+                    MessageBox.Show(report);   
+                    comboBox2.Enabled = true;
+                    comboBox2.Focus();
+                    button4.Enabled = true; // 'delete'
+                    new_tech.Enabled = true;
+                    button1.Text = "Submit";
+                    controller.Mode = SubmitMode.UPDATE;
 
+					id_temp = tb.Selected;
+					technologies = FormFunction.FillCombo(tb.getCatalog(), comboBox2);
+					tb.Selected = id_temp;
+					comboBox2.SelectedIndex = FormFunction.ChangeIndex(technologies, tb.Selected);
+					id_technology = tb.Selected;
+					break;
+                case 1: // update					
+					report = controller.UpdateExisted(name, description, comboBox2.SelectedIndex);                    
+                    MessageBox.Show(report);
 
-			report = controller.Submit(name, description, id_temp);
-			MessageBox.Show(report);
-
-			id_temp = tb.Selected;
-			technologies = FormFunction.FillCombo(tb.getCatalog(), comboBox2);
-			tb.Selected = id_temp;
-			comboBox2.SelectedIndex = FormFunction.ChangeIndex(technologies, tb.Selected);			
+                    id_temp = tb.Selected;
+                    technologies = FormFunction.FillCombo(tb.getCatalog(), comboBox2);
+                    tb.Selected = id_temp;
+                    comboBox2.SelectedIndex = FormFunction.ChangeIndex(technologies, tb.Selected);
+					id_technology = tb.Selected;
+                    break;
+                default:
+                    report = "Something goes wrong";
+					MessageBox.Show(report, "Quation");
+                    break;
+            }
 		}
 
 		private void button3_Click(object sender, EventArgs e) // clear
@@ -188,14 +221,6 @@ namespace MajPAbGr_project
         {
 			openChainEditor();			
 		}
-
-        private void new_tech_Click(object sender, EventArgs e)
-        {
-			textBox1.Clear();
-			textBox1.Focus();
-
-
-        }
 
         private void openChainEditor()
         {

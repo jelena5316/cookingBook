@@ -93,6 +93,7 @@ namespace MajPAbGr_project
         public void setCurrent(int index)
         {
             current = technologies[index];
+            selected = setSelected(index);
 
             receptures.Clear();
             receptures = setSubCatalog("Recepture", "id_technology");
@@ -155,7 +156,7 @@ namespace MajPAbGr_project
         public string insertTechnology(string name, string description)
         {
             query = "insert into Technology (name, description)" +
-                $" values ('{name}', '{description}'); select last_insert_rowid()";
+                $" values ('{name}', '{description}'); select last_insert_rowid()";                       
             return Count(query);
         }
 
