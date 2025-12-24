@@ -215,16 +215,36 @@ namespace MajPAbGr_project
 
 		private int ChangeModelAfterDeleting(int index) // removes Technology and Item, return new index
 		{
-            Technology deleted = tb.Technologies.First(p => p.Id == tb.Selected);
-            tb.Technologies.Remove(deleted);
-            Item item = tb.getCatalog().First(p => p.id == tb.Selected);
-            tb.getCatalog().Remove(item);
-
             int count = tb.getCatalog().Count;
 
-            if (index == count) index--;			
-            //if (index == 0) index++; // ?!		
-			return index;
+			if (count > index)
+			{
+				Technology deleted = tb.Technologies.First(p => p.Id == tb.Selected);
+				tb.Technologies.Remove(deleted);
+				Item item = tb.getCatalog().First(p => p.id == tb.Selected);
+				tb.getCatalog().Remove(item);
+				if (index > 0)
+					index--;
+				if (index < 0)
+					index = 0;
+				return index;
+			}
+			else
+				return -2;
+			
+
+			/* From AmountModel
+            if (index < 0) return -1;
+            if (elements.Count > index)// 1 > 0
+            {
+                elements.RemoveAt(index);
+                if (index > 0) index--;
+                if (index < 0) index = 0;
+                return index;
+            }
+            else
+                return -2;
+			*/
         }
 
 		public bool Remove(int index, out int new_index)
