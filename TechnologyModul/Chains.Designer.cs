@@ -48,19 +48,19 @@ namespace MajPAbGr_project
             // 
             // btn_remove
             // 
-            this.btn_remove.Location = new System.Drawing.Point(342, 149);
+            this.btn_remove.Location = new System.Drawing.Point(355, 176);
             this.btn_remove.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_remove.Name = "btn_remove";
-            this.btn_remove.Size = new System.Drawing.Size(116, 40);
+            this.btn_remove.Size = new System.Drawing.Size(132, 30);
             this.btn_remove.TabIndex = 23;
-            this.btn_remove.Text = "Remove";
+            this.btn_remove.Text = "<< Remove step";
             this.btn_remove.UseVisualStyleBackColor = true;
             this.btn_remove.Click += new System.EventHandler(this.btn_remove_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(492, 160);
+            this.label4.Location = new System.Drawing.Point(40, 111);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(74, 20);
@@ -70,40 +70,40 @@ namespace MajPAbGr_project
             // lblTest
             // 
             this.lblTest.AutoSize = true;
-            this.lblTest.Location = new System.Drawing.Point(507, 48);
+            this.lblTest.Location = new System.Drawing.Point(45, 22);
             this.lblTest.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTest.Name = "lblTest";
-            this.lblTest.Size = new System.Drawing.Size(51, 20);
+            this.lblTest.Size = new System.Drawing.Size(104, 20);
             this.lblTest.TabIndex = 18;
-            this.lblTest.Text = "Steps";
+            this.lblTest.Text = "Steps (cards)";
             // 
             // btn_add
             // 
-            this.btn_add.Location = new System.Drawing.Point(342, 72);
+            this.btn_add.Location = new System.Drawing.Point(355, 136);
             this.btn_add.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_add.Name = "btn_add";
-            this.btn_add.Size = new System.Drawing.Size(116, 40);
+            this.btn_add.Size = new System.Drawing.Size(132, 30);
             this.btn_add.TabIndex = 20;
-            this.btn_add.Text = "Apply";
+            this.btn_add.Text = "Apply step >>";
             this.btn_add.UseVisualStyleBackColor = true;
             this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
             // 
             // lblInfo
             // 
             this.lblInfo.AutoSize = true;
-            this.lblInfo.Location = new System.Drawing.Point(572, 160);
+            this.lblInfo.Location = new System.Drawing.Point(122, 111);
             this.lblInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(99, 20);
+            this.lblInfo.Size = new System.Drawing.Size(55, 20);
             this.lblInfo.TabIndex = 19;
-            this.lblInfo.Text = "technologies";
+            this.lblInfo.Text = "chains";
             // 
             // cmbData
             // 
             this.cmbData.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cmbData.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbData.FormattingEnabled = true;
-            this.cmbData.Location = new System.Drawing.Point(483, 72);
+            this.cmbData.Location = new System.Drawing.Point(39, 47);
             this.cmbData.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbData.Name = "cmbData";
             this.cmbData.Size = new System.Drawing.Size(295, 28);
@@ -115,7 +115,7 @@ namespace MajPAbGr_project
             this.cmbTechn.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.cmbTechn.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbTechn.FormattingEnabled = true;
-            this.cmbTechn.Location = new System.Drawing.Point(18, 72);
+            this.cmbTechn.Location = new System.Drawing.Point(506, 47);
             this.cmbTechn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbTechn.Name = "cmbTechn";
             this.cmbTechn.Size = new System.Drawing.Size(295, 28);
@@ -125,27 +125,27 @@ namespace MajPAbGr_project
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(24, 48);
+            this.label1.Location = new System.Drawing.Point(513, 22);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(224, 20);
+            this.label1.Size = new System.Drawing.Size(103, 20);
             this.label1.TabIndex = 26;
-            this.label1.Text = "Technologies or chain of steps";
+            this.label1.Text = "Technologies";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(24, 160);
+            this.label2.Location = new System.Drawing.Point(507, 111);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 20);
+            this.label2.Size = new System.Drawing.Size(83, 20);
             this.label2.TabIndex = 28;
-            this.label2.Text = "has {}";
+            this.label2.Text = "contains {}";
             // 
             // lblInfo2
             // 
             this.lblInfo2.AutoSize = true;
-            this.lblInfo2.Location = new System.Drawing.Point(81, 160);
+            this.lblInfo2.Location = new System.Drawing.Point(598, 111);
             this.lblInfo2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblInfo2.Name = "lblInfo2";
             this.lblInfo2.Size = new System.Drawing.Size(58, 20);
@@ -155,7 +155,7 @@ namespace MajPAbGr_project
             // lblCards
             // 
             this.lblCards.AutoSize = true;
-            this.lblCards.Location = new System.Drawing.Point(498, 109);
+            this.lblCards.Location = new System.Drawing.Point(200, 22);
             this.lblCards.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCards.Name = "lblCards";
             this.lblCards.Size = new System.Drawing.Size(134, 20);
@@ -165,7 +165,7 @@ namespace MajPAbGr_project
             // lblTechn
             // 
             this.lblTechn.AutoSize = true;
-            this.lblTechn.Location = new System.Drawing.Point(38, 109);
+            this.lblTechn.Location = new System.Drawing.Point(675, 22);
             this.lblTechn.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTechn.Name = "lblTechn";
             this.lblTechn.Size = new System.Drawing.Size(126, 20);
@@ -176,39 +176,39 @@ namespace MajPAbGr_project
             // 
             this.listBox_cards.FormattingEnabled = true;
             this.listBox_cards.ItemHeight = 20;
-            this.listBox_cards.Location = new System.Drawing.Point(18, 191);
+            this.listBox_cards.Location = new System.Drawing.Point(506, 136);
             this.listBox_cards.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.listBox_cards.Name = "listBox_cards";
-            this.listBox_cards.Size = new System.Drawing.Size(295, 264);
+            this.listBox_cards.Size = new System.Drawing.Size(295, 164);
             this.listBox_cards.TabIndex = 37;
             // 
             // listBox_tech
             // 
             this.listBox_tech.FormattingEnabled = true;
             this.listBox_tech.ItemHeight = 20;
-            this.listBox_tech.Location = new System.Drawing.Point(483, 191);
+            this.listBox_tech.Location = new System.Drawing.Point(39, 136);
             this.listBox_tech.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.listBox_tech.Name = "listBox_tech";
-            this.listBox_tech.Size = new System.Drawing.Size(295, 264);
+            this.listBox_tech.Size = new System.Drawing.Size(295, 164);
             this.listBox_tech.TabIndex = 38;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(338, 437);
+            this.label3.Location = new System.Drawing.Point(351, 284);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(136, 20);
             this.label3.TabIndex = 39;
-            this.label3.Text = "To steps editor >>";
+            this.label3.Text = "To cards editor >>";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // Chains
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(814, 486);
+            this.ClientSize = new System.Drawing.Size(842, 377);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.listBox_tech);
             this.Controls.Add(this.listBox_cards);
@@ -228,7 +228,7 @@ namespace MajPAbGr_project
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Chains";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Chains";
+            this.Text = "Chains_commit_d8f56f86449e2f4b9cd39ab652112b1de6456335_to_see_befor";
             this.Load += new System.EventHandler(this.Chains_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
