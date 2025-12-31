@@ -128,10 +128,21 @@ namespace FormEF_test //EFSqlite_test
     
     public class Card
     {
-        
+        public Card (int id, string name, string description, string technology)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            Technology = technology;
+        }
+
         public int Id { get; set; }
-        public string Name { get; set; }       
-        public string Description { get; set; }       
+
+        public string Name { get; set; } 
+        
+        public string Description { get; set; }   
+        
+        public string Technology { get; set; }
     }
 
 
