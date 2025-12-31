@@ -4,6 +4,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms;
 
 namespace MajPAbGr_project
@@ -22,7 +24,7 @@ namespace MajPAbGr_project
         public TechnologyCards (TechnologyCardsController cntrl)
         {
             InitializeComponent();
-            controller = cntrl;
+            controller = cntrl;            
             this.tb = cntrl.getTbController();
             cards = cntrl.Cards;
             id_cards = tb.Selected;
@@ -46,15 +48,19 @@ namespace MajPAbGr_project
             txbCards.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
 
-        private string OutTechnology()
+        private string [] OutTechnologyCard()
         {
-            tb.setFields(); // to fill fields
-            string[] arr = tb.getFields(); // to read field
-            txbCards.Text = arr[0];            
-            textBox2.Text = arr[1];
-            textBox3.Text = arr[2];                     
-            return arr[0] + ": " + arr[1] + "/n " + arr[2];
+            return tb.AboutCurrent();
         }
+
+        private string OutputTechnologyCardIntoForm(string[] info)
+        {
+            txbCards.Text = info[0];
+            textBox2.Text = info[1];
+            textBox3.Text = info[2];
+            return info[0] + ": " + info[1] + "/n " + info[2];
+        }
+
 
         private void cmbCards_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -62,7 +68,9 @@ namespace MajPAbGr_project
             {
                 tb.setSelected(cmbCards.SelectedIndex);
                 id_cards = tb.Selected;
-                OutTechnology();
+                tb.setCurrent(cmbCards.SelectedIndex);
+                string [] arr = OutTechnologyCard();
+                OutputTechnologyCardIntoForm(arr);
             }
             else
             {

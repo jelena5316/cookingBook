@@ -3,6 +3,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace MajPAbGr_project
@@ -37,6 +38,11 @@ namespace MajPAbGr_project
 			return tb;
 		}
 
+		public void setTbController()
+		{
+			tb.setCatalogs(tb.readTechnologiesCards());
+		}
+
 		public string Submit(string name, string description, string technology, int card_id)
         {
 			int ind = 0, num, id = card_id; ;
@@ -45,9 +51,9 @@ namespace MajPAbGr_project
 			if (card_id == 0) // insert
 			{
                 if (!string.IsNullOrEmpty(description))
-                    query = tb.insertCards(name, description, technology);
+                    query = tb.insertCardsQuery(name, description, technology);
                 else
-                    query = tb.insertCards(name, technology);
+                    query = tb.insertCardsQuery(name, technology);
                 count = tb.Count(query);
 				num = int.Parse(count);
 				if (num > 0)

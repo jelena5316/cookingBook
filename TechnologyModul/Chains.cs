@@ -2,6 +2,16 @@
  * to create technological chains
  */
 
+/*
+ * Commit d8f56f86449e2f4b9cd39ab652112b1de6456335
+ * 
+ * Date: 18 November, 2025 1:48 PM
+ * Parent: db9e8375
+ * 
+ * Added some code from FormEF_test; reading cards of technology as item and storing data as subcatalog;
+ * reading data as list of objects array; stored AI writted code as an example
+ */
+
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -140,6 +150,7 @@ namespace MajPAbGr_project
         private void label3_Click(object sender, EventArgs e)
         {
             TechnologyCardsController cntrl = new TechnologyCardsController(controller);
+            cntrl.setTbController();
             TechnologyCards frm = new TechnologyCards(cntrl);
             frm.Show();
         }
