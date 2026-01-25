@@ -2,6 +2,7 @@
  * to manage technologies cards inputing using form "Steps" and methods of class tbTechnologyController
  */
 
+using FormEF_test;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace MajPAbGr_project
 		List<Item> cards;
 		tbCardsController tb;
 		ChainsController chains;
+		SubmitMode submitMode;
+
 
 		public TechnologyCardsController(ChainsController cntrl)
         {
@@ -23,7 +26,18 @@ namespace MajPAbGr_project
 			cards = tb.getCatalog();
         }
 
-		public List<Item> Cards
+
+        /*
+		 * Properties
+		 */
+
+        public SubmitMode Mode
+        {
+            get { return submitMode; }
+            set { submitMode = value; }
+        }
+
+        public List<Item> Cards
         {
             get { return cards; }
         }
@@ -33,6 +47,12 @@ namespace MajPAbGr_project
 			get { return chains;  }
         }
 
+
+		/*
+		 * Methods
+		 */
+
+		//data base controller: setting, access
 		public tbCardsController getTbController()
 		{
 			return tb;
@@ -43,7 +63,46 @@ namespace MajPAbGr_project
 			tb.setCatalogs(tb.readTechnologiesCards());
 		}
 
-		public string Submit(string name, string description, string technology, int card_id)
+        //others
+
+        public bool NotUnique(string name)
+        {
+            return tb.TechnologyCards.Exists(p => p.Name == name);
+        }
+
+        private void ChangeModelAfterInserting(int rowid, string name, string description, string technology)
+        {
+			Card inserted = new Card(rowid, name, description, technology);
+			tb.TechnologyCards.Add(inserted);
+			int card = tb.TechnologyCards.FindIndex(p => p == inserted);
+			tb.setCurrent(card);
+			tb.getCatalog().Add(new Item() { id = rowid, name = name });
+			tb.Selected = rowid;
+		}
+
+        public string InsertNew(string name, string description, string technology, int techn_id)
+        {
+            int rowid;
+            string count;
+            if (NotUnique(name))
+            {
+                return $"Data base has {name} technologies`cards with this name.";
+            }
+            else
+            {
+				count = tb.insertCards(name, description, technology);				
+                rowid = int.Parse(count);
+                if (rowid > 0)
+                    tb.Selected = rowid;               
+
+                ChangeModelAfterInserting(rowid, name, description, technology);
+               
+                return $"Technology {name} (id {tb.Selected}) is inserted";
+            }
+        }
+
+
+        public string Submit(string name, string description, string technology, int card_id)
         {
 			int ind = 0, num, id = card_id; ;
 			string count = "", query, report = "";

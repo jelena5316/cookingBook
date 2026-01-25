@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MajPAbGr_project
 {
@@ -20,7 +21,6 @@ namespace MajPAbGr_project
         tbCardsController tb;
         TechnologyCardsController controller;
 
-
         public TechnologyCards (TechnologyCardsController cntrl)
         {
             InitializeComponent();
@@ -29,6 +29,8 @@ namespace MajPAbGr_project
             cards = cntrl.Cards;
             id_cards = tb.Selected;
             label5.Visible = false;
+
+            controller.Mode = SubmitMode.UPDATE;
         }
 
         private void TechnologyCards_Load(object sender, EventArgs e)
@@ -82,6 +84,20 @@ namespace MajPAbGr_project
         /*
         * Buttons' and label5's click's handlers
         */
+
+
+        private void new_card_Click(object sender, EventArgs e)
+        {
+            id_cards = 0;
+            txbCards.Clear();
+            txbCards.Focus();
+            cmbCards.Enabled = false;
+            btn_remove.Enabled = false;
+            new_card.Enabled = false;            
+            btn_insert.Text = "Insert";
+            controller.Mode = SubmitMode.INSERT;
+        }
+
         private void btn_submit_Click(object sender, EventArgs e) // btn_submit
         {
             int id_temp = id_cards;
@@ -94,6 +110,29 @@ namespace MajPAbGr_project
             name = txbCards.Text;
             technology = textBox3.Text;
             description = textBox2.Text;
+
+            switch ((int)controller.Mode)
+            {
+                case 0: // insert
+                    report = controller.InsertNew(name, description, technology, id_temp);
+                    MessageBox.Show(report);
+                    cmbCards.Enabled = true;
+                    btn_remove.Enabled = true;
+                    new_card.Enabled = true;
+                    btn_insert.Text = "Submit";
+                    controller.Mode = SubmitMode.UPDATE;
+
+                    id_temp = tb.Selected;
+                    cards = FormFunction.FillCombo(tb.getCatalog(), cmbCards);
+                    tb.Selected = id_temp;
+                    cmbCards.SelectedIndex = FormFunction.ChangeIndex(cards, tb.Selected);
+                    id_cards = tb.Selected;
+                    break;
+                default:
+                    break;
+            }
+            
+           
 
             name = LengthTest(name, 20);
 

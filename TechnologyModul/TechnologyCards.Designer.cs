@@ -42,6 +42,7 @@ namespace MajPAbGr_project
             this.txbCards = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.new_card = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -167,6 +168,7 @@ namespace MajPAbGr_project
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.new_card);
             this.groupBox1.Controls.Add(this.textBox2);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.btn_insert);
@@ -184,6 +186,16 @@ namespace MajPAbGr_project
             this.groupBox1.TabIndex = 32;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Editor";
+            // 
+            // new_card
+            // 
+            this.new_card.AutoSize = true;
+            this.new_card.Location = new System.Drawing.Point(319, 24);
+            this.new_card.Name = "new_card";
+            this.new_card.Size = new System.Drawing.Size(86, 20);
+            this.new_card.TabIndex = 33;
+            this.new_card.Text = "insert_new";
+            this.new_card.Click += new System.EventHandler(this.new_card_Click);
             // 
             // TechnologyCards
             // 
@@ -221,5 +233,6 @@ namespace MajPAbGr_project
         private System.Windows.Forms.TextBox txbCards;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label new_card;
     }
 }

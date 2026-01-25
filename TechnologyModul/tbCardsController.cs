@@ -93,19 +93,45 @@ namespace MajPAbGr_project
 
         public void setCatalogs(List <object[]> data)
         {
-            foreach (object[] card in data)
+            //foreach (object[] card in data)
+            //{
+            //    long id = (long)card[0];
+            //    string name = card[1].ToString();
+            //    string note = card[2].ToString();
+            //    string step = card[3].ToString();
+
+            //    Card c = new Card((int)id, name, note, step);
+            //    cards.Add(c);
+
+            //    Item item = new Item();
+            //    item.createItem((int)id, name);
+            //    catalog.Add(item);
+            //}
+
+            if (cards == null || cards.Count == 0)
             {
-                long id = (long)card[0];
-                string name = card[1].ToString();
-                string note = card[2].ToString();
-                string step = card[3].ToString();
+                foreach (object[] card in data)
+                {
+                    long id = (long)card[0];
+                    string name = card[1].ToString();
+                    string note = card[2].ToString();
+                    string step = card[3].ToString();
 
-                Card c = new Card((int)id, name, note, step);
-                cards.Add(c);
+                    Card c = new Card((int)id, name, note, step);
+                    cards.Add(c);
+                }
+            }
 
-                Item item = new Item();
-                item.createItem((int)id, name);
-                catalog.Add(item);
+            if (catalog == null || catalog.Count == 0)
+            {
+                foreach (object[] card in data)
+                {
+                    long id = (long)card[0];
+                    string name = card[1].ToString();
+                    Item item = new Item();
+                    item.createItem((int)id, name);
+                    catalog.Add(item);
+                }
             }
         }
 
@@ -133,6 +159,17 @@ namespace MajPAbGr_project
             else
                 return $"insert into {table} (name, technology)" +
                     $" values ('{name}', '{technology}'); select last_insert_rowid()";
+        }
+
+        public string insertCards(string name, string description, string technology)
+        {
+            if (description != null)
+                query = $"insert into {table} (name, description, technology)" +
+                    $" values ('{name}', '{description}', '{technology}'); select last_insert_rowid()";
+            else
+                query = $"insert into {table} (name, technology)" +
+                    $" values ('{name}', '{technology}'); select last_insert_rowid()";
+            return Count(query);
         }
 
         public string cardsCount (int id) // see SelectedCount in FormMain

@@ -18,7 +18,7 @@ namespace MajPAbGr_project
 		TechnologyController controller;
 		tbController tbRec;
 
-		public TechnologyForm(int technology)
+		public TechnologyForm(int technology) // not used (is invoced into not used method)
 		{
 			InitializeComponent();
 
@@ -204,7 +204,7 @@ namespace MajPAbGr_project
                     break;
                 default:
                     report = "Something goes wrong";
-					MessageBox.Show(report, "Quation");
+					MessageBox.Show(report, caption);
                     break;
             }
 		}
