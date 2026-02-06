@@ -63,7 +63,7 @@ namespace MajPAbGr_project
 			tb.setCatalogs(tb.readTechnologiesCards());
 		}
 
-        //others
+        //CRUD
 
         public bool NotUnique(string name)
         {
@@ -102,6 +102,48 @@ namespace MajPAbGr_project
         }
 
 
+        private void ChangeModelAfterUpdating(string name, string description, string technology, int index) // update
+        {
+            Item selected = tb.getCatalog()[index];
+            Card current = tb.TechnologyCards[index];
+            current.Name = name;
+            current.Description = description;
+			current.Technology = technology;
+            selected.name = name;
+
+            tb.getCatalog()[index] = selected;
+            tb.TechnologyCards[index] = current;
+        }
+
+
+        public string UpdateExisted(string name, string description, string technology, int index)
+        {
+            int ind;
+            int techn_id = tb.setSelected(index);
+
+
+            if (techn_id > 0)
+            {
+                ind = tb.UpdateReceptureOrCards("name", name, techn_id);
+                ind += tb.UpdateReceptureOrCards("description", description, techn_id);
+				ind += tb.UpdateReceptureOrCards("technology", technology, techn_id);
+
+                if (ind == 2)
+                {
+                    ChangeModelAfterUpdating(name, description, technology, index);
+                }
+
+                //tb.setCatalog();
+                return $"Technology {name} (id {tb.Selected}) is updated";
+            }
+            else
+            {
+                return $"Data base has no technologies card with this id: id = {techn_id}";
+            }
+        }
+
+
+
         public string Submit(string name, string description, string technology, int card_id)
         {
 			int ind = 0, num, id = card_id; ;
@@ -135,6 +177,8 @@ namespace MajPAbGr_project
 			return $"Technology card {name} (id {tb.Selected}) is {report}";
         }
 
+
+		//other
 		public string [] getFullInfo()
         {
 			List<string> list = new List<string>();

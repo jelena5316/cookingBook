@@ -172,6 +172,8 @@ namespace MajPAbGr_project
             return Count(query);
         }
 
+        
+
         public string cardsCount (int id) // see SelectedCount in FormMain
         {
             query = $"select count (*) from {table} where id = {id} and description not null;";
