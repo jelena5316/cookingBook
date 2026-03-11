@@ -122,8 +122,8 @@ namespace MajPAbGr_project
             Technology inserted = new Technology(rowid, name, description);
             tb.Technologies.Add(inserted);
             int tech = tb.Technologies.FindIndex(p => p == inserted);
-            tb.setCurrent(tech);
-            tb.getCatalog().Add(new Item() { id = rowid, name = name });
+			tb.getCatalog().Add(new Item() { id = rowid, name = name });
+            tb.setCurrent(tech);            
             tb.Selected = rowid;
         }
 		

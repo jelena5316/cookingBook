@@ -232,6 +232,7 @@ namespace MajPAbGr_project
             frm.Show();
         }
 
+
         private void button4_Click(object sender, EventArgs e) //delete technology from data base
 		{
 			if (comboBox2.SelectedIndex == -1) return;

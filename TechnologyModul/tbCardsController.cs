@@ -12,7 +12,7 @@ namespace MajPAbGr_project
     public class tbCardsController: tbController
     {
 
-        private string name, description, card;
+        private string name, description, card, used = "0";
         private Card current;
         private List<Card> cards;
         
@@ -199,6 +199,17 @@ namespace MajPAbGr_project
                 $" (select id_card from {TABLE_CHAINS} where id_technology = {id_technology});";
             list = dbReader(query);
             return list;
+        }
+
+        public override void setUsed()
+        {
+            query = $"select count (*) from {TABLE_CHAINS} where {CHAIN_COL_ID} = {selected};";
+            used = Count(query);
+        }
+
+        public override string getUsed()
+        {
+            return used;
         }
     }
 }

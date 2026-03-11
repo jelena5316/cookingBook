@@ -71,6 +71,7 @@ namespace MajPAbGr_project
                 tb.setSelected(cmbCards.SelectedIndex);
                 id_cards = tb.Selected;
                 tb.setCurrent(cmbCards.SelectedIndex);
+                tb.setUsed();              
                 string [] arr = OutTechnologyCard();
                 OutputTechnologyCardIntoForm(arr);
             }
@@ -100,16 +101,20 @@ namespace MajPAbGr_project
 
         private void btn_submit_Click(object sender, EventArgs e) // btn_submit
         {
-            int id_temp = id_cards;
+            int id_temp = id_cards, new_index;
             string name, description, technology, count, report;
 
             //cmbCards textBox3           
             if (string.IsNullOrEmpty(txbCards.Text)) return;
             if (string.IsNullOrEmpty(textBox3.Text)) return;
 
+            
+            //name = LengthTest(txbCards.Text, 20);
             name = txbCards.Text;
             technology = textBox3.Text;
             description = textBox2.Text;
+
+            
 
             switch ((int)controller.Mode)
             {
@@ -128,47 +133,60 @@ namespace MajPAbGr_project
                     cmbCards.SelectedIndex = FormFunction.ChangeIndex(cards, tb.Selected);
                     id_cards = tb.Selected;
                     break;
+                case 1: // update
+                    report = controller.UpdateExisted(name, description, technology, cmbCards.SelectedIndex);
+                    MessageBox.Show(report);
+
+                    id_temp = tb.Selected;
+                    cards = FormFunction.FillCombo(tb.getCatalog(), cmbCards);
+                    tb.Selected = id_temp;
+                    cmbCards.SelectedIndex = FormFunction.ChangeIndex(cards, tb.Selected);
+                    id_cards = tb.Selected;
+                    break;
+                case 2:
+                    //bool ind = controller.Remove(cmbCards.SelectedIndex, out new_index);
+                    break;
                 default:
                     break;
             }
             
            
 
-            name = LengthTest(name, 20);
+            //name = LengthTest(name, 20);
 
-            count = tb.cardsCount(name);
-            if (id_temp == 0 && count != "0")
-            {
-               DialogResult rezult = MessageBox.Show
-                    ("Data base has {technology} technology cards with this name. Want you it update?\n" +
-                    "If you want update, than press 'Yes' and choose a technology card what you want update from list!\n" +
-                    "then press 'Submit'!\n" +
-                    "If you don't want, than press 'No' and type new name, then press 'submit'",
-                    "Quation",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question,
-                    MessageBoxDefaultButton.Button2);
-                if (rezult == DialogResult.No)
-                {
-                    txbCards.Focus();
-                    return;
-                }
-                else
-                {
-                    if (cmbCards.Items.Count > 0)
-                        cmbCards.SelectedIndex = 0;
-                    return;
-                }
-            }
-            report = controller.Submit(name, description, technology, id_temp);
-            MessageBox.Show(report);
+            //count = tb.cardsCount(name);
+            //if (id_temp == 0 && count != "0")
+            //{
+            //   DialogResult rezult = MessageBox.Show
+            //        ("Data base has {technology} technology cards with this name. Want you it update?\n" +
+            //        "If you want update, than press 'Yes' and choose a technology card what you want update from list!\n" +
+            //        "then press 'Submit'!\n" +
+            //        "If you don't want, than press 'No' and type new name, then press 'submit'",
+            //        "Quation",
+            //        MessageBoxButtons.YesNo,
+            //        MessageBoxIcon.Question,
+            //        MessageBoxDefaultButton.Button2);
+            //    if (rezult == DialogResult.No)
+            //    {
+            //        txbCards.Focus();
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        if (cmbCards.Items.Count > 0)
+            //            cmbCards.SelectedIndex = 0;
+            //        return;
+            //    }
+            //}
+            //report = controller.Submit(name, description, technology, id_temp);
+            //MessageBox.Show(report);
 
-            id_temp = tb.Selected;
-            tb.setCatalog();           
-            cards = FormFunction.FillCombo(tb.getCatalog(), cmbCards);
-            tb.Selected = id_temp;
-            cmbCards.SelectedIndex = FormFunction.ChangeIndex(cards, tb.Selected);
-            name = "";     
+            //id_temp = tb.Selected;
+            //tb.setCatalog();           
+            //cards = FormFunction.FillCombo(tb.getCatalog(), cmbCards);
+            //tb.Selected = id_temp;
+            //cmbCards.SelectedIndex = FormFunction.ChangeIndex(cards, tb.Selected);
+            //name = "";     
         }
 
         private string LengthTest(string text, int length)
@@ -200,37 +218,36 @@ namespace MajPAbGr_project
             frm.richTextBox1.Lines = arr;
         }  
 
-        private void btn_remove_Click(object sender, EventArgs e)
-        {
-            if (cmbCards.Items.Count == 0) return;
-            if (id_cards < 1) { return; }
-
+        private void btn_remove_Click(object sender, EventArgs e) //delete
+        {           
            
             bool rm;
-            int index = 0, removed;
-            string message;
-            name = cmbCards.SelectedItem.ToString();
+            int index = 0, new_index, removed, ind = 0;            
+            string message, using_count;
 
-            //is used or not
-            tbChainController chains = controller.Chains.tbChainController;
-            int ind = chains.TechnologiesWithSelectedCardCount(id_cards);
-            if (ind > 0)
+            if (cmbCards.Items.Count == 0)
+                return;
+            if (id_cards < 1)
+                return;
+
+            name = cmbCards.SelectedItem.ToString();
+            index = cmbCards.SelectedIndex;
+            
+            rm = controller.Remove(index, out new_index); // is used or not, deleting if not
+            if (!rm)
             {
-                message = $"The technology's card is used in {ind} Receptures.\nPlease, remove it before deleting";
-                MessageBox.Show(message);            
-               
+                using_count = tb.getUsed();
+                message = $"The technology's card is used in some ({using_count}) technologies chains.\nPlease, remove it from chains before deleting";
+                MessageBox.Show(message);
+                // in place of "some" was be a count of using case -- variable "ind" (int),
+                // now "ind" store a deleted rows coun, in this case it is equel 0;
             }
             else
             {
-                removed =  tb.RemoveItem();
-                index = cmbCards.SelectedIndex;
-                if(ind > 0)
-                {
-                    if (index == tb.getCatalog().Count - 1) index--;
-                    if (index == 0) index++;
-                }
+                //removed = tb.RemoveItem();                
+                 index = new_index;
                 
-               rm = (removed > 0) ? true : false;
+               //rm = (removed > 0) ? true : false;
 
                 if (rm && index > -1)
                 {
@@ -238,21 +255,22 @@ namespace MajPAbGr_project
                     tb.setSelected(index);
                     int id_temp = tb.Selected;
                     tb.setCatalog();
-                    cards.Clear();
+                    //cards.Clear();
                     cards = FormFunction.FillCombo(tb.getCatalog(), cmbCards);
                     tb.Selected = id_temp;
-                    cmbCards.SelectedIndex = FormFunction.ChangeIndex(cards, tb.Selected);
-                    
-                    //outputting message                  
-                    MessageBox.Show($"{name} is deleted");
+                    //cmbCards.SelectedIndex = FormFunction.ChangeIndex(cards, tb.Selected);
+                    cmbCards.SelectedIndex = new_index;
+
+                    message = $"{name} is deleted";
+                    MessageBox.Show(message);
                 }
-                else
-                {
-                    if (!rm)
-                        MessageBox.Show("Nothing is deleted");
-                    else
-                        MessageBox.Show("All technologies are deleted");
-                }                               
+                //else
+                //{
+                //    if (!rm)
+                //        MessageBox.Show("Nothing is deleted");
+                //    else
+                //        MessageBox.Show("All technologies are deleted");
+                //}                               
             }
         }
     }

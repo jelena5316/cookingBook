@@ -6,6 +6,7 @@ using FormEF_test;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MajPAbGr_project
 {
@@ -75,8 +76,8 @@ namespace MajPAbGr_project
 			Card inserted = new Card(rowid, name, description, technology);
 			tb.TechnologyCards.Add(inserted);
 			int card = tb.TechnologyCards.FindIndex(p => p == inserted);
-			tb.setCurrent(card);
-			tb.getCatalog().Add(new Item() { id = rowid, name = name });
+            tb.getCatalog().Add(new Item() { id = rowid, name = name });
+			tb.setCurrent(card);			
 			tb.Selected = rowid;
 		}
 
@@ -127,11 +128,8 @@ namespace MajPAbGr_project
                 ind = tb.UpdateReceptureOrCards("name", name, techn_id);
                 ind += tb.UpdateReceptureOrCards("description", description, techn_id);
 				ind += tb.UpdateReceptureOrCards("technology", technology, techn_id);
-
-                if (ind == 2)
-                {
-                    ChangeModelAfterUpdating(name, description, technology, index);
-                }
+				               
+                ChangeModelAfterUpdating(name, description, technology, index);                
 
                 //tb.setCatalog();
                 return $"Technology {name} (id {tb.Selected}) is updated";
@@ -142,6 +140,59 @@ namespace MajPAbGr_project
             }
         }
 
+        private int ChangeModelAfterDeleting(int index) // removes Technology and Item, return new index
+        {
+            int count = tb.getCatalog().Count;
+
+            if (count > index)
+            {
+                Card deleted = tb.TechnologyCards.First(p => p.Id == tb.Selected);
+                tb.TechnologyCards.Remove(deleted);
+                Item item = tb.getCatalog().First(p => p.id == tb.Selected);
+                tb.getCatalog().Remove(item);
+                if (index > 0)
+                    index--;
+                if (index < 0)
+                    index = 0;
+                return index;
+            }
+            else
+                return -2;
+        }
+
+        private bool CheckUsed()
+        {
+            return tb.getUsed() != "0";
+            // return CountOfUseCase();
+        }
+
+        public string CountOfUseCase()
+        {
+            return chains.tbChainController.TechnologiesWithSelectedCardCount(id_card).ToString();
+        }
+
+        public bool Remove(int index, out int new_index)
+        {
+            int ind = 0;
+
+            if (CheckUsed() /*tb.getUsed() != "0"*/)
+            {
+                new_index = index;
+                return false;
+            }
+
+            ind = tb.RemoveItem();
+            if (ind > 0)
+            {
+                new_index = ChangeModelAfterDeleting(index);
+                return true;
+            }
+            else
+            {
+                new_index = index;
+                return false;
+            }
+        }
 
 
         public string Submit(string name, string description, string technology, int card_id)

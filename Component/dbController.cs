@@ -628,7 +628,7 @@ namespace MajPAbGr_project
 
 		public string Count(string query)
 		{
-			string count = "";
+			string count = "0";
 			using (connection = new SqliteConnection(connectionString))
 			{
 				try
