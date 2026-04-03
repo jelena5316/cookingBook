@@ -101,7 +101,8 @@ namespace MajPAbGr_project
             int id;
             ReceptureStruct rec;
 
-            rec_struct = new List<ReceptureStruct>();
+            if (rec_struct == null )
+                rec_struct = new List<ReceptureStruct>();
             for (int k = 0; k < receptures.Count; k++)
             {
                 id = receptures[k].id;
