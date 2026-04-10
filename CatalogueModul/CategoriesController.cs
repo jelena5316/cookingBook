@@ -6,206 +6,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 
 
 namespace MajPAbGr_project
 {
     
-    public class RecCatalog
-    {
-        List<ReceptureStruct> rec_struct, full, selected, displayed;
-        List<Item> categories;
-        tbIngredientsController tbCat;
-        bool exist_selected = false;
-        int selected_rec_index = -1, selected_cat_index = -1, selected_item_index = -1;
-        // 'selected_item_index' -- an index of recepture in a current list, full or selected
-
-
-        public RecCatalog (List<ReceptureStruct> list)
-        {
-            rec_struct = list;
-            full = null;
-            selected = null;
-            displayed = null;
-            categories = null;
-        }
-
-        public RecCatalog()
-        {
-            full = null;
-            selected = null;
-            displayed = null;
-            categories = null;
-        }
-
-        //Properties
-        public List<ReceptureStruct> ReceptureStruct
-        {
-            get { return rec_struct; }
-        }
-
-        public List<Item> Categories
-        {
-            get { return categories; }
-            set { categories = value; }
-        }
-
-        public tbIngredientsController TbCat
-        {
-            get { return tbCat; }
-            set { tbCat = value; }
-        }
-
-        public List <ReceptureStruct> setDisplayed
-        {
-            get { return displayed; }
-            set { displayed = value; }
-        }
-
-        public List<ReceptureStruct> Full
-        {
-            get { return full;  }
-            set { full = value; }
-        }
-
-        public List<ReceptureStruct> SelectedRec
-        {
-            get { return selected; }
-            set { selected = value; }
-        }
-
-        public int SelectedRecIndex
-        {
-            get { return selected_rec_index; }
-            set { selected_rec_index = value; }
-        }
-        public bool ExistsSelected
-        {
-            get { return exist_selected; }
-            set { exist_selected = value; }
-        }
-
-        public int SelectedCatIndex
-        {
-            get { return selected_cat_index; }
-            set 
-            { 
-                selected_cat_index = value;
-                tbCat.setSelected(selected_cat_index);
-            }
-        }
-
-        //Methods
-        public void ReadCatalog(List <Item> receptures)
-        {
-            int id;
-            ReceptureStruct rec;
-
-            if (rec_struct == null )
-                rec_struct = new List<ReceptureStruct>();
-            for (int k = 0; k < receptures.Count; k++)
-            {
-                id = receptures[k].id;
-                rec = new ReceptureStruct(id);
-                rec.setData();
-                rec_struct.Add(rec);
-            }
-        }
-
-        public List<ReceptureStruct> selectByCategory(int index)
-        {
-            full = rec_struct;
-            selected_cat_index = index;
-            tbCat.setSelected(index);
-            selected = rec_struct.FindAll(p => p.getIds()[0] == tbCat.getSelected());
-            if (selected.Count < 1)
-                exist_selected = false;
-            return selected;
-        }
-
-        private int indexOfSelectedByCategory(tbReceptureController tb,  int index)
-        {
-            try
-            {
-                tb.Id = selected[index].getId();
-                index = rec_struct.FindIndex(p => p.getId() == tb.Id);
-                tb.setSelected(index);
-                return index;
-            }
-            catch
-            {
-                return 0;
-            }
-        }
-
-        public List<ReceptureStruct> selectByName(string name)
-        {
-            if (name == "")
-            {
-                Full = null;
-                return ReceptureStruct;
-            }
-            else
-            {
-                Full = ReceptureStruct;
-                selected = rec_struct.FindAll(p => p.getName().Contains(name));
-                if (selected.Count < 1)
-                    exist_selected = false;
-                return selected;
-            }
-        }
-
-        private int indexOfSelectedByName(tbReceptureController tb, int index)
-        {
-            //int index;
-            try
-            {
-                int id = selected[index].getId();
-                index = rec_struct.FindIndex(p => p.getId() == id);
-                tb.setSelected(index);
-                tb.Id = id;
-                return index;
-            }
-            catch
-            {
-                return 0;
-            }
-        }
-
-        public void SelectRecepture(tbReceptureController tb, int index, string text)
-        {
-            selected_item_index = index;
-            if (full == null)
-            {
-                tb.setSelected(index);
-                selected_rec_index = index;
-            }
-            else
-            {
-                if (text != "")
-                {
-                    selected_rec_index = indexOfSelectedByName(tb, index);
-                }
-                else
-                {
-                    if (categories.Count > 0)
-                    {
-                        selected_rec_index = indexOfSelectedByCategory(tb, index);
-                    }
-                    else
-                        return;
-                }
-            }
-            exist_selected = true;
-        }
-
-        public List<ReceptureStruct> SeeAll()
-        {
-            full = null;
-            selected = null;            
-            return ReceptureStruct;
-        }
-    }
+    
     
     
     public class CategoriesController
@@ -220,7 +27,7 @@ namespace MajPAbGr_project
 
         //new fields
         private RecCatalog rec_catalog;
-
+        private ReceptureStruct current;
 
 
         public CategoriesController()        
@@ -692,38 +499,13 @@ namespace MajPAbGr_project
             frm.Button3_Enabled_status(false);
         }
 
-        public void addNewRec()
+
+        public void openManualOnline()
         {
-            NewReceptureController rec = new NewReceptureController();
-            ReceptureStruct info = new ReceptureStruct(0);
-            rec.ReceptureInfo = info;
-            NewRecepture frm = new NewRecepture(tb, rec);
-            frm.ShowDialog();         
+            string path = "https://github.com/jelena5316/cookingBook/blob/master/CookingBook/man/user_manul_en.txt";
+            System.Diagnostics.Process.Start(path);
         }
 
-        public bool editRec()
-        {
-            if (!ExistsSelected)
-                return false;
-            int id = CheckTbSelected(getMinIdOfReceptures());
-            if (id == 0)
-                return false;
-
-            id = ReceptureStruct[SelectedRecepture].getId();
-
-            if (tb.Selected != id)
-            {
-                tb.Selected = id;
-            }
-
-            //проверить, есть ли запись с таким номером
-            tb.Id = id;
-            NewReceptureController rec = new NewReceptureController(tb);
-            rec.ReceptureInfo = ReceptureStruct[SelectedRecepture];
-            NewRecepture frm = new NewRecepture(rec);
-            frm.ShowDialog();
-            return true;
-        }
 
         public void openOnlineCalculator()
         {
@@ -732,16 +514,10 @@ namespace MajPAbGr_project
             System.Diagnostics.Process.Start(path);
         }
 
-        public void openManualOnline()
-        {
-            string path = "https://github.com/jelena5316/cookingBook/blob/master/CookingBook/man/user_manul_en.txt";
-            System.Diagnostics.Process.Start(path);
-        }
-
         /*
          * Select recepture
          */
-        
+
         // for event 'lv_recepture_SelectedIndexChanged' handler
         public void SelectRecepture(int index, string name)
         {
@@ -789,6 +565,60 @@ namespace MajPAbGr_project
         public List<ReceptureStruct> DisplayAll
         {
             get {return rec_catalog.SeeAll(); }
+        }
+
+
+        //CRUD
+
+        public void addNewRec()
+        {
+            CatalogueController rec = new CatalogueController();
+            ReceptureStruct info = new ReceptureStruct(0);
+            rec.ReceptureInfo = info;
+            NewRecepture frm = new NewRecepture(tb, rec);
+            frm.ShowDialog();
+        }
+
+        public ReceptureStruct Current => current;
+
+        public bool editRec()
+        {
+            SubmitMode mode;
+
+            if (!ExistsSelected)
+                return false;
+            int id = CheckTbSelected(getMinIdOfReceptures());
+            if (id == 0)
+                return false;
+
+            id = ReceptureStruct[SelectedRecepture].getId();
+
+            if (tb.Selected != id)
+            {
+                tb.Selected = id;
+            }
+
+            //проверить, есть ли запись с таким номером!!!
+
+            tb.Id = id;
+            CatalogueController rec = new CatalogueController(tb);
+            rec.ReceptureInfo = ReceptureStruct[SelectedRecepture];
+            NewRecepture frm = new NewRecepture(rec);
+            DialogResult result = frm.ShowDialog();
+
+            if (result != DialogResult.OK)
+                return false;
+
+            current = rec.ReceptureInfo;
+            mode = rec.Mode;
+            ChangeModelAfterInserting();
+
+            return true;
+        }
+
+        private void ChangeModelAfterInserting()
+        {
+            rec_catalog.ReceptureStruct.Add(current);
         }
     }
 }

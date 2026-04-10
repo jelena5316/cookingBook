@@ -58,14 +58,14 @@ namespace MajPAbGr_project.Component
 	   
 		NewRecepture recepture(tbReceptureController tb)
 		{
-			NewReceptureController rec = new NewReceptureController();			
+			CatalogueController rec = new CatalogueController();			
 			rec.ReceptureInfo = new ReceptureStruct(0);
 			return new NewRecepture(tb, rec);
 		}
 
 		public NewRecepture recepture(tbReceptureController tb, ReceptureStruct rec)
 		{
-			NewReceptureController cntrl = new NewReceptureController(tb);
+			CatalogueController cntrl = new CatalogueController(tb);
 			cntrl.ReceptureInfo = rec;
 			return new NewRecepture(cntrl);
 		}	

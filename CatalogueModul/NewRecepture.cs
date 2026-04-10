@@ -18,10 +18,10 @@ namespace MajPAbGr_project
         tbReceptureController tb;
         tbController tbCat;
         tbTechnologyController tbTech;
-        NewReceptureController controller;
+        CatalogueController controller;
 
 
-        public NewRecepture(tbReceptureController tbMain, NewReceptureController controller) // addNew() in "Categories"
+        public NewRecepture(tbReceptureController tbMain, CatalogueController controller) // addNew() in "Categories"
         {
             InitializeComponent();           
             this.controller = controller;
@@ -38,13 +38,13 @@ namespace MajPAbGr_project
             indicator = controller.Indicator;
         }
 
-        public NewRecepture(NewReceptureController controller) // openReceptureEditor() in "Categories"
+        public NewRecepture(CatalogueController controller) // openReceptureEditor() in "Categories"
         {
             InitializeComponent();
             this.controller = controller;
             tb = controller.TbMain;
-            tbCat = controller.TbCat();
-            tbTech = controller.TbTech();
+            tbCat = controller.TbCat;
+            tbTech = controller.TbTech;
 
             ReceptureStruct rec = controller.ReceptureInfo;
             int[] ids = rec.getIds();
@@ -62,6 +62,7 @@ namespace MajPAbGr_project
                 description = controller.Data[4];
             }
         }
+
 
         private void SetForm()
         {
@@ -114,15 +115,25 @@ namespace MajPAbGr_project
             }
         }
 
+
         private void cmbTech_SelectedIndexChanged(object sender, EventArgs e)
         {
-            technology = tbTech.setSelected(cmbTech.SelectedIndex);
+            int index = cmbTech.SelectedIndex;
+            technology = tbTech.setSelected(index);
+            controller.CurrentRecepture.Technology.Id = technology;
+            controller.CurrentRecepture.Technology.Name = tbTech.getCatalog()[index].name;
+
+            //tbTech.setCurrent(index); //technologies count is 0
         }
 
         private void cmbCat_SelectedIndexChanged(object sender, EventArgs e)
         {
-            tbCat.setSelected(cmbCat.SelectedIndex);
+            int index = cmbCat.SelectedIndex;
+            category = tbCat.setSelected(index);
+            controller.CurrentRecepture.CategoriesId = category;            
+            controller.CurrentRecepture.Categories.Name = tbCat.getCatalog()[index].name;
         }
+
 
         private void lbl_open_Click(object sender, EventArgs e)
         {
@@ -154,11 +165,17 @@ namespace MajPAbGr_project
             {
                 cmbTech.Enabled = false;
                 if (cmbTech.Items.Count > 0)
+                {
                     cmbTech.SelectedIndex = 0;
+                    controller.CurrentRecepture.TechnologyId = 0;
+                    tbTech.Current.Id = 0;
+                }
+                    
                 technology = 0;
             }
             else
             {
+                //???
                 tbTechnologyController tbTech = new tbTechnologyController("Technology");
                 tbTech.setCatalog();
                 cmbTech.Enabled = true;
@@ -166,24 +183,73 @@ namespace MajPAbGr_project
             }
         }
 
-        private void button1_Click(object sender, EventArgs e) //remove
+
+        //CRUD
+        private void new_rec_Click(object sender, EventArgs e)
         {
-            int selected = tb.Selected;
-            if (selected == 0)
-            {
-                MessageBox.Show($"Recipe do not recorded into data base!");
-                this.Dispose();
-                this.Close();
-                return;
-            }
-            int count = tb.RemoveItem();
-            MessageBox.Show($"Is removed {count} records");
-            this.Dispose();
-            this.Close();
+            id_recepture = 0;
+            txbRecepture.Clear();
+            txbRecepture.Focus();
+            button1.Enabled = false; // 'delete'
+            new_rec.Enabled = false;
+            button2.Text = "Insert";
+            controller.Mode = SubmitMode.INSERT;
         }
 
         private void button2_Click(object sender, EventArgs e) // set / write into db (Recepture)
         {
+            if (string.IsNullOrEmpty(txbRecepture.Text)) return;
+            if (string.IsNullOrEmpty(cmbCat.SelectedItem.ToString())) return;
+
+            name = txbRecepture.Text;
+            category = tbCat.getSelected();
+            if (category == 0)
+                category = 1;
+
+            if (controller.Indicator == false)
+                controller.Mode = SubmitMode.INSERT;
+            
+            switch ((int)controller.Mode)
+            {
+                case 0: //insert
+                    id_recepture = 0;                    
+                    controller.CompletData
+                        (
+                        txbRecepture.Text,
+                        txbAuthor.Text,
+                        txbSource.Text,
+                        txbURL.Text,
+                        txbDescription.Text
+                        );
+                    if (controller.InsertNew() > 0)                    
+                        this.DialogResult = DialogResult.OK;
+                    else
+                        this.DialogResult = DialogResult.Cancel;
+                    this.Dispose();
+                    this.Close();
+                    break;
+                case 1: //update
+                    if (id_recepture < 1)
+                    {
+                        this.DialogResult = DialogResult.Cancel;
+                        this.Dispose();
+                        this.Close();
+                    }
+                    controller.CompletData
+                        (
+                        txbRecepture.Text,
+                        txbAuthor.Text,
+                        txbSource.Text,
+                        txbURL.Text,
+                        txbDescription.Text
+                        );
+                    controller.UpdateExisited();
+                    break;
+                default:
+                    break;
+            }
+            
+            
             int result = WriteIntoDataBase(); // -1: no data, -2: name not unique 
             string message = "Recepture is updated (inserted)";
 
@@ -193,6 +259,7 @@ namespace MajPAbGr_project
                 MessageBox.Show(message);
                 if (!indicator)
                     {
+                    this.DialogResult = DialogResult.OK;
                     this.Dispose();
                     this.Close();
                 }       
@@ -213,6 +280,24 @@ namespace MajPAbGr_project
                 }
             }
         }
+
+        private void button1_Click(object sender, EventArgs e) //remove
+        {
+            int selected = tb.Selected;
+            if (selected == 0)
+            {
+                MessageBox.Show($"Recipe do not recorded into data base!");
+                this.Dispose();
+                this.Close();
+                return;
+            }
+            int count = tb.RemoveItem();
+            MessageBox.Show($"Is removed {count} records");
+            this.Dispose();
+            this.Close();
+        }
+
+        
 
         private int WriteIntoDataBase()
         {
@@ -285,6 +370,8 @@ namespace MajPAbGr_project
              return id_recepture;           
         }
 
+        // end of CRUD
+
         private void NewRecepture_Load(object sender, EventArgs e)
         {
             int ind;
@@ -292,17 +379,17 @@ namespace MajPAbGr_project
             ind = TextBoxAutocomplet("source", txbSource);
             ind = TextBoxAutocomplet("author", txbAuthor);
             ind = TextBoxAutocomplet("URL", txbURL);
-            SetForm();            
+            SetForm();
         }
 
         private int TextBoxAutocomplet(string column, TextBox box)
         {
             int length = 0;
             AutoCompleteStringCollection source = new AutoCompleteStringCollection();
-           
+
             if (tb.IfRecordIs())
             {
-                source.AddRange(controller.getNames(column));
+                source.AddRange(controller.TbMain.getNames(column));
                 box.AutoCompleteCustomSource = source;
                 box.AutoCompleteMode = AutoCompleteMode.Suggest;
                 box.AutoCompleteSource = AutoCompleteSource.CustomSource;
@@ -312,8 +399,6 @@ namespace MajPAbGr_project
                 source.Add("empty");
             }
             return length;
-    } 
-}
-
-   
+        }
+    }
 }

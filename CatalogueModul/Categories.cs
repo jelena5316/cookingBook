@@ -184,13 +184,15 @@ namespace MajPAbGr_project
 		//for editing selected item
 		private void openReceptureEditor()
 		{
-			bool result = controller.editRec();
+			bool result = controller.editRec();	
 			if (!result)
 			{
+				
 				MessageBox.Show("Please, select any recepture from list");
 				return;
 			}
-			Reload();
+			this.Text = controller.Current.getName() + " " + controller.Current.getId();
+			//Reload();
 		}
 
 		//private void aboutReceptureToolStripMenuItem_Click(object sender, EventArgs e)
@@ -218,7 +220,7 @@ namespace MajPAbGr_project
 				return;
 			}
 			tbMain.Id = id;
-			NewReceptureController rec = new NewReceptureController(tbMain);
+			CatalogueController rec = new CatalogueController(tbMain);
 			rec.ReceptureInfo = controller.ReceptureStruct[selected_recepture];
 			NewRecepture frm = new NewRecepture(rec);
 
@@ -406,7 +408,9 @@ namespace MajPAbGr_project
 		private void aboutReceptureToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			openReceptureEditor();
-			//при закрытие формы вылетает ошибка, так как  CategoriesController.categories.Count = 0
+			resetRecepturesList(controller.ReceptureStruct);
+
+			//---Решено! -- при закрытие формы вылетает ошибка, так как  CategoriesController.categories.Count = 0
 		}
 
 		private void printToolStripMenuItem_Click(object sender, EventArgs e)

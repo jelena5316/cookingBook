@@ -78,7 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmountModul\AmountsController.cs" />
-    <Compile Include="CatalogueModul\NewReceptureController.cs" />
+    <Compile Include="CatalogueModul\CatalogueController.cs" />
     <Compile Include="Component\dbController_Ai_version.cs" />
     <Compile Include="Component\FormCreator.cs" />
     <Compile Include="Component\Model.cs" />

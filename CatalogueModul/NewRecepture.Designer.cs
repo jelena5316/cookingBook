@@ -36,7 +36,7 @@ namespace MajPAbGr_project
             this.txbAuthor = new System.Windows.Forms.TextBox();
             this.txbURL = new System.Windows.Forms.TextBox();
             this.txbDescription = new System.Windows.Forms.TextBox();
-            this.buttton1 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.cmbTech = new System.Windows.Forms.ComboBox();
             this.chBox_technology = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -47,20 +47,22 @@ namespace MajPAbGr_project
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.lbl_open = new System.Windows.Forms.Label();
+            this.btn_clear = new System.Windows.Forms.Button();
+            this.new_rec = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txbRecepture
             // 
-            this.txbRecepture.Location = new System.Drawing.Point(28, 34);
+            this.txbRecepture.Location = new System.Drawing.Point(28, 74);
             this.txbRecepture.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txbRecepture.Name = "txbRecepture";
-            this.txbRecepture.Size = new System.Drawing.Size(392, 26);
+            this.txbRecepture.Size = new System.Drawing.Size(236, 26);
             this.txbRecepture.TabIndex = 23;
             // 
             // cmbCat
             // 
             this.cmbCat.FormattingEnabled = true;
-            this.cmbCat.Location = new System.Drawing.Point(28, 95);
+            this.cmbCat.Location = new System.Drawing.Point(28, 133);
             this.cmbCat.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbCat.Name = "cmbCat";
             this.cmbCat.Size = new System.Drawing.Size(236, 28);
@@ -69,7 +71,7 @@ namespace MajPAbGr_project
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(446, 631);
+            this.button2.Location = new System.Drawing.Point(321, 631);
             this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(99, 42);
@@ -88,7 +90,7 @@ namespace MajPAbGr_project
             // 
             // txbAuthor
             // 
-            this.txbAuthor.Location = new System.Drawing.Point(28, 255);
+            this.txbAuthor.Location = new System.Drawing.Point(28, 261);
             this.txbAuthor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txbAuthor.Name = "txbAuthor";
             this.txbAuthor.Size = new System.Drawing.Size(392, 26);
@@ -111,21 +113,21 @@ namespace MajPAbGr_project
             this.txbDescription.Size = new System.Drawing.Size(517, 138);
             this.txbDescription.TabIndex = 31;
             // 
-            // buttton1
+            // button1
             // 
-            this.buttton1.Location = new System.Drawing.Point(324, 631);
-            this.buttton1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.buttton1.Name = "buttton1";
-            this.buttton1.Size = new System.Drawing.Size(112, 42);
-            this.buttton1.TabIndex = 33;
-            this.buttton1.Text = "Delete";
-            this.buttton1.UseVisualStyleBackColor = true;
-            this.buttton1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Location = new System.Drawing.Point(366, 69);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(112, 42);
+            this.button1.TabIndex = 33;
+            this.button1.Text = "Delete";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // cmbTech
             // 
             this.cmbTech.FormattingEnabled = true;
-            this.cmbTech.Location = new System.Drawing.Point(28, 158);
+            this.cmbTech.Location = new System.Drawing.Point(28, 196);
             this.cmbTech.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbTech.Name = "cmbTech";
             this.cmbTech.Size = new System.Drawing.Size(236, 28);
@@ -135,7 +137,7 @@ namespace MajPAbGr_project
             // chBox_technology
             // 
             this.chBox_technology.AutoSize = true;
-            this.chBox_technology.Location = new System.Drawing.Point(28, 200);
+            this.chBox_technology.Location = new System.Drawing.Point(443, 201);
             this.chBox_technology.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chBox_technology.Name = "chBox_technology";
             this.chBox_technology.Size = new System.Drawing.Size(127, 24);
@@ -187,7 +189,7 @@ namespace MajPAbGr_project
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(436, 45);
+            this.label5.Location = new System.Drawing.Point(290, 80);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(51, 20);
@@ -197,7 +199,7 @@ namespace MajPAbGr_project
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(290, 100);
+            this.label6.Location = new System.Drawing.Point(290, 138);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(129, 20);
@@ -207,7 +209,7 @@ namespace MajPAbGr_project
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(290, 163);
+            this.label7.Location = new System.Drawing.Point(290, 201);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(145, 20);
@@ -225,11 +227,33 @@ namespace MajPAbGr_project
             this.lbl_open.Text = "see in web";
             this.lbl_open.Click += new System.EventHandler(this.lbl_open_Click);
             // 
+            // btn_clear
+            // 
+            this.btn_clear.Location = new System.Drawing.Point(440, 631);
+            this.btn_clear.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btn_clear.Name = "btn_clear";
+            this.btn_clear.Size = new System.Drawing.Size(101, 42);
+            this.btn_clear.TabIndex = 44;
+            this.btn_clear.Text = "Clear";
+            this.btn_clear.UseVisualStyleBackColor = true;
+            // 
+            // new_rec
+            // 
+            this.new_rec.AutoSize = true;
+            this.new_rec.Location = new System.Drawing.Point(483, 26);
+            this.new_rec.Name = "new_rec";
+            this.new_rec.Size = new System.Drawing.Size(86, 20);
+            this.new_rec.TabIndex = 46;
+            this.new_rec.Text = "insert_new";
+            this.new_rec.Click += new System.EventHandler(this.new_rec_Click);
+            // 
             // NewRecepture
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(597, 749);
+            this.Controls.Add(this.new_rec);
+            this.Controls.Add(this.btn_clear);
             this.Controls.Add(this.lbl_open);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -240,7 +264,7 @@ namespace MajPAbGr_project
             this.Controls.Add(this.label1);
             this.Controls.Add(this.chBox_technology);
             this.Controls.Add(this.cmbTech);
-            this.Controls.Add(this.buttton1);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.txbDescription);
             this.Controls.Add(this.txbURL);
             this.Controls.Add(this.txbAuthor);
@@ -267,7 +291,7 @@ namespace MajPAbGr_project
         private System.Windows.Forms.TextBox txbAuthor;
         private System.Windows.Forms.TextBox txbURL;
         private System.Windows.Forms.TextBox txbDescription;
-        private System.Windows.Forms.Button buttton1;
+        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox cmbTech;
         private System.Windows.Forms.CheckBox chBox_technology;
         private System.Windows.Forms.Label label1;
@@ -278,5 +302,7 @@ namespace MajPAbGr_project
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lbl_open;
+        private System.Windows.Forms.Button btn_clear;
+        private System.Windows.Forms.Label new_rec;
     }
 }

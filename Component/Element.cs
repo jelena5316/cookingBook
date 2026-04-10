@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.PerformanceData;
 using System.Net;
 using System.Windows.Forms;
 
@@ -59,10 +60,77 @@ namespace MajPAbGr_project
 		// 0 - category, 1 - technology, 2 - ingredient
 			 
 
-		public ReceptureStruct(int id)
+		public ReceptureStruct(int id) // for reading from DB
 		{
 			this.id = id;
+            this.name = "";
+            this.source = "";
+            this.author = "";
+            this.description = "";
+            this.url = "";
+            data_id = new int[3];
+            data_id[0] = 0;
+            data_id[1] = 0;
+            data_id[2] = 0;
+        }
+
+		public ReceptureStruct (int id, string name, int category)
+			//for creating new entity without full data
+		{
+            this.id = id;
+            this.name = name;
+			this.source = "";
+			this.author = "";
+			this.description = "";
+			this.url = "";
+            data_id = new int[3];
+            data_id[0] = category;
+			data_id[1] = 0;
+			data_id[2] = 0;
 		}
+
+		public ReceptureStruct			
+            (
+			int id, string name,
+			string source, string author, string description, string url,
+			int category, int technology, int ingredient
+			)
+        //for creating new entity with full data
+        {
+            this.id = id;
+            this.name = name;
+            this.source = source;
+            this.author = author;
+            this.description = description;
+            this.url = url;
+            data_id = new int[3];
+            data_id[0] = category;
+            data_id[1] = technology;
+			data_id[2] = ingredient;
+        }
+
+		public void setDataStrings(string category, string technology, string ingredient)
+		{
+			this.category = category;
+			this.technology = technology;
+			this.ingredient = ingredient;
+		}
+
+
+		public void setData
+			(
+            string source, string author, string description, string url,
+            int technology, int ingredient
+            )
+			// for created entity
+		{
+			this.source = source;
+            this.author = author;
+            this.description = description;
+            this.url = url;            
+            data_id[1] = technology;
+            data_id[2] = ingredient;
+        }
 
 		public void setData()
 		{
@@ -105,7 +173,7 @@ namespace MajPAbGr_project
 				return data[0];
 			}
 			 
-		   void getItemData(string query, out string field, out int number)
+		   void readItemData(string query, out string field, out int number)
 			{
 				number = 0;
 				field = "unknown";
@@ -123,11 +191,11 @@ namespace MajPAbGr_project
 			}
  
 			name = tb.dbReader(SubQuery(0))[0];
-			getItemData(Query(1, SubQuery(1)), out category, out data_id[0]);
+			readItemData(Query(1, SubQuery(1)), out category, out data_id[0]);
 			source = CheckData(tb.dbReader(SubQuery(4)));
 			author = CheckData(tb.dbReader(SubQuery(5)));
-			getItemData(Query(2, SubQuery(2)), out technology, out data_id[1]);
-			getItemData(Query(3, SubQuery(3)), out ingredient, out data_id[2]);                
+			readItemData(Query(2, SubQuery(2)), out technology, out data_id[1]);
+			readItemData(Query(3, SubQuery(3)), out ingredient, out data_id[2]);                
 			description = CheckData(tb.dbReader(SubQuery(6)));
 			url = CheckData(tb.dbReader(SubQuery(7)));
 		}
@@ -145,6 +213,8 @@ namespace MajPAbGr_project
 
 		public string getCategory() => category;
 	}
+
+
 
 	public struct Item
 	{
