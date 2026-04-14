@@ -277,6 +277,8 @@ namespace MajPAbGr_project
             new_recepture.Ingredient = new Ingredient();
         }
 
+        public RecCatalog RecepturesCatalog => rec_catalog;
+
         public SubmitMode Mode
         {
             get
@@ -385,6 +387,8 @@ namespace MajPAbGr_project
 
         public int InsertNew()
         {
+            int result;
+            
             ReceptureStruct rec = new ReceptureStruct
             (
                 id_recepture,
@@ -405,8 +409,13 @@ namespace MajPAbGr_project
                 CurrentRecepture.Ingredient.Name
             );
            
-            tb.InsertNewRecord(rec);
+            result = tb.InsertNewRecord(rec);
             id_recepture = tb.Id;
+
+            if(result < 1)
+            {
+                return result;
+            }
 
 
             ReceptureInfo = new ReceptureStruct                
@@ -433,12 +442,8 @@ namespace MajPAbGr_project
         }
     
         public int UpdateExisited()
-        {
-            if (id_recepture < 0)
-                return -1;
-            tb.UpdateReceptureOrCards(CurrentRecepture);
-            
-            return 0;
+        {          
+            return tb.UpdateReceptureOrCards(CurrentRecepture);
         }
 
     }

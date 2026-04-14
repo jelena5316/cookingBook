@@ -64,6 +64,40 @@ namespace MajPAbGr_project
         }
 
 
+        private void NewRecepture_Load(object sender, EventArgs e)
+        {
+            int ind;
+            ind = TextBoxAutocomplet("name", txbRecepture);
+            ind = TextBoxAutocomplet("source", txbSource);
+            ind = TextBoxAutocomplet("author", txbAuthor);
+            ind = TextBoxAutocomplet("URL", txbURL);
+            SetForm();
+
+            if(!indicator || controller.Mode == SubmitMode.UPDATE)
+            {
+                button2.Text = "Update";
+            }
+        }
+
+        private int TextBoxAutocomplet(string column, TextBox box)
+        {
+            int length = 0;
+            AutoCompleteStringCollection source = new AutoCompleteStringCollection();
+
+            if (tb.IfRecordIs())
+            {
+                source.AddRange(controller.TbMain.getNames(column));
+                box.AutoCompleteCustomSource = source;
+                box.AutoCompleteMode = AutoCompleteMode.Suggest;
+                box.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            }
+            else
+            {
+                source.Add("empty");
+            }
+            return length;
+        }
+
         private void SetForm()
         {
             int temp;
@@ -198,21 +232,33 @@ namespace MajPAbGr_project
 
         private void button2_Click(object sender, EventArgs e) // set / write into db (Recepture)
         {
-            if (string.IsNullOrEmpty(txbRecepture.Text)) return;
-            if (string.IsNullOrEmpty(cmbCat.SelectedItem.ToString())) return;
+            int result = 0;
+            string message = "Recepture is updated (inserted)";
 
+            //conditions
+            if (string.IsNullOrEmpty(txbRecepture.Text))
+                return;
+            if (cmbCat.Items.Count == 0 || cmbCat.SelectedIndex == -1)
+                return;
+
+            //data storing in class variables
             name = txbRecepture.Text;
             category = tbCat.getSelected();
             if (category == 0)
                 category = 1;
 
+
+            //operation checking
             if (controller.Indicator == false)
+            {
                 controller.Mode = SubmitMode.INSERT;
-            
+            }
+                
+
             switch ((int)controller.Mode)
             {
                 case 0: //insert
-                    id_recepture = 0;                    
+                    id_recepture = 0;
                     controller.CompletData
                         (
                         txbRecepture.Text,
@@ -221,20 +267,14 @@ namespace MajPAbGr_project
                         txbURL.Text,
                         txbDescription.Text
                         );
-                    if (controller.InsertNew() > 0)                    
-                        this.DialogResult = DialogResult.OK;
-                    else
-                        this.DialogResult = DialogResult.Cancel;
+                    result = controller.InsertNew(); // -1: no data, -2: name not unique, 0: nothing is inserted
+                    ResultReporting();
+                    setDialogResult();                    
                     this.Dispose();
                     this.Close();
                     break;
                 case 1: //update
-                    if (id_recepture < 1)
-                    {
-                        this.DialogResult = DialogResult.Cancel;
-                        this.Dispose();
-                        this.Close();
-                    }
+                    controller.CurrentRecepture.Id = id_recepture;
                     controller.CompletData
                         (
                         txbRecepture.Text,
@@ -243,35 +283,39 @@ namespace MajPAbGr_project
                         txbURL.Text,
                         txbDescription.Text
                         );
-                    controller.UpdateExisited();
+                    result = controller.UpdateExisited(); // -1: no data, -2: name not unique,  0: nothing is inserted
+                    ResultReporting();
+                    setDialogResult();
                     break;
                 default:
                     break;
             }
-            
-            
-            int result = WriteIntoDataBase(); // -1: no data, -2: name not unique 
-            string message = "Recepture is updated (inserted)";
 
-            if (result > 0)
+            void ResultReporting()
             {
-                message = "Recepture is updated (inserted)";
-                MessageBox.Show(message);
-                if (!indicator)
-                    {
-                    this.DialogResult = DialogResult.OK;
-                    this.Dispose();
-                    this.Close();
-                }       
-            }
-            else
-            {
+                //success
+                if (result > 0)
+                {
+                    message = "Recepture is updated (inserted)";
+                    MessageBox.Show(message);
+                    return;
+                }
+
+                //no success
+                if (result == 0)
+                {
+                    message = "Nothing is updated (inserted)";
+                    MessageBox.Show(message);
+                    return;
+                }
+
+                // errors
                 if (result == -1)
                 {
                     message = "Please, check name and category be inputed and then try again!";
                     MessageBox.Show(message);
                     return;
-                }                
+                }
                 if (result == -2)
                 {
                     message = "Recepture with such name already exists. Please, type new name and try again";
@@ -279,7 +323,18 @@ namespace MajPAbGr_project
                     return;
                 }
             }
+
+            void setDialogResult()
+            {
+                if (result > 0)
+                    this.DialogResult = DialogResult.OK;
+                else
+                    this.DialogResult = DialogResult.Cancel;
+            }
+
+            
         }
+
 
         private void button1_Click(object sender, EventArgs e) //remove
         {
@@ -298,7 +353,6 @@ namespace MajPAbGr_project
         }
 
         
-
         private int WriteIntoDataBase()
         {
             int num = 0;
@@ -372,33 +426,5 @@ namespace MajPAbGr_project
 
         // end of CRUD
 
-        private void NewRecepture_Load(object sender, EventArgs e)
-        {
-            int ind;
-            ind = TextBoxAutocomplet("name", txbRecepture);
-            ind = TextBoxAutocomplet("source", txbSource);
-            ind = TextBoxAutocomplet("author", txbAuthor);
-            ind = TextBoxAutocomplet("URL", txbURL);
-            SetForm();
-        }
-
-        private int TextBoxAutocomplet(string column, TextBox box)
-        {
-            int length = 0;
-            AutoCompleteStringCollection source = new AutoCompleteStringCollection();
-
-            if (tb.IfRecordIs())
-            {
-                source.AddRange(controller.TbMain.getNames(column));
-                box.AutoCompleteCustomSource = source;
-                box.AutoCompleteMode = AutoCompleteMode.Suggest;
-                box.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            }
-            else
-            {
-                source.Add("empty");
-            }
-            return length;
-        }
     }
 }

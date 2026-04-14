@@ -132,12 +132,17 @@ namespace MajPAbGr_project
 		{
             return dbReader($"select name from {subtable}"); // connection opne
         }
-				
-		/*
+
+        public List<Item> getCatalogFromAnyTable(string table)
+        {
+			return Catalog($"select id, name from {table}");
+        }
+
+        /*
 		 * checking selected item use count
 		 */
 
-		public virtual void setUsed() { }
+        public virtual void setUsed() { }
 
 		public virtual string getUsed() { return ""; }
 

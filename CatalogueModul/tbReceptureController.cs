@@ -4,6 +4,8 @@
 
 using FormEF_test;
 using System;
+using System.Collections.Generic;
+using System.Data.Common;
 using System.Diagnostics;
 using System.Security.Policy;
 using System.Windows.Forms;
@@ -15,6 +17,13 @@ namespace MajPAbGr_project
     {
         private int id_recepture;
         string[,] Info = new string[2, 6];
+
+        public tbReceptureController(): base()
+        {
+            this.table = TABLE_RECEPTURE;
+            catalog = new List<Item>();
+            subcatalog = new List<Item>();
+        }
 
         public tbReceptureController(string table) : base(table)
         {
@@ -93,7 +102,7 @@ namespace MajPAbGr_project
             }
         }
 
-        public void InsertNewRecord(ReceptureStruct rec)
+        public int InsertNewRecord(ReceptureStruct rec)
         {
             string columns, values, insert_stm, rowid_stm, rowid;
 
@@ -113,6 +122,13 @@ namespace MajPAbGr_project
             author = strings[2];
             url = strings[3];
             description = strings[4];
+
+            if (name != null && name != "")
+                return -1;
+            if (cat < 1)
+                return -1;
+            if (IfRecordIs(name))
+                return -2;
 
             //syntaxis, scaves
             columns = "(";
@@ -152,25 +168,25 @@ namespace MajPAbGr_project
             }
 
             //source, string
-            if (source != null && description != "")
+            if (source != null && source != "")
             {
                 columns += $", {REC_COL_SOURCE}";
                 values += $", '{source}'";
             }
 
             //author, string
-            if (author != null && description != "")
+            if (author != null && author != "")
             {
                 columns += $", {REC_COL_AUTOR}";
                 values += $", '{author}'";
             }
 
             //URL, string
-            //if (url != null && description != "")
-            //{
+            if (url != null && url != "")
+            {
                 columns += $", {REC_COL_URL}";
                 values += $", '{url}'";
-            //}
+            }
 
             //syntaxis 1, scaves
             columns += ")";
@@ -191,6 +207,7 @@ namespace MajPAbGr_project
                 id_recepture = int.Parse(rowid);
             }
             query = "";
+            return id_recepture;
         }
 
 
@@ -209,15 +226,16 @@ namespace MajPAbGr_project
             return ind;
         }
 
+
         public int UpdateReceptureOrCards(Recepture rec)
         {
-            int ind = 0;
+            int ind = 0, control = 0; ;
             int cat, tech, ingr;           
             string name, source, author, url, description;  
 
             cat = rec.CategoriesId;
-            tech = (int)rec.TechnologyId;
-            ingr = (int)rec.IngredientId;
+            tech = rec.Technology.Id;
+            ingr = rec.Ingredient.Id;
 
             name = rec.Name;
             source = rec.Source;
@@ -225,16 +243,76 @@ namespace MajPAbGr_project
             url = rec.Path;
             description = rec.Description;
 
-            id_recepture = rec.Id;
+            if(rec.Id > 0)
+            {
+                id_recepture = rec.Id;
+            }
+            else
+            {
+                return -1;
+            }
 
+            if (name == null || name == "")
+                return -1;
+            if (cat < 0)
+                return -1;
+            if (IfRecordIs(name))
+                return -2;
+
+
+            //name, string
+            control++;
             ind += base.UpdateReceptureOrCards (REC_COL_NAME, name, id_recepture);
-            ind += base.UpdateReceptureOrCards (REC_COL_TECHN, tech.ToString(), id_recepture);
-            ind += base.UpdateReceptureOrCards(REC_COL_INGR, ingr.ToString(), id_recepture);
-            ind += base.UpdateReceptureOrCards(REC_COL_CAT, cat.ToString(), id_recepture);
-            ind += base.UpdateReceptureOrCards(REC_COL_NAME, description, id_recepture);
-            ind += base.UpdateReceptureOrCards(REC_COL_NAME, source, id_recepture);
-            ind += base.UpdateReceptureOrCards(REC_COL_NAME, author, id_recepture);
-            ind += base.UpdateReceptureOrCards(REC_COL_NAME, url, id_recepture);
+            
+
+            //technology, int
+            if (tech > 0)
+            {
+                control++;
+                ind += base.UpdateReceptureOrCards(REC_COL_TECHN, tech.ToString(), id_recepture);
+            }
+
+            //main_ingredient, int
+            if (ingr > 0)
+            {
+                control++;
+                ind += base.UpdateReceptureOrCards(REC_COL_INGR, ingr.ToString(), id_recepture);
+            }
+
+            //category, int
+            if (cat > 0)
+            {
+                control++;
+                ind += base.UpdateReceptureOrCards(REC_COL_CAT, cat.ToString(), id_recepture);
+            }
+
+            //description, string
+            if (description != null && description != "")
+            {
+                control++;
+                ind += base.UpdateReceptureOrCards(REC_COL_DESCRIPTION, description, id_recepture);
+            }
+
+            //source, string
+            if (source != null && source != "")
+            {
+                control++;
+                ind += base.UpdateReceptureOrCards(REC_COL_SOURCE, source, id_recepture);
+            }
+
+            //author, string
+            if (author != null && author != "")
+            {
+                control++;
+                ind += base.UpdateReceptureOrCards(REC_COL_AUTOR, author, id_recepture);
+            }
+
+            //URL, string
+            if (url != null && url != "")
+            {
+                control++;
+                ind += base.UpdateReceptureOrCards(REC_COL_URL, url, id_recepture);
+            }
 
             return ind;
         }

@@ -12,14 +12,13 @@ using System.Windows.Forms;
 namespace MajPAbGr_project
 {
     
-    
-    
-    
     public class CategoriesController
     {
         List<int> receptures_id;
         List<Item> categories, receptures;
         List<ReceptureStruct> rec_struct, displaied_rec;
+
+        CatalogueController controller; // new version, not tested;
 
         tbReceptureController tb;
         tbIngredientsController tbCat;   
@@ -34,10 +33,13 @@ namespace MajPAbGr_project
         {
             tb = new tbReceptureController("Recepture");
             tb.setCatalog();
-            receptures = tb.getCatalog();            
-            
+            receptures = tb.getCatalog();
+
             //with new field 'RecCatalog'
             rec_catalog = new RecCatalog();
+            //controller = new CatalogueController(); // new version, not tested;
+            //rec_catalog = controller.RecepturesCatalog; // new version, not tested;
+            
             setFields();            
             rec_struct = ReceptureStruct;            
 
@@ -581,6 +583,8 @@ namespace MajPAbGr_project
 
         public ReceptureStruct Current => current;
 
+
+
         public bool editRec()
         {
             SubmitMode mode;
@@ -603,6 +607,7 @@ namespace MajPAbGr_project
             tb.Id = id;
             CatalogueController rec = new CatalogueController(tb);
             rec.ReceptureInfo = ReceptureStruct[SelectedRecepture];
+            rec.Mode = SubmitMode.UPDATE;
             NewRecepture frm = new NewRecepture(rec);
             DialogResult result = frm.ShowDialog();
 
@@ -611,7 +616,8 @@ namespace MajPAbGr_project
 
             current = rec.ReceptureInfo;
             mode = rec.Mode;
-            ChangeModelAfterInserting();
+            if(mode == SubmitMode.INSERT)
+                ChangeModelAfterInserting();
 
             return true;
         }
