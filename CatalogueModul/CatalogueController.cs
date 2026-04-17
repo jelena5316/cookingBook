@@ -329,9 +329,17 @@ namespace MajPAbGr_project
             get => tb;
         }
 
-        public tbController TbCat => tbCat;
+        public tbController TbCat
+        {
+            set { tbCat = value; }
+            get => tbCat;
+        }
 
-        public tbTechnologyController TbTech => tbTech;
+        public tbTechnologyController TbTech
+        {
+            set { tbTech = value; }
+            get => tbTech;
+        } 
 
 
         //get data at start and on process, private        

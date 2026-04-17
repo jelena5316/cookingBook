@@ -256,8 +256,8 @@ namespace MajPAbGr_project
                 return -1;
             if (cat < 0)
                 return -1;
-            if (IfRecordIs(name))
-                return -2;
+            //if (IfRecordIs(name))
+            //    return -2;
 
 
             //name, string

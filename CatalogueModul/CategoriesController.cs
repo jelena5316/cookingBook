@@ -36,11 +36,11 @@ namespace MajPAbGr_project
             receptures = tb.getCatalog();
 
             //with new field 'RecCatalog'
-            rec_catalog = new RecCatalog();
-            //controller = new CatalogueController(); // new version, not tested;
-            //rec_catalog = controller.RecepturesCatalog; // new version, not tested;
-            
-            setFields();            
+            //rec_catalog = new RecCatalog();
+            controller = new CatalogueController(0); // new version, not tested;
+            rec_catalog = controller.RecepturesCatalog; // new version, not tested;
+
+            //setFields();            
             rec_struct = ReceptureStruct;            
 
             //for new field RecCatalog
@@ -605,18 +605,31 @@ namespace MajPAbGr_project
             //проверить, есть ли запись с таким номером!!!
 
             tb.Id = id;
-            CatalogueController rec = new CatalogueController(tb);
-            rec.ReceptureInfo = ReceptureStruct[SelectedRecepture];
-            rec.Mode = SubmitMode.UPDATE;
-            NewRecepture frm = new NewRecepture(rec);
-            DialogResult result = frm.ShowDialog();
+            controller.ReceptureInfo = ReceptureStruct[SelectedRecepture];            
+            controller.Mode = SubmitMode.UPDATE;
+            if (controller.TbCat == null)
+            {
+                controller.TbCat = this.TbCat;
+            }
+            if (controller.TbTech == null)
+            {
+                controller.TbTech = this.tbTech.getTbController();
+                if (controller.TbTech.getCatalog() == null || controller.TbTech.getCatalog().Count == 0)
+                {
+                    controller.TbTech.setCatalog();
+                }
+            }            
+
+            NewRecepture frm = new NewRecepture(controller);
+            DialogResult result = frm.ShowDialog();           
+
 
             if (result != DialogResult.OK)
                 return false;
 
-            current = rec.ReceptureInfo;
-            mode = rec.Mode;
-            if(mode == SubmitMode.INSERT)
+            current = controller.ReceptureInfo;
+            mode = controller.Mode;
+            if (mode == SubmitMode.INSERT)
                 ChangeModelAfterInserting();
 
             return true;
