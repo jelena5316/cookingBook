@@ -116,6 +116,13 @@ namespace MajPAbGr_project
 			this.ingredient = ingredient;
 		}
 
+		public void setDataStrings(string[] names)
+		{
+			this.category = names[0];
+            this.technology = names[1];
+            this.ingredient = names[2];
+        }
+
 
 		public void setData
 			(
@@ -130,6 +137,26 @@ namespace MajPAbGr_project
             this.url = url;            
             data_id[1] = technology;
             data_id[2] = ingredient;
+        }
+
+		public void UpdateData(ReceptureStruct rec)
+		{
+			string [] data = rec.EditorData;			
+			int[] ids = rec.getIds();
+			
+			this.id = rec.getId();
+			this.name = rec.getName();
+			
+			this.source = data[1];
+			this.author = data[2];
+			this.url = data[3];
+			this.description = data[4];
+
+			data_id[0] = ids[0];
+			data_id[1] = ids[1];
+			data_id[2] = ids[2];
+
+			setDataStrings(rec.getNames);
         }
 
 		public void setData()
@@ -204,12 +231,15 @@ namespace MajPAbGr_project
 
 		public string [] EditorData => new string[] { name, source, author, url, description };
 
+		
+
 		public int getId() => id;
 
 		public int [] getIds() => data_id;
 
 		public string getName() => name;
-		
+
+		public string[] getNames => new string[] {category, technology, ingredient };
 
 		public string getCategory() => category;
 	}

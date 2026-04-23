@@ -77,6 +77,11 @@ namespace MajPAbGr_project
             {
                 button2.Text = "Update";
             }
+
+            if(controller.Mode == SubmitMode.INSERT)
+            {
+                new_rec_Click(sender, e);
+            }
         }
 
         private int TextBoxAutocomplet(string column, TextBox box)
@@ -219,6 +224,7 @@ namespace MajPAbGr_project
 
 
         //CRUD
+        
         private void new_rec_Click(object sender, EventArgs e)
         {
             id_recepture = 0;

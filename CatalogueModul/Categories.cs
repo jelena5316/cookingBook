@@ -3,8 +3,11 @@
  */
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace MajPAbGr_project
 {
@@ -89,21 +92,67 @@ namespace MajPAbGr_project
 			reload_rec_mode = true;
 			if (list == null) return;
 			lv_recepture.Items.Clear();
-			ListViewItem items;
+			ListViewItem item;
 			for (int k = 0; k < list.Count; k++)
 			{
 				string[] arr = list[k].getData();
-				items = new ListViewItem(arr[0]);
-				items.Tag = list[k].getId();
+				item = new ListViewItem(arr[0]);
+				item.Tag = list[k].getId();
 
 				for (int q = 1; q < arr.Length; q++)
 				{
-					items.SubItems.Add(arr[q]);
+					item.SubItems.Add(arr[q]);
 				}
-				lv_recepture.Items.Add(items);
+				lv_recepture.Items.Add(item);
 			}
 			reload_rec_mode = false;
 		}
+
+		private void resetReceptureList() // for refresh listview after modelchanging, using controller current and mode
+		{
+			int operation = controller.getSubmitModeAsInt();
+			int index = controller.Catalog.SelectedRecIndex;
+			ListViewItem item;
+
+			switch (operation)
+			{
+				case 0: //insert
+					if (index == lv_recepture.Items.Count)
+					{
+						string[] arr = controller.Current.getData();
+						item = new ListViewItem(arr[0]);							
+						item.Tag = controller.Current.getId();
+						for (int q = 1; q < arr.Length; q++)
+						{
+							item.SubItems.Add(arr[q]);
+						}
+                        lv_recepture.Items.Add(item);
+                    }
+					break;
+				case 1://update                    
+					if (index < lv_recepture.Items.Count && index > -1)
+                    {
+                        string[] arr = controller.Current.getData();						
+						item = lv_recepture.Items[index];
+						item.Text = arr[0];
+                        item.Tag = controller.Current.getId();
+						//item.Tag = controller.Catalog.ReceptureStruct[index];
+                        for (int q = 1; q < arr.Length; q++)
+                        {
+                            item.SubItems.Add(arr[q]);
+							item.SubItems[q].Text = arr[q];
+                        }
+                    }
+                    break;
+				case 2: //delete
+					if (index < lv_recepture.Items.Count && index > -1)
+					{
+						lv_recepture.Items.RemoveAt(index);
+					}
+					break;
+            }
+		}
+
 		
 		private void seeAll() //for reloading list of receptures, used in method 'reload()' 
 		{
@@ -174,67 +223,16 @@ namespace MajPAbGr_project
                 lv_recepture.SelectedItems[0].Index,
                 textBox1.Text
                 );
-			//this.Text = controller.Catalog.SelectedRecIndex.ToString();
+			
+            
+            //this.Text = controller.Catalog.SelectedRecIndex.ToString();
         }
 
 		/*
 		 * Methods for works with recepture card
 		 */
 
-		//for editing selected item
-		private void openReceptureEditor()
-		{
-			bool result = controller.editRec();	
-			if (!result)
-			{
-				
-				MessageBox.Show("Please, select any recepture from list");
-				return;
-			}
-			this.Text = controller.Current.getName() + " " + controller.Current.getId();
-			//Reload();
-		}
-
-		//private void aboutReceptureToolStripMenuItem_Click(object sender, EventArgs e)
-		//{
-		//	openReceptureEditor();
-		//	//при закрытие формы вылетает ошибка, так как  CategoriesController.categories.Count = 0
-		//}
-
-		private void openReceptureEditor(int temp)
-		{
-			int id = 0; //id_recepture			
-
-			if (lv_recepture.SelectedItems.Count < 1) return;
-			if (exist_selected)
-			{
-				id = controller.ReceptureStruct[selected_recepture].getId();
-				if (tbMain.Selected != id)
-				{
-					tbMain.Selected = id;
-				}
-			}
-			else
-			{
-				MessageBox.Show("Please, select any recepture from list");
-				return;
-			}
-			tbMain.Id = id;
-			CatalogueController rec = new CatalogueController(tbMain);
-			rec.ReceptureInfo = controller.ReceptureStruct[selected_recepture];
-			NewRecepture frm = new NewRecepture(rec);
-
-			frm.Show();
-			frm.cmbCat_IndexChange(temp);
-			Reload();
-		}
-
-		//for adding new item
-		private void addNew()
-		{
-			controller.addNewRec();
-			Reload();
-		}
+		
 
 
 		/*
@@ -296,10 +294,7 @@ namespace MajPAbGr_project
 		/*
 		 * Events handlers. Others controls: buttons, menu strip items
 		 */
-		private void button1_Click(object sender, EventArgs e) // recipes editor
-		{
-			addNew();
-		}
+		
 
 		private void recipeToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -405,13 +400,7 @@ namespace MajPAbGr_project
 			seeAll();
 		}
 
-		private void aboutReceptureToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			openReceptureEditor();
-			resetRecepturesList(controller.ReceptureStruct);
-
-			//---Решено! -- при закрытие формы вылетает ошибка, так как  CategoriesController.categories.Count = 0
-		}
+        
 
 		private void printToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -439,5 +428,93 @@ namespace MajPAbGr_project
         {
 			controller.openOnlineCalculator();			
 		}
+
+
+
+        /*********************
+		* Recepture Catalogue
+		**********************/
+
+
+        // open catalogue
+        
+        private void openCatalogueEditor()//for editing selected item
+        {
+            bool result = controller.editRec();
+
+
+			if (!result)
+			{
+
+				MessageBox.Show("Please, select any recepture from list");
+				return;
+			}
+			this.Text = controller.Current.getName() + " " + controller.Current.getId();
+            //Reload();
+        }
+
+        //private void aboutReceptureToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //	openReceptureEditor();
+        //	//при закрытие формы вылетает ошибка, так как  CategoriesController.categories.Count = 0
+        //}
+
+        private void openReceptureEditor(int temp)
+        {
+            int id = 0; //id_recepture			
+
+            if (lv_recepture.SelectedItems.Count < 1) return;
+            if (exist_selected)
+            {
+                id = controller.ReceptureStruct[selected_recepture].getId();
+                if (tbMain.Selected != id)
+                {
+                    tbMain.Selected = id;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please, select any recepture from list");
+                return;
+            }
+            tbMain.Id = id;
+            CatalogueController rec = new CatalogueController(tbMain);
+            rec.ReceptureInfo = controller.ReceptureStruct[selected_recepture];
+            NewRecepture frm = new NewRecepture(rec);
+
+            frm.Show();
+            frm.cmbCat_IndexChange(temp);
+            Reload();
+        }
+
+        private void addNew()//for adding new item
+        {
+            bool result = controller.addRec();
+            //Reload();
+        }
+
+
+        //existiting       
+
+        private void aboutReceptureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.changeSubmitMode(SubmitMode.UPDATE);
+            openCatalogueEditor();
+			//resetRecepturesList(controller.ReceptureStruct);
+			resetReceptureList();
+			//ReceptureStruct rec = (ReceptureStruct)lv_recepture.Items[controller.Catalog.SelectedRecIndex].Tag;
+			//this.Text = rec.getData()[3];
+        }
+
+
+        //add new
+
+		private void button1_Click(object sender, EventArgs e) // recipes editor
+        {
+            controller.changeSubmitMode(SubmitMode.INSERT);
+            addNew();
+			//resetRecepturesList(controller.ReceptureStruct);
+			resetReceptureList(); 
+        }
     }
 }

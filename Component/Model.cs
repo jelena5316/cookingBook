@@ -170,13 +170,14 @@ namespace FormEF_test //EFSqlite_test
         {
             Table chains = new Tables().getTables[4];
 
-            string table = chains.Name;
+            string table = chains.TableName;
             string[] fields = chains.Columns; // id, id_technology, id_card
             return $"insert to ({fields[1]}, {fields[2]}) values ({technology}, {card});";
         }
 
     }
     
+
     //classes for receptures
      public class Ingredient
     {
@@ -217,16 +218,19 @@ namespace FormEF_test //EFSqlite_test
         }
     }
 
-    public class Category
+    public class Category: Table
     {
         int id;
         string name;
 
-        public Category() { }
+        public Category() : base()        
+        { }
 
         public Category(string name)
         {
             this.name = name;
+            Title = (int)Titles.CAT;
+            TableName = "Category";
         }
 
         public Category(Item item)
@@ -252,6 +256,20 @@ namespace FormEF_test //EFSqlite_test
            Item item = new Item();
            item.createItem(Id, Name);
            return item;
+        }
+
+        // for table creator
+        public string[] getColumns()
+        {
+            return new string[] { "id", "name" };
+        }
+
+        public string getQueryToCreate()
+        {
+            return $"CREATE TABLE IF NOT EXISTS {TableName}(" +
+                   $"{getColumns()[0]} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                   $"{getColumns()[1]} VARCHAR UNIQUE NOT NULL " +
+                   $"CHECK({getColumns()[0]} != \"\" AND length({getColumns()[1]}) <= 20));";
         }
     }
 

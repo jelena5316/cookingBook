@@ -31,14 +31,18 @@ namespace MajPAbGr_project
 
         public CategoriesController()        
         {
-            tb = new tbReceptureController("Recepture");
-            tb.setCatalog();
-            receptures = tb.getCatalog();
+            //tb = new tbReceptureController("Recepture");
+            //tb.setCatalog();
+            //receptures = tb.getCatalog();
+            //old version
 
             //with new field 'RecCatalog'
             //rec_catalog = new RecCatalog();
-            controller = new CatalogueController(0); // new version, not tested;
-            rec_catalog = controller.RecepturesCatalog; // new version, not tested;
+            controller = new CatalogueController(0); 
+            rec_catalog = controller.RecepturesCatalog;
+            tb = controller.TbMain; // new version, not tested;
+            tb.setCatalog();
+            receptures = tb.getCatalog();
 
             //setFields();            
             rec_struct = ReceptureStruct;            
@@ -570,15 +574,58 @@ namespace MajPAbGr_project
         }
 
 
+        //CRUD OPERATION
+
+        public int changeSubmitMode(SubmitMode mode)
+        {
+            controller.Mode = mode;
+            return (int)controller.Mode;
+        }
+
+        public int getSubmitModeAsInt() // for view refreshing, operation selecting
+        {
+            return (int)controller.Mode;
+        }
+
+
         //CRUD
 
-        public void addNewRec()
+        public bool addRec()
         {
-            CatalogueController rec = new CatalogueController();
-            ReceptureStruct info = new ReceptureStruct(0);
-            rec.ReceptureInfo = info;
-            NewRecepture frm = new NewRecepture(tb, rec);
-            frm.ShowDialog();
+            SubmitMode mode;
+
+            //CatalogueController rec = new CatalogueController();
+            //ReceptureStruct info = new ReceptureStruct(0);
+            //rec.ReceptureInfo = info;
+            //NewRecepture frm = new NewRecepture(tb, rec);
+            //frm.ShowDialog();
+
+            if (controller.TbCat == null)
+            {
+                controller.TbCat = this.TbCat;
+            }
+            if (controller.TbTech == null)
+            {
+                controller.TbTech = this.tbTech.getTbController();
+                if (controller.TbTech.getCatalog() == null || controller.TbTech.getCatalog().Count == 0)
+                {
+                    controller.TbTech.setCatalog();
+                }
+            }
+
+            controller.ReceptureInfo = new ReceptureStruct(0);
+            NewRecepture frm = new NewRecepture(controller);
+
+            DialogResult result = frm.ShowDialog();
+            if (result != DialogResult.OK)
+                return false;
+
+            current = controller.ReceptureInfo;
+            mode = controller.Mode;
+            //if (mode == SubmitMode.INSERT)
+            //    ChangeModelAfterInserting();
+
+            return true;
         }
 
         public ReceptureStruct Current => current;
@@ -606,7 +653,7 @@ namespace MajPAbGr_project
 
             tb.Id = id;
             controller.ReceptureInfo = ReceptureStruct[SelectedRecepture];            
-            controller.Mode = SubmitMode.UPDATE;
+            //controller.Mode = SubmitMode.UPDATE;
             if (controller.TbCat == null)
             {
                 controller.TbCat = this.TbCat;
@@ -629,15 +676,10 @@ namespace MajPAbGr_project
 
             current = controller.ReceptureInfo;
             mode = controller.Mode;
-            if (mode == SubmitMode.INSERT)
-                ChangeModelAfterInserting();
+            //if (mode == SubmitMode.INSERT)
+            //    ChangeModelAfterInserting();
 
             return true;
-        }
-
-        private void ChangeModelAfterInserting()
-        {
-            rec_catalog.ReceptureStruct.Add(current);
         }
     }
 }

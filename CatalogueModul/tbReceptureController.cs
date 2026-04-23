@@ -123,7 +123,7 @@ namespace MajPAbGr_project
             url = strings[3];
             description = strings[4];
 
-            if (name != null && name != "")
+            if (name == null || name == "")
                 return -1;
             if (cat < 1)
                 return -1;

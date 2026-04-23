@@ -2,6 +2,7 @@
  * to provide accessig to data base
  */
 
+using FormEF_test;
 using Microsoft.Data.Sqlite;
 using SQLitePCL;
 using System;
@@ -156,21 +157,21 @@ namespace MajPAbGr_project
 			{
 				case 0: // ingredients
 					{
-						TABLE_INGREDIENTS = table.Name;
+						TABLE_INGREDIENTS = table.TableName;
 						INGR_COL_ID = table.Columns[0];
 						INGR_COL_NAME = table.Columns[1];
 						break;
 					}
 				case 1: // categories
 					{
-						TABLE_CATEGORIES = table.Name;
+						TABLE_CATEGORIES = table.TableName;
 						CAT_COL_ID = table.Columns[0];
 						CAT_COL_NAME = table.Columns[1];
 						break;
 					}
 				case 2: // cards
 					{
-						TABLE_CARDS = table.Name;
+						TABLE_CARDS = table.TableName;
 						CARD_COL_ID = table.Columns[0];
 						CARD_COL_NAME = table.Columns[1];
 						CARD_COL_DESCRIPTION = table.Columns[2];
@@ -179,7 +180,7 @@ namespace MajPAbGr_project
 					}
 				case 3: // technology
 					{
-						TABLE_TEHNOLOGY = table.Name;
+						TABLE_TEHNOLOGY = table.TableName;
 						TECHN_COL_ID = table.Columns[0];
 						TECHN_COL_NAME = table.Columns[1];
 						TECHN_COL_DESCRIPTION = table.Columns[2];
@@ -187,7 +188,7 @@ namespace MajPAbGr_project
 					}
 				case 4: // chains
 					{
-						TABLE_CHAINS = table.Name;
+						TABLE_CHAINS = table.TableName;
 						CHAIN_COL_ID = table.Columns[0];
 						CHAIN_COL_TECHN = table.Columns[1];
 						CHAIN_COL_CARD = table.Columns[2];
@@ -195,7 +196,7 @@ namespace MajPAbGr_project
 					}
 				case 5: // recepture
 					{
-						TABLE_RECEPTURE = table.Name;
+						TABLE_RECEPTURE = table.TableName;
 						REC_COL_ID = table.Columns[0];
 						REC_COL_NAME = table.Columns[1];
 						REC_COL_TECHN = table.Columns[2];
@@ -209,7 +210,7 @@ namespace MajPAbGr_project
 					}
 				case 6: // amounts
 					{
-						TABLE_AMOUNTS = table.Name;
+						TABLE_AMOUNTS = table.TableName;
 						AM_COL_ID = table.Columns[0];
 						AM_COL_REC = table.Columns[1];
 						AM_COL_INGR = table.Columns[2];
@@ -218,7 +219,7 @@ namespace MajPAbGr_project
 					}
 				case 7: // recipe
 					{
-						TABLE_RECIPE = table.Name;
+						TABLE_RECIPE = table.TableName;
 						COEF_COL_ID = table.Columns[0];
 						COEF_COL_NAME = table.Columns[1];
 						COEF_COL_REC = table.Columns[2];
@@ -227,7 +228,7 @@ namespace MajPAbGr_project
 					}
 				case 8: // data base version
 					{
-						TABLE_VERSION = table.Name;
+						TABLE_VERSION = table.TableName;
 						V_COL_ID = table.Columns[0];
 						V_COL_NUM = table.Columns[1];
 						V_COL_NAME = table.Columns[2];
@@ -239,7 +240,7 @@ namespace MajPAbGr_project
 					}
 				case 9: // data base configs
 					{
-						TABLE_DB = table.Name;
+						TABLE_DB = table.TableName;
 						DB_COL_ID = table.Columns[0];
 						DB_COL_NAME = table.Columns[1];
 						DB_COL_V = table.Columns[2];
@@ -248,7 +249,7 @@ namespace MajPAbGr_project
 					}
 				case 10: // data base tables
 					{
-						TABLE_TB = table.Name;
+						TABLE_TB = table.TableName;
 						TB_COL_ID = table.Columns[0];
 						TB_COL_V = table.Columns[1];
 						TB_COL_DEF_NAME = table.Columns[2];
@@ -257,7 +258,7 @@ namespace MajPAbGr_project
 					}
 				case 11: // data base columns
 					{
-						TABLE_COL = table.Name;
+						TABLE_COL = table.TableName;
 						COl_COL_ID = table.Columns[0];
 						COL_COL_V = table.Columns[1];
 						COl_COL_TABLE = table.Columns[2];
@@ -291,8 +292,8 @@ namespace MajPAbGr_project
 										$"CHECK ({INGR_COL_NAME} != \"\" AND length({INGR_COL_NAME}) <= 20));";
 
 		private string CategoriesQ() => $"CREATE TABLE IF NOT EXISTS {TABLE_CATEGORIES}(" +
-										$"{INGR_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-										$"{INGR_COL_NAME} VARCHAR UNIQUE NOT NULL " +
+										$"{CAT_COL_ID} INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+										$"{CAT_COL_NAME} VARCHAR UNIQUE NOT NULL " +
 										$"CHECK({CAT_COL_NAME} != \"\" AND length({CAT_COL_NAME}) <= 20));";
 
 		private string CardsQ() => $"CREATE TABLE IF NOT EXISTS {TABLE_CARDS}(" +
@@ -1128,12 +1129,17 @@ namespace MajPAbGr_project
 	public class Table
 	{
 		int title;
-		string name;
+		string table_name;
 		string[] columns;
 		public Table() { }
 
+		public Table(string name)
+		{
+			this.table_name = name;
+		}
+
 		public int Title { set; get; }
-		public string Name { set; get; }
+		public string TableName { set; get; }
 		public string[] Columns { set; get; }
 	}
 
@@ -1162,7 +1168,7 @@ namespace MajPAbGr_project
 		{
 			Table tb = new Table();
 			tb.Title = (int)Titles.INGR;
-			tb.Name = "Ingredients";
+			tb.TableName = "Ingredients";
 			tb.Columns = new string[] { "id", "name" };
 			return tb;
 		}
@@ -1171,7 +1177,7 @@ namespace MajPAbGr_project
 		{
 			Table tb = new Table();
 			tb.Title = (int)Titles.CAT;
-			tb.Name = "Categories";
+			tb.TableName = "Categories";
 			tb.Columns = new string[] { "id", "name" };
 			return tb;
 		}
@@ -1180,7 +1186,7 @@ namespace MajPAbGr_project
 		{
 			Table tb = new Table();
 			tb.Title = (int)Titles.CARD;
-			tb.Name = "Technology_card";
+			tb.TableName = "Technology_card";
 			tb.Columns = new string[] { "id", "name", "description", "technology" };
 			return tb;
 		}
@@ -1189,7 +1195,7 @@ namespace MajPAbGr_project
 		{
 			Table tb = new Table();
 			tb.Title = (int)Titles.TECHN;
-			tb.Name = "Technology";
+			tb.TableName = "Technology";
 			tb.Columns = new string[] { "id", "name", "technology" };
 			return tb;
 		}
@@ -1198,7 +1204,7 @@ namespace MajPAbGr_project
 		{
 			Table tb = new Table();
 			tb.Title = (int)Titles.CHAIN;
-			tb.Name = "Technology_chain";
+			tb.TableName = "Technology_chain";
 			tb.Columns = new string[] { "id", "id_technology", "id_card" };
 			return tb;
 		}
@@ -1207,7 +1213,7 @@ namespace MajPAbGr_project
 		{
 			Table tb = new Table();
 			tb.Title = (int)Titles.REC;
-			tb.Name = "Recepture";
+			tb.TableName = "Recepture";
 			tb.Columns = new string[] {"id", "name",
 										  "id_technology", "id_main",
 										  "id_category", "description",
@@ -1219,7 +1225,7 @@ namespace MajPAbGr_project
 		{
 			Table tb = new Table();
 			tb.Title = (int)Titles.AM;
-			tb.Name = "Amounts";
+			tb.TableName = "Amounts";
 			tb.Columns = new string[] {"id", "id_recepture",
 										  "id_ingredients", "amounts",};
 			return tb;
@@ -1229,7 +1235,7 @@ namespace MajPAbGr_project
 		{
 			Table tb = new Table();
 			tb.Title = (int)Titles.COEF;
-			tb.Name = "Recipe";
+			tb.TableName = "Recipe";
 			tb.Columns = new string[] {"id", "name",
 										   "id_recepture","Coefficient",};
 			return tb;
@@ -1239,7 +1245,7 @@ namespace MajPAbGr_project
         {
 			Table tb = new Table();
 			tb.Title = (int)Titles.DB_VERS;
-			tb.Name = "db_version";
+			tb.TableName = "db_version";
 			tb.Columns = new string[] {"id", "number", "name",
 											"date", "tables",
 											"columns", "control" };
@@ -1251,7 +1257,7 @@ namespace MajPAbGr_project
         {
 			Table tb = new Table();
 			tb.Title = (int)Titles.DB_CONFIGS;
-			tb.Name = "db_config";
+			tb.TableName = "db_config";
 			tb.Columns = new string[] {"id", "name", "version",
 											"connection" };
 			return tb;
@@ -1261,7 +1267,7 @@ namespace MajPAbGr_project
 		{
 			Table tb = new Table();
 			tb.Title = (int)Titles.DB_TBLS;
-			tb.Name = "db_tables";
+			tb.TableName = "db_tables";
 			tb.Columns = new string[] {"id", "version",
 									   "default_name", "current_name" };
 			return tb;
@@ -1271,7 +1277,7 @@ namespace MajPAbGr_project
         {
 			Table tb = new Table();
 			tb.Title = (int)Titles.DB_COL;
-			tb.Name = "db_columns";
+			tb.TableName = "db_columns";
 			tb.Columns = new string[] {"id", "version", "id_table",
 									   "default_name", "current_name" };
 			return tb;

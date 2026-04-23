@@ -5,6 +5,7 @@
 using FormEF_test;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -377,6 +378,17 @@ namespace MajPAbGr_project
             CurrentRecepture.Description = description;
         }
 
+        private void ChangeModelAfterInserting(int rowid, string name)
+        {
+            int index;
+            Item item = new Item() { id = rowid, name = name };
+            tb.getCatalog().Add(item);
+            rec_catalog.ReceptureStruct.Add(info);
+            index = tb.getCatalog().IndexOf(item);            
+            tb.setSelected(index);
+            rec_catalog.SelectedRecIndex = index;
+        }
+
         public int InsertNew(ReceptureStruct rec)
         {
             string name;
@@ -445,13 +457,52 @@ namespace MajPAbGr_project
                 CurrentRecepture.Technology.Name,
                 ""
             );
-            
+
+            ChangeModelAfterInserting(info.getId(), info.getName());
+
             return id_recepture;
         }
     
+        private void ChangeModelAfterUpdating(int index)
+        {
+            Item selected = tb.getCatalog()[index];
+            selected.name = info.getName();
+
+            ReceptureStruct current = rec_catalog.ReceptureStruct[index];
+            current.UpdateData(info);                        
+
+            tb.getCatalog()[index] = selected;
+            rec_catalog.ReceptureStruct[index] = current;
+        }
+
         public int UpdateExisited()
-        {          
-            return tb.UpdateReceptureOrCards(CurrentRecepture);
+        {
+            int ind, index;
+            index = rec_catalog.ReceptureStruct.FindIndex(p => p.getId() == id_recepture);
+            ind = tb.UpdateReceptureOrCards(CurrentRecepture);
+
+            ReceptureInfo = new ReceptureStruct
+            (
+                id_recepture,
+                CurrentRecepture.Name,
+                CurrentRecepture.Source,
+                CurrentRecepture.Author,
+                CurrentRecepture.Description,
+                CurrentRecepture.Path,
+                CurrentRecepture.CategoriesId,
+                CurrentRecepture.Technology.Id,
+                CurrentRecepture.Ingredient.Id
+            );
+
+            info.setDataStrings
+            (
+                CurrentRecepture.Categories.Name,
+                CurrentRecepture.Technology.Name,
+                ""
+            );
+
+            ChangeModelAfterUpdating(index);
+            return ind;
         }
 
     }

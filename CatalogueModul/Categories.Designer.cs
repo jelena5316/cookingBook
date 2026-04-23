@@ -47,11 +47,11 @@ namespace MajPAbGr_project
             this.seeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutReceptureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.onlineCalculatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lbl_add = new System.Windows.Forms.Label();
-            this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -94,7 +94,7 @@ namespace MajPAbGr_project
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(219, 45);
             this.button1.TabIndex = 8;
-            this.button1.Text = "Add new recipe";
+            this.button1.Text = "Add new recepture";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -105,9 +105,9 @@ namespace MajPAbGr_project
             this.printToolStripMenuItem,
             this.toolStripCmbPrint,
             this.seeAllToolStripMenuItem,
-            this.aboutReceptureToolStripMenuItem,
             this.onlineCalculatorToolStripMenuItem,
-            this.reloadToolStripMenuItem});
+            this.reloadToolStripMenuItem,
+            this.aboutReceptureToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
@@ -215,6 +215,13 @@ namespace MajPAbGr_project
             this.onlineCalculatorToolStripMenuItem.Text = "Online calculator";
             this.onlineCalculatorToolStripMenuItem.Click += new System.EventHandler(this.onlineCalculatorToolStripMenuItem_Click);
             // 
+            // reloadToolStripMenuItem
+            // 
+            this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(55, 23);
+            this.reloadToolStripMenuItem.Text = "Reload";
+            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -254,13 +261,6 @@ namespace MajPAbGr_project
             this.lbl_add.Size = new System.Drawing.Size(69, 20);
             this.lbl_add.TabIndex = 13;
             this.lbl_add.Text = "add new";
-            // 
-            // reloadToolStripMenuItem
-            // 
-            this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(55, 23);
-            this.reloadToolStripMenuItem.Text = "Reload";
-            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
             // Categories
             // 
